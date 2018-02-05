@@ -128,7 +128,7 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 						if(groupDefContext.groupDefMetaModel.logic==GroupMetaModel.GROUP_LOGIC.ANY) {
 							groupDefContext.groupDefMetaModel.instructionStack.add("OP_OR");
 							groupDefContext.groupDefMetaModel.instructionStack.add("push_ref("+groupEventId+")");
-							groupDefContext.groupDefMetaModel.instructionStack.add("ifref_true("+groupEventId+")");
+							groupDefContext.groupDefMetaModel.instructionStack.add("ifref_num("+groupEventId+","+groupDefContext.groupDefMetaModel.ordinal+")");
 							groupDefContext.groupDefMetaModel.instructionStack.add("return");
 							groupDefContext.groupDefMetaModel.operationIndex = 0;
 						} else if(groupDefContext.groupDefMetaModel.logic==GroupMetaModel.GROUP_LOGIC.ALL) {
