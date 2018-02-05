@@ -1,6 +1,7 @@
 package com.myreward.engine.grammar;
 
 import java.io.Serializable;
+import java.util.List;
 
 public abstract class SymbolTable  implements Serializable {
 	// the table's identifier
@@ -24,6 +25,8 @@ public abstract class SymbolTable  implements Serializable {
 	public abstract Symbol lookup(int id);
 	public abstract void exitScope();
 	public abstract String toString();
+	public abstract boolean merge(List<Symbol> symbolList);
+	public abstract List<Symbol> getAllSymbol();
 	
 	// Allocate a new empty symbol table
 	public abstract void allocate(); 
