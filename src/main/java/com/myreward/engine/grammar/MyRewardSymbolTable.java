@@ -96,4 +96,18 @@ public class MyRewardSymbolTable extends SymbolTable {
 		return symbolList.toString();
 	}
 
+	@Override
+	public boolean merge(List<Symbol> symbolList) {
+		if(symbolList!=null) {
+			this.symbolList.addAll(symbolList);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<Symbol> getAllSymbol() {
+		return symbolList;
+	}
+
 }
