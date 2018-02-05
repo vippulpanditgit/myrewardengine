@@ -41,6 +41,7 @@ public class test {
 					+ "}";
 
 			String subEventWithSubEvent2 = "package myclient "
+										+ "import global "
 										+ "event(WELLNESS.GROUP.TWC.EVISOR).any(1)"
 											+ "{event(WELLNESS.GROUP.TWC_DIABETESLIFESTYLE),"
 											+ "event(WELLNESS.GROUP.TWC_WEIGHTMANAGEMENT).any(1)"
@@ -57,7 +58,7 @@ public class test {
 												+ "}"
 											+ "}"
 										+ "}";
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(subEventWithSubEvent + subEventWithSubEvent2);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(subEventWithSubEvent2);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             MyRewardVisitor visitor = new MyRewardVisitor();
