@@ -10,8 +10,10 @@ import com.myreward.engine.util.W3CDateFormat;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.*; 
+import java.io.*;
 import com.myreward.engine.model.*;
 import com.myreward.engine.metamodel.*;
+import com.myreward.engine.util.*;
 }
 @members {
 //  private static org.slf4j.Logger _logger =
@@ -123,10 +125,18 @@ myreward_def
 	| package_def event_def+
 	;
 import_def
-	: IMPORT import_name 
+	: IMPORT importLib=import_name 
 	;
-import_name returns [Symbol importSymbol]
-	: importName = ID
+import_name returns [String importSymbolLibrary]
+	: importName = ID {
+						try {
+							MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(TestData.getTestData($importName.getText()));
+							Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
+							
+							this.getSymbolTable().merge(myRewardParser.getSymbolTable().getAllSymbol());
+						} catch(IOException exp){exp.printStackTrace();}
+							
+					}
 	;
 package_def
 	: PACKAGE package_name
