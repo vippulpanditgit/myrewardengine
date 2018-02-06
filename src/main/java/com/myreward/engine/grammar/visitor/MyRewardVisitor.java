@@ -21,6 +21,7 @@ import com.myreward.engine.grammar.MyRewardParser.EventGroupingContext;
 import com.myreward.engine.grammar.MyRewardParser.Event_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Event_modifier_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Event_nameContext;
+import com.myreward.engine.grammar.MyRewardParser.GatekeeperHandlerContext;
 import com.myreward.engine.grammar.MyRewardParser.Gatekeeper_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Group_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Import_defContext;
@@ -188,12 +189,6 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 		return visitChildren(ctx);
 	}
 
-	@Override
-	public BaseMetaModel visitGatekeeper_def(Gatekeeper_defContext ctx) {
-		// TODO Auto-generated method stub
-
-		return visitChildren(ctx);
-	}
 
 	@Override
 	public BaseMetaModel visitReward_def(Reward_defContext ctx) {
@@ -286,6 +281,33 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 		packageSymbol = new Symbol();
 		packageSymbol.setType(Symbol.SymbolType.PACKAGE);
 		packageSymbol.setName(ctx.getText());
+		BaseMetaModel response = visitChildren(ctx);
+		
+		return response;
+	}
+
+	@Override
+	public BaseMetaModel visitGatekeeperHandler(GatekeeperHandlerContext ctx) {
+		Symbol gatekeeperSymbol = new Symbol();
+		gatekeeperSymbol.setType(Symbol.SymbolType.GATEKEEPER);
+		gatekeeperSymbol.setName(ctx.getText());
+
+		if(ctx.getChildCount()>0) {
+			for(int index=0;index< ctx.getChildCount();index++) {
+				if(ctx.getChild(index) instanceof Event_defContext) {
+					if(ctx.getChild(index).getChildCount()>0) {
+						for(int eventNameContextIndex=0;eventNameContextIndex< ctx.getChild(index).getChildCount();eventNameContextIndex++) {
+							if(ctx.getChild(index).getChild(eventNameContextIndex) instanceof Event_nameContext) {
+								Event_nameContext eventNameContext = (Event_nameContext)ctx.getChild(index).getChild(eventNameContextIndex);
+								
+								
+							}
+						}
+					}
+					
+				}
+			}
+		}
 		BaseMetaModel response = visitChildren(ctx);
 		
 		return response;

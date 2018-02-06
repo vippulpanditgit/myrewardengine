@@ -261,7 +261,7 @@ repeat_frequency_def returns [RepeatOn.EnumRepeatOn repeatOn]
 	| repeatFrequency='ACTIVITY_DATE' {$repeatOn = RepeatOn.EnumRepeatOn.ACTIVITY_DATE;}
 	;
 gatekeeper_def
-	: GATEKEEPER LPAREN event_def RPAREN
+	: GATEKEEPER LPAREN event_def RPAREN # gatekeeperHandler
 	;
 reward_def
 	: REWARD LPAREN reward_quantity_def RPAREN

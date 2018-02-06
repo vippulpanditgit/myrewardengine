@@ -12,7 +12,8 @@ public class Symbol implements Serializable{
 		EVENT,
 		DERIVED_EVENT,
 		PACKAGE,
-		UNKNOWN
+		UNKNOWN,
+		GATEKEEPER
 	}
 	// The symbol's name
 	private String name;
