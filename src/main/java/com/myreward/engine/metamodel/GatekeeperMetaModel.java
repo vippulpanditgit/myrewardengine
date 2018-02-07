@@ -9,7 +9,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 		instructionStack = new Stack<String>();
 	}
 	public String toString() {
-		return instructionStack;
+		return instructionStack.toString();
 	}
 
 

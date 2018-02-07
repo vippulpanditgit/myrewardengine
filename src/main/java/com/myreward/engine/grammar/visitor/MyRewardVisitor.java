@@ -21,7 +21,6 @@ import com.myreward.engine.grammar.MyRewardParser.EventGroupingContext;
 import com.myreward.engine.grammar.MyRewardParser.Event_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Event_modifier_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Event_nameContext;
-import com.myreward.engine.grammar.MyRewardParser.GatekeeperHandlerContext;
 import com.myreward.engine.grammar.MyRewardParser.Gatekeeper_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Group_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Import_defContext;
@@ -41,6 +40,7 @@ import com.myreward.engine.grammar.Symbol;
 import com.myreward.engine.grammar.Symbol.SymbolType;
 import com.myreward.engine.grammar.SymbolTable;
 import com.myreward.engine.metamodel.BaseMetaModel;
+import com.myreward.engine.metamodel.GatekeeperMetaModel;
 import com.myreward.engine.metamodel.GroupMetaModel;
 
 public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
@@ -53,6 +53,7 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 	private int currentEventId;
 	private int childIndex=0;
 	public List<GroupMetaModel> groupMetaModelList = new ArrayList<GroupMetaModel>();
+	public List<GatekeeperMetaModel> gatekeeperMetaModelList = new ArrayList<GatekeeperMetaModel>();
 	public Symbol packageSymbol = null;
 
 	public SymbolTable getSymbolTable() {
@@ -286,12 +287,9 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 		return response;
 	}
 
-	@Override
-	public BaseMetaModel visitGatekeeperHandler(GatekeeperHandlerContext ctx) {
-		Symbol gatekeeperSymbol = new Symbol();
-		gatekeeperSymbol.setType(Symbol.SymbolType.GATEKEEPER);
-		gatekeeperSymbol.setName(ctx.getText());
 
+	@Override
+	public BaseMetaModel visitGatekeeper_def(Gatekeeper_defContext ctx) {
 		if(ctx.getChildCount()>0) {
 			for(int index=0;index< ctx.getChildCount();index++) {
 				if(ctx.getChild(index) instanceof Event_defContext) {
@@ -299,8 +297,22 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 						for(int eventNameContextIndex=0;eventNameContextIndex< ctx.getChild(index).getChildCount();eventNameContextIndex++) {
 							if(ctx.getChild(index).getChild(eventNameContextIndex) instanceof Event_nameContext) {
 								Event_nameContext eventNameContext = (Event_nameContext)ctx.getChild(index).getChild(eventNameContextIndex);
+								Symbol gatekeeperSymbol = new Symbol();
+								gatekeeperSymbol.setName(eventNameContext.getText());
+								gatekeeperSymbol = this.symbolTable.lookup(gatekeeperSymbol);
+								gatekeeperSymbol.setType(Symbol.SymbolType.GATEKEEPER);
+								GatekeeperMetaModel gatekeeperMetaModel = ctx.gateKeeperMetaModel;
 								
-								
+/*								
+								dataSegmentList.put("local_stored_register_"+childIndex, new Integer(0x0));
+								int groupEventId = currentEventId;
+								groupDefContext.groupDefMetaModel.instructionStack.push("label:"+groupEventId);
+								groupDefContext.groupDefMetaModel.instructionStack.push("push_ref("+groupEventId+")");
+								groupDefContext.groupDefMetaModel.instructionStack.push("store_ref("+groupEventId+")");
+								groupDefContext.groupDefMetaModel.instructionStack.push("pop_ref("+groupEventId+")");
+								groupDefContext.groupDefMetaModel.instructionStack.push("return");
+								gatekeeperMetaModelList.add(groupDefContext.groupDefMetaModel);
+*/								
 							}
 						}
 					}

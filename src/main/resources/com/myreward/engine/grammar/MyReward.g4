@@ -260,8 +260,11 @@ repeat_frequency_def returns [RepeatOn.EnumRepeatOn repeatOn]
 	| repeatFrequency='YEARLY'  {$repeatOn = RepeatOn.EnumRepeatOn.YEARLY;}
 	| repeatFrequency='ACTIVITY_DATE' {$repeatOn = RepeatOn.EnumRepeatOn.ACTIVITY_DATE;}
 	;
-gatekeeper_def
-	: GATEKEEPER LPAREN event_def RPAREN # gatekeeperHandler
+gatekeeper_def returns [GatekeeperMetaModel gateKeeperMetaModel]
+	: GATEKEEPER LPAREN eventMetaModel=event_def RPAREN {
+									$gateKeeperMetaModel = new GatekeeperMetaModel();
+									
+								}
 	;
 reward_def
 	: REWARD LPAREN reward_quantity_def RPAREN
