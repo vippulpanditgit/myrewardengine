@@ -290,7 +290,7 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 
 	@Override
 	public BaseMetaModel visitGatekeeper_def(Gatekeeper_defContext ctx) {
-		if(ctx.getChildCount()>0) {
+/*		if(ctx.getChildCount()>0) {
 			for(int index=0;index< ctx.getChildCount();index++) {
 				if(ctx.getChild(index) instanceof Event_defContext) {
 					if(ctx.getChild(index).getChildCount()>0) {
@@ -303,7 +303,7 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 								gatekeeperSymbol.setType(Symbol.SymbolType.GATEKEEPER);
 								GatekeeperMetaModel gatekeeperMetaModel = ctx.gateKeeperMetaModel;
 								
-/*								
+								
 								dataSegmentList.put("local_stored_register_"+childIndex, new Integer(0x0));
 								int groupEventId = currentEventId;
 								groupDefContext.groupDefMetaModel.instructionStack.push("label:"+groupEventId);
@@ -312,14 +312,14 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 								groupDefContext.groupDefMetaModel.instructionStack.push("pop_ref("+groupEventId+")");
 								groupDefContext.groupDefMetaModel.instructionStack.push("return");
 								gatekeeperMetaModelList.add(groupDefContext.groupDefMetaModel);
-*/								
+								
 							}
 						}
 					}
 					
 				}
 			}
-		}
+		}*/
 		BaseMetaModel response = visitChildren(ctx);
 		
 		return response;

@@ -150,25 +150,51 @@ package_name returns [Symbol packageSymbol]
 						packageSymbol = $packageSymbol;
 					}
 	;		
-event_def
-	: EVENT LPAREN event_name RPAREN (event_modifier_def)*
+event_def returns [EventMetaModel eventMetaModel]
+	: EVENT LPAREN eventName=event_name RPAREN (modifier=event_modifier_def)* {
+					$eventMetaModel = new EventMetaModel();
+					$eventMetaModel.setEventName($eventName.eventName);
+					if($modifier.modifierMetaModel instanceof EventGroupingMetaModel){
+						$eventMetaModel.setEventType(EventMetaModel.EventType.DERIVED_EVENT);
+					} else {
+						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
+					}
+					
+					
+					
+				}
 	;
-event_modifier_def
-	: DOT reward_def
-	| DOT group_def
-	| DOT between_def
-	| DOT repeat_def
-	| DOT show_def
-	| DOT priority_def
-	| DOT gatekeeper_def
+event_modifier_def returns [BaseMetaModel modifierMetaModel]
+	: DOT reward_def {
+						$modifierMetaModel = new RewardMetaModel();
+					}
+	| DOT group_def	{
+						$modifierMetaModel = new EventGroupingMetaModel();
+					}
+	| DOT between_def {
+						$modifierMetaModel = new DurationMetaModel();
+					}
+	| DOT repeat_def {
+						$modifierMetaModel = new RepeatMetaModel();
+					}
+	| DOT show_def {
+						$modifierMetaModel = new ShowMetaModel();
+					}
+	| DOT priority_def {
+						$modifierMetaModel = new PriorityMetaModel();
+					}
+	| DOT gatekeeper_def {
+						$modifierMetaModel = new GatekeeperMetaModel();
+					}
 	;
-event_name
-	: eventName=ID { current = new Symbol();
-				current.setName($eventName.getText());
+event_name returns [String eventName]
+	: eventNameElement=ID { current = new Symbol();
+				current.setName($eventNameElement.getText());
 				current.setLevel(level);
 				current.setType(Symbol.SymbolType.EVENT);
 				current.setContainer(packageSymbol);
 				symbolTable.insertSymbol(current);
+				$eventName = $eventNameElement.getText();
 				}
 	;
 group_def returns [GroupMetaModel groupDefMetaModel]
@@ -261,7 +287,7 @@ repeat_frequency_def returns [RepeatOn.EnumRepeatOn repeatOn]
 	| repeatFrequency='ACTIVITY_DATE' {$repeatOn = RepeatOn.EnumRepeatOn.ACTIVITY_DATE;}
 	;
 gatekeeper_def returns [GatekeeperMetaModel gateKeeperMetaModel]
-	: GATEKEEPER LPAREN eventMetaModel=event_def RPAREN {
+	: GATEKEEPER LPAREN eventDef=event_def RPAREN {
 									$gateKeeperMetaModel = new GatekeeperMetaModel();
 									
 								}
