@@ -59,7 +59,7 @@ public class test {
 												+ "}"
 											+ "}"
 										+ "}";
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(oneEvent);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(subEvents2);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             MyRewardVisitor visitor = new MyRewardVisitor();

@@ -14,6 +14,7 @@ public class EventMetaModel extends BaseMetaModel {
 	private EventType eventType;
 	private DurationMetaModel duraitonMetaModel;
 	private PriorityMetaModel priorityMetaModel;
+	private GatekeeperMetaModel gatekeeperMetaModel;
 	
 	public RewardMetaModel getRewardMetaModel() {
 		return rewardMetaModel;
@@ -62,6 +63,12 @@ public class EventMetaModel extends BaseMetaModel {
 	}
 	public void setPriorityMetaModel(PriorityMetaModel priorityMetaModel) {
 		this.priorityMetaModel = priorityMetaModel;
+	}
+	public GatekeeperMetaModel getGatekeeperMetaModel() {
+		return gatekeeperMetaModel;
+	}
+	public void setGatekeeperMetaModel(GatekeeperMetaModel gatekeeperMetaModel) {
+		this.gatekeeperMetaModel = gatekeeperMetaModel;
 	}
 	
 	

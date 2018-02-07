@@ -161,13 +161,14 @@ package_name returns [String packageNameElement]
 					}
 	;		
 event_def returns [EventMetaModel eventMetaModel]
-	: EVENT LPAREN eventName=event_name RPAREN (modifier=event_modifier_def {
-					if($eventMetaModel==null)
-						$eventMetaModel = new EventMetaModel();
-					$eventMetaModel.setEventName($eventName.eventName);
-					$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
-					if($modifier.modifierMetaModel instanceof EventGroupingMetaModel){
-						$eventMetaModel.setEventType(EventMetaModel.EventType.DERIVED_EVENT);
+	: EVENT LPAREN eventName=event_name {
+						if($eventMetaModel==null)
+							$eventMetaModel = new EventMetaModel();
+						$eventMetaModel.setEventName($eventName.eventName);
+						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
+				 } RPAREN (modifier=event_modifier_def {
+					if($modifier.modifierMetaModel instanceof GroupMetaModel){
+						$eventMetaModel.setGroupMetaModel((GroupMetaModel)$modifier.modifierMetaModel);
 					} else if($modifier.modifierMetaModel instanceof ShowMetaModel){
 						$eventMetaModel.setShowMetaModel((ShowMetaModel)$modifier.modifierMetaModel);
 					} else if($modifier.modifierMetaModel instanceof RewardMetaModel){
@@ -178,6 +179,8 @@ event_def returns [EventMetaModel eventMetaModel]
 						$eventMetaModel.setDuraitonMetaModel((DurationMetaModel)$modifier.modifierMetaModel);
 					} else if($modifier.modifierMetaModel instanceof PriorityMetaModel){
 						$eventMetaModel.setPriorityMetaModel((PriorityMetaModel)$modifier.modifierMetaModel);
+					} else if($modifier.modifierMetaModel instanceof GatekeeperMetaModel){
+						$eventMetaModel.setGatekeeperMetaModel((GatekeeperMetaModel)$modifier.modifierMetaModel);
 					} else {
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
 					}
@@ -188,8 +191,7 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 						$modifierMetaModel = $rewardDef.rewardMetaModel;
 					}
 	| DOT groupDef=group_def	{
-						$modifierMetaModel = new EventGroupingMetaModel();
-						((EventGroupingMetaModel)$modifierMetaModel).groupMetaModelList.add($groupDef.groupDefMetaModel);
+						$modifierMetaModel = $groupDef.groupDefMetaModel;
 					}
 	| DOT durationDef=between_def {
 						$modifierMetaModel = $durationDef.durationMetaModel;
@@ -203,8 +205,8 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	| DOT priorityDef=priority_def {
 						$modifierMetaModel = $priorityDef.priorityMetaModel;
 					}
-	| DOT gatekeeper_def {
-						$modifierMetaModel = new GatekeeperMetaModel();
+	| DOT gatekeeperDef=gatekeeper_def {
+						$modifierMetaModel = $gatekeeperDef.gatekeeperMetaModel;
 					}
 	;
 event_name returns [String eventName]
@@ -317,9 +319,10 @@ repeat_frequency_def returns [RepeatMetaModel repeatMetaModel]
 	| repeatFrequency='YEARLY'  {$repeatMetaModel.repeatCriteria = RepeatMetaModel.RepeatCriteria.YEARLY;}
 	| repeatFrequency='ACTIVITY_DATE' {$repeatMetaModel.repeatCriteria = RepeatMetaModel.RepeatCriteria.ACTIVITY_DATE;}
 	;
-gatekeeper_def returns [GatekeeperMetaModel gateKeeperMetaModel]
+gatekeeper_def returns [GatekeeperMetaModel gatekeeperMetaModel]
+	@init{$gatekeeperMetaModel = new GatekeeperMetaModel();} 
 	: GATEKEEPER LPAREN eventDef=event_def RPAREN {
-									$gateKeeperMetaModel = new GatekeeperMetaModel();
+									$gatekeeperMetaModel.eventMetaModel = $eventDef.eventMetaModel;
 								}
 	;
 reward_def returns [RewardMetaModel rewardMetaModel]
