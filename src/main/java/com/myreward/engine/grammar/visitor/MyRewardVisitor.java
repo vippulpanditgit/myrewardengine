@@ -44,6 +44,7 @@ import com.myreward.engine.metamodel.GatekeeperMetaModel;
 import com.myreward.engine.metamodel.GroupMetaModel;
 
 public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
+
 	private SymbolTable symbolTable;
 
 	private boolean isInGroup = false;
@@ -287,10 +288,15 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 		return response;
 	}
 
-
 	@Override
 	public BaseMetaModel visitGatekeeper_def(Gatekeeper_defContext ctx) {
-/*		if(ctx.getChildCount()>0) {
+		// TODO Auto-generated method stub
+		return super.visitGatekeeper_def(ctx);
+	}
+
+/*	
+	public BaseMetaModel visitGatekeeper_def(Gatekeeper_defContext ctx) {
+		if(ctx.getChildCount()>0) {
 			for(int index=0;index< ctx.getChildCount();index++) {
 				if(ctx.getChild(index) instanceof Event_defContext) {
 					if(ctx.getChild(index).getChildCount()>0) {
@@ -319,11 +325,11 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 					
 				}
 			}
-		}*/
+		}
 		BaseMetaModel response = visitChildren(ctx);
 		
 		return response;
 	}
-
+*/
 
 }

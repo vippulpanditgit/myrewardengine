@@ -118,14 +118,21 @@ LINE_COMMENT
 *	Parser Rules
 */
 myreward_defs 
-	: myreward_def+
+	: myRewardDef=myreward_def+ {
+		}
 	;
-myreward_def
-	: package_def import_def* event_def+ 
-	| package_def event_def+
+myreward_def returns [MyRewardMetaModel myRewardMetaModel]
+	: packageDef=package_def (import_def{$packageDef.packageMetaModel.packageMetaModelList.add($import_def.importMetaModel);})* eventDef=event_def+ {
+					$packageDef.packageMetaModel.packageMetaModelList.add($eventDef.eventMetaModel);
+					$myRewardMetaModel = new MyRewardMetaModel();
+					$myRewardMetaModel.myRewardMetaModelList.add($packageDef.packageMetaModel);
+				}
 	;
-import_def
-	: IMPORT importLib=import_name 
+import_def returns [ImportMetaModel importMetaModel]
+	: IMPORT importLib=import_name {
+					$importMetaModel = new ImportMetaModel();
+					$importMetaModel.importMetaModelList.add($importLib.importSymbolLibrary);
+				}
 	;
 import_name returns [String importSymbolLibrary]
 	: importName = ID {
@@ -138,38 +145,41 @@ import_name returns [String importSymbolLibrary]
 							
 					}
 	;
-package_def
-	: PACKAGE package_name
+package_def returns [PackageMetaModel packageMetaModel]
+	: PACKAGE packageName=package_name {
+						$packageMetaModel = new PackageMetaModel();
+						$packageMetaModel.packageName = $packageName.packageNameElement;
+					}
 	;
-package_name returns [Symbol packageSymbol]
+package_name returns [String packageNameElement]
 	: packageName = ID {
-						$packageSymbol = new Symbol();
-						$packageSymbol.setType(Symbol.SymbolType.PACKAGE);
-						$packageSymbol.setName($packageName.getText());
-						symbolTable.insertSymbol($packageSymbol);
-						packageSymbol = $packageSymbol;
+						Symbol packageSymbol = new Symbol();
+						packageSymbol.setType(Symbol.SymbolType.PACKAGE);
+						packageSymbol.setName($packageName.getText());
+						symbolTable.insertSymbol(packageSymbol);
+						$packageNameElement = $packageName.getText();
 					}
 	;		
 event_def returns [EventMetaModel eventMetaModel]
-	: EVENT LPAREN eventName=event_name RPAREN (modifier=event_modifier_def)* {
+	: EVENT LPAREN eventName=event_name RPAREN (modifier=event_modifier_def {
 					$eventMetaModel = new EventMetaModel();
 					$eventMetaModel.setEventName($eventName.eventName);
-					if($modifier.modifierMetaModel instanceof GroupMetaModel){
+					if($modifier.modifierMetaModel instanceof EventGroupingMetaModel){
 						$eventMetaModel.setEventType(EventMetaModel.EventType.DERIVED_EVENT);
+					} if($modifier.modifierMetaModel instanceof ShowMetaModel){
+						$eventMetaModel.setShowMetaModel((ShowMetaModel)$modifier.modifierMetaModel);
 					} else {
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
 					}
-					
-					
-					
-				}
+				})*
 	;
 event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	: DOT reward_def {
 						$modifierMetaModel = new RewardMetaModel();
 					}
 	| DOT groupDef=group_def	{
-						$modifierMetaModel = $groupDef.groupDefMetaModel;
+						$modifierMetaModel = new EventGroupingMetaModel();
+						((EventGroupingMetaModel)$modifierMetaModel).groupMetaModelList.add($groupDef.groupDefMetaModel);
 					}
 	| DOT between_def {
 						$modifierMetaModel = new DurationMetaModel();
@@ -177,8 +187,8 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	| DOT repeat_def {
 						$modifierMetaModel = new RepeatMetaModel();
 					}
-	| DOT show_def {
-						$modifierMetaModel = new ShowMetaModel();
+	| DOT showDef=show_def {
+						$modifierMetaModel = $showDef.showMetaModel;
 					}
 	| DOT priority_def {
 						$modifierMetaModel = new PriorityMetaModel();
@@ -238,9 +248,15 @@ sequence_def returns [int value]
 	: LPAREN intValue=INT RPAREN {$value = Integer.parseInt($intValue.getText());}
 	| intValue=INT				{$value = Integer.parseInt($intValue.getText());}
 	;
-show_def
-	: SHOW LPAREN 'true' RPAREN  {current.setShow(true);}
-	| SHOW LPAREN 'false' RPAREN {current.setShow(false);}
+show_def returns [ShowMetaModel showMetaModel]
+	: SHOW LPAREN 'true' RPAREN  {current.setShow(true);
+								$showMetaModel = new ShowMetaModel();
+								$showMetaModel.isShow = true;
+							}
+	| SHOW LPAREN 'false' RPAREN {current.setShow(false);
+								$showMetaModel = new ShowMetaModel();
+								$showMetaModel.isShow = false;
+							}
 	;
 priority_def
 	: PRIORITY sequenceDef=sequence_def {current.setPriority($sequenceDef.value);}
