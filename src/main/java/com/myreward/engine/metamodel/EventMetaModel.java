@@ -12,6 +12,8 @@ public class EventMetaModel extends BaseMetaModel {
 	private GroupMetaModel groupMetaModel;
 	private String eventName;
 	private EventType eventType;
+	private DurationMetaModel duraitonMetaModel;
+	private PriorityMetaModel priorityMetaModel;
 	
 	public RewardMetaModel getRewardMetaModel() {
 		return rewardMetaModel;
@@ -48,6 +50,18 @@ public class EventMetaModel extends BaseMetaModel {
 	}
 	public void setGroupMetaModel(GroupMetaModel groupMetaModel) {
 		this.groupMetaModel = groupMetaModel;
+	}
+	public DurationMetaModel getDuraitonMetaModel() {
+		return duraitonMetaModel;
+	}
+	public void setDuraitonMetaModel(DurationMetaModel duraitonMetaModel) {
+		this.duraitonMetaModel = duraitonMetaModel;
+	}
+	public PriorityMetaModel getPriorityMetaModel() {
+		return priorityMetaModel;
+	}
+	public void setPriorityMetaModel(PriorityMetaModel priorityMetaModel) {
+		this.priorityMetaModel = priorityMetaModel;
 	}
 	
 	

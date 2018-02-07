@@ -165,14 +165,19 @@ event_def returns [EventMetaModel eventMetaModel]
 					if($eventMetaModel==null)
 						$eventMetaModel = new EventMetaModel();
 					$eventMetaModel.setEventName($eventName.eventName);
+					$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
 					if($modifier.modifierMetaModel instanceof EventGroupingMetaModel){
 						$eventMetaModel.setEventType(EventMetaModel.EventType.DERIVED_EVENT);
-					} if($modifier.modifierMetaModel instanceof ShowMetaModel){
+					} else if($modifier.modifierMetaModel instanceof ShowMetaModel){
 						$eventMetaModel.setShowMetaModel((ShowMetaModel)$modifier.modifierMetaModel);
-					} if($modifier.modifierMetaModel instanceof RewardMetaModel){
+					} else if($modifier.modifierMetaModel instanceof RewardMetaModel){
 						$eventMetaModel.setRewardMetaModel((RewardMetaModel)$modifier.modifierMetaModel);
-					} if($modifier.modifierMetaModel instanceof RepeatMetaModel){
+					} else if($modifier.modifierMetaModel instanceof RepeatMetaModel){
 						$eventMetaModel.setRepeatMetaModel((RepeatMetaModel)$modifier.modifierMetaModel);
+					} else if($modifier.modifierMetaModel instanceof DurationMetaModel){
+						$eventMetaModel.setDuraitonMetaModel((DurationMetaModel)$modifier.modifierMetaModel);
+					} else if($modifier.modifierMetaModel instanceof PriorityMetaModel){
+						$eventMetaModel.setPriorityMetaModel((PriorityMetaModel)$modifier.modifierMetaModel);
 					} else {
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
 					}
@@ -186,8 +191,8 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 						$modifierMetaModel = new EventGroupingMetaModel();
 						((EventGroupingMetaModel)$modifierMetaModel).groupMetaModelList.add($groupDef.groupDefMetaModel);
 					}
-	| DOT between_def {
-						$modifierMetaModel = new DurationMetaModel();
+	| DOT durationDef=between_def {
+						$modifierMetaModel = $durationDef.durationMetaModel;
 					}
 	| DOT repeatDef=repeat_def {
 						$modifierMetaModel = $repeatDef.repeatMetaModel;
@@ -195,8 +200,8 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	| DOT showDef=show_def {
 						$modifierMetaModel = $showDef.showMetaModel;
 					}
-	| DOT priority_def {
-						$modifierMetaModel = new PriorityMetaModel();
+	| DOT priorityDef=priority_def {
+						$modifierMetaModel = $priorityDef.priorityMetaModel;
 					}
 	| DOT gatekeeper_def {
 						$modifierMetaModel = new GatekeeperMetaModel();
@@ -263,10 +268,15 @@ show_def returns [ShowMetaModel showMetaModel]
 								$showMetaModel.isShow = false;
 							}
 	;
-priority_def
-	: PRIORITY sequenceDef=sequence_def {current.setPriority($sequenceDef.value);}
+priority_def returns [PriorityMetaModel priorityMetaModel]
+	@init {$priorityMetaModel = new PriorityMetaModel();}
+	: PRIORITY sequenceDef=sequence_def {
+								current.setPriority($sequenceDef.value);
+								$priorityMetaModel.priority = $sequenceDef.value;
+							}
 	;
-between_def
+between_def returns [DurationMetaModel durationMetaModel]
+	@init {$durationMetaModel = new DurationMetaModel();}
 	: BETWEEN LPAREN '\'' effectiveDate=DATE_TIME '\'' COMMA '\'' expirationDate=DATE_TIME '\'' RPAREN {
 									W3CDateFormat format = new W3CDateFormat(W3CDateFormat.Pattern.AUTO);
 									Date effectiveDate=null;
@@ -274,6 +284,8 @@ between_def
 									try {
 										effectiveDate = format.parse($effectiveDate.getText());
 										expirationDate = format.parse($expirationDate.getText());
+										$durationMetaModel.effectiveDate = format.parse($effectiveDate.getText());
+										$durationMetaModel.expirationDate = format.parse($expirationDate.getText());
 										current.setEffectiveDate(effectiveDate);
 										current.setExpirationDate(expirationDate);
 									} catch (ParseException e) {e.printStackTrace();}
@@ -284,6 +296,7 @@ between_def
 									Date endDate=null;
 									try {
 										startDate = format.parse($startDate.getText());
+										$durationMetaModel.effectiveDate = format.parse($startDate.getText());
 									} catch (ParseException e) {e.printStackTrace();}
 									//System.out.println(startDate+","+endDate);
 								}
