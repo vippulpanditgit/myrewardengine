@@ -154,7 +154,7 @@ event_def returns [EventMetaModel eventMetaModel]
 	: EVENT LPAREN eventName=event_name RPAREN (modifier=event_modifier_def)* {
 					$eventMetaModel = new EventMetaModel();
 					$eventMetaModel.setEventName($eventName.eventName);
-					if($modifier.modifierMetaModel instanceof EventGroupingMetaModel){
+					if($modifier.modifierMetaModel instanceof GroupMetaModel){
 						$eventMetaModel.setEventType(EventMetaModel.EventType.DERIVED_EVENT);
 					} else {
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
@@ -168,8 +168,8 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	: DOT reward_def {
 						$modifierMetaModel = new RewardMetaModel();
 					}
-	| DOT group_def	{
-						$modifierMetaModel = new EventGroupingMetaModel();
+	| DOT groupDef=group_def	{
+						$modifierMetaModel = $groupDef.groupDefMetaModel;
 					}
 	| DOT between_def {
 						$modifierMetaModel = new DurationMetaModel();
