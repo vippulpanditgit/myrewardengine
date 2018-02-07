@@ -7,8 +7,9 @@ public class RewardMetaModel extends BaseMetaModel {
 		DOLLAR,
 		POINTS
 	}
-	private Date effectiveDate;
-	private Date expirationDate;
-	private RewardType rewardType;
+	public Date effectiveDate;
+	public Date expirationDate;
+	public RewardType rewardType;
+	public double rewardAmount;
 
 }

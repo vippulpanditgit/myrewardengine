@@ -162,20 +162,23 @@ package_name returns [String packageNameElement]
 	;		
 event_def returns [EventMetaModel eventMetaModel]
 	: EVENT LPAREN eventName=event_name RPAREN (modifier=event_modifier_def {
-					$eventMetaModel = new EventMetaModel();
+					if($eventMetaModel==null)
+						$eventMetaModel = new EventMetaModel();
 					$eventMetaModel.setEventName($eventName.eventName);
 					if($modifier.modifierMetaModel instanceof EventGroupingMetaModel){
 						$eventMetaModel.setEventType(EventMetaModel.EventType.DERIVED_EVENT);
 					} if($modifier.modifierMetaModel instanceof ShowMetaModel){
 						$eventMetaModel.setShowMetaModel((ShowMetaModel)$modifier.modifierMetaModel);
+					} if($modifier.modifierMetaModel instanceof RewardMetaModel){
+						$eventMetaModel.setRewardMetaModel((RewardMetaModel)$modifier.modifierMetaModel);
 					} else {
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
 					}
 				})*
 	;
 event_modifier_def returns [BaseMetaModel modifierMetaModel]
-	: DOT reward_def {
-						$modifierMetaModel = new RewardMetaModel();
+	: DOT rewardDef=reward_def {
+						$modifierMetaModel = $rewardDef.rewardMetaModel;
 					}
 	| DOT groupDef=group_def	{
 						$modifierMetaModel = new EventGroupingMetaModel();
@@ -305,13 +308,14 @@ repeat_frequency_def returns [RepeatOn.EnumRepeatOn repeatOn]
 gatekeeper_def returns [GatekeeperMetaModel gateKeeperMetaModel]
 	: GATEKEEPER LPAREN eventDef=event_def RPAREN {
 									$gateKeeperMetaModel = new GatekeeperMetaModel();
-									
 								}
 	;
-reward_def
-	: REWARD LPAREN reward_quantity_def RPAREN
+reward_def returns [RewardMetaModel rewardMetaModel]
+	: REWARD LPAREN rewardQuantityDef=reward_quantity_def RPAREN {
+									$rewardMetaModel = $rewardQuantityDef.rewardMetaModel;								
+								}
 	;
-reward_quantity_def
+reward_quantity_def returns [RewardMetaModel rewardMetaModel]
 	: rewardQuantity=DOUBLE {
 							double rewardAmount = 0;
 							Reward reward = new Reward();
@@ -320,6 +324,8 @@ reward_quantity_def
 								reward.setAmount(rewardAmount);
 							}catch(Exception exp){exp.printStackTrace();}
 							current.setReward(reward);
+							$rewardMetaModel = new RewardMetaModel();
+							$rewardMetaModel.rewardAmount = rewardAmount;
 						}
 	| rewardQuantity='true'
 	| rewardQuantity='false'
@@ -330,6 +336,8 @@ reward_quantity_def
 								reward.setAmount(rewardAmount);
 							}catch(Exception exp){exp.printStackTrace();}
 							current.setReward(reward);
+							$rewardMetaModel = new RewardMetaModel();
+							$rewardMetaModel.rewardAmount = rewardAmount;
 						}
 	;
 STRING

@@ -4,6 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImportMetaModel extends BaseMetaModel {
-	public List<BaseMetaModel> importMetaModelList = new ArrayList<BaseMetaModel>();
+	public List<String> importMetaModelList = new ArrayList<String>();
 
 }
