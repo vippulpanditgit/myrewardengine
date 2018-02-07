@@ -171,6 +171,8 @@ event_def returns [EventMetaModel eventMetaModel]
 						$eventMetaModel.setShowMetaModel((ShowMetaModel)$modifier.modifierMetaModel);
 					} if($modifier.modifierMetaModel instanceof RewardMetaModel){
 						$eventMetaModel.setRewardMetaModel((RewardMetaModel)$modifier.modifierMetaModel);
+					} if($modifier.modifierMetaModel instanceof RepeatMetaModel){
+						$eventMetaModel.setRepeatMetaModel((RepeatMetaModel)$modifier.modifierMetaModel);
 					} else {
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
 					}
@@ -187,8 +189,8 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	| DOT between_def {
 						$modifierMetaModel = new DurationMetaModel();
 					}
-	| DOT repeat_def {
-						$modifierMetaModel = new RepeatMetaModel();
+	| DOT repeatDef=repeat_def {
+						$modifierMetaModel = $repeatDef.repeatMetaModel;
 					}
 	| DOT showDef=show_def {
 						$modifierMetaModel = $showDef.showMetaModel;
@@ -286,24 +288,21 @@ between_def
 									//System.out.println(startDate+","+endDate);
 								}
 	;
-repeat_def
+repeat_def returns [RepeatMetaModel repeatMetaModel]
 	: REPEAT LPAREN repeatOnFrequency=repeat_frequency_def RPAREN {
-								RepeatOn repeatOn = new RepeatOn();
-								repeatOn.setRepeatOn($repeatOnFrequency.repeatOn);
-								current.setRepeatOn(repeatOn);
+								$repeatMetaModel = $repeatOnFrequency.repeatMetaModel;
 							}
 	| REPEAT LPAREN repeatOnFrequency=repeat_frequency_def COMMA timeFrame=INT RPAREN {
-								RepeatOn repeatOn = new RepeatOn();
-								repeatOn.setRepeatOn($repeatOnFrequency.repeatOn);
-								repeatOn.setRepeatOnAfter(Integer.parseInt($timeFrame.getText()));
-								current.setRepeatOn(repeatOn);
+								$repeatMetaModel = $repeatOnFrequency.repeatMetaModel;
+								$repeatMetaModel.repeatAfterDay = Integer.valueOf($timeFrame.getText());
 							}
 	;
-repeat_frequency_def returns [RepeatOn.EnumRepeatOn repeatOn]
-	: repeatFrequency='WEEKLY'  {$repeatOn = RepeatOn.EnumRepeatOn.WEEKLY;}
-	| repeatFrequency='MONTHLY' {$repeatOn = RepeatOn.EnumRepeatOn.MONTHLY;}
-	| repeatFrequency='YEARLY'  {$repeatOn = RepeatOn.EnumRepeatOn.YEARLY;}
-	| repeatFrequency='ACTIVITY_DATE' {$repeatOn = RepeatOn.EnumRepeatOn.ACTIVITY_DATE;}
+repeat_frequency_def returns [RepeatMetaModel repeatMetaModel]
+	@init {$repeatMetaModel = new RepeatMetaModel();}
+	: repeatFrequency='WEEKLY'  {$repeatMetaModel.repeatCriteria = RepeatMetaModel.RepeatCriteria.WEEKLY;}
+	| repeatFrequency='MONTHLY' {$repeatMetaModel.repeatCriteria = RepeatMetaModel.RepeatCriteria.MONTHLY;}
+	| repeatFrequency='YEARLY'  {$repeatMetaModel.repeatCriteria = RepeatMetaModel.RepeatCriteria.YEARLY;}
+	| repeatFrequency='ACTIVITY_DATE' {$repeatMetaModel.repeatCriteria = RepeatMetaModel.RepeatCriteria.ACTIVITY_DATE;}
 	;
 gatekeeper_def returns [GatekeeperMetaModel gateKeeperMetaModel]
 	: GATEKEEPER LPAREN eventDef=event_def RPAREN {

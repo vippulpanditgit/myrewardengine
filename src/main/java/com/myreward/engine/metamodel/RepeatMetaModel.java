@@ -2,9 +2,12 @@ package com.myreward.engine.metamodel;
 
 public class RepeatMetaModel extends BaseMetaModel {
 	public enum RepeatCriteria {
+		WEEKLY,
+		MONTHLY,
+		YEARLY,
 		ACTIVITY_DATE
 	}
-	private int repeatAfterDay;
-	private RepeatCriteria repeatCriteria;
+	public int repeatAfterDay;
+	public RepeatCriteria repeatCriteria;
 
 }
