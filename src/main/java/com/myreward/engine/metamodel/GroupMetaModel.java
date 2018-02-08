@@ -1,5 +1,6 @@
 package com.myreward.engine.metamodel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -8,7 +9,7 @@ public class GroupMetaModel extends BaseMetaModel {
 		ANY,
 		ALL
 	}
-	private List<EventMetaModel> eventMetaModelList;
+	public List<EventMetaModel> eventMetaModelList = new ArrayList<EventMetaModel>();
 	public Stack<String> instructionStack;
 	public int operationIndex;
 	public GROUP_LOGIC logic;

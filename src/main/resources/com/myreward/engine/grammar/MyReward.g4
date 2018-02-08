@@ -220,11 +220,13 @@ event_name returns [String eventName]
 				}
 	;
 group_def returns [GroupMetaModel groupDefMetaModel]
-	: groupAnyLogic=any_def LBRACE groupEvent = group_events_def RBRACE {	
+	: groupAnyLogic=any_def LBRACE groupEventDef = group_events_def RBRACE {	
 																$groupDefMetaModel = $groupAnyLogic.groupModel;
+																$groupDefMetaModel.eventMetaModelList = $groupEventDef.groupEventsDefMetaModel.eventMetaModelList;
 															}
-	| groupAllLogic=all_def LBRACE groupEvent = group_events_def RBRACE {
+	| groupAllLogic=all_def LBRACE groupEventDef = group_events_def RBRACE {
 																$groupDefMetaModel = $groupAllLogic.groupModel;
+																$groupDefMetaModel.eventMetaModelList = $groupEventDef.groupEventsDefMetaModel.eventMetaModelList;
 															}
 	| groupAnyLogic=any_def {	
 																$groupDefMetaModel = $groupAnyLogic.groupModel;
@@ -236,7 +238,12 @@ group_def returns [GroupMetaModel groupDefMetaModel]
 															}													
 	;
 group_events_def returns [GroupMetaModel groupEventsDefMetaModel]
-	: event_def (COMMA event_def)* 	# eventGrouping
+	@init {$groupEventsDefMetaModel = new GroupMetaModel();}
+	: eventDef=event_def {
+									$groupEventsDefMetaModel.eventMetaModelList.add($eventDef.eventMetaModel);
+						} (COMMA eventDefNext=event_def {
+										$groupEventsDefMetaModel.eventMetaModelList.add($eventDefNext.eventMetaModel);
+									})* 	
 	;
 all_def returns [GroupMetaModel groupModel]
 	: ALL	{ if($groupModel==null) $groupModel = new GroupMetaModel();

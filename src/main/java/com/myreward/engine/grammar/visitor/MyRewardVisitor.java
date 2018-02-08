@@ -17,12 +17,12 @@ import com.myreward.engine.grammar.MyRewardBaseVisitor;
 import com.myreward.engine.grammar.MyRewardParser.All_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Any_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Between_defContext;
-import com.myreward.engine.grammar.MyRewardParser.EventGroupingContext;
 import com.myreward.engine.grammar.MyRewardParser.Event_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Event_modifier_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Event_nameContext;
 import com.myreward.engine.grammar.MyRewardParser.Gatekeeper_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Group_defContext;
+import com.myreward.engine.grammar.MyRewardParser.Group_events_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Import_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Import_nameContext;
 import com.myreward.engine.grammar.MyRewardParser.Myreward_defContext;
@@ -119,7 +119,7 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 		eventNameSymbol = this.getSymbolTable().lookup(eventNameSymbol);
 		currentEventId = eventNameSymbol.getFullyQualifiedId();
 		if(ctx.getParent()!=null && ctx.getParent() instanceof Event_defContext) {
-			if(ctx.getParent().getParent()!=null && ctx.getParent().getParent() instanceof EventGroupingContext) {
+			if(ctx.getParent().getParent()!=null && ctx.getParent().getParent() instanceof Event_defContext) {
 				if(ctx.getParent().getParent().getParent()!=null && ctx.getParent().getParent().getParent() instanceof Group_defContext) {
 					Group_defContext groupDefContext = (Group_defContext)ctx.getParent().getParent().getParent();
 					if(eventNameSymbol.getType()== SymbolType.DERIVED_EVENT)
@@ -234,7 +234,7 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 	}
 
 	@Override
-	public BaseMetaModel visitEventGrouping(EventGroupingContext ctx) {
+	public BaseMetaModel visitGroup_events_def(Group_events_defContext ctx) {
 		Group_defContext groupDefContext = null;
 		if(ctx.getParent() instanceof Group_defContext)
 			groupDefContext = (Group_defContext)ctx.getParent();
@@ -293,6 +293,8 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 		// TODO Auto-generated method stub
 		return super.visitGatekeeper_def(ctx);
 	}
+
+
 
 /*	
 	public BaseMetaModel visitGatekeeper_def(Gatekeeper_defContext ctx) {
