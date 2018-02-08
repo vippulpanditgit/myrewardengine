@@ -40,7 +40,7 @@ public class test {
 							+ "}"
 						+ "}"
 					+ "}";
-
+			String pseudo = "package test event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)},event(GF).any(1) {event(H), event(I)}}";
 			String subEventWithSubEvent2 = "package myclient "
 										+ "import global "
 										+ "event(WELLNESS.GROUP.TWC.EVISOR).any(1)"
@@ -59,7 +59,7 @@ public class test {
 												+ "}"
 											+ "}"
 										+ "}";
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(subEventWithSubEvent);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             MyRewardVisitor visitor = new MyRewardVisitor();
