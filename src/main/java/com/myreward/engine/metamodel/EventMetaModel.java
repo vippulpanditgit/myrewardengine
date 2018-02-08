@@ -1,5 +1,8 @@
 package com.myreward.engine.metamodel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EventMetaModel extends BaseMetaModel {
 	public enum EventType {
 			EVENT,
@@ -19,6 +22,16 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
 	private String[] eventOpCodeListTemplate = {"push(%s)"};
 	
+	@Override
+	public String[] build() {
+		List<String> opcodeList = new ArrayList<String>();
+		if(groupMetaModel!=null) {
+		}
+
+		
+		return opcodeList.toArray(new String[0]);
+	}
+
 	public RewardMetaModel getRewardMetaModel() {
 		return rewardMetaModel;
 	}
@@ -72,11 +85,6 @@ public class EventMetaModel extends BaseMetaModel {
 	}
 	public void setGatekeeperMetaModel(GatekeeperMetaModel gatekeeperMetaModel) {
 		this.gatekeeperMetaModel = gatekeeperMetaModel;
-	}
-	@Override
-	public String[] build() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	

@@ -18,7 +18,6 @@ public class GroupMetaModel extends BaseMetaModel {
 	public int operationIndex;
 	public GROUP_LOGIC logic;
 	public OrdinalMetaModel ordinalMetaModel;
-//	public List<GroupMetaModel> childrenGroupMetaModel=null;
 	
 	private String[] prefixGroupOpCodesListTemplate = {"label:%s", "push_ref(%s)" };
 	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
