@@ -20,8 +20,11 @@ public class GroupMetaModel extends BaseMetaModel {
 	public OrdinalMetaModel ordinalMetaModel;
 //	public List<GroupMetaModel> childrenGroupMetaModel=null;
 	
-	private String[] prefix = {"label:%s", "push_ref(%s)" };
-	private String[] suffix = {"store_ref(%s)", "pop_ref(%s)", "return"};
+	private String[] prefixGroupOpCodesList = {"label:%s", "push_ref(%s)" };
+	private String[] suffixGroupOpCodesList = {"store_ref(%s)", "pop_ref(%s)", "return"};
+	private String[] anyLogicGroupOpCodesList = {"OP_OR", "push_ref(%s)", "ifref_num(%s,%s)", "return"};
+	private String[] allLogicGroupOpCodesList = {"OP_AND", "push_ref(%s)"};
+	
 	
 	public GroupMetaModel() {
 		operationIndex=0;
