@@ -36,12 +36,12 @@ import com.myreward.engine.grammar.MyRewardParser.Reward_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Reward_quantity_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Sequence_defContext;
 import com.myreward.engine.grammar.MyRewardParser.Show_defContext;
-import com.myreward.engine.grammar.Symbol;
-import com.myreward.engine.grammar.Symbol.SymbolType;
-import com.myreward.engine.grammar.SymbolTable;
 import com.myreward.engine.metamodel.BaseMetaModel;
 import com.myreward.engine.metamodel.GatekeeperMetaModel;
 import com.myreward.engine.metamodel.GroupMetaModel;
+import com.myreward.engine.symbol.Symbol;
+import com.myreward.engine.symbol.SymbolTable;
+import com.myreward.engine.symbol.Symbol.SymbolType;
 
 public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 

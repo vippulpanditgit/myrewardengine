@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.*;
 
 import com.myreward.engine.grammar.MyRewardParser.Myreward_defsContext;
 import com.myreward.engine.grammar.visitor.MyRewardVisitor;
+import com.myreward.engine.symbol.SymbolProcessingEngine;
 import com.myreward.engine.util.MyRewardParserUtil;
 
 public class test {
@@ -64,6 +65,8 @@ public class test {
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             MyRewardVisitor visitor = new MyRewardVisitor();
             visitor.setSymbolTable(myRewardParser.getSymbolTable());
+            SymbolProcessingEngine symbolProcessingEngine = new SymbolProcessingEngine();
+            symbolProcessingEngine.process( visitor.getSymbolTable());
              visitor.visit(fileContext);   
              System.out.println(visitor.groupMetaModelList);
              System.out.println(visitor.getSymbolTable());

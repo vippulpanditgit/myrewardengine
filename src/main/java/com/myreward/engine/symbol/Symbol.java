@@ -1,8 +1,9 @@
-package com.myreward.engine.grammar;
+package com.myreward.engine.symbol;
 
 import java.io.Serializable;
 import java.util.Date;
 
+import com.myreward.engine.grammar.RewardSymbolAttribute;
 import com.myreward.engine.model.RepeatOn;
 import com.myreward.engine.model.Reward;
 

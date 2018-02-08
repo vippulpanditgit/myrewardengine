@@ -3,15 +3,13 @@ options {
     language=Java;
 }
 @header {
-import com.myreward.engine.grammar.Symbol;
-import com.myreward.engine.grammar.SymbolTable;
-import com.myreward.engine.grammar.MyRewardSymbolTable;
 import com.myreward.engine.util.W3CDateFormat;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.*; 
 import java.io.*;
 import com.myreward.engine.model.*;
+import com.myreward.engine.symbol.*;
 import com.myreward.engine.metamodel.*;
 import com.myreward.engine.util.*;
 }

@@ -1,4 +1,4 @@
-package com.myreward.engine.grammar;
+package com.myreward.engine.symbol;
 
 import java.util.Collections;
 import java.util.Iterator;
