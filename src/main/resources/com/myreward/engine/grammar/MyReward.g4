@@ -141,6 +141,7 @@ import_name returns [String importSymbolLibrary]
 							Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
 							
 							this.getSymbolTable().merge(myRewardParser.getSymbolTable().getAllSymbol());
+							$importSymbolLibrary = $importName.getText();
 						} catch(IOException exp){exp.printStackTrace();}
 							
 					}
