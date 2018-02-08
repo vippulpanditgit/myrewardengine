@@ -13,6 +13,11 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	public String toString() {
 		return instructionStack.toString();
 	}
+	@Override
+	public String[] build() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }

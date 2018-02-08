@@ -9,5 +9,10 @@ public class RepeatMetaModel extends BaseMetaModel {
 	}
 	public int repeatAfterDay;
 	public RepeatCriteria repeatCriteria;
+	@Override
+	public String[] build() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

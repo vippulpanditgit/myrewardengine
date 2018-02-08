@@ -11,5 +11,10 @@ public class RewardMetaModel extends BaseMetaModel {
 	public Date expirationDate;
 	public RewardType rewardType;
 	public double rewardAmount;
+	@Override
+	public String[] build() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -70,6 +70,11 @@ public class EventMetaModel extends BaseMetaModel {
 	public void setGatekeeperMetaModel(GatekeeperMetaModel gatekeeperMetaModel) {
 		this.gatekeeperMetaModel = gatekeeperMetaModel;
 	}
+	@Override
+	public String[] build() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 
