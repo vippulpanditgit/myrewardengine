@@ -1,5 +1,6 @@
 package com.myreward.engine.metamodel;
 
-public class BaseMetaModel {
+public abstract class BaseMetaModel {
+	public abstract String[] build();
 
 }

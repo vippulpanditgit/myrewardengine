@@ -16,8 +16,6 @@ public class test {
 
 	public static void main(String[] args) {
 		try {
-//			InputStream stream = new ByteArrayInputStream("BIOMETRIC.ALLSOURCES.HEALTHFAIR any(1) {(FILE.OPERATIONS.BIOMETRIC_COMPLETION any(1) from [start_date, end_date] repeat WEEKLY|MONTHLY|YEARLY) or FILE.HOKIT.OFFLINEHEALTHFAIREVENT or FILE.BIO.OFFLINEHEALTHFAIREVENT or FILE.HFAIR.OFFLINEHEALTHFAIREVENT or FILE.MDFRM.OFFLINEHEALTHFAIREVENT} from [start_date, end_date]".getBytes(StandardCharsets.UTF_8));
-//			InputStream stream = new ByteArrayInputStream("event(BIOMETRIC.ALLSOURCES.HEALTHFAIR) any".getBytes(StandardCharsets.UTF_8));
 			String oneEventWithGatekeeper = "package myclient event(BIOMETRIC.ALLSOURCES.HEALTHFAIR).reward(1).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').repeat(MONTHLY,2).show(true).priority(1).gatekeeper(event(FILE.MDFRM.OFFLINEHEALTHFAIREVENT))";
 			String oneEvent = "package myclient event(BIOMETRIC.ALLSOURCES.HEALTHFAIR).reward(1).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').repeat(MONTHLY,2).show(true).priority(1)";
 			String subEvent = "package myclient event(BIOMETRIC.ALLSOURCES.HEALTHFAIR).reward(1).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').repeat(MONTHLY,2).show(true).priority(1).any(1){event(FILE.MDFRM.OFFLINEHEALTHFAIREVENT).repeat(ACTIVITY_DATE, 1)}";

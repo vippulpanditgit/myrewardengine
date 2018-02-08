@@ -13,8 +13,7 @@ public class SymbolProcessingEngine {
 	
 	public void process(SymbolTable symbolTable) {
 		List<Symbol> symbolList =  symbolTable.getAllSymbol();
-		ListIterator<Symbol> symbolIterator = null;
-		symbolIterator = symbolList.listIterator();
+		ListIterator<Symbol> symbolIterator = symbolList.listIterator();
 		int index=0;
 		while(symbolIterator.hasNext()) {
 			Symbol symbol = symbolIterator.next();
