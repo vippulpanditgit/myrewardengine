@@ -16,6 +16,9 @@ public class EventMetaModel extends BaseMetaModel {
 	private PriorityMetaModel priorityMetaModel;
 	private GatekeeperMetaModel gatekeeperMetaModel;
 	
+	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
+	private String[] eventOpCodeListTemplate = {"push(%s)"};
+	
 	public RewardMetaModel getRewardMetaModel() {
 		return rewardMetaModel;
 	}
