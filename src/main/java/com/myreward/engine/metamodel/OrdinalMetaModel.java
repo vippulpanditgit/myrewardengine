@@ -1,10 +1,11 @@
 package com.myreward.engine.metamodel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrdinalMetaModel extends BaseMetaModel {
-	private List<OrdinalMetaModel> ordinalMetaModel;
-	private List<GroupMetaModel> groupMetaModel;
+	public int ordinal;
+	public List<GroupMetaModel> groupMetaModel = new ArrayList<GroupMetaModel>();
 
 
 }

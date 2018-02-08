@@ -220,16 +220,17 @@ event_name returns [String eventName]
 				}
 	;
 group_def returns [GroupMetaModel groupDefMetaModel]
-	: groupAnyLogic=any_def LBRACE groupEventDef = group_events_def RBRACE {	
-																$groupDefMetaModel = $groupAnyLogic.groupModel;
-																$groupDefMetaModel.eventMetaModelList = $groupEventDef.groupEventsDefMetaModel.eventMetaModelList;
+	: groupAnyLogic=any_def LBRACE groupEventDef = group_events_def RBRACE {
+																$groupDefMetaModel = $groupEventDef.groupEventsDefMetaModel;	
+																$groupDefMetaModel.ordinalMetaModel = $groupAnyLogic.anyMetaModel;
 															}
 	| groupAllLogic=all_def LBRACE groupEventDef = group_events_def RBRACE {
 																$groupDefMetaModel = $groupAllLogic.groupModel;
 																$groupDefMetaModel.eventMetaModelList = $groupEventDef.groupEventsDefMetaModel.eventMetaModelList;
 															}
 	| groupAnyLogic=any_def {	
-																$groupDefMetaModel = $groupAnyLogic.groupModel;
+																$groupDefMetaModel = new GroupMetaModel();
+																$groupDefMetaModel.ordinalMetaModel = $groupAnyLogic.anyMetaModel;
 																current.setType(Symbol.SymbolType.EVENT);
 															}
 	| groupAllLogic=all_def	{	
@@ -251,15 +252,12 @@ all_def returns [GroupMetaModel groupModel]
 									current.setType(Symbol.SymbolType.DERIVED_EVENT);
 									}
 	;
-any_def returns [GroupMetaModel groupModel]
-	: ANY ordinal = sequence_def { if($groupModel==null) $groupModel = new GroupMetaModel();
-									$groupModel.logic = GroupMetaModel.GROUP_LOGIC.ANY;
-									$groupModel.ordinal = $ordinal.value;
+any_def returns [AnyMetaModel anyMetaModel]
+	@init {$anyMetaModel = new AnyMetaModel();}
+	: ANY ordinal = sequence_def { $anyMetaModel.ordinal = $ordinal.value;
 									current.setType(Symbol.SymbolType.DERIVED_EVENT);
 									}
-	| ANY { if($groupModel==null) $groupModel = new GroupMetaModel();
-									$groupModel.logic = GroupMetaModel.GROUP_LOGIC.ANY;
-									$groupModel.ordinal = 1;
+	| ANY 						{ $anyMetaModel.ordinal = 1;
 									current.setType(Symbol.SymbolType.DERIVED_EVENT);
 									}
 	;

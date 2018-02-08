@@ -13,13 +13,12 @@ public class GroupMetaModel extends BaseMetaModel {
 	public Stack<String> instructionStack;
 	public int operationIndex;
 	public GROUP_LOGIC logic;
-	public int ordinal;
+	public OrdinalMetaModel ordinalMetaModel;
 	public List<GroupMetaModel> childrenGroupMetaModel=null;
 	
 	public GroupMetaModel() {
 		operationIndex=0;
 		instructionStack = new Stack<String>();
-		ordinal = 0;
 	}
 	
 	public String toString() {
