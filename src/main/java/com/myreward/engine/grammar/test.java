@@ -61,6 +61,7 @@ public class test {
 			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
+            fileContext.myRewardDef.myRewardMetaModel.build();
             MyRewardVisitor visitor = new MyRewardVisitor();
             visitor.setSymbolTable(myRewardParser.getSymbolTable());
             SymbolProcessingEngine symbolProcessingEngine = new SymbolProcessingEngine();

@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Stack;
 
+import com.myreward.engine.grammar.MyRewardParser;
 import com.myreward.engine.symbol.Symbol;
+import com.myreward.engine.symbol.SymbolTable;
 
 public class GroupMetaModel extends BaseMetaModel {
 	public enum GROUP_LOGIC {
@@ -30,8 +32,17 @@ public class GroupMetaModel extends BaseMetaModel {
 		instructionStack = new Stack<String>();
 	}
 	public String[] build() {
-		String[] groupOpcodes = null;
+		List<String> groupOpcodes = new ArrayList<String>();
 		if(eventMetaModelList!=null && eventMetaModelList.size()>0) {
+			Symbol eventSymbol = null;
+			if(parent instanceof EventMetaModel) {
+				EventMetaModel eventMetaModel = (EventMetaModel)parent;
+				String eventName = eventMetaModel.getEventName();
+				eventSymbol = new Symbol(eventName);
+				
+				SymbolTable symbolTable = MyRewardParser.symbolTable;
+				eventSymbol = symbolTable.lookup(eventSymbol);
+			}
 			Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
 			while(eventMetaModelListIterator.hasNext()) {
 				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
@@ -41,7 +52,7 @@ public class GroupMetaModel extends BaseMetaModel {
 
 			
 		}
-		return groupOpcodes;
+		return groupOpcodes.toArray(new String[0]);
 	}
 	public String toString() {
 		return instructionStack+"<<"+operationIndex;

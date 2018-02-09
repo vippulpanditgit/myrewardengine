@@ -1,7 +1,9 @@
 package com.myreward.engine.metamodel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 
 public class EventMetaModel extends BaseMetaModel {
 	public enum EventType {
@@ -24,13 +26,9 @@ public class EventMetaModel extends BaseMetaModel {
 	
 	@Override
 	public String[] build() {
-		List<String> opcodeList = new ArrayList<String>();
-		if(groupMetaModel!=null) {
-
-		}
-
-		
-		return opcodeList.toArray(new String[0]);
+		List<String> groupOpcodeList = new ArrayList<String>();
+		groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
+		return groupOpcodeList.toArray(new String[0]);
 	}
 
 	public RewardMetaModel getRewardMetaModel() {
