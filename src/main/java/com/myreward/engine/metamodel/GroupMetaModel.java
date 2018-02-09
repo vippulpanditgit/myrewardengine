@@ -24,7 +24,7 @@ public class GroupMetaModel extends BaseMetaModel {
 	
 	private String[] prefixGroupOpCodesListTemplate = {"label:%s", "push_ref(%s)" };
 	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
-	private String[] anyLogicGroupOpCodesListTemplate = {"OP_OR", "push_ref(%s)", "ifref_num(%s,%s)", "return"};
+	private String[] anyLogicGroupOpCodesListTemplate = {"OP_OR", "push_ref(%s)", "ifref_num(%s,%d)", "return"};
 	private String[] allLogicGroupOpCodesListTemplate = {"OP_AND", "push_ref(%s)"};
 	
 	
@@ -50,10 +50,14 @@ public class GroupMetaModel extends BaseMetaModel {
 			while(eventMetaModelListIterator.hasNext()) {
 				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
 				groupOpcodes.addAll(Arrays.asList(eventMetaModel.build()));
-				if(logic==GROUP_LOGIC.ANY) {
-					for(int index=0;index<anyLogicGroupOpCodesListTemplate.length;index++)
-						groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
-				} else if(logic==GROUP_LOGIC.ALL) {
+				if(ordinalMetaModel instanceof AnyMetaModel) {
+					for(int index=0;index<anyLogicGroupOpCodesListTemplate.length;index++) {
+						if(index==2)
+							groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),((AnyMetaModel)ordinalMetaModel).ordinal));
+						else 
+							groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
+					}
+				} else if(ordinalMetaModel instanceof AllMetaModel) {
 					for(int index=0;index<allLogicGroupOpCodesListTemplate.length;index++)
 						groupOpcodes.add(String.format(allLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
 				}
