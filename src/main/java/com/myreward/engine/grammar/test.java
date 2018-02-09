@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 import org.antlr.v4.runtime.*;
 
@@ -64,14 +65,14 @@ public class test {
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             String[] fileOpcodes = fileContext.myRewardDef.myRewardMetaModel.build();
-            System.out.println(fileOpcodes);
+            Arrays.stream(fileOpcodes).forEach(System.out::println);
             MyRewardVisitor visitor = new MyRewardVisitor();
             visitor.setSymbolTable(myRewardParser.getSymbolTable());
             SymbolProcessingEngine symbolProcessingEngine = new SymbolProcessingEngine();
             symbolProcessingEngine.process( visitor.getSymbolTable());
-             visitor.visit(fileContext);   
-             System.out.println(visitor.groupMetaModelList);
-             System.out.println(visitor.getSymbolTable());
+            visitor.visit(fileContext);   
+            System.out.println(visitor.groupMetaModelList);
+            System.out.println(visitor.getSymbolTable());
 
 		} catch(Exception exp) {
 			exp.printStackTrace();
