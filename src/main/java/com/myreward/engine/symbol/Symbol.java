@@ -1,7 +1,9 @@
 package com.myreward.engine.symbol;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.myreward.engine.grammar.RewardSymbolAttribute;
 import com.myreward.engine.model.RepeatOn;
@@ -42,6 +44,8 @@ public class Symbol implements Serializable{
 	private boolean isAssigned;
 	// True if name binding introduces new namespace
 	private boolean isNameSpace;
+	
+	public List<String> callDeclarationList = new ArrayList<String>();
 	
 	private RewardSymbolAttribute rewardAttribute;
 	public Symbol() {
@@ -186,6 +190,6 @@ public class Symbol implements Serializable{
 		return fullyQualifiedId;
 	}
 	public String toString() {
-		return name+"<<"+id+"<<"+fullyQualifiedId+"<<"+type+"<<"+level+"<<"+rewardAttribute;
+		return name+"<<"+id+"<<"+fullyQualifiedId+"<<"+type+"<<"+level+"<<"+rewardAttribute+"<<"+callDeclarationList;
 	}
 }
