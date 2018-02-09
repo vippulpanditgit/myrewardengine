@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.myreward.engine.grammar.MyRewardParser;
+import com.myreward.engine.symbol.Symbol;
+import com.myreward.engine.symbol.SymbolTable;
+
 public class EventMetaModel extends BaseMetaModel {
 	public enum EventType {
 			EVENT,
@@ -22,13 +26,26 @@ public class EventMetaModel extends BaseMetaModel {
 	private GatekeeperMetaModel gatekeeperMetaModel;
 	
 	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
-	private String[] eventOpCodeListTemplate = {"push(%s)"};
+	private String[] eventOpCodeListTemplate = {"push(%d)"};
 	
 	@Override
 	public String[] build() {
 		List<String> groupOpcodeList = new ArrayList<String>();
-		if(groupMetaModel!=null)
+		if(groupMetaModel!=null) {
+			Symbol eventSymbol = new Symbol(eventName);
+			
+			SymbolTable symbolTable = MyRewardParser.symbolTable;
+			eventSymbol = symbolTable.lookup(eventSymbol);
+			groupOpcodeList.add(String.format(derivedEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
+		} else {
+			Symbol eventSymbol = new Symbol(eventName);
+			
+			SymbolTable symbolTable = MyRewardParser.symbolTable;
+			eventSymbol = symbolTable.lookup(eventSymbol);
+			groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+
+		}
 		return groupOpcodeList.toArray(new String[0]);
 	}
 

@@ -60,7 +60,7 @@ public class test {
 										+ "}";
 			String pseudo1 = "package test event(GA).any(1) {event(B), event(C)}";
 
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo1);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             String[] fileOpcodes = fileContext.myRewardDef.myRewardMetaModel.build();
