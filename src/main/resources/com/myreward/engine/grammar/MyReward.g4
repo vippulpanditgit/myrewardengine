@@ -120,9 +120,13 @@ myreward_defs
 		}
 	;
 myreward_def returns [MyRewardMetaModel myRewardMetaModel]
-	: packageDef=package_def (import_def{$packageDef.packageMetaModel.packageMetaModelList.add($import_def.importMetaModel);})* eventDef=event_def+ {
+	: packageDef=package_def (import_def{$packageDef.packageMetaModel.packageMetaModelList.add($import_def.importMetaModel);
+										$import_def.importMetaModel.parent = $packageDef.packageMetaModel;})* 
+										eventDef=event_def+ {
+					$eventDef.eventMetaModel.parent = $packageDef.packageMetaModel;
 					$packageDef.packageMetaModel.packageMetaModelList.add($eventDef.eventMetaModel);
 					$myRewardMetaModel = new MyRewardMetaModel();
+					$packageDef.packageMetaModel.parent = $myRewardMetaModel;
 					$myRewardMetaModel.myRewardMetaModelList.add($packageDef.packageMetaModel);
 				}
 	;
@@ -166,6 +170,7 @@ event_def returns [EventMetaModel eventMetaModel]
 						$eventMetaModel.setEventName($eventName.eventName);
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
 				 } RPAREN (modifier=event_modifier_def {
+				 	$modifier.modifierMetaModel.parent = $eventMetaModel;
 					if($modifier.modifierMetaModel instanceof GroupMetaModel){
 						$eventMetaModel.setGroupMetaModel((GroupMetaModel)$modifier.modifierMetaModel);
 					} else if($modifier.modifierMetaModel instanceof ShowMetaModel){
@@ -187,24 +192,31 @@ event_def returns [EventMetaModel eventMetaModel]
 	;
 event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	: DOT rewardDef=reward_def {
+						$rewardDef.rewardMetaModel.parent = $modifierMetaModel;
 						$modifierMetaModel = $rewardDef.rewardMetaModel;
 					}
 	| DOT groupDef=group_def	{
+						$groupDef.groupDefMetaModel.parent = $modifierMetaModel;
 						$modifierMetaModel = $groupDef.groupDefMetaModel;
 					}
 	| DOT durationDef=between_def {
+						$durationDef.durationMetaModel.parent = $modifierMetaModel;
 						$modifierMetaModel = $durationDef.durationMetaModel;
 					}
 	| DOT repeatDef=repeat_def {
+						$repeatDef.repeatMetaModel.parent = $modifierMetaModel;
 						$modifierMetaModel = $repeatDef.repeatMetaModel;
 					}
 	| DOT showDef=show_def {
+						$showDef.showMetaModel.parent = $modifierMetaModel;
 						$modifierMetaModel = $showDef.showMetaModel;
 					}
 	| DOT priorityDef=priority_def {
+						$priorityDef.priorityMetaModel.parent = $modifierMetaModel;
 						$modifierMetaModel = $priorityDef.priorityMetaModel;
 					}
 	| DOT gatekeeperDef=gatekeeper_def {
+						$gatekeeperDef.gatekeeperMetaModel.parent = $modifierMetaModel;
 						$modifierMetaModel = $gatekeeperDef.gatekeeperMetaModel;
 					}
 	;
@@ -220,28 +232,32 @@ event_name returns [String eventName]
 	;
 group_def returns [GroupMetaModel groupDefMetaModel]
 	: groupAnyLogic=any_def LBRACE groupEventDef = group_events_def RBRACE {
+																$groupEventDef.groupEventsDefMetaModel.parent = $groupDefMetaModel;
 																$groupDefMetaModel = $groupEventDef.groupEventsDefMetaModel;	
 																$groupDefMetaModel.ordinalMetaModel = $groupAnyLogic.anyMetaModel;
 															}
 	| groupAllLogic=all_def LBRACE groupEventDef = group_events_def RBRACE {
+																$groupAllLogic.groupModel.parent = $groupDefMetaModel;
 																$groupDefMetaModel = $groupAllLogic.groupModel;
 																$groupDefMetaModel.eventMetaModelList = $groupEventDef.groupEventsDefMetaModel.eventMetaModelList;
 															}
 	| groupAnyLogic=any_def {	
+																
 																$groupDefMetaModel = new GroupMetaModel();
 																$groupDefMetaModel.ordinalMetaModel = $groupAnyLogic.anyMetaModel;
 																current.setType(Symbol.SymbolType.EVENT);
 															}
-	| groupAllLogic=all_def	{	
+	| groupAllLogic=all_def	{									$groupAllLogic.groupModel.parent = $groupDefMetaModel;
 																$groupDefMetaModel = $groupAllLogic.groupModel;
 																current.setType(Symbol.SymbolType.EVENT);
 															}													
 	;
 group_events_def returns [GroupMetaModel groupEventsDefMetaModel]
 	@init {$groupEventsDefMetaModel = new GroupMetaModel();}
-	: eventDef=event_def {
+	: eventDef=event_def {			$eventDef.eventMetaModel.parent = $groupEventsDefMetaModel;
 									$groupEventsDefMetaModel.eventMetaModelList.add($eventDef.eventMetaModel);
 						} (COMMA eventDefNext=event_def {
+										$eventDefNext.eventMetaModel.parent = $groupEventsDefMetaModel;
 										$groupEventsDefMetaModel.eventMetaModelList.add($eventDefNext.eventMetaModel);
 									})* 	
 	;

@@ -26,6 +26,7 @@ public class EventMetaModel extends BaseMetaModel {
 	public String[] build() {
 		List<String> opcodeList = new ArrayList<String>();
 		if(groupMetaModel!=null) {
+
 		}
 
 		
