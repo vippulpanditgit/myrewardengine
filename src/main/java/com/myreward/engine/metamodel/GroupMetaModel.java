@@ -1,6 +1,7 @@
 package com.myreward.engine.metamodel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -43,12 +44,23 @@ public class GroupMetaModel extends BaseMetaModel {
 				SymbolTable symbolTable = MyRewardParser.symbolTable;
 				eventSymbol = symbolTable.lookup(eventSymbol);
 			}
+			for(int index=0;index<prefixGroupOpCodesListTemplate.length;index++)
+				groupOpcodes.add(String.format(prefixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
 			Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
 			while(eventMetaModelListIterator.hasNext()) {
 				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
-				String[] opcodeList = eventMetaModel.build();
+				groupOpcodes.addAll(Arrays.asList(eventMetaModel.build()));
+				if(logic==GROUP_LOGIC.ANY) {
+					for(int index=0;index<anyLogicGroupOpCodesListTemplate.length;index++)
+						groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
+				} else if(logic==GROUP_LOGIC.ALL) {
+					for(int index=0;index<allLogicGroupOpCodesListTemplate.length;index++)
+						groupOpcodes.add(String.format(allLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
+				}
 				
 			}
+			for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
+				groupOpcodes.add(String.format(suffixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
 
 			
 		}

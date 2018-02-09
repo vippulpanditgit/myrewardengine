@@ -40,6 +40,7 @@ public class test {
 						+ "}"
 					+ "}";
 			String pseudo = "package test event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)},event(GF).any(1) {event(H), event(I)}}";
+			String pseudo1 = "package test event(GA).any(10) {event(B), event(C)}";
 			String subEventWithSubEvent2 = "package myclient "
 										+ "import global "
 										+ "event(WELLNESS.GROUP.TWC.EVISOR).any(1)"
@@ -58,10 +59,10 @@ public class test {
 												+ "}"
 											+ "}"
 										+ "}";
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo1);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
-            fileContext.myRewardDef.myRewardMetaModel.build();
+            String[] fileOpcodes = fileContext.myRewardDef.myRewardMetaModel.build();
             MyRewardVisitor visitor = new MyRewardVisitor();
             visitor.setSymbolTable(myRewardParser.getSymbolTable());
             SymbolProcessingEngine symbolProcessingEngine = new SymbolProcessingEngine();

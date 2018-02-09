@@ -27,7 +27,8 @@ public class EventMetaModel extends BaseMetaModel {
 	@Override
 	public String[] build() {
 		List<String> groupOpcodeList = new ArrayList<String>();
-		groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
+		if(groupMetaModel!=null)
+			groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
 		return groupOpcodeList.toArray(new String[0]);
 	}
 
