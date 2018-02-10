@@ -70,14 +70,14 @@ public class test {
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build()));
             myRewardCodeGenerator.processDataSegment(MyRewardParser.symbolTable);
             
-            MyRewardVisitor visitor = new MyRewardVisitor();
+/*            MyRewardVisitor visitor = new MyRewardVisitor();
             visitor.setSymbolTable(myRewardParser.getSymbolTable());
             SymbolProcessingEngine symbolProcessingEngine = new SymbolProcessingEngine();
             symbolProcessingEngine.process( visitor.getSymbolTable());
             visitor.visit(fileContext);   
             System.out.println(visitor.groupMetaModelList);
             System.out.println(visitor.getSymbolTable());
-
+*/
 		} catch(Exception exp) {
 			exp.printStackTrace();
 		}
