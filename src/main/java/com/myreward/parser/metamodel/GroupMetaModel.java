@@ -73,5 +73,14 @@ public class GroupMetaModel extends BaseMetaModel {
 	public String toString() {
 		return instructionStack+"<<"+operationIndex;
 	}
+	@Override
+	public String[] model() {
+		List<String> groupOpcodeList = new ArrayList<String>();
+		ListIterator<EventMetaModel> groupMetaModelListIterator = eventMetaModelList.listIterator();
+		while(groupMetaModelListIterator.hasNext()) {
+			groupOpcodeList.addAll(Arrays.asList(groupMetaModelListIterator.next().model()));
+		}
+		return groupOpcodeList.toArray(new String[0]);
+	}
 
 }

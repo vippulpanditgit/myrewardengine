@@ -18,5 +18,14 @@ public class PackageMetaModel extends BaseMetaModel {
 		}
 		return packageOpcodeList.toArray(new String[0]);
 	}
+	@Override
+	public String[] model() {
+		List<String> packageOpcodeList = new ArrayList<String>();
+		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
+		while(packageMetaModelListIterator.hasNext()) {
+			packageOpcodeList.addAll(Arrays.asList(packageMetaModelListIterator.next().model()));
+		}
+		return packageOpcodeList.toArray(new String[0]);
+	}
 
 }

@@ -9,4 +9,10 @@ public class PriorityMetaModel extends BaseMetaModel {
 		return null;
 	}
 
+	@Override
+	public String[] model() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

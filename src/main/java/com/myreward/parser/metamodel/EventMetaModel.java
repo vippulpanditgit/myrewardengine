@@ -50,7 +50,7 @@ public class EventMetaModel extends BaseMetaModel {
 		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		eventSymbol = symbolTable.lookup(eventSymbol);
 		if(groupMetaModel!=null) { // This is a derived event. It is triggered by an action.
-			groupOpcodeList.add(String.format(derivedEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+//			groupOpcodeList.add(String.format(derivedEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
 			if(this.parent instanceof EventMetaModel) {
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
@@ -70,6 +70,7 @@ public class EventMetaModel extends BaseMetaModel {
 				}
 			} 
 		} else { // This is a standalone event.
+			this.createStandaloneEvent(eventSymbol);
 			groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			if(this.parent instanceof EventMetaModel) {
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
@@ -145,6 +146,23 @@ public class EventMetaModel extends BaseMetaModel {
 	}
 	public void setGatekeeperMetaModel(GatekeeperMetaModel gatekeeperMetaModel) {
 		this.gatekeeperMetaModel = gatekeeperMetaModel;
+	}
+
+	@Override
+	public String[] model() {
+		if(this.groupMetaModel!=null)
+			return eventOpCodeList.toArray(new String[0]);
+		Symbol eventSymbol = new Symbol(eventName);
+		SymbolTable symbolTable = MyRewardParser.symbolTable;
+		eventSymbol = symbolTable.lookup(eventSymbol);
+		eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+		eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+		
+		
+		eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), 1));
+		eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+
+		return eventOpCodeList.toArray(new String[0]);
 	}
 	
 	

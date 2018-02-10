@@ -69,6 +69,7 @@ public class test {
             
             MyRewardCodeGenerator myRewardCodeGenerator = new MyRewardCodeGenerator();
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build()));
+            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model()));
             myRewardCodeGenerator.processDataSegment(MyRewardParser.symbolTable);
             System.out.println(myRewardCodeGenerator.getCodeSegment());
  		} catch(Exception exp) {

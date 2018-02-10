@@ -10,5 +10,10 @@ public class DurationMetaModel extends BaseMetaModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public String[] model() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

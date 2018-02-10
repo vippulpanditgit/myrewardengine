@@ -7,5 +7,6 @@ public abstract class BaseMetaModel {
 	public SymbolTable symbolTable;
 	public BaseMetaModel parent;
 	public abstract String[] build();
+	public abstract String[] model();
 
 }

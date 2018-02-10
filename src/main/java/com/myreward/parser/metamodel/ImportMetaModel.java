@@ -12,5 +12,11 @@ public class ImportMetaModel extends BaseMetaModel {
 		return null;
 	}
 
+	@Override
+	public String[] model() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
