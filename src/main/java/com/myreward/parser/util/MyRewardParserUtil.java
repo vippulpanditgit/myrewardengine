@@ -8,8 +8,8 @@ import java.nio.charset.StandardCharsets;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-import com.myreward.engine.grammar.MyRewardLexer;
-import com.myreward.engine.grammar.MyRewardParser;
+import com.myreward.parser.grammar.MyRewardLexer;
+import com.myreward.parser.grammar.MyRewardParser;
 
 public class MyRewardParserUtil {
 	public static MyRewardParser getParsed(String eventString) throws IOException {

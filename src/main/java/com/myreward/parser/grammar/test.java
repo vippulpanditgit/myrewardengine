@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 import org.antlr.v4.runtime.*;
 
-import com.myreward.engine.grammar.MyRewardParser;
-import com.myreward.engine.grammar.MyRewardParser.Myreward_defsContext;
+import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
 import com.myreward.parser.generated.MyRewardCodeGenerator;
 import com.myreward.parser.grammar.visitor.MyRewardVisitor;
 import com.myreward.parser.symbol.SymbolProcessingEngine;

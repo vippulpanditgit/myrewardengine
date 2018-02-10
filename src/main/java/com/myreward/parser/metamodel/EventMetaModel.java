@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.myreward.engine.grammar.MyRewardParser;
+import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
