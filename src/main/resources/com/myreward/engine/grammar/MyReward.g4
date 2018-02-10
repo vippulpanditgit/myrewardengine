@@ -3,19 +3,18 @@ options {
     language=Java;
 }
 @header {
-import com.myreward.engine.util.W3CDateFormat;
 import java.text.ParseException;
 import java.util.*;
 import java.lang.*; 
 import java.io.*;
-import com.myreward.engine.model.*;
-import com.myreward.engine.symbol.*;
-import com.myreward.engine.metamodel.*;
-import com.myreward.engine.util.*;
+import com.myreward.parser.model.*;
+import com.myreward.parser.symbol.*;
+import com.myreward.parser.metamodel.*;
+import com.myreward.parser.util.*;
 }
 @members {
 //  private static org.slf4j.Logger _logger =
-//    org.slf4j.LoggerFactory.getLogger(com.myreward.engine.grammar.MyRewardParser.class);
+//    org.slf4j.LoggerFactory.getLogger(com.myreward.parser.grammar.MyRewardParser.class);
 	private Symbol packageSymbol;
 	private Symbol current;
 	public static SymbolTable symbolTable = new MyRewardSymbolTable();

@@ -2,7 +2,7 @@ package com.myreward.engine.event;
 
 import java.util.List;
 
-import com.myreward.engine.model.event.EventDO;
+import com.myreward.parser.model.event.EventDO;
 
 public class EventPipe {
 	private String uuid;
