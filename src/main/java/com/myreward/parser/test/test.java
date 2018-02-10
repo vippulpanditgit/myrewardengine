@@ -63,23 +63,15 @@ public class test {
 										+ "}";
 			String pseudo1 = "package test event(GA).any(1) {event(B), event(C)}";
 
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(subEventWithSubEvent);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo1);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
             MyRewardCodeGenerator myRewardCodeGenerator = new MyRewardCodeGenerator();
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build()));
             myRewardCodeGenerator.processDataSegment(MyRewardParser.symbolTable);
-            
-/*            MyRewardVisitor visitor = new MyRewardVisitor();
-            visitor.setSymbolTable(myRewardParser.getSymbolTable());
-            SymbolProcessingEngine symbolProcessingEngine = new SymbolProcessingEngine();
-            symbolProcessingEngine.process( visitor.getSymbolTable());
-            visitor.visit(fileContext);   
-            System.out.println(visitor.groupMetaModelList);
-            System.out.println(visitor.getSymbolTable());
-*/
-		} catch(Exception exp) {
+            System.out.println(myRewardCodeGenerator.getCodeSegment());
+ 		} catch(Exception exp) {
 			exp.printStackTrace();
 		}
 

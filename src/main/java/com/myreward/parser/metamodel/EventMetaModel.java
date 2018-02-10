@@ -25,10 +25,23 @@ public class EventMetaModel extends BaseMetaModel {
 	private PriorityMetaModel priorityMetaModel;
 	private GatekeeperMetaModel gatekeeperMetaModel;
 	
-	private List<String> eventTriggerSource = new ArrayList<String>();
+	private List<String> eventOpCodeList = new ArrayList<String>();
+	private String[] prefixEventOpCodeListTemplate = {"label:%s", "push_ref(%s)" };
+	private String[] suffixEventOpCodeListTemplate = {"store(%s, %d)", "return"};
 	
 	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
 	private String[] eventOpCodeListTemplate = {"push(%d)"};
+	
+	public String[] createStandaloneEvent(Symbol eventSymbol) {
+		eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+		eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+		
+		
+		eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), 1));
+		eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+
+		return eventOpCodeList.toArray(new String[0]);
+	}
 	
 	@Override
 	public String[] build() {
@@ -36,7 +49,7 @@ public class EventMetaModel extends BaseMetaModel {
 		Symbol eventSymbol = new Symbol(eventName);
 		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		eventSymbol = symbolTable.lookup(eventSymbol);
-		if(groupMetaModel!=null) {
+		if(groupMetaModel!=null) { // This is a derived event. It is triggered by an action.
 			groupOpcodeList.add(String.format(derivedEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
 			if(this.parent instanceof EventMetaModel) {
@@ -56,7 +69,7 @@ public class EventMetaModel extends BaseMetaModel {
 					parentEventSymbol.callDeclarationList.add(String.valueOf(eventSymbol.getFullyQualifiedId()));
 				}
 			} 
-		} else {
+		} else { // This is a standalone event.
 			groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			if(this.parent instanceof EventMetaModel) {
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
