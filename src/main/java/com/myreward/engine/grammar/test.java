@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import org.antlr.v4.runtime.*;
 
+import com.myreward.engine.generated.MyRewardCodeGenerator;
 import com.myreward.engine.grammar.MyRewardParser.Myreward_defsContext;
 import com.myreward.engine.grammar.visitor.MyRewardVisitor;
 import com.myreward.engine.symbol.SymbolProcessingEngine;
@@ -64,8 +65,11 @@ public class test {
 			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(subEventWithSubEvent);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
-            String[] fileOpcodes = fileContext.myRewardDef.myRewardMetaModel.build();
-            Arrays.stream(fileOpcodes).forEach(System.out::println);
+            
+            MyRewardCodeGenerator myRewardCodeGenerator = new MyRewardCodeGenerator();
+            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build()));
+            myRewardCodeGenerator.processDataSegment(MyRewardParser.symbolTable);
+            
             MyRewardVisitor visitor = new MyRewardVisitor();
             visitor.setSymbolTable(myRewardParser.getSymbolTable());
             SymbolProcessingEngine symbolProcessingEngine = new SymbolProcessingEngine();

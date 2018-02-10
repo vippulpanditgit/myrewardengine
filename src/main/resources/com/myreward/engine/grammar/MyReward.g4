@@ -16,7 +16,7 @@ import com.myreward.engine.util.*;
 @members {
 //  private static org.slf4j.Logger _logger =
 //    org.slf4j.LoggerFactory.getLogger(com.myreward.engine.grammar.MyRewardParser.class);
-//	private Symbol packageSymbol;
+	private Symbol packageSymbol;
 	private Symbol current;
 	public static SymbolTable symbolTable = new MyRewardSymbolTable();
 	private int level = 0;

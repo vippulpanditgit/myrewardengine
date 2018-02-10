@@ -17,8 +17,8 @@ public class SymbolProcessingEngine {
 		int index=0;
 		while(symbolIterator.hasNext()) {
 			Symbol symbol = symbolIterator.next();
-			dataSegmentMap.put(symbol.getFullyQualifiedId(), new Integer(index++));
-			dataSegment.add(new Long(0));
+			dataSegmentMap.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
+			dataSegment.add(Long.valueOf(0));
 		}
 System.out.println(dataSegmentMap);
 System.out.println(dataSegment);
