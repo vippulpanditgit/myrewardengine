@@ -1,4 +1,4 @@
-package com.myreward.parser.grammar;
+package com.myreward.parser.test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
