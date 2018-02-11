@@ -84,8 +84,12 @@ public class GroupMetaModel extends BaseMetaModel {
 	}
 	@Override
 	public String[] call_stack() {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> groupOpcodeList = new ArrayList<String>();
+		ListIterator<EventMetaModel> groupMetaModelListIterator = eventMetaModelList.listIterator();
+		while(groupMetaModelListIterator.hasNext()) {
+			groupOpcodeList.addAll(Arrays.asList(groupMetaModelListIterator.next().call_stack()));
+		}
+		return groupOpcodeList.toArray(new String[0]);
 	}
 
 }

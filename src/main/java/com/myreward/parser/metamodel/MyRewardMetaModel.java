@@ -30,8 +30,12 @@ public class MyRewardMetaModel extends BaseMetaModel {
 
 	@Override
 	public String[] call_stack() {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> myRewardOpcodeList = new ArrayList<String>();
+		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
+		while(packageMetaModelListIterator.hasNext()) {
+			myRewardOpcodeList.addAll(Arrays.asList(packageMetaModelListIterator.next().call_stack()));
+		}
+		return myRewardOpcodeList.toArray(new String[0]);
 	}
 
 }

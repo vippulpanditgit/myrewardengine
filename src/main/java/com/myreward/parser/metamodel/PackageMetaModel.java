@@ -29,8 +29,12 @@ public class PackageMetaModel extends BaseMetaModel {
 	}
 	@Override
 	public String[] call_stack() {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> packageOpcodeList = new ArrayList<String>();
+		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
+		while(packageMetaModelListIterator.hasNext()) {
+			packageOpcodeList.addAll(Arrays.asList(packageMetaModelListIterator.next().call_stack()));
+		}
+		return packageOpcodeList.toArray(new String[0]);
 	}
 
 }
