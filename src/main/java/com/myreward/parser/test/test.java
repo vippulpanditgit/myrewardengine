@@ -61,7 +61,7 @@ public class test {
 												+ "}"
 											+ "}"
 										+ "}";
-			String pseudo1 = "package test event(GA).any(1) {event(B), event(C)}";
+			String pseudo1 = "package test event(GA).any(1) {event(B), event(C)} event(GD).any(1){event(E), event(F)}";
 
 			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo1);
 	        

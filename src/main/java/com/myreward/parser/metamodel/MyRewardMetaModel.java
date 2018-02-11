@@ -31,6 +31,7 @@ public class MyRewardMetaModel extends BaseMetaModel {
 	@Override
 	public String[] call_stack() {
 		List<String> myRewardOpcodeList = new ArrayList<String>();
+		myRewardOpcodeList.add("main");
 		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
 		while(packageMetaModelListIterator.hasNext()) {
 			myRewardOpcodeList.addAll(Arrays.asList(packageMetaModelListIterator.next().call_stack()));
