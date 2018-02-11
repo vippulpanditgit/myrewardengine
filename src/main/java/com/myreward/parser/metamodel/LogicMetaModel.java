@@ -13,5 +13,10 @@ public class LogicMetaModel extends BaseMetaModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public String[] call_stack() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -27,5 +27,10 @@ public class PackageMetaModel extends BaseMetaModel {
 		}
 		return packageOpcodeList.toArray(new String[0]);
 	}
+	@Override
+	public String[] call_stack() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

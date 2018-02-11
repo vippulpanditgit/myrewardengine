@@ -8,5 +8,6 @@ public abstract class BaseMetaModel {
 	public BaseMetaModel parent;
 	public abstract String[] build();
 	public abstract String[] model();
+	public abstract String[] call_stack();
 
 }

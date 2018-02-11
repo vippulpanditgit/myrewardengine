@@ -28,4 +28,10 @@ public class MyRewardMetaModel extends BaseMetaModel {
 		return myRewardOpcodeList.toArray(new String[0]);
 	}
 
+	@Override
+	public String[] call_stack() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
