@@ -150,19 +150,21 @@ public class EventMetaModel extends BaseMetaModel {
 
 	@Override
 	public String[] model() {
-		if(this.groupMetaModel!=null)
+		if(this.groupMetaModel!=null) {
+			return groupMetaModel.model();
+		} else {
+			Symbol eventSymbol = new Symbol(eventName);
+			SymbolTable symbolTable = MyRewardParser.symbolTable;
+			eventSymbol = symbolTable.lookup(eventSymbol);
+			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+			
+			
+			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), 1));
+			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+	
 			return eventOpCodeList.toArray(new String[0]);
-		Symbol eventSymbol = new Symbol(eventName);
-		SymbolTable symbolTable = MyRewardParser.symbolTable;
-		eventSymbol = symbolTable.lookup(eventSymbol);
-		eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
-		eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
-		
-		
-		eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), 1));
-		eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
-
-		return eventOpCodeList.toArray(new String[0]);
+		}
 	}
 	
 	
