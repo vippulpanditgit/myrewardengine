@@ -39,7 +39,10 @@ public class EventMetaModel extends BaseMetaModel {
 	// Duration 
 	private String[] durationEffectiveDateEventOpCodeListTemplate = {"if_evt_dt_le(%d)", "return"};
 	private String[] durationExpirationDateEventOpCodeListTemplate = {"if_evt_dt_ge(%d)", "return"};
-	
+
+	// Gatekeeper 
+	private String[] gatekeeperEventOpCodeListTemplate = {"ifevt_ref_not_present(%d)", "return"};
+
 	// Group
 	private String[] prefixGroupOpCodesListTemplate = {"label:%s", "push_ref(%s)" };
 	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
@@ -122,11 +125,9 @@ public class EventMetaModel extends BaseMetaModel {
 						if(this.durationMetaModel.expirationDate!=null) {
 							groupOpcodeList.add(String.format(this.durationExpirationDateEventOpCodeListTemplate[0], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
 							groupOpcodeList.add(String.format(this.durationExpirationDateEventOpCodeListTemplate[1], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
-							
 						}
 					}
 				}
-				
 				groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
 				for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
 					groupOpcodeList.add(String.format(suffixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
