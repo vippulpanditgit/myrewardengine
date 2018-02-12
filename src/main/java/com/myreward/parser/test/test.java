@@ -62,15 +62,18 @@ public class test {
 											+ "}"
 										+ "}";
 			String pseudo1 = "package test event(GA).any(1) {event(B), event(C)} event(GD).any(1){event(E), event(F)}";
-
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo1);
+			String pseudo2 = "package test event(GA).any(1) {event(B).any(1), event(C)}";
+			String pseudo3 = "package test event(A).any(1)";
+			String pseudo4 = "package test event(A).any(1).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00')";
+			
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo4);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
             MyRewardCodeGenerator myRewardCodeGenerator = new MyRewardCodeGenerator();
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build()));
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model()));
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack()));
+            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // side effect of receiving an event
+            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // default execution of receiving the event
+            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
             myRewardCodeGenerator.processDataSegment(MyRewardParser.symbolTable);
             System.out.println(myRewardCodeGenerator.getCodeSegment());
  		} catch(Exception exp) {

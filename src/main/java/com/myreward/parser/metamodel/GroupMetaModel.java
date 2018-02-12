@@ -85,9 +85,13 @@ public class GroupMetaModel extends BaseMetaModel {
 	@Override
 	public String[] call_stack() {
 		List<String> groupOpcodeList = new ArrayList<String>();
-		ListIterator<EventMetaModel> groupMetaModelListIterator = eventMetaModelList.listIterator();
-		while(groupMetaModelListIterator.hasNext()) {
-			groupOpcodeList.addAll(Arrays.asList(groupMetaModelListIterator.next().call_stack()));
+		if(eventMetaModelList!=null && eventMetaModelList.size()>0) { // events that are part of the group
+			ListIterator<EventMetaModel> groupMetaModelListIterator = eventMetaModelList.listIterator();
+			while(groupMetaModelListIterator.hasNext()) {
+				groupOpcodeList.addAll(Arrays.asList(groupMetaModelListIterator.next().call_stack()));
+			}
+		} else { // Standalone event with"any"
+			
 		}
 		return groupOpcodeList.toArray(new String[0]);
 	}
