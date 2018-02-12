@@ -37,8 +37,13 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] suffixEventOpCodeListTemplate = {"store(%s, %d)", "return"};
 
 	// Duration 
-	private String[] durationEffectiveDateEventOpCodeListTemplate = {"ifle(%d)", "return"};
-	private String[] durationExpirationDateEventOpCodeListTemplate = {"ifge(%d)", "return"};
+	private String[] durationEffectiveDateEventOpCodeListTemplate = {"if_evt_dt_le(%d)", "return"};
+	private String[] durationExpirationDateEventOpCodeListTemplate = {"if_evt_dt_ge(%d)", "return"};
+	
+	// Group
+	private String[] prefixGroupOpCodesListTemplate = {"label:%s", "push_ref(%s)" };
+	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
+
 	
 	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
 	private String[] eventOpCodeListTemplate = {"push(%d)"};
@@ -103,28 +108,47 @@ public class EventMetaModel extends BaseMetaModel {
 		Symbol eventSymbol = new Symbol(eventName);
 		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		eventSymbol = symbolTable.lookup(eventSymbol);
-		if(groupMetaModel!=null 
-				&& groupMetaModel.eventMetaModelList!=null 
+		if(groupMetaModel!=null) {
+			if(groupMetaModel.eventMetaModelList!=null 
 				&& groupMetaModel.eventMetaModelList.size()>0) { // This is a derived event. It is triggered by an action.
-//			groupOpcodeList.add(String.format(derivedEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
-			groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
-			if(this.parent instanceof EventMetaModel) {
-				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
-				Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
-				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
-				parentEventSymbol.callDeclarationList.add(String.valueOf(eventSymbol.getFullyQualifiedId()));
-			}  else if(this.parent instanceof GroupMetaModel) {
-				GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
-				EventMetaModel parentEventMetaModel = null;
-				if(parentGroupEventMetaModel.parent instanceof EventMetaModel) {
-					parentEventMetaModel = (EventMetaModel)parentGroupEventMetaModel.parent;
+				for(int index=0;index<prefixGroupOpCodesListTemplate.length;index++)
+					groupOpcodeList.add(String.format(prefixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
+				if(this.durationMetaModel!=null) {
+					if(this.durationMetaModel!=null) {
+						if(this.durationMetaModel.effectiveDate!=null) {
+							groupOpcodeList.add(String.format(this.durationEffectiveDateEventOpCodeListTemplate[0], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
+							groupOpcodeList.add(String.format(this.durationEffectiveDateEventOpCodeListTemplate[1], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
+						}
+						if(this.durationMetaModel.expirationDate!=null) {
+							groupOpcodeList.add(String.format(this.durationExpirationDateEventOpCodeListTemplate[0], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
+							groupOpcodeList.add(String.format(this.durationExpirationDateEventOpCodeListTemplate[1], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
+							
+						}
+					}
 				}
-				if(parentEventMetaModel!=null) {
+				
+				groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
+				for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
+					groupOpcodeList.add(String.format(suffixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
+
+				if(this.parent instanceof EventMetaModel) {
+					EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
 					parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 					parentEventSymbol.callDeclarationList.add(String.valueOf(eventSymbol.getFullyQualifiedId()));
-				}
-			} 
+				}  else if(this.parent instanceof GroupMetaModel) {
+					GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
+					EventMetaModel parentEventMetaModel = null;
+					if(parentGroupEventMetaModel.parent instanceof EventMetaModel) {
+						parentEventMetaModel = (EventMetaModel)parentGroupEventMetaModel.parent;
+					}
+					if(parentEventMetaModel!=null) {
+						Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
+						parentEventSymbol = symbolTable.lookup(parentEventSymbol);
+						parentEventSymbol.callDeclarationList.add(String.valueOf(eventSymbol.getFullyQualifiedId()));
+					}
+				} 
+			}
 		} else { // This is a standalone event.
 			if(this.parent instanceof EventMetaModel) {
 				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));

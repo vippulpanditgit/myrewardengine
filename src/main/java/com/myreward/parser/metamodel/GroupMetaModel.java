@@ -44,8 +44,8 @@ public class GroupMetaModel extends BaseMetaModel {
 				SymbolTable symbolTable = MyRewardParser.symbolTable;
 				eventSymbol = symbolTable.lookup(eventSymbol);
 			}
-			for(int index=0;index<prefixGroupOpCodesListTemplate.length;index++)
-				groupOpcodes.add(String.format(prefixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
+//			for(int index=0;index<prefixGroupOpCodesListTemplate.length;index++)
+//				groupOpcodes.add(String.format(prefixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
 			Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
 			while(eventMetaModelListIterator.hasNext()) {
 				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
@@ -63,8 +63,8 @@ public class GroupMetaModel extends BaseMetaModel {
 				}
 				
 			}
-			for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
-				groupOpcodes.add(String.format(suffixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
+//			for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
+//				groupOpcodes.add(String.format(suffixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
 
 			
 		}

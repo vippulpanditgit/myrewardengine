@@ -62,11 +62,11 @@ public class test {
 											+ "}"
 										+ "}";
 			String pseudo1 = "package test event(GA).any(1) {event(B), event(C)} event(GD).any(1){event(E), event(F)}";
-			String pseudo2 = "package test event(GA).any(1) {event(B).any(1), event(C)}";
+			String pseudo2 = "package test event(GA).any(1) {event(B).any(1), event(C)}.between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00')";
 			String pseudo3 = "package test event(A).any(1)";
 			String pseudo4 = "package test event(A).any(1).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00')";
 			
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo4);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo2);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
