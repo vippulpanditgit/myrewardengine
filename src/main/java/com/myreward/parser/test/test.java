@@ -66,8 +66,9 @@ public class test {
 			String pseudo_standalone = "package test event(A).any(1)";
 			String pseudo_between = "package test event(A).any(1).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00')";
 			String pseudo_gatekeeper = "package test event(GA).any(1) {event(B), event(C)} event(GD).any(1){event(E), event(F)}.gatekeeper(event(GA))";
+			String pseudo_standalone_gatekeeper = "package test event(A).any(1) event(B).gatekeeper(event(A))";			
 			
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo_gatekeeper);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo_standalone_gatekeeper);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             

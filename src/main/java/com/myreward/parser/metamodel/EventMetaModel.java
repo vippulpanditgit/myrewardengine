@@ -40,8 +40,8 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] durationEffectiveDateEventOpCodeListTemplate = {"if_evt_dt_le(%d)", "return"};
 	private String[] durationExpirationDateEventOpCodeListTemplate = {"if_evt_dt_ge(%d)", "return"};
 
-	// Gatekeeper 
-	private String[] gatekeeperEventOpCodeListTemplate = {"ifevt_ref_not_present(%d)", "return"};
+	// Gatekeeper check
+	private String[] gatekeeperEventOpCodeListTemplate = {"label:%s", "ifgtk_flag(%d)", "return"};
 
 	// Group
 	private String[] prefixGroupOpCodesListTemplate = {"label:%s", "push_ref(%s)" };
@@ -170,6 +170,9 @@ public class EventMetaModel extends BaseMetaModel {
 					parentEventSymbol.callDeclarationList.add(String.valueOf(eventSymbol.getFullyQualifiedId()));
 				}
 			} 
+			if(this.gatekeeperMetaModel!=null) {
+				groupOpcodeList.addAll(Arrays.asList(gatekeeperMetaModel.build()));
+			}
 		}
 		return groupOpcodeList.toArray(new String[0]);
 	}
