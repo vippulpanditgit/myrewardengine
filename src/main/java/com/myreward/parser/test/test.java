@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.*;
 
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
-import com.myreward.parser.generated.MyRewardCodeGenerator;
+import com.myreward.parser.generated.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.visitor.MyRewardVisitor;
 import com.myreward.parser.symbol.SymbolProcessingEngine;
 import com.myreward.parser.util.MyRewardParserUtil;
@@ -71,7 +71,7 @@ public class test {
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
-            MyRewardCodeGenerator myRewardCodeGenerator = new MyRewardCodeGenerator();
+            MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // side effect of receiving an event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // default execution of receiving the event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id

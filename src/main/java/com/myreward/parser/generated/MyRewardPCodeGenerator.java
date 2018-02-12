@@ -9,7 +9,7 @@ import java.util.Map;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
-public class MyRewardCodeGenerator {
+public class MyRewardPCodeGenerator {
 	private Map<Integer, Integer> xmapdataSegment = new HashMap<Integer, Integer>();
 	private List<EventDataObject> dataSegment = new ArrayList<EventDataObject>();
 	private List<String> codeSegment = new ArrayList<String>();
