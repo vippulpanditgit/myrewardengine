@@ -52,6 +52,19 @@ public class MyRewardPCodeGenerator {
 		public void setRewardStatus() {
 			eventStatus |= 0x04;
 		}
+		public int increaseCount() {
+			eventCount = new Integer(eventCount.intValue() + 1);
+			return eventCount.intValue();
+		}
+		public int resetCount() {
+			eventCount = new Integer(0);
+			return eventCount.intValue();
+		}
+		public double setReward(double rewardAmount) {
+			amount = new Double(rewardAmount);
+			return amount.doubleValue();
+		}
+
 	}
 	/*
 	 * byte 
