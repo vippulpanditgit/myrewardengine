@@ -1,4 +1,4 @@
-package com.myreward.parser.generated;
+package com.myreward.parser.generator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,9 +33,16 @@ public class MyRewardPCodeGenerator {
 		this.xmapdataSegment = xmapdataSegment;
 	}
 	public class EventDataObject {
+		// 0x0000 0001 - Event Complete
+		// 0x0000 0010 - Gatekeeper - 1 for complete, 0 for incomplete
+		// 0x0000 0100 - Reward enabled
+		// 0x0000 1000 - Show enabled
+		// 0x0001 0000 - priority enabled
+		// 0x0010 0000 - repeat enabled
 		public byte eventStatus = 0x02;
-		public Integer eventCount = new Integer(0);
-		public Double amount = new Double(0.0);
+		public Integer eventCount = Integer.valueOf(0);
+		public Double amount = Double.valueOf(0.0);
+		public Integer maxRepeat = Integer.valueOf(0);
 		
 		public void setEventCompletionStatus() {
 			eventStatus |= 0x01;
@@ -52,19 +59,33 @@ public class MyRewardPCodeGenerator {
 		public void setRewardStatus() {
 			eventStatus |= 0x04;
 		}
+		public void setShowFlag() {
+			eventStatus |= 0x08;
+		}
+		public void setPriorityFlag() {
+			eventStatus |=0x10;
+		}
+		public void setRepeatFlag() {
+			eventStatus |= 0x20;
+		}
 		public int increaseCount() {
-			eventCount = new Integer(eventCount.intValue() + 1);
+			eventCount = Integer.valueOf(eventCount.intValue() + 1);
 			return eventCount.intValue();
 		}
 		public int resetCount() {
-			eventCount = new Integer(0);
+			eventCount = Integer.valueOf(0);
 			return eventCount.intValue();
 		}
 		public double setReward(double rewardAmount) {
-			amount = new Double(rewardAmount);
+			amount = Double.valueOf(rewardAmount);
 			return amount.doubleValue();
 		}
-
+		public void setMaxRepeat(int maxRepeat) {
+			maxRepeat = Integer.valueOf(maxRepeat);
+		}
+		public int getMaxRepeat() {
+			return maxRepeat.intValue();
+		}
 	}
 	/*
 	 * byte 

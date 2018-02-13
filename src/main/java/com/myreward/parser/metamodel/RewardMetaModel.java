@@ -7,8 +7,7 @@ public class RewardMetaModel extends BaseMetaModel {
 		DOLLAR,
 		POINTS
 	}
-	public Date effectiveDate;
-	public Date expirationDate;
+	private String[] setRewardOpCodeListTemplate = {"lbl_rwd:%d", "store_rwd_flg(%d)", "return"};
 	public RewardType rewardType;
 	public double rewardAmount;
 	@Override

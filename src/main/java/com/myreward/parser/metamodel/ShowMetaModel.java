@@ -3,6 +3,8 @@ package com.myreward.parser.metamodel;
 public class ShowMetaModel extends BaseMetaModel {
 	public boolean isShow;
 
+	private String[] showOpCodeListTemplate = {"lbl_shw:%d", "store_shw_flg(%d)", "return"};
+
 	@Override
 	public String[] build() {
 		// TODO Auto-generated method stub

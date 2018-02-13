@@ -33,7 +33,7 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] bodyCallStackOpCodeListTemplate = {"call(%s)"};
 	private String[] suffixCallStackOpCodeListTemplate = {"return"};
 	
-	private String[] prefixEventOpCodeListTemplate = {"label:%s", "push_ref(%s)" };
+	private String[] prefixEventOpCodeListTemplate = {"lbl_fn:%s", "push_ref(%s)" };
 	private String[] suffixEventOpCodeListTemplate = {"store(%s, %d)", "return"};
 
 	// Duration 
@@ -44,7 +44,7 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] gatekeeperEventOpCodeListTemplate = {"label:%s", "ifgtk_flag(%d)", "return"};
 
 	// Group
-	private String[] prefixGroupOpCodesListTemplate = {"label:%s", "push_ref(%s)" };
+	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s", "push_ref(%s)" };
 	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
 
 	

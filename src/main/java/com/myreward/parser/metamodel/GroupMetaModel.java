@@ -22,7 +22,7 @@ public class GroupMetaModel extends BaseMetaModel {
 	public GROUP_LOGIC logic;
 	public OrdinalMetaModel ordinalMetaModel;
 	
-	private String[] prefixGroupOpCodesListTemplate = {"label:%s", "push_ref(%s)" };
+	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s", "push_ref(%s)" };
 	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
 	private String[] anyLogicGroupOpCodesListTemplate = {"OP_OR", "push_ref(%s)", "ifref_num(%s,%d)", "return"};
 	private String[] allLogicGroupOpCodesListTemplate = {"OP_AND", "push_ref(%s)"};

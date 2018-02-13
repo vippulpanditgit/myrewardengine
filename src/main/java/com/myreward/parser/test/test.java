@@ -8,9 +8,9 @@ import java.util.Arrays;
 
 import org.antlr.v4.runtime.*;
 
+import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
-import com.myreward.parser.generated.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.visitor.MyRewardVisitor;
 import com.myreward.parser.symbol.SymbolProcessingEngine;
 import com.myreward.parser.util.MyRewardParserUtil;
