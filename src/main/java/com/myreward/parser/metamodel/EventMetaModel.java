@@ -175,10 +175,25 @@ public class EventMetaModel extends BaseMetaModel {
 	}
 	@Override
 	public String[] model() {
+		if(this.gatekeeperMetaModel!=null) {
+			eventOpCodeList.addAll(Arrays.asList(gatekeeperMetaModel.model()));
+		}
+		if(this.rewardMetaModel!=null) {
+			eventOpCodeList.addAll(Arrays.asList(rewardMetaModel.model()));
+		}
+		if(this.repeatMetaModel!=null) {
+			eventOpCodeList.addAll(Arrays.asList(repeatMetaModel.model()));
+		}
+		if(this.showMetaModel!=null) {
+			eventOpCodeList.addAll(Arrays.asList(showMetaModel.model()));
+		}
+		if(this.priorityMetaModel!=null) {
+			eventOpCodeList.addAll(Arrays.asList(priorityMetaModel.model()));
+		}
 		if(groupMetaModel!=null 
 				&& groupMetaModel.eventMetaModelList!=null 
 				&& groupMetaModel.eventMetaModelList.size()>0) {
-			return groupMetaModel.model();
+			return eventOpCodeList.toArray(groupMetaModel.model());
 		} else {
 			Symbol eventSymbol = new Symbol(eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
@@ -197,18 +212,6 @@ public class EventMetaModel extends BaseMetaModel {
 			}
 			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), 1));
 			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
-			if(this.gatekeeperMetaModel!=null) {
-				eventOpCodeList.addAll(Arrays.asList(gatekeeperMetaModel.model()));
-			}
-			if(this.rewardMetaModel!=null) {
-				eventOpCodeList.addAll(Arrays.asList(rewardMetaModel.model()));
-			}
-			if(this.repeatMetaModel!=null) {
-				eventOpCodeList.addAll(Arrays.asList(repeatMetaModel.model()));
-			}
-			if(this.showMetaModel!=null) {
-				eventOpCodeList.addAll(Arrays.asList(showMetaModel.model()));
-			}
 			return eventOpCodeList.toArray(new String[0]);
 		}
 	}
