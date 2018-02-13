@@ -35,6 +35,12 @@ public class EventMetaModel extends BaseMetaModel {
 	
 	private String[] prefixEventOpCodeListTemplate = {"lbl_fn:%s", "push_ref(%s)" };
 	private String[] suffixEventOpCodeListTemplate = {"store(%s, %d)", "return"};
+	
+	// Calling outcome 
+	private String[] callShowOpCodeListTemplate = {"call_shw:%s"};
+	private String[] callPriorityOpCodeListTemplate = {"call_pri:%s"};
+	private String[] callRewardOpCodeListTemplate = {"call_rwd:%s"};
+	
 
 	// Duration 
 	private String[] durationEffectiveDateEventOpCodeListTemplate = {"if_evt_dt_le(%d)", "return"};
@@ -210,6 +216,16 @@ public class EventMetaModel extends BaseMetaModel {
 					eventOpCodeList.add(String.format(this.durationExpirationDateEventOpCodeListTemplate[1], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
 				}
 			}
+			if(this.showMetaModel!=null) {
+				eventOpCodeList.add(String.format(callShowOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+			}
+			if(this.priorityMetaModel!=null) {
+				eventOpCodeList.add(String.format(callPriorityOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+			}
+			if(this.rewardMetaModel!=null) {
+				eventOpCodeList.add(String.format(callRewardOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+			}
+
 			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), 1));
 			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
 			return eventOpCodeList.toArray(new String[0]);
