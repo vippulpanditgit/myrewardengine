@@ -33,8 +33,10 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] bodyCallStackOpCodeListTemplate = {"call(%s)"};
 	private String[] suffixCallStackOpCodeListTemplate = {"return"};
 	
-	private String[] prefixEventOpCodeListTemplate = {"lbl_fn:%s", "push_ref(%s)" };
-	private String[] suffixEventOpCodeListTemplate = {"store(%s, %d)", "return"};
+	private String[] prefixEventOpCodeListTemplate = {"lbl_fn:%s", "push_ref(%s)", "store(%s, %d)"};
+	private String[] gatekeeperConstraintEventOpCodeListTemplate = {"call_gtk(%s)", "ifgtk_flg(%d)"};
+	private String[] rewardOutcomeEventOpCodeListTemplate = {"call_rwd(%s)"}; 
+	private String[] suffixEventOpCodeListTemplate = {"return"};
 	
 	// Calling outcome 
 	private String[] callShowOpCodeListTemplate = {"call_shw:%s"};
@@ -206,6 +208,7 @@ public class EventMetaModel extends BaseMetaModel {
 			eventSymbol = symbolTable.lookup(eventSymbol);
 			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId(), 1));
 			if(this.durationMetaModel!=null) {
 				if(this.durationMetaModel.effectiveDate!=null) {
 					eventOpCodeList.add(String.format(this.durationEffectiveDateEventOpCodeListTemplate[0], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
@@ -225,9 +228,14 @@ public class EventMetaModel extends BaseMetaModel {
 			if(this.rewardMetaModel!=null) {
 				eventOpCodeList.add(String.format(callRewardOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			}
-
-			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), 1));
-			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+			if(this.gatekeeperMetaModel!=null) {
+				if(this.rewardMetaModel!=null) {
+					eventOpCodeList.add(String.format(this.gatekeeperConstraintEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+					eventOpCodeList.add(String.format(this.gatekeeperConstraintEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+					eventOpCodeList.add(String.format(this.rewardOutcomeEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+				}
+			}
+			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			return eventOpCodeList.toArray(new String[0]);
 		}
 	}
