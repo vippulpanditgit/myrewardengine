@@ -43,6 +43,7 @@ public class MyRewardPCodeGenerator {
 		public Integer eventCount = Integer.valueOf(0);
 		public Double amount = Double.valueOf(0.0);
 		public Integer maxRepeat = Integer.valueOf(0);
+		public Integer priority = Integer.valueOf(0);
 		
 		public void setEventCompletionStatus() {
 			eventStatus |= 0x01;
@@ -85,6 +86,12 @@ public class MyRewardPCodeGenerator {
 		}
 		public int getMaxRepeat() {
 			return maxRepeat.intValue();
+		}
+		public void setPriority(int priority) {
+			priority = Integer.valueOf(priority);
+		}
+		public int getPriority() {
+			return priority.intValue();
 		}
 	}
 	/*

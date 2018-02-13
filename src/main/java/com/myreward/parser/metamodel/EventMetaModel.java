@@ -170,9 +170,6 @@ public class EventMetaModel extends BaseMetaModel {
 					parentEventSymbol.callDeclarationList.add(String.valueOf(eventSymbol.getFullyQualifiedId()));
 				}
 			} 
-			if(this.gatekeeperMetaModel!=null) {
-				groupOpcodeList.addAll(Arrays.asList(gatekeeperMetaModel.build()));
-			}
 		}
 		return groupOpcodeList.toArray(new String[0]);
 	}
@@ -196,14 +193,22 @@ public class EventMetaModel extends BaseMetaModel {
 				if(this.durationMetaModel.expirationDate!=null) {
 					eventOpCodeList.add(String.format(this.durationExpirationDateEventOpCodeListTemplate[0], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
 					eventOpCodeList.add(String.format(this.durationExpirationDateEventOpCodeListTemplate[1], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
-					
 				}
-				
 			}
-			
 			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), 1));
 			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
-	
+			if(this.gatekeeperMetaModel!=null) {
+				eventOpCodeList.addAll(Arrays.asList(gatekeeperMetaModel.model()));
+			}
+			if(this.rewardMetaModel!=null) {
+				eventOpCodeList.addAll(Arrays.asList(rewardMetaModel.model()));
+			}
+			if(this.repeatMetaModel!=null) {
+				eventOpCodeList.addAll(Arrays.asList(repeatMetaModel.model()));
+			}
+			if(this.showMetaModel!=null) {
+				eventOpCodeList.addAll(Arrays.asList(showMetaModel.model()));
+			}
 			return eventOpCodeList.toArray(new String[0]);
 		}
 	}

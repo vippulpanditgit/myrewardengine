@@ -24,6 +24,10 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	}
 	@Override
 	public String[] build() {
+		return null;
+	}
+	@Override
+	public String[] model() {
 		List<String> gatekeeperOpcodes = new ArrayList<String>();
 		String gatekeeperSourceEventName = eventMetaModel.getEventName();
 		Symbol gatekeeperSourceSymbol = new Symbol(gatekeeperSourceEventName);
@@ -40,11 +44,6 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[3], gatekeeperSourceSymbol.getFullyQualifiedId()));
 		}
 		return gatekeeperOpcodes.toArray(new String[0]);
-	}
-	@Override
-	public String[] model() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	@Override
 	public String[] call_stack() {

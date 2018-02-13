@@ -18,6 +18,10 @@ public class RewardMetaModel extends BaseMetaModel {
 	public double rewardAmount;
 	@Override
 	public String[] build() {
+		return null;
+	}
+	@Override
+	public String[] model() {
 		List<String> rewardOpCodeList = new ArrayList<String>();
 		if(this.parent instanceof EventMetaModel) {
 			EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
@@ -30,11 +34,6 @@ public class RewardMetaModel extends BaseMetaModel {
 			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId()));
 		}
 		return rewardOpCodeList.toArray(new String[0]);
-	}
-	@Override
-	public String[] model() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	@Override
 	public String[] call_stack() {

@@ -14,6 +14,11 @@ public class ShowMetaModel extends BaseMetaModel {
 
 	@Override
 	public String[] build() {
+		return null;
+	}
+
+	@Override
+	public String[] model() {
 		List<String> showOpCodeList = new ArrayList<String>();
 		if(this.parent instanceof EventMetaModel) {
 			EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
@@ -25,12 +30,6 @@ public class ShowMetaModel extends BaseMetaModel {
 			showOpCodeList.add(String.format(showOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));
 		}
 		return showOpCodeList.toArray(new String[0]);
-	}
-
-	@Override
-	public String[] model() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
