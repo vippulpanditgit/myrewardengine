@@ -329,7 +329,7 @@ repeat_def returns [RepeatMetaModel repeatMetaModel]
 							}
 	| REPEAT LPAREN repeatOnFrequency=repeat_frequency_def COMMA timeFrame=INT RPAREN {
 								$repeatMetaModel = $repeatOnFrequency.repeatMetaModel;
-								$repeatMetaModel.repeatAfterDay = Integer.valueOf($timeFrame.getText());
+								$repeatMetaModel.repeatAfter = Integer.valueOf($timeFrame.getText());
 							}
 	;
 repeat_frequency_def returns [RepeatMetaModel repeatMetaModel]
