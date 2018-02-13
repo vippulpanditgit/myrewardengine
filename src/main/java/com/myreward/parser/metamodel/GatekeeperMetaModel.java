@@ -14,7 +14,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	public EventMetaModel eventMetaModel;
 
 	// Gatekeeper source check
-	private String[] gatekeeperSourceEventOpCodeListTemplate = {"if_cmp_flag(%d)", "store_gtk_flg(%d)"};
+	private String[] gatekeeperSourceEventOpCodeListTemplate = {"lbl_gtk:%d", "if_cmp_flag(%d)", "store_gtk_flg(%d)", "return"};
 	
 	// Gatekeeper check
 	private String[] gatekeeperEventOpCodeListTemplate = {"label:%s", "if_gtk_flag(%d)", "return"};
@@ -34,8 +34,10 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 			EventMetaModel gatekeeperTargetEvent = (EventMetaModel)this.parent;
 			Symbol gatekeeperTargetSymbol = new Symbol(gatekeeperTargetEvent.getEventName());
 			gatekeeperTargetSymbol = symbolTable.lookup(gatekeeperTargetSymbol);
-			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], gatekeeperSourceSymbol.getFullyQualifiedId()));
-			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[1], gatekeeperTargetSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], gatekeeperTargetSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[1], gatekeeperSourceSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[2], gatekeeperTargetSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[3], gatekeeperSourceSymbol.getFullyQualifiedId()));
 		}
 		return gatekeeperOpcodes.toArray(new String[0]);
 	}
