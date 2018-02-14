@@ -183,6 +183,9 @@ public class EventMetaModel extends BaseMetaModel {
 	}
 	@Override
 	public String[] model() {
+		if(this.durationMetaModel!=null) {
+			eventOpCodeList.addAll(Arrays.asList(durationMetaModel.model()));
+		}
 		if(this.gatekeeperMetaModel!=null) {
 			eventOpCodeList.addAll(Arrays.asList(gatekeeperMetaModel.model()));
 		}

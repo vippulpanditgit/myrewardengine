@@ -39,6 +39,7 @@ public class MyRewardPCodeGenerator {
 		// 0x0000 1000 - Show enabled
 		// 0x0001 0000 - priority enabled
 		// 0x0010 0000 - repeat enabled
+		// 0x0100 0000 - duration - 1 within duration, 0 for outside duration
 		public byte eventStatus = 0x02;
 		public Integer eventCount = Integer.valueOf(0);
 		public Double amount = Double.valueOf(0.0);
@@ -68,6 +69,12 @@ public class MyRewardPCodeGenerator {
 		}
 		public void setRepeatFlag() {
 			eventStatus |= 0x20;
+		}
+		public void setDurationFlag() {
+			eventStatus |= 0x40;
+		}
+		public void resetDurationFlag() {
+			eventStatus &= 0xbf;
 		}
 		public int increaseCount() {
 			eventCount = Integer.valueOf(eventCount.intValue() + 1);

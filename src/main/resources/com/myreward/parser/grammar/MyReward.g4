@@ -346,9 +346,16 @@ gatekeeper_def returns [GatekeeperMetaModel gatekeeperMetaModel]
 								}
 	;
 reward_def returns [RewardMetaModel rewardMetaModel]
-	: REWARD LPAREN rewardQuantityDef=reward_quantity_def RPAREN {
+	: REWARD LPAREN rewardQuantityDef=reward_quantity_def{
 									$rewardMetaModel = $rewardQuantityDef.rewardMetaModel;								
-								}
+								}  
+								(COMMA maxRewardAmount=DOUBLE {
+									$rewardMetaModel.maxRewardAmount = Double.parseDouble($maxRewardAmount.getText());
+									}
+									| COMMA maxRewardAmount=INT {
+									$rewardMetaModel.maxRewardAmount = Double.parseDouble($maxRewardAmount.getText());
+									})* RPAREN
+									
 	;
 reward_quantity_def returns [RewardMetaModel rewardMetaModel]
 	: rewardQuantity=DOUBLE {
