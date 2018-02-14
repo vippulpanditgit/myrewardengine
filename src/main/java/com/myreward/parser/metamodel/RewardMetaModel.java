@@ -13,7 +13,7 @@ public class RewardMetaModel extends BaseMetaModel {
 		DOLLAR,
 		POINTS
 	}
-	private String[] rewardOpCodeListTemplate = {"lbl_rwd:%d", "store_rwd_flg(%d)", "if_rwd_amt_le(%d, %f)", "add_rwd_amt(%d, %f)", "return"};
+	private String[] rewardOpCodeListTemplate = {"lbl_rwd:%d", "if_dur_flg_not_set(%d)", "return", "if_cmp_flg_not_set(%d)", "return", "store_rwd_flg(%d)", "if_rwd_amt_le(%d, %f)", "add_rwd_amt(%d, %f)", "return"};
 	public RewardType rewardType;
 	public double rewardAmount;
 	public double maxRewardAmount;
@@ -31,9 +31,13 @@ public class RewardMetaModel extends BaseMetaModel {
 			eventSymbol = symbolTable.lookup(eventSymbol);
 			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
-			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId(), maxRewardAmount));
-			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId(), rewardAmount));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId()));
 			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[4], eventSymbol.getFullyQualifiedId()));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[5], eventSymbol.getFullyQualifiedId()));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[6], eventSymbol.getFullyQualifiedId(), maxRewardAmount));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[7], eventSymbol.getFullyQualifiedId(), rewardAmount));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[8], eventSymbol.getFullyQualifiedId()));
 		}
 		return rewardOpCodeList.toArray(new String[0]);
 	}
