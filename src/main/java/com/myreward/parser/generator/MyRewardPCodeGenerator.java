@@ -10,10 +10,18 @@ import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
 public class MyRewardPCodeGenerator {
+	private String version="0.00";
+	private byte debugFlag;
 	private Map<Integer, Integer> xmapdataSegment = new HashMap<Integer, Integer>();
 	private List<EventDataObject> dataSegment = new ArrayList<EventDataObject>();
 	private List<String> codeSegment = new ArrayList<String>();
 
+	public void setDebugFlag() {
+		debugFlag = (byte)0xff;
+	}
+	public void resetDebugFlag() {
+		debugFlag = 0x00;
+	}
 	public List<EventDataObject> getDataSegment() {
 		return dataSegment;
 	}
