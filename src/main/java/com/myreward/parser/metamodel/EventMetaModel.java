@@ -54,12 +54,14 @@ public class EventMetaModel extends BaseMetaModel {
 //	private String[] gatekeeperEventOpCodeListTemplate = {"label:%s", "ifgtk_flag(%d)", "return"};
 
 	// Group
-	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s", "push_ref(%s)" };
-	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
+//	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s", "push_ref(%s)" };
+//	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
+	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s"};
+	private String[] suffixGroupOpCodesListTemplate = {"return"};
 
 	
 	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
-	private String[] eventOpCodeListTemplate = {"push(%d)"};
+	private String[] eventOpCodeListTemplate = {"if_cmp_flg_set(%d)"};
 	
 	public RewardMetaModel getRewardMetaModel() {
 		return rewardMetaModel;

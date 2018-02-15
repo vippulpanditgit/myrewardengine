@@ -43,7 +43,6 @@ public class test {
 							+ "}"
 						+ "}"
 					+ "}";
-			String pseudo = "package test event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)},event(GF).any(1) {event(H), event(I)}}";
 			String subEventWithSubEvent2 = "package myclient "
 										+ "import global "
 										+ "event(WELLNESS.GROUP.TWC.EVISOR).any(1)"
@@ -62,14 +61,16 @@ public class test {
 												+ "}"
 											+ "}"
 										+ "}";
+			String pseudo = "package test event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)}, event(GF).any(1) {event(H), event(I)}}";
 			String pseudo_2_groups = "package test event(GA).any(1) {event(B), event(C)}.reward(1) event(GD).any(1){event(E), event(F)}.reward(1)";
 			String pseudo2 = "package test event(GA).any(1) {event(B).any(1), event(C)}.between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(100,1000)";
 			String pseudo_standalone = "package test event(A).any(1).reward(1)";
 			String pseudo_between = "package test event(A).any(1).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00')";
 			String pseudo_gatekeeper = "package test event(GA).any(1) {event(B), event(C)}.show(true).priority(1) event(GD).any(1){event(E), event(F)}.gatekeeper(event(GA))";
-			String pseudo_standalone_gatekeeper = "package test event(A).any(1).show(true).priority(1) event(B).gatekeeper(event(A)).reward(100)";			
+			String pseudo_standalone_gatekeeper = "package test event(A).any(1).show(true).priority(1) event(B).gatekeeper(event(A)).reward(100)";
+			String pseudo_group = "package test event(GA).any(1) {event(B), event(C)}.reward(1)";
 			
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo_standalone);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo_group);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
