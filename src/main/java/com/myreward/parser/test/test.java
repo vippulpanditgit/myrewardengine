@@ -68,7 +68,7 @@ public class test {
 			String pseudo_gatekeeper = "package test event(GA).any(1) {event(B), event(C)}.show(true).priority(1) event(GD).any(1){event(E), event(F)}.gatekeeper(event(GA))";
 			String pseudo_standalone_gatekeeper = "package test event(A).any(1).show(true).priority(1) event(B).gatekeeper(event(A)).reward(100)";			
 			
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo2);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
