@@ -26,7 +26,12 @@ public class MyRewardDataSegment {
 		public Integer maxRepeat = Integer.valueOf(0);
 		public Integer priority = Integer.valueOf(0);
 		public String description;
+		public String name;
+		public long id;
 		
+		public String toString() {
+			return name+"<<"+id+"<<"+description+"<<"+eventStatus+"<<"+eventCount+"<<"+amount+"<<"+maxRepeat+"<<"+priority;
+		}
 		public void setEventCompletionStatus() {
 			eventStatus |= 0x01;
 		}
@@ -88,8 +93,12 @@ public class MyRewardDataSegment {
 		int index=0;
 		while(symbolIterator.hasNext()) {
 			Symbol symbol = symbolIterator.next();
+			EventDataObject eventDataObject = new EventDataObject();
+			eventDataObject.name = symbol.getFullyQualifiedName();
+			eventDataObject.id = symbol.getFullyQualifiedId();
+			
 			xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
-			dataSegment.add(new EventDataObject());
+			dataSegment.add(eventDataObject);
 		}
 	}
 	public EventDataObject getDataObject(int id) {
@@ -104,6 +113,9 @@ public class MyRewardDataSegment {
 			dataSegment.remove(dataSegmentIndex.intValue());
 			dataSegment.add(dataSegmentIndex.intValue(), eventDataObject);
 		}
+	}
+	public void printString() {
+		dataSegment.forEach(eventObject -> System.out.println(eventObject));
 	}
 
 }

@@ -79,6 +79,7 @@ public class test {
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // default execution of receiving the event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
             myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
+            myRewardDataSegment.printString();
             System.out.println(myRewardCodeGenerator.getCodeSegment());
  		} catch(Exception exp) {
 			exp.printStackTrace();
