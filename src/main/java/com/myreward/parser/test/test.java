@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import org.antlr.v4.runtime.*;
 
+import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
@@ -73,10 +74,11 @@ public class test {
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
             MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
+            MyRewardDataSegment myRewardDataSegment = new MyRewardDataSegment();
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // side effect of receiving an event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // default execution of receiving the event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
-            myRewardCodeGenerator.processDataSegment(MyRewardParser.symbolTable);
+            myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
             System.out.println(myRewardCodeGenerator.getCodeSegment());
  		} catch(Exception exp) {
 			exp.printStackTrace();

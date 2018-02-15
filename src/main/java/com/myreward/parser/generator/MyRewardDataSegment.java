@@ -3,11 +3,13 @@ package com.myreward.parser.generator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
-import com.myreward.parser.generator.MyRewardPCodeGenerator.EventDataObject;
+import com.myreward.parser.symbol.Symbol;
+import com.myreward.parser.symbol.SymbolTable;
 
-public class MyRewardDataElement {
+public class MyRewardDataSegment {
 	private Map<Integer, Integer> xmapdataSegment = new HashMap<Integer, Integer>();
 	private List<EventDataObject> dataSegment = new ArrayList<EventDataObject>();
 	public class EventDataObject {
@@ -80,4 +82,28 @@ public class MyRewardDataElement {
 			return priority.intValue();
 		}
 	}
+	public void processDataSegment(SymbolTable symbolTable) {
+		List<Symbol> symbolList =  symbolTable.getAllSymbol();
+		ListIterator<Symbol> symbolIterator = symbolList.listIterator();
+		int index=0;
+		while(symbolIterator.hasNext()) {
+			Symbol symbol = symbolIterator.next();
+			xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
+			dataSegment.add(new EventDataObject());
+		}
+	}
+	public EventDataObject getDataObject(int id) {
+		if(xmapdataSegment!=null) {
+			Integer dataSegmentIndex = xmapdataSegment.get(id);
+			return dataSegment.get(dataSegmentIndex.intValue());
+		} return null;
+	}
+	public void setDataObject(int id, EventDataObject eventDataObject) {
+		if(xmapdataSegment!=null) {
+			Integer dataSegmentIndex = xmapdataSegment.get(id);
+			dataSegment.remove(dataSegmentIndex.intValue());
+			dataSegment.add(dataSegmentIndex.intValue(), eventDataObject);
+		}
+	}
+
 }
