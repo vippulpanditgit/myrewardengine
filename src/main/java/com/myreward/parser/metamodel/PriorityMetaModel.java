@@ -9,7 +9,7 @@ import com.myreward.parser.symbol.SymbolTable;
 
 public class PriorityMetaModel extends BaseMetaModel {
 	public int priority;
-	private String[] priorityOpCodeListTemplate = {"lbl_pri:%d", "store_pri_flg(%d)", "store_pri_amt(%d, %d)", "return"};
+	private String[] priorityOpCodeListTemplate = {"lbl_pri:%d", "store_pri_flg(%d)", "store_pri_amt(%d,%d)", "return"};
 
 	@Override
 	public String[] build() {

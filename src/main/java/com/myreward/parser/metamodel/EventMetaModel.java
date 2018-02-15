@@ -33,7 +33,7 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] bodyCallStackOpCodeListTemplate = {"call(%s)"};
 	private String[] suffixCallStackOpCodeListTemplate = {"return"};
 	
-	private String[] prefixEventOpCodeListTemplate = {"lbl_fn:%s", "push_ref(%s)", "store(%s, %d)"};
+	private String[] prefixEventOpCodeListTemplate = {"lbl_fn:%s", "add_cmp_cnt(%s,1)", "if_cmp_flg_notset(%s)", "store_cmp_flg(%s,%d)"};
 	private String[] gatekeeperConstraintEventOpCodeListTemplate = {"call_gtk(%s)", "ifgtk_flg(%d)"};
 	private String[] rewardOutcomeEventOpCodeListTemplate = {"call_rwd(%s)"}; 
 	private String[] suffixEventOpCodeListTemplate = {"return"};
@@ -41,7 +41,7 @@ public class EventMetaModel extends BaseMetaModel {
 	// Calling outcome 
 	private String[] callShowOpCodeListTemplate = {"call_shw:%s"};
 	private String[] callPriorityOpCodeListTemplate = {"call_pri:%s"};
-	private String[] callRewardOpCodeListTemplate = {"call_rwd:%s"};
+	private String[] callRewardOpCodeListTemplate = {"if_cmp_cnt(%s,mod(%d))","call_rwd:%s"};
 	private String[] callDurationOpCodeListTemplate = {"call_dur:%s"};
 	private String[] postCallDurationOpCodeListTemplate = {"if_dur_flg_set(%s)", "return"};
 	
@@ -207,7 +207,8 @@ public class EventMetaModel extends BaseMetaModel {
 			eventSymbol = symbolTable.lookup(eventSymbol);
 			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
-			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId(), 1));
+			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));
+			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId(), 1));
 			if(this.durationMetaModel!=null) {
 				if(this.durationMetaModel.effectiveDate!=null) {
 					eventOpCodeList.add(String.format(this.durationEffectiveDateEventOpCodeListTemplate[0], DateTimeConvertorUtil.toLong(this.durationMetaModel.effectiveDate)));
@@ -225,7 +226,16 @@ public class EventMetaModel extends BaseMetaModel {
 				eventOpCodeList.add(String.format(callPriorityOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			}
 			if(this.rewardMetaModel!=null) {
-				eventOpCodeList.add(String.format(callRewardOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+				if(groupMetaModel!=null) {
+					if(groupMetaModel.eventMetaModelList==null || groupMetaModel.eventMetaModelList.size()==0) {
+							if(groupMetaModel.ordinalMetaModel!=null) {
+								eventOpCodeList.add(String.format(callRewardOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), groupMetaModel.ordinalMetaModel.ordinal));
+								eventOpCodeList.add(String.format(callRewardOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+							}
+					}
+				} else {
+					eventOpCodeList.add(String.format(callRewardOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+				}
 			}
 			if(this.gatekeeperMetaModel!=null) {
 				if(this.rewardMetaModel!=null) {

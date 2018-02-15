@@ -13,7 +13,7 @@ public class RewardMetaModel extends BaseMetaModel {
 		DOLLAR,
 		POINTS
 	}
-	private String[] rewardOpCodeListTemplate = {"lbl_rwd:%d", "if_dur_flg_not_set(%d)", "return", "if_cmp_flg_not_set(%d)", "return", "store_rwd_flg(%d)", "if_rwd_amt_le(%d, %f)", "add_rwd_amt(%d, %f)", "return"};
+	private String[] rewardOpCodeListTemplate = {"lbl_rwd:%d", "if_dur_flg_not_set(%d)", "return", "if_cmp_flg_not_set(%d)", "return", "store_rwd_flg(%d)", "if_rwd_amt_le(%d,%f)", "add_rwd_amt(%d,%f)", "return"};
 	public RewardType rewardType;
 	public double rewardAmount;
 	public double maxRewardAmount;
