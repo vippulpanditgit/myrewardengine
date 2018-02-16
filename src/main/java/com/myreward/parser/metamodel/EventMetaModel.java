@@ -37,6 +37,7 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] gatekeeperConstraintEventOpCodeListTemplate = {"call_gtk(%s)", "ifgtk_flg(%d)"};
 	private String[] rewardOutcomeEventOpCodeListTemplate = {"call_rwd(%s)"}; 
 	private String[] suffixEventOpCodeListTemplate = {"return"};
+	private String[] preRepeatEventOpCodeListTemplate = {"if_rpt_flg_notset(%s)", "call_rpt(%s)", "if_rpt_flg_set(%s)", "if_act_dt_lt(%s)", "store_rpt_dt(%s)"};
 	
 	// Calling outcome 
 	private String[] callShowOpCodeListTemplate = {"call_shw:%s"};
@@ -132,6 +133,10 @@ public class EventMetaModel extends BaseMetaModel {
 					groupOpcodeList.add(String.format(this.callDurationOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 					groupOpcodeList.add(String.format(this.postCallDurationOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 					groupOpcodeList.add(String.format(this.postCallDurationOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+				}
+				if(this.repeatMetaModel!=null) {
+					for(int index=0;index<this.preRepeatEventOpCodeListTemplate.length;index++)
+						groupOpcodeList.add(String.format(preRepeatEventOpCodeListTemplate[index],eventSymbol.getFullyQualifiedId()));					
 				}
 				groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
 				for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
