@@ -25,7 +25,7 @@ public class GroupMetaModel extends BaseMetaModel {
 //	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s"};
 //	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
 //	private String[] anyLogicGroupOpCodesListTemplate = {"OP_OR", "push_ref(%s)", "ifref_num(%s,%d)", "call_rwd(%s)", "return"};
-	private String[] anyLogicGroupOpCodesListTemplate = {"add_cmp_cnt(%s,%d)", "if_cmp_cnt_ge(%s,%d)","store_cmp_flg(%s)","call_rwd(%s)","return"};
+	private String[] anyLogicGroupOpCodesListTemplate = {"add_cmp_cnt(%s,%d)", "if_cmp_cnt_ge(%s,%d,+%d)","store_cmp_flg(%s)","call_rwd(%s)","return"};
 	private String[] allLogicGroupOpCodesListTemplate = {"OP_AND", "push_ref(%s)"};
 	
 	
@@ -55,9 +55,17 @@ public class GroupMetaModel extends BaseMetaModel {
 					for(int index=0;index<anyLogicGroupOpCodesListTemplate.length;index++) {
 						if(index==0)
 							groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),1));
-						else if(index==1)
-							groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),((AnyMetaModel)ordinalMetaModel).ordinal));
-						else if(index==3) {
+						else if(index==1) {
+							if(this.parent instanceof EventMetaModel) {
+								EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
+								if(parentEventMetaModel.getRewardMetaModel()!=null) {
+									groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),((AnyMetaModel)ordinalMetaModel).ordinal,4));
+								} else {
+									groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),((AnyMetaModel)ordinalMetaModel).ordinal,3));
+									
+								}
+							}
+						} else if(index==3) {
 							if(this.parent instanceof EventMetaModel) {
 								EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 								if(parentEventMetaModel.getRewardMetaModel()!=null) {

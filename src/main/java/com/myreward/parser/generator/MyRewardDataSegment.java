@@ -1,6 +1,7 @@
 package com.myreward.parser.generator;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -25,6 +26,7 @@ public class MyRewardDataSegment {
 		public Double amount = Double.valueOf(0.0);
 		public Integer maxRepeat = Integer.valueOf(0);
 		public Integer priority = Integer.valueOf(0);
+		public Date nextRpeat;
 		public String description;
 		public String name;
 		public long id;
