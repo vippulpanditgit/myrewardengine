@@ -25,7 +25,7 @@ public class GroupMetaModel extends BaseMetaModel {
 //	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s"};
 //	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
 //	private String[] anyLogicGroupOpCodesListTemplate = {"OP_OR", "push_ref(%s)", "ifref_num(%s,%d)", "call_rwd(%s)", "return"};
-	private String[] anyLogicGroupOpCodesListTemplate = {"add_cmp_cnt(%s,%d)", "if_cmp_cnt_ge(%s,%d,+%d)","store_cmp_flg(%s)","call_rwd(%s)","return"};
+	private String[] anyLogicGroupOpCodesListTemplate = {"inc_cmp_cnt(%s)", "if_cmp_cnt(%s,mod(%d),+%d)","call_rwd(%s)","return"};
 	private String[] allLogicGroupOpCodesListTemplate = {"OP_AND", "push_ref(%s)"};
 	
 	
