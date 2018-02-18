@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
 
+import com.myreward.parser.generator.MyRewardFunctionXRef;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
@@ -219,7 +220,14 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+			if(MyRewardFunctionXRef.fnXRef.get(Integer.valueOf(eventSymbol.getFullyQualifiedId()))==null) {
+				eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+				MyRewardFunctionXRef.fnXRef.put(String.valueOf(eventSymbol.getFullyQualifiedId()), String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+			} else {
+				eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId())+"_1"));
+				MyRewardFunctionXRef.fnXRef.put(String.valueOf(eventSymbol.getFullyQualifiedId())+"_1", String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+				
+			}
 			if(this.durationMetaModel!=null) {
 				eventOpCodeList.add(String.format(this.callDurationOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 				eventOpCodeList.add(String.format(this.callDurationOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
