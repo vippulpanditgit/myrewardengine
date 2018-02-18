@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.UUID;
 
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.symbol.Symbol;
@@ -66,6 +67,9 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
 	private String[] eventOpCodeListTemplate = {"if_cmp_flg_set(%d)"};
 	
+	public EventMetaModel() {
+		uuid = UUID.randomUUID();
+	}
 	public RewardMetaModel getRewardMetaModel() {
 		return rewardMetaModel;
 	}

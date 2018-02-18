@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Stack;
+import java.util.UUID;
 
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.symbol.Symbol;
@@ -32,6 +33,8 @@ public class GroupMetaModel extends BaseMetaModel {
 	public GroupMetaModel() {
 		operationIndex=0;
 		instructionStack = new Stack<String>();
+		uuid = UUID.randomUUID();
+
 	}
 	public String[] build() {
 		List<String> groupOpcodes = new ArrayList<String>();
