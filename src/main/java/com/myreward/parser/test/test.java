@@ -71,8 +71,11 @@ public class test {
 			String pseudo_standalone_gatekeeper = "package test event(A).any(1).show(true).priority(1) event(B).gatekeeper(event(A)).reward(100)";
 			String pseudo_group = "package test event(GA).any(1) {event(B), event(C)}.reward(1)";
 			String pseudo_group_repeat = "package test event(GA).any(1) {event(B), event(C)}.reward(1).repeat(WEEKLY,2)";
+			String event_time_based = "package test event(A).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(1) event(A).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(10)";
 			
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo_group);
+			
+			
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(event_time_based);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
