@@ -77,7 +77,7 @@ public class test {
 			
 			
 			
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(event_time_based);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo_group_repeat);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             

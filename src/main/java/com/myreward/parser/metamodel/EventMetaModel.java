@@ -145,7 +145,7 @@ public class EventMetaModel extends BaseMetaModel {
 				}
 				if(this.repeatMetaModel!=null) {
 					for(int index=0;index<this.preRepeatEventOpCodeListTemplate.length;index++)
-						groupOpcodeList.add(String.format(preRepeatEventOpCodeListTemplate[index],eventSymbol.getFullyQualifiedId()));					
+						groupOpcodeList.add(String.format(preRepeatEventOpCodeListTemplate[index],eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));					
 				}
 				groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
 				for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
@@ -247,7 +247,7 @@ public class EventMetaModel extends BaseMetaModel {
 					if(groupMetaModel.eventMetaModelList==null || groupMetaModel.eventMetaModelList.size()==0) {
 							if(groupMetaModel.ordinalMetaModel!=null) {
 								eventOpCodeList.add(String.format(callRewardOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), groupMetaModel.ordinalMetaModel.ordinal,2));
-								eventOpCodeList.add(String.format(callRewardOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
+								eventOpCodeList.add(String.format(callRewardOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId(), String.format(overrideTemplate, eventSymbol.symbolIndex)));
 							}
 					}
 				} else {
@@ -300,7 +300,7 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(groupEventMetaModel.eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
 			eventMetaModel = eventMetaModel.parent.parent;
 			this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList);
 		}
