@@ -25,7 +25,7 @@ public class RepeatMetaModel extends BaseMetaModel {
 	public int repeatAfter;
 	public RepeatCriteria repeatCriteria;
 	
-	private String[] repeatOpCodeListTemplate = {"lbl_rpt:%d", "store_rpt_flg(%d)", "store_rpt_typ(%d,%d)", "store_rpt_aft(%d,%d)", "return"};
+	private String[] repeatOpCodeListTemplate = {"lbl_rpt:%s:%s", "store_rpt_flg(%d)", "store_rpt_typ(%d,%d)", "store_rpt_aft(%d,%d)", "return"};
 
 	@Override
 	public String[] build() {
@@ -39,7 +39,7 @@ public class RepeatMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
 			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
 			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId(), repeatCriteria.repeatType));
 			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId(), repeatAfter));

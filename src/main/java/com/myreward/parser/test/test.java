@@ -83,9 +83,8 @@ public class test {
             
             MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
             MyRewardDataSegment myRewardDataSegment = new MyRewardDataSegment();
-            MyRewardFunctionXRef myRewardFunctionXRef = new MyRewardFunctionXRef();
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // side effect of receiving an event
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // default execution of receiving the event
+            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
+            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
             myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
             myRewardDataSegment.printString();

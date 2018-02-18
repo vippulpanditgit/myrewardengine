@@ -10,7 +10,7 @@ import com.myreward.parser.symbol.SymbolTable;
 public class ShowMetaModel extends BaseMetaModel {
 	public boolean isShow;
 
-	private String[] showOpCodeListTemplate = {"lbl_shw:%d", "store_shw_flg(%d)", "return"};
+	private String[] showOpCodeListTemplate = {"lbl_shw:%s:%s", "store_shw_flg(%d)", "return"};
 
 	@Override
 	public String[] build() {
@@ -25,7 +25,7 @@ public class ShowMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			showOpCodeList.add(String.format(showOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+			showOpCodeList.add(String.format(showOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
 			showOpCodeList.add(String.format(showOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
 			showOpCodeList.add(String.format(showOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));
 		}

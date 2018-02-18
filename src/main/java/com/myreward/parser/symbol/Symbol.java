@@ -24,6 +24,7 @@ public class Symbol implements Serializable{
 	private int level;
 	private int id;
 	private int fullyQualifiedId;
+	public int symbolIndex=-1;
 
 	private Symbol container;
 	// True if the symbol is used in its block

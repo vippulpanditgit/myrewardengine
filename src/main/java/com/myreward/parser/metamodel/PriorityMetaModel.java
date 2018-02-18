@@ -9,7 +9,7 @@ import com.myreward.parser.symbol.SymbolTable;
 
 public class PriorityMetaModel extends BaseMetaModel {
 	public int priority;
-	private String[] priorityOpCodeListTemplate = {"lbl_pri:%d", "store_pri_flg(%d)", "store_pri_amt(%d,%d)", "return"};
+	private String[] priorityOpCodeListTemplate = {"lbl_pri:%s:%s", "store_pri_flg(%d)", "store_pri_amt(%d,%d)", "return"};
 
 	@Override
 	public String[] build() {
@@ -25,7 +25,7 @@ public class PriorityMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
 			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
 			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId(), priority));
 			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId()));
