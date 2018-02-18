@@ -220,7 +220,7 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			if(MyRewardFunctionXRef.fnXRef.get(Integer.valueOf(eventSymbol.getFullyQualifiedId()))==null) {
+			if(MyRewardFunctionXRef.fnXRef.get(String.valueOf(eventSymbol.getFullyQualifiedId()))==null) {
 				eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 				MyRewardFunctionXRef.fnXRef.put(String.valueOf(eventSymbol.getFullyQualifiedId()), String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			} else {
