@@ -85,7 +85,7 @@ public class test {
 								+ "event(H)"
 							+ "}"
 						+ "}"
-					+ "}.reward(100)";
+					+ "}";
 			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(testEvent);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
