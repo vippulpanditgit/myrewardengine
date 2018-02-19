@@ -74,18 +74,27 @@ public class test {
 			String pseudo_group_repeat = "package test event(GA).any(1) {event(B), event(C)}.reward(1).repeat(WEEKLY,2)";
 			String event_time_based = "package test event(A).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(1) event(A).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(10)";
 			String event_between_different = "package test event(A).any(1).between('1997-07-16T19:20:30.45+01:00','2000-07-16T19:20:30.45+01:00').reward(1) event(A).any(1).between('2000-07-17T19:20:30.45+01:00','2017-07-16T19:20:30.45+01:00').reward(2)";
-			
-			
-			
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo_group_repeat);
+			String testEvent = "package global "
+					+ "event(GA).any(1){"
+						+ "event(B),"
+						+ "event(GC).any(1){"
+							+ "event(GD).any(1){"
+								+ "event(E)"
+							+ "},"
+							+ "event(GF).any(1){"
+								+ "event(H)"
+							+ "}"
+						+ "}"
+					+ "}.reward(100)";
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(testEvent);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
             MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
             MyRewardDataSegment myRewardDataSegment = new MyRewardDataSegment();
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
+//            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
+//            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
             myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
             myRewardDataSegment.printString();
             System.out.println(myRewardCodeGenerator.getCodeSegment());
