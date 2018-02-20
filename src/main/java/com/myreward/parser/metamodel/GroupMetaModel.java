@@ -71,6 +71,7 @@ public class GroupMetaModel extends BaseMetaModel {
 				} else if(ordinalMetaModel instanceof AllMetaModel) {
 					
 				}
+				groupOpCodes.addAll(Arrays.asList(eventMetaModel.build()));
 			}
 		}
 /*		if(eventMetaModelList!=null && eventMetaModelList.size()>0) {
