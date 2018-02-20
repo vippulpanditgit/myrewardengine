@@ -69,7 +69,6 @@ public class GroupMetaModel extends BaseMetaModel {
 						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));
 						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[2]));
 					} else {
-//						groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,1));
 						groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[1]));
 					}
 				} else if(ordinalMetaModel instanceof AllMetaModel) {
@@ -83,58 +82,7 @@ public class GroupMetaModel extends BaseMetaModel {
 				groupOpCodes.addAll(Arrays.asList(eventMetaModel.build()));
 			}
 		}
-/*		if(eventMetaModelList!=null && eventMetaModelList.size()>0) {
-			Symbol eventSymbol = null;
-			if(parent instanceof EventMetaModel) {
-				EventMetaModel eventMetaModel = (EventMetaModel)parent;
-				String eventName = eventMetaModel.getEventName();
-				eventSymbol = new Symbol(eventName);
-				
-				SymbolTable symbolTable = MyRewardParser.symbolTable;
-				eventSymbol = symbolTable.lookup(eventSymbol);
-			}
-//			for(int index=0;index<prefixGroupOpCodesListTemplate.length;index++)
-//				groupOpcodes.add(String.format(prefixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
-			Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
-			while(eventMetaModelListIterator.hasNext()) {
-				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
-				groupOpcodes.addAll(Arrays.asList(eventMetaModel.build()));
-				if(ordinalMetaModel instanceof AnyMetaModel) {
-					for(int index=0;index<anyLogicGroupOpCodesListTemplate.length;index++) {
-						if(index==0)
-							groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),1));
-						else if(index==1) {
-							if(this.parent instanceof EventMetaModel) {
-								EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
-								if(parentEventMetaModel.getRewardMetaModel()!=null) {
-									groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),((AnyMetaModel)ordinalMetaModel).ordinal,4));
-								} else {
-									groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),((AnyMetaModel)ordinalMetaModel).ordinal,3));
-									
-								}
-							}
-						} else if(index==3) {
-							if(this.parent instanceof EventMetaModel) {
-								EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
-								if(parentEventMetaModel.getRewardMetaModel()!=null) {
-									groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
-								}
-							}
-						} else 
-							groupOpcodes.add(String.format(anyLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
-					}
-				} else if(ordinalMetaModel instanceof AllMetaModel) {
-					for(int index=0;index<allLogicGroupOpCodesListTemplate.length;index++)
-						groupOpcodes.add(String.format(allLogicGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
-				}
-				
-			}
-//			for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
-//				groupOpcodes.add(String.format(suffixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
-
-			
-		}
-*/		return groupOpCodes.toArray(new String[0]);
+		return groupOpCodes.toArray(new String[0]);
 	}
 	public String toString() {
 		return instructionStack+"<<"+operationIndex;

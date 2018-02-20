@@ -50,22 +50,7 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] callRewardOpCodeListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","call_rwd:%s:%s"};
 	private String[] callDurationOpCodeListTemplate = {"reset_dur_flg(%d)", "call_dur:%s:%s"};
 	private String[] postCallDurationOpCodeListTemplate = {"if_dur_flg_notset(%s,+%d)", "return"};
-	
 
-	// Duration 
-	private String[] durationEffectiveDateEventOpCodeListTemplate = {"if_evt_dt_le(%d)", "return"};
-	private String[] durationExpirationDateEventOpCodeListTemplate = {"if_evt_dt_ge(%d)", "return"};
-
-	// Gatekeeper check
-//	private String[] gatekeeperEventOpCodeListTemplate = {"label:%s", "ifgtk_flag(%d)", "return"};
-
-	// Group
-//	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s", "push_ref(%s)" };
-//	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
-//	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s:%s"};
-//	private String[] suffixGroupOpCodesListTemplate = {"return"};
-
-	
 	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
 	private String[] eventOpCodeListTemplate = {"if_cmp_flg_set(%d)"};
 	
@@ -135,8 +120,6 @@ public class EventMetaModel extends BaseMetaModel {
 		if(groupMetaModel!=null) {
 			if(groupMetaModel.eventMetaModelList!=null 
 				&& groupMetaModel.eventMetaModelList.size()>0) { // This is a derived event. It is triggered by an action.
-//				for(int index=0;index<prefixGroupOpCodesListTemplate.length;index++)
-//					groupOpcodeList.add(String.format(prefixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.symbolIndex)));
 				if(this.durationMetaModel!=null) {
 					groupOpcodeList.add(String.format(this.callDurationOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 					groupOpcodeList.add(String.format(this.callDurationOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
@@ -148,9 +131,6 @@ public class EventMetaModel extends BaseMetaModel {
 						groupOpcodeList.add(String.format(preRepeatEventOpCodeListTemplate[index],eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));					
 				}
 				groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
-//				for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
-//					groupOpcodeList.add(String.format(suffixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
-
 				if(this.parent instanceof EventMetaModel) {
 					EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
@@ -177,7 +157,6 @@ public class EventMetaModel extends BaseMetaModel {
 				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 				parentEventSymbol.callDeclarationList.add(String.valueOf(eventSymbol.getFullyQualifiedId()));
 			}  else if(this.parent instanceof GroupMetaModel) {
-//				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 				GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
 				EventMetaModel parentEventMetaModel = null;
 				if(parentGroupEventMetaModel.parent instanceof EventMetaModel) {
@@ -223,13 +202,13 @@ public class EventMetaModel extends BaseMetaModel {
 			eventOpCodeList.addAll(Arrays.asList(groupMetaModel.model()));
 			return eventOpCodeList.toArray(new String[0]);
 		} else {
-			if(MyRewardFunctionXRef.fnXRef.get(String.valueOf(eventSymbol.getFullyQualifiedId()))==null) {
+//			if(MyRewardFunctionXRef.fnXRef.get(String.valueOf(eventSymbol.getFullyQualifiedId()))==null) {
 				eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(overrideTemplate, eventSymbol.symbolIndex)));
 				MyRewardFunctionXRef.fnXRef.put(String.valueOf(eventSymbol.getFullyQualifiedId())+":"+String.format(overrideTemplate, eventSymbol.symbolIndex), String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.symbolIndex)));
-			} else {
-				eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(overrideTemplate, eventSymbol.symbolIndex)));
-				MyRewardFunctionXRef.fnXRef.put(String.valueOf(eventSymbol.getFullyQualifiedId())+":"+String.format(overrideTemplate, eventSymbol.symbolIndex), String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.symbolIndex)));
-			}
+//			} else {
+//				eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(overrideTemplate, eventSymbol.symbolIndex)));
+//				MyRewardFunctionXRef.fnXRef.put(String.valueOf(eventSymbol.getFullyQualifiedId())+":"+String.format(overrideTemplate, eventSymbol.symbolIndex), String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.symbolIndex)));
+//			}
 			if(this.durationMetaModel!=null) {
 				eventOpCodeList.add(String.format(this.callDurationOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 				eventOpCodeList.add(String.format(this.callDurationOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId(), String.format(overrideTemplate, eventSymbol.symbolIndex)));
