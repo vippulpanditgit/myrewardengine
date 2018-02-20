@@ -148,8 +148,8 @@ public class EventMetaModel extends BaseMetaModel {
 						groupOpcodeList.add(String.format(preRepeatEventOpCodeListTemplate[index],eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));					
 				}
 				groupOpcodeList.addAll(Arrays.asList(groupMetaModel.build()));
-				for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
-					groupOpcodeList.add(String.format(suffixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
+//				for(int index=0;index<suffixGroupOpCodesListTemplate.length;index++)
+//					groupOpcodeList.add(String.format(suffixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId()));
 
 				if(this.parent instanceof EventMetaModel) {
 					EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
