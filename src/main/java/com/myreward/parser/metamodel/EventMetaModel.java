@@ -62,8 +62,8 @@ public class EventMetaModel extends BaseMetaModel {
 	// Group
 //	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s", "push_ref(%s)" };
 //	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
-	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s:%s"};
-	private String[] suffixGroupOpCodesListTemplate = {"return"};
+//	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s:%s"};
+//	private String[] suffixGroupOpCodesListTemplate = {"return"};
 
 	
 	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
@@ -135,8 +135,8 @@ public class EventMetaModel extends BaseMetaModel {
 		if(groupMetaModel!=null) {
 			if(groupMetaModel.eventMetaModelList!=null 
 				&& groupMetaModel.eventMetaModelList.size()>0) { // This is a derived event. It is triggered by an action.
-				for(int index=0;index<prefixGroupOpCodesListTemplate.length;index++)
-					groupOpcodeList.add(String.format(prefixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.symbolIndex)));
+//				for(int index=0;index<prefixGroupOpCodesListTemplate.length;index++)
+//					groupOpcodeList.add(String.format(prefixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.symbolIndex)));
 				if(this.durationMetaModel!=null) {
 					groupOpcodeList.add(String.format(this.callDurationOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 					groupOpcodeList.add(String.format(this.callDurationOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));

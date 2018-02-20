@@ -22,6 +22,7 @@ public class GroupMetaModel extends BaseMetaModel {
 	public int operationIndex;
 	public GROUP_LOGIC logic;
 	public OrdinalMetaModel ordinalMetaModel;
+	public static String overrideTemplate = "%d";
 	
 //	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s"};
 //	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
@@ -31,7 +32,9 @@ public class GroupMetaModel extends BaseMetaModel {
 	private String[] rewardGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","call_rwd(%s)","return"};
 	private String[] allLogicGroupOpCodesListTemplate = {"OP_AND", "push_ref(%s)"};
 	
-	
+	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s:%s"};
+	private String[] suffixGroupOpCodesListTemplate = {"return"};
+
 	public GroupMetaModel() {
 		operationIndex=0;
 		instructionStack = new Stack<String>();
@@ -51,13 +54,14 @@ public class GroupMetaModel extends BaseMetaModel {
 				SymbolTable symbolTable = MyRewardParser.symbolTable;
 				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 				rewardMetaModel = parentEventMetaModel.getRewardMetaModel();
+				groupOpCodes.add(String.format(prefixGroupOpCodesListTemplate[0],parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.symbolIndex)));
 			}
 			Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
 			while(eventMetaModelListIterator.hasNext()) {
 				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
 				Symbol eventSymbol = MyRewardParser.symbolTable.lookup(new Symbol(eventMetaModel.getEventName()));
 				if(ordinalMetaModel instanceof AnyMetaModel) {
-					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?6:3));
+					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?6:4));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
 					if(rewardMetaModel!=null) {
@@ -71,6 +75,11 @@ public class GroupMetaModel extends BaseMetaModel {
 				} else if(ordinalMetaModel instanceof AllMetaModel) {
 					
 				}
+			}
+			groupOpCodes.add(String.format(suffixGroupOpCodesListTemplate[0]));
+			eventMetaModelListIterator = eventMetaModelList.listIterator();
+			while(eventMetaModelListIterator.hasNext()) {
+				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
 				groupOpCodes.addAll(Arrays.asList(eventMetaModel.build()));
 			}
 		}

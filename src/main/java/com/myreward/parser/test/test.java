@@ -82,10 +82,10 @@ public class test {
 								+ "event(E)"
 							+ "},"
 							+ "event(GF).any(1){"
-								+ "event(H)"
+								+ "event(H).reward(10)"
 							+ "}"
 						+ "}"
-					+ "}";
+					+ "}.reward(100)";
 			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(testEvent);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
