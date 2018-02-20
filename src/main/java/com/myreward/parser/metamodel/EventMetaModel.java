@@ -135,7 +135,6 @@ public class EventMetaModel extends BaseMetaModel {
 		if(groupMetaModel!=null) {
 			if(groupMetaModel.eventMetaModelList!=null 
 				&& groupMetaModel.eventMetaModelList.size()>0) { // This is a derived event. It is triggered by an action.
-				++eventSymbol.symbolIndex;
 				for(int index=0;index<prefixGroupOpCodesListTemplate.length;index++)
 					groupOpcodeList.add(String.format(prefixGroupOpCodesListTemplate[index],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.symbolIndex)));
 				if(this.durationMetaModel!=null) {
@@ -178,7 +177,7 @@ public class EventMetaModel extends BaseMetaModel {
 				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 				parentEventSymbol.callDeclarationList.add(String.valueOf(eventSymbol.getFullyQualifiedId()));
 			}  else if(this.parent instanceof GroupMetaModel) {
-				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
+//				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 				GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
 				EventMetaModel parentEventMetaModel = null;
 				if(parentGroupEventMetaModel.parent instanceof EventMetaModel) {
