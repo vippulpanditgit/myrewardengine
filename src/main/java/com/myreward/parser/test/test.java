@@ -86,7 +86,7 @@ public class test {
 							+ "}"
 						+ "}"
 					+ "}.reward(100)";
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(event_between_different);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo_standalone_gatekeeper);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
