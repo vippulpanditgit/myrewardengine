@@ -86,14 +86,14 @@ public class test {
 							+ "}"
 						+ "}"
 					+ "}.reward(100)";
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(testEvent);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(event_time_based);
 	        
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
             MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
             MyRewardDataSegment myRewardDataSegment = new MyRewardDataSegment();
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
+//            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
+//            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
             myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
             myRewardDataSegment.printString();
