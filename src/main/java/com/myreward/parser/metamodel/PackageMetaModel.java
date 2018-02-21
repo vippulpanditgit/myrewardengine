@@ -34,6 +34,7 @@ public class PackageMetaModel extends BaseMetaModel {
 		while(packageMetaModelListIterator.hasNext()) {
 			packageOpcodeList.addAll(Arrays.asList(packageMetaModelListIterator.next().call_stack()));
 		}
+		packageOpcodeList.add("return");
 		return packageOpcodeList.toArray(new String[0]);
 	}
 

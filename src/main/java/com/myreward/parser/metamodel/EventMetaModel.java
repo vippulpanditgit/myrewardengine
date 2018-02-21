@@ -32,7 +32,7 @@ public class EventMetaModel extends BaseMetaModel {
 	public static String overrideTemplate = "%d";
 	
 	// Only for Standalone events
-	private String[] prefixCallStackOpCodeListTemplate = {"ifevt_nm(%s)"};
+	private String[] prefixCallStackOpCodeListTemplate = {"if_evt_nm(%s,%d)"};
 	private String[] bodyCallStackOpCodeListTemplate = {"call(%s:%s)"};
 	private String[] suffixCallStackOpCodeListTemplate = {"return"};
 	
@@ -263,29 +263,29 @@ public class EventMetaModel extends BaseMetaModel {
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
 			List<String> callStackOpCodeList = new ArrayList<String>();
-			callStackOpCodeList.add(String.format(prefixCallStackOpCodeListTemplate[0], eventName));
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), String.valueOf(eventSymbol.symbolIndex--)));
-			this.climbUpTheEventStackTree(this, callStackOpCodeList);
+			int level=0;
+			level = this.climbUpTheEventStackTree(this, callStackOpCodeList, level);
+			callStackOpCodeList.add(0, String.format(prefixCallStackOpCodeListTemplate[0], eventName, level+3));
 			callStackOpCodeList.add(String.format(suffixCallStackOpCodeListTemplate[0], eventName));
 			return callStackOpCodeList.toArray(new String[0]);
 		}
 	}
-	private void climbUpTheEventStackTree(BaseMetaModel eventMetaModel, List<String> callStackOpCodeList) {
+	private int climbUpTheEventStackTree(BaseMetaModel eventMetaModel, List<String> callStackOpCodeList, int level) {
 		if(callStackOpCodeList==null)
 			callStackOpCodeList = new ArrayList<String>();
 		if(eventMetaModel!=null && eventMetaModel.parent!=null
 				&&  eventMetaModel.parent instanceof GroupMetaModel) {
+			level++;
 			EventMetaModel groupEventMetaModel = (EventMetaModel)eventMetaModel.parent.parent;
 			Symbol eventSymbol = new Symbol(groupEventMetaModel.eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
 			eventMetaModel = eventMetaModel.parent.parent;
-			this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList);
+			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);
 		}
-		
-		
-		
+		return level;
 	}
 
 }
