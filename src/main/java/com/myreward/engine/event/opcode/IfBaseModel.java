@@ -1,5 +1,5 @@
 package com.myreward.engine.event.opcode;
 
-public class IfBaseModel {
+public class IfBaseModel extends OpCodeBaseModel {
 
 }

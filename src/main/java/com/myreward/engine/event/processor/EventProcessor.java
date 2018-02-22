@@ -12,7 +12,7 @@ import com.myreward.engine.event.opcode.*;
 public class EventProcessor {
 	private MyRewardPCodeGenerator myRewardCodeGenerator;
 	private Map<String, Integer> fnXref = new HashMap<String, Integer>();
-	private List<OpCodeBaseModel> opCodeList = Arrays.asList(new CallFunctionModel(),
+	private OpCodeBaseModel[] opcodeList = new OpCodeBaseModel[]{new CallFunctionModel(),
 											new CallGatekeeperModel(),
 											new CallPriorityModel(),
 											new CallRepeatModel(),
@@ -33,6 +33,27 @@ public class EventProcessor {
 											new StorePriorityModel(),
 											new StoreRewardModel(),
 											new StoreShowModel()};
+	private List<OpCodeBaseModel> opCodeList = Arrays.asList(new CallFunctionModel(),
+											new CallGatekeeperModel(),
+											new CallPriorityModel(),
+											new CallRepeatModel(),
+											new CallRewardModel(),
+											new CallShowModel(),
+											new IfDurationModel(),
+											new IfEventModel(),
+											new IfGatekeeperModel(),
+											new IfRewardModel(),
+											new LabelFunctionModel(),
+											new LabelGatekeeperModel(),
+											new LabelMainModel(),
+											new LabelPriorityModel(),
+											new LabelRepeatModel(),
+											new LabelRewardModel(),
+											new LabelShowModel(),
+											new StoreGatekeeperModel(),
+											new StorePriorityModel(),
+											new StoreRewardModel(),
+											new StoreShowModel());
 	
 	public void readPCode(MyRewardPCodeGenerator myRewardCodeGenerator) {
 		myRewardCodeGenerator = myRewardCodeGenerator;

@@ -33,6 +33,10 @@ public class IfRewardModel extends IfBaseModel {
 	private String amount;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
+	public IfRewardModel() {
+		
+	}
+
 	public IfRewardModel(String statement) {
 		IfRewardType ifRewardType = getType(statement);
 		if(ifRewardType!=null) {

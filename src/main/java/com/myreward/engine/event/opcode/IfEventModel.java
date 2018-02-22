@@ -37,6 +37,10 @@ public class IfEventModel extends IfBaseModel {
 	private int gotoLine;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT, OPCODE_LABEL_EVENT};
 
+	public IfEventModel() {
+		
+	}
+
 	public IfEventModel(String statement) {
 		IfCompletionType ifCompletionType = getType(statement);
 		if(ifCompletionType!=null) {

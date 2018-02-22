@@ -33,6 +33,9 @@ public class IfDurationModel extends IfBaseModel {
 	private String amount;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
+	public IfDurationModel() {
+		
+	}
 	public IfDurationModel(String statement) {
 		IfDurationType ifDurationType = getType(statement);
 		if(ifDurationType!=null) {
