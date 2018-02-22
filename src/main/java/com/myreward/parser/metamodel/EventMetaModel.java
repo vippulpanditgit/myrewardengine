@@ -33,7 +33,7 @@ public class EventMetaModel extends BaseMetaModel {
 	
 	// Only for Standalone events
 	private String[] prefixCallStackOpCodeListTemplate = {"if_evt_nm(%s,%d)"};
-	private String[] bodyCallStackOpCodeListTemplate = {"call(%s:%s)"};
+	private String[] bodyCallStackOpCodeListTemplate = {"call_fn(%s:%s)"};
 	private String[] suffixCallStackOpCodeListTemplate = {"return"};
 	
 	private String[] prefixEventOpCodeListTemplate = {"lbl_fn:%s:%s"};
