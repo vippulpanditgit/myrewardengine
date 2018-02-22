@@ -25,8 +25,8 @@ public class EventProcessor {
 			while(codeSegmentIterator.hasNext()) {
 				String opcode = codeSegmentIterator.next();
 				if(opcode.startsWith("lbl_")) {
-					String fnDecl = opcode.substring(beginIndex, endIndex)
-					fnXref.put(key, value)
+//					String fnDecl = opcode.substring(beginIndex, endIndex)
+//					fnXref.put(key, value)
 				}
 				index++;
 			}

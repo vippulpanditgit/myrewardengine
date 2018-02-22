@@ -39,7 +39,7 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] prefixEventOpCodeListTemplate = {"lbl_fn:%s:%s"};
 	private String[] eventOpCodesListTemplate = {"inc_cmp_cnt(%s)", "set_cmp_flg(%s)"};
 
-	private String[] gatekeeperConstraintEventOpCodeListTemplate = {"call_gtk(%s:%s)", "ifgtk_flg(%d)"};
+	private String[] gatekeeperConstraintEventOpCodeListTemplate = {"call_gtk(%s:%s)", "if_gtk_flg(%d)"};
 	private String[] rewardOutcomeEventOpCodeListTemplate = {"call_rwd(%s:%s)"}; 
 	private String[] suffixEventOpCodeListTemplate = {"return"};
 	private String[] preRepeatEventOpCodeListTemplate = {"if_rpt_flg_notset(%s)", "call_rpt(%s:%s)", "if_rpt_flg_set(%s)", "if_act_dt_lt(%s)", "store_rpt_dt(%s)"};
