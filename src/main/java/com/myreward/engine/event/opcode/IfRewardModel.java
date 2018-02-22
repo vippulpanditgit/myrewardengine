@@ -4,8 +4,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.myreward.engine.event.opcode.StorePriorityModel.StorePriorityType;
-
 public class IfRewardModel extends IfBaseModel {
 	public enum IfRewardType {
 		FLAG,
