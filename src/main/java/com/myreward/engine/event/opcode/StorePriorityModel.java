@@ -17,6 +17,7 @@ public class StorePriorityModel extends StoreBaseModel {
 	private StorePriorityType type;
 	private String name;
 	private String amount;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
 	public StorePriorityModel(String statement) {
 		StorePriorityType storePriorityType = getType(statement);

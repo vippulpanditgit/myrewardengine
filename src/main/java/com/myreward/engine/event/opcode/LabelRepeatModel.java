@@ -6,6 +6,7 @@ public class LabelRepeatModel extends LabelBaseModel {
 	private static String OPCODE_LABEL = "lbl_rpt";
 	private String name;
 	private String version;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 	
 	public LabelRepeatModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);

@@ -31,6 +31,7 @@ public class IfRewardModel extends IfBaseModel {
 	private IfRewardFlgType flagType;
 	private String name;
 	private String amount;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
 	public IfRewardModel(String statement) {
 		IfRewardType ifRewardType = getType(statement);

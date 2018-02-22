@@ -11,6 +11,7 @@ public class CallPriorityModel extends CallBaseModel {
 	private static String OPERAND_FORMAT_PATTERN = ":";
 	private String name;
 	private String version;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 	
 	public CallPriorityModel(String statement) {
 		String[] operand = parse(statement);

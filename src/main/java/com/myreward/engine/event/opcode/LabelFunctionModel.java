@@ -6,6 +6,7 @@ public class LabelFunctionModel extends LabelBaseModel {
 	private static String OPCODE_LABEL = "lbl_fn";
 	private String name;
 	private String version;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 	
 	public LabelFunctionModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);

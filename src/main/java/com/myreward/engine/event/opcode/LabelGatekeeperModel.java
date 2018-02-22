@@ -6,6 +6,7 @@ public class LabelGatekeeperModel extends LabelBaseModel {
 	private static String OPCODE_LABEL = "lbl_gtk";
 	private String name;
 	private String version;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 	
 	public LabelGatekeeperModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);

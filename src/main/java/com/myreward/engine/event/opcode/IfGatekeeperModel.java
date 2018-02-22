@@ -31,6 +31,7 @@ public class IfGatekeeperModel extends IfBaseModel {
 	private IfGatekeeperFlgType flagType;
 	private String name;
 	private String amount;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
 	public IfGatekeeperModel(String statement) {
 		IfGatekeeperType ifGatekeeperType = getType(statement);

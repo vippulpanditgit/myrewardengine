@@ -6,6 +6,7 @@ public class LabelPriorityModel extends LabelBaseModel {
 	private static String OPCODE_LABEL = "lbl_pri";
 	private String name;
 	private String version;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 	
 	public LabelPriorityModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);

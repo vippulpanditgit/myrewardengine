@@ -17,6 +17,7 @@ public class StoreRewardModel extends StoreBaseModel {
 	private StoreRewardType type;
 	private String name;
 	private String amount;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
 	public StoreRewardModel(String statement) {
 		StoreRewardType storePriorityType = getType(statement);

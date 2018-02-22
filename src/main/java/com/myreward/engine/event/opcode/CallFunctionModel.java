@@ -5,12 +5,13 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 public class CallFunctionModel extends CallBaseModel {
-	private static String OPCODE_LABEL = "call_fn";
+	public static String OPCODE_LABEL = "call_fn";
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ":";
 	private String name;
 	private String version;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 	
 	public CallFunctionModel(String statement) {
 		String[] operand = parse(statement);
