@@ -7,7 +7,10 @@ public class LabelRewardModel extends LabelBaseModel {
 	private String name;
 	private String version;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
-	
+
+	public LabelRewardModel() {
+	}
+
 	public LabelRewardModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);
 		if(fields.length==3) {

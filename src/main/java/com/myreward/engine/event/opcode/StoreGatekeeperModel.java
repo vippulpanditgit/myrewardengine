@@ -19,6 +19,9 @@ public class StoreGatekeeperModel extends StoreBaseModel {
 	private String amount;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
+	public StoreGatekeeperModel() {
+	}
+
 	public StoreGatekeeperModel(String statement) {
 		StoreGatekeeperType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {

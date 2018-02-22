@@ -13,6 +13,10 @@ public class CallFunctionModel extends CallBaseModel {
 	private String version;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 	
+	public CallFunctionModel() {
+		super();
+	}
+
 	public CallFunctionModel(String statement) {
 		String[] operand = parse(statement);
 		if(operand!=null) {

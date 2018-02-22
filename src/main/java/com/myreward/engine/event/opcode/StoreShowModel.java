@@ -19,6 +19,9 @@ public class StoreShowModel extends StoreBaseModel {
 	private String amount;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
+	public StoreShowModel() {
+	}
+
 	public StoreShowModel(String statement) {
 		StoreShowType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {

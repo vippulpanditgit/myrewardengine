@@ -8,6 +8,8 @@ public class LabelFunctionModel extends LabelBaseModel {
 	private String version;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 	
+	public LabelFunctionModel() {
+	}
 	public LabelFunctionModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);
 		if(fields.length==3) {

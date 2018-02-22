@@ -13,7 +13,10 @@ public class CallShowModel extends CallBaseModel {
 	private String name;
 	private String version;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
-	
+
+	public CallShowModel() {
+	}
+
 	public CallShowModel(String statement) {
 		String[] operand = parse(statement);
 		if(operand!=null) {

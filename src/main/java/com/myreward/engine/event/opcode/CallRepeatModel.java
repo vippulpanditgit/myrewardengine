@@ -12,7 +12,10 @@ public class CallRepeatModel extends CallBaseModel {
 	private String name;
 	private String version;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
-	
+
+	public CallRepeatModel() {
+	}
+
 	public CallRepeatModel(String statement) {
 		String[] operand = parse(statement);
 		if(operand!=null) {

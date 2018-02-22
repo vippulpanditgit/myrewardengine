@@ -8,6 +8,9 @@ public class LabelShowModel extends LabelBaseModel {
 	private String version;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 	
+	public LabelShowModel() {
+	}
+
 	public LabelShowModel(String showStatement) {
 		String[] fields = StringUtils.split(showStatement, ARGUMENT_SEPERATOR);
 		if(fields.length==3) {

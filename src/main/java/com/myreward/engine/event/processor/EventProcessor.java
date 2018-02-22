@@ -3,13 +3,19 @@ package com.myreward.engine.event.processor;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
+import com.myreward.engine.event.opcode.*;
 
 public class EventProcessor {
 	private MyRewardPCodeGenerator myRewardCodeGenerator;
 	private Map<String, Integer> fnXref = new HashMap<String, Integer>();
+	private List<OpCodeBaseModel> opCodeList = {new CallFunctionModel(),
+											new CallGatekeeperModel(),
+											
+	}
 	
 	public void readPCode(MyRewardPCodeGenerator myRewardCodeGenerator) {
 		myRewardCodeGenerator = myRewardCodeGenerator;

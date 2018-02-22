@@ -7,6 +7,9 @@ public class LabelMainModel extends LabelBaseModel {
 	private static int OPCODE_MAX_LENGTH = 1;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 
+	public LabelMainModel() {
+	}
+
 	public LabelMainModel(String statement) {
 		if(!StringUtils.equalsIgnoreCase(statement, OPCODE_LABEL))
 				return;

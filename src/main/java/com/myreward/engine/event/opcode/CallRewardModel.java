@@ -13,6 +13,9 @@ public class CallRewardModel extends CallBaseModel {
 	private String version;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
 	
+	public CallRewardModel() {
+	}
+
 	public CallRewardModel(String statement) {
 		String[] operand = parse(statement);
 		if(operand!=null) {
