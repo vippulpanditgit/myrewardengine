@@ -98,10 +98,11 @@ public class test {
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
             myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
             myRewardDataSegment.printString();
-            System.out.println(myRewardCodeGenerator.getCodeSegment());
+            System.out.println(myRewardCodeGenerator.getCodeSegment().size()+"<<"+ myRewardCodeGenerator.getCodeSegment());
             EventProcessor eventProcessor = new EventProcessor();
             eventProcessor.readPCode(myRewardCodeGenerator);
             eventProcessor.preprocess();
+            System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
  		} catch(Exception exp) {
 			exp.printStackTrace();
 		}

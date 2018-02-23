@@ -49,7 +49,7 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] callPriorityOpCodeListTemplate = {"call_pri(%s:%s)"};
 	private String[] callRewardOpCodeListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","call_rwd(%s:%s)"};
 	private String[] callDurationOpCodeListTemplate = {"reset_dur_flg(%d)", "call_dur(%s:%s)"};
-	private String[] postCallDurationOpCodeListTemplate = {"if_dur_flg_notset(%s,+%d)", "return"};
+	private String[] postCallDurationOpCodeListTemplate = {"if_dur_flg_not_set(%s,+%d)", "return"};
 
 	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
 	private String[] eventOpCodeListTemplate = {"if_cmp_flg_set(%d)"};

@@ -21,6 +21,7 @@ public class EventProcessor {
 											new CallRepeatModel(),
 											new CallRewardModel(),
 											new CallShowModel(),
+											new CallDurationModel(),
 											new IfDurationModel(),
 											new IfEventModel(),
 											new IfGatekeeperModel(),
@@ -37,7 +38,13 @@ public class EventProcessor {
 											new StorePriorityModel(),
 											new StoreRewardModel(),
 											new StoreShowModel(),
-											new ReturnModel());
+											new StoreDurationModel(),
+											new ReturnModel(),
+											new ResetDurationModel(),
+											new ResetGatekeeperModel(),
+											new ResetPriorityModel(),
+											new ResetRewardModel(),
+											new ResetShowModel());
 	
 	public void readPCode(MyRewardPCodeGenerator myRewardCodeGenerator) {
 		this.myRewardCodeGenerator = myRewardCodeGenerator;
@@ -51,20 +58,22 @@ public class EventProcessor {
 			Iterator<String> codeSegmentIterator = this.myRewardCodeGenerator.getCodeSegment().iterator();
 			int index=0;
 			while(codeSegmentIterator.hasNext()) {
+				boolean isOpcodeFound = false;
 				String opcode = codeSegmentIterator.next();
 				Iterator<OpCodeBaseModel> opCodeBaseModelIterator = opCodeList.iterator();
 				while(opCodeBaseModelIterator.hasNext()) {
 					OpCodeBaseModel opCodeBaseModel = opCodeBaseModelIterator.next();
 					String[] opCodeHandler = opCodeBaseModel.getOpcodes();
 					for(int opCodeIndex=0;opCodeIndex<opCodeHandler.length;opCodeIndex++) {
-						System.out.println(opCodeHandler[opCodeIndex]);
+//						System.out.println(opCodeHandler[opCodeIndex]);
 						if(opcode.length()>=opCodeHandler[opCodeIndex].length() && 
 								opCodeHandler[opCodeIndex].equalsIgnoreCase(opcode.substring(0, opCodeHandler[opCodeIndex].length()))) {
 							try {
 								Constructor constructor = opCodeBaseModel.getClass().getConstructor(new Class[] { String.class});
 								OpCodeBaseModel realInstance = (OpCodeBaseModel) constructor.newInstance(new Object[] { opcode });
 								instructionOpCodes.add(realInstance);
-								System.out.println("Test");
+								isOpcodeFound = true;
+//								System.out.println("Test");
 								break;
 							} catch(Exception exp){
 								exp.printStackTrace();
@@ -72,6 +81,8 @@ public class EventProcessor {
 						}
 					}
 				}
+				if(!isOpcodeFound)
+					System.out.println(opcode);
 				index++;
 			}
 		}
@@ -94,5 +105,13 @@ public class EventProcessor {
 		while(true) {
 			
 		}
+	}
+
+	public List<OpCodeBaseModel> getInstructionOpCodes() {
+		return instructionOpCodes;
+	}
+
+	public void setInstructionOpCodes(List<OpCodeBaseModel> instructionOpCodes) {
+		this.instructionOpCodes = instructionOpCodes;
 	}
 }

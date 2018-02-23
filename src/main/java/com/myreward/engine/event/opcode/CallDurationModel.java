@@ -4,20 +4,19 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class CallFunctionModel extends CallBaseModel {
-	public static String OPCODE_LABEL = "call_fn";
+public class CallDurationModel extends CallBaseModel {
+	private static String OPCODE_LABEL = "call_dur";
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ":";
 	private String name;
 	private String version;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
-	
-	public CallFunctionModel() {
-		super();
+
+	public CallDurationModel() {
 	}
 
-	public CallFunctionModel(String statement) {
+	public CallDurationModel(String statement) {
 		String[] operand = parse(statement);
 		if(operand!=null) {
 			name = operand[0];
@@ -31,13 +30,10 @@ public class CallFunctionModel extends CallBaseModel {
 		Pattern pattern = Pattern.compile(OPERAND_FORMAT_PATTERN);
 		String[] functionCallParameter = pattern.split(operandValue);
 		return functionCallParameter;
-	}
-
+	}	
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
 	}
-	public String toString() {
-		return OPCODE_LABEL+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+version+OPCODE_OPERAND_END;
-	}
+
 }

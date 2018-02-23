@@ -32,7 +32,7 @@ public class IfEventModel extends IfBaseModel {
 	}
 
 	private static String OPCODE_LABEL_FLAG = "if_cmp_flg";
-	private static String OPCODE_LABEL_AMOUNT = "if_cmp_amt";
+	private static String OPCODE_LABEL_AMOUNT = "if_cmp_cnt";
 	private static String OPCODE_LABEL_EVENT = "if_evt_nm";
 	private static String OPCODE_LABEL_DATE = "if_evt_dt";
 	
