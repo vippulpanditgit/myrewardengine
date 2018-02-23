@@ -20,7 +20,7 @@ public class StoreRepeatModel extends StoreBaseModel {
 	private String name;
 	private String amount;
 	private String after;
-	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT, OPCODE_LABEL_TYPE};
 
 	public StoreRepeatModel() {
 	}
