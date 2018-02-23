@@ -45,7 +45,8 @@ public class EventProcessor {
 											new ResetPriorityModel(),
 											new ResetRewardModel(),
 											new ResetShowModel(),
-											new StoreRepeatModel());
+											new StoreRepeatModel(),
+											new AddRewardModel());
 	
 	public void readPCode(MyRewardPCodeGenerator myRewardCodeGenerator) {
 		this.myRewardCodeGenerator = myRewardCodeGenerator;
