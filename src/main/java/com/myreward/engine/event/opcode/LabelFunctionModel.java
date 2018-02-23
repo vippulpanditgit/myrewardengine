@@ -23,5 +23,8 @@ public class LabelFunctionModel extends LabelBaseModel {
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
 	}
+	public String toString() {
+		return OPCODE_LABEL+ARGUMENT_SEPERATOR+name+ARGUMENT_SEPERATOR+version;
+	}
 
 }

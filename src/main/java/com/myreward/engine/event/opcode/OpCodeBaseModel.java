@@ -1,6 +1,8 @@
 package com.myreward.engine.event.opcode;
 
-public abstract class OpCodeBaseModel {
+import java.io.Serializable;
+
+public abstract class OpCodeBaseModel implements Serializable {
 	
 	public abstract String[] getOpcodes();
 	

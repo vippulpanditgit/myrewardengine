@@ -35,5 +35,8 @@ public class CallPriorityModel extends CallBaseModel {
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
 	}
+	public String toString() {
+		return OPCODE_LABEL+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+version+OPCODE_OPERAND_END;
+	}
 
 }
