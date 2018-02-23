@@ -22,6 +22,9 @@ public class IncrementEventModel extends OpCodeBaseModel {
 		if(amountOperand.length==2) {
 			name = amountOperand[0];
 			amount = amountOperand[1];
+		} else if(amountOperand.length==1) {
+			name = amountOperand[0];
+			amount = "1";
 		}
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
