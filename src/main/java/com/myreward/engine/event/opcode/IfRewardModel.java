@@ -110,10 +110,10 @@ public class IfRewardModel extends IfBaseModel {
 	}
 	public String toString() {
 		if(type==IfRewardType.FLAG) {
-			return OPCODE_LABEL_FLAG+flagType.value+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
+			return OPCODE_LABEL_FLAG+flagType.value()+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
 		}
 		if(type==IfRewardType.AMOUNT) {
-			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+			return OPCODE_LABEL_AMOUNT+amountType.value()+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
 		}
 		return null;
 	}
