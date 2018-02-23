@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.IfDurationModel.IfDurationType;
+
 public class IfEventModel extends IfBaseModel {
 	public enum IfCompletionType {
 		FLAG,
@@ -13,11 +15,19 @@ public class IfEventModel extends IfBaseModel {
 		DATE
 	}
 	public enum IfCompletionAmtType {
-		LE,
-		LT,
-		EQ,
-		GT,
-		GE
+		LE("_LE"),
+		LT("_LT"),
+		EQ("_EQ"),
+		GT("_GT"),
+		GE("_GE");
+		
+		private final String value;
+		IfCompletionAmtType(String value) {
+			this.value = value;
+		}
+		public String value(){
+			return this.value;
+		}
 	}
 	public enum IfCompletionDtType {
 		LE("_LE"),
@@ -79,38 +89,38 @@ public class IfEventModel extends IfBaseModel {
 				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				amount = amountOperand[1];
-				if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_le")) {
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfCompletionAmtType.LE.value)) {
 					amountType = IfCompletionAmtType.LE;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_lt")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfCompletionAmtType.LT.value)) {
 					amountType = IfCompletionAmtType.LT;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_eq")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfCompletionAmtType.EQ.value)) {
 					amountType = IfCompletionAmtType.EQ;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_gt")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfCompletionAmtType.GT.value)) {
 					amountType = IfCompletionAmtType.GT;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_ge")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfCompletionAmtType.GE.value)) {
 					amountType = IfCompletionAmtType.GE;
 				}
 			} else if(type==IfCompletionType.DATE) {
 				String[] dateOperand = this.parse(OPCODE_LABEL_DATE, OPERAND_FORMAT_PATTERN, statement);
 				String longDate = dateOperand[0].trim();
 				date = new Date(Long.parseLong(longDate));
-				if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+"_le")) {
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+IfCompletionDtType.LE.value)) {
 					dtType = IfCompletionDtType.LE;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+"_lt")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+IfCompletionDtType.LT.value)) {
 					dtType = IfCompletionDtType.LT;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+"_eq")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+IfCompletionDtType.EQ.value)) {
 					dtType = IfCompletionDtType.EQ;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+"_gt")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+IfCompletionDtType.GT.value)) {
 					dtType = IfCompletionDtType.GT;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+"_ge")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+IfCompletionDtType.GE.value)) {
 					dtType = IfCompletionDtType.GE;
 				}
 			} else if(type==IfCompletionType.FLAG) {
 				String[] flagOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = flagOperand[0];
-				if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+"_set")) {
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+IfCompletionFlgType.SET.value)) {
 					flagType = IfCompletionFlgType.SET;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+"_not_set")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+IfCompletionFlgType.NOT_SET.value)) {
 					flagType = IfCompletionFlgType.NOT_SET;
 				}
 			} else if(type==IfCompletionType.EVENT) {
@@ -147,5 +157,19 @@ public class IfEventModel extends IfBaseModel {
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
 	}
-
+	public String toString() {
+		if(type==IfCompletionType.FLAG) {
+			return OPCODE_LABEL_FLAG+flagType.value+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
+		}
+		if(type==IfCompletionType.AMOUNT) {
+			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+		}
+		if(type==IfCompletionType.EVENT) {
+			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+		}
+		if(type==IfCompletionType.DATE) {
+			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+		}
+		return null;
+	}
 }

@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.IfDurationModel.IfDurationType;
+
 public class IfRewardModel extends IfBaseModel {
 	public enum IfRewardType {
 		FLAG,
@@ -61,23 +63,23 @@ public class IfRewardModel extends IfBaseModel {
 				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				amount = amountOperand[1];
-				if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_le")) {
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfRewardAmtType.LE)) {
 					amountType = IfRewardAmtType.LE;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_lt")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfRewardAmtType.LT)) {
 					amountType = IfRewardAmtType.LT;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_eq")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfRewardAmtType.EQ)) {
 					amountType = IfRewardAmtType.EQ;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_gt")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfRewardAmtType.GT)) {
 					amountType = IfRewardAmtType.GT;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_ge")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfRewardAmtType.GE)) {
 					amountType = IfRewardAmtType.GE;
 				}
 			} else if(type==IfRewardType.FLAG) {
 				String[] flagOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = flagOperand[0];
-				if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+"_set")) {
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+IfRewardFlgType.SET.value)) {
 					flagType = IfRewardFlgType.SET;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+"_not_set")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+IfRewardFlgType.NOT_SET.value)) {
 					flagType = IfRewardFlgType.NOT_SET;
 				}
 			}
@@ -106,5 +108,13 @@ public class IfRewardModel extends IfBaseModel {
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
 	}
-
+	public String toString() {
+		if(type==IfRewardType.FLAG) {
+			return OPCODE_LABEL_FLAG+flagType.value+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
+		}
+		if(type==IfRewardType.AMOUNT) {
+			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+		}
+		return null;
+	}
 }

@@ -108,9 +108,13 @@ public class IfDurationModel extends IfBaseModel {
 		return OPCODE_HANDLER;
 	}
 	public String toString() {
-/*		return type==IfDurationType.FLAG && flagType==IfDurationFlgType.SET?(OPCODE_LABEL_FLAG+"_set"+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
-						:(type==IfDurationType.FLAG && flagType==IfDurationFlgType.NOT_SET?(OPCODE_LABEL_FLAG+"_not_set"+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
-								:);*/
+		if(type==IfDurationType.FLAG) {
+			return OPCODE_LABEL_FLAG+flagType.value+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
+		}
+		if(type==IfDurationType.AMOUNT) {
+			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+		}
+		return null;
 	}
 
 }

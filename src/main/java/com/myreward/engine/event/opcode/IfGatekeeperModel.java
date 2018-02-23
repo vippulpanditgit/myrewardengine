@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.IfDurationModel.IfDurationType;
+
 public class IfGatekeeperModel extends IfBaseModel {
 	public enum IfGatekeeperType {
 		FLAG,
@@ -61,23 +63,23 @@ public class IfGatekeeperModel extends IfBaseModel {
 				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				amount = amountOperand[1];
-				if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_le")) {
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfGatekeeperAmtType.LE.value)) {
 					amountType = IfGatekeeperAmtType.LE;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_lt")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfGatekeeperAmtType.LT.value)) {
 					amountType = IfGatekeeperAmtType.LT;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_eq")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfGatekeeperAmtType.EQ.value)) {
 					amountType = IfGatekeeperAmtType.EQ;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_gt")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfGatekeeperAmtType.GT.value)) {
 					amountType = IfGatekeeperAmtType.GT;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_ge")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+IfGatekeeperAmtType.GE.value)) {
 					amountType = IfGatekeeperAmtType.GE;
 				}
 			} else if(type==IfGatekeeperType.FLAG) {
 				String[] flagOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = flagOperand[0];
-				if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+"_set")) {
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+IfGatekeeperFlgType.SET.value)) {
 					flagType = IfGatekeeperFlgType.SET;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+"_not_set")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+IfGatekeeperFlgType.NOT_SET.value)) {
 					flagType = IfGatekeeperFlgType.NOT_SET;
 				}
 			}
@@ -106,5 +108,13 @@ public class IfGatekeeperModel extends IfBaseModel {
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
 	}
-
+	public String toString() {
+		if(type==IfGatekeeperType.FLAG) {
+			return OPCODE_LABEL_FLAG+flagType.value+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
+		}
+		if(type==IfGatekeeperType.AMOUNT) {
+			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+		}
+		return null;
+	}
 }
