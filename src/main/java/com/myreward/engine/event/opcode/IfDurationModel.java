@@ -58,9 +58,9 @@ public class IfDurationModel extends IfBaseModel {
 			} else if(type==IfDurationType.FLAG) {
 				String[] flagOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = flagOperand[0];
-				if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_set")) {
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+"_set")) {
 					flagType = IfDurationFlgType.SET;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_not_set")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+"_not_set")) {
 					flagType = IfDurationFlgType.NOT_SET;
 				}
 			}

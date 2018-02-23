@@ -87,8 +87,10 @@ public class test {
 							+ "}"
 						+ "}"
 					+ "}.reward(100)";
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(oneEventWithGatekeeper);
-	        
+
+			
+			
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(testEvent);
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
             MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();

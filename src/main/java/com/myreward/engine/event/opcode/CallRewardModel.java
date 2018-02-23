@@ -20,7 +20,8 @@ public class CallRewardModel extends CallBaseModel {
 		String[] operand = parse(statement);
 		if(operand!=null) {
 			name = operand[0];
-			version = operand[1];
+			if(operand.length==2)
+				version = operand[1];
 		}
 	}
 	public String[] parse(String value) {

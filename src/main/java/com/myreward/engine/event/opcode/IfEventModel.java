@@ -92,9 +92,9 @@ public class IfEventModel extends IfBaseModel {
 			} else if(type==IfCompletionType.FLAG) {
 				String[] flagOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = flagOperand[0];
-				if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_set")) {
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+"_set")) {
 					flagType = IfCompletionFlgType.SET;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_not_set")) {
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+"_not_set")) {
 					flagType = IfCompletionFlgType.NOT_SET;
 				}
 			} else if(type==IfCompletionType.EVENT) {
