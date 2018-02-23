@@ -4,8 +4,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.StoreEventModel.StoreEventType;
+
 public class ResetDurationModel extends StoreBaseModel {
-	public enum StoreDurationType {
+	public enum ResetDurationType {
 		FLAG,
 		AMOUNT
 	}
@@ -14,7 +16,7 @@ public class ResetDurationModel extends StoreBaseModel {
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
-	private StoreDurationType type;
+	private ResetDurationType type;
 	private String name;
 	private String amount;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
@@ -23,24 +25,24 @@ public class ResetDurationModel extends StoreBaseModel {
 	}
 
 	public ResetDurationModel(String statement) {
-		StoreDurationType storePriorityType = getType(statement);
+		ResetDurationType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {
 			type = storePriorityType;
-			if(type==StoreDurationType.AMOUNT) {
+			if(type==ResetDurationType.AMOUNT) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				amount = amountOperand[1];
-			} else if(type==StoreDurationType.FLAG) {
+			} else if(type==ResetDurationType.FLAG) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
 			}
 		}
 	}
-	public StoreDurationType getType(String opcode) {
+	public ResetDurationType getType(String opcode) {
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_FLAG))
-			return StoreDurationType.FLAG;
+			return ResetDurationType.FLAG;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_AMOUNT))
-			return StoreDurationType.AMOUNT;
+			return ResetDurationType.AMOUNT;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
@@ -58,6 +60,10 @@ public class ResetDurationModel extends StoreBaseModel {
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
+	}
+	public String toString() {
+		return type==ResetDurationType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
+						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
 	}
 
 }

@@ -4,8 +4,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.ResetDurationModel.ResetDurationType;
+
 public class ResetEventModel extends StoreBaseModel {
-	public enum StoreShowType {
+	public enum ResetEventType {
 		FLAG,
 		AMOUNT
 	}
@@ -14,7 +16,7 @@ public class ResetEventModel extends StoreBaseModel {
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
-	private StoreShowType type;
+	private ResetEventType type;
 	private String name;
 	private String amount;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
@@ -23,24 +25,24 @@ public class ResetEventModel extends StoreBaseModel {
 	}
 
 	public ResetEventModel(String statement) {
-		StoreShowType storePriorityType = getType(statement);
+		ResetEventType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {
 			type = storePriorityType;
-			if(type==StoreShowType.AMOUNT) {
+			if(type==ResetEventType.AMOUNT) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				amount = amountOperand[1];
-			} else if(type==StoreShowType.FLAG) {
+			} else if(type==ResetEventType.FLAG) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
 			}
 		}
 	}
-	public StoreShowType getType(String opcode) {
+	public ResetEventType getType(String opcode) {
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_FLAG))
-			return StoreShowType.FLAG;
+			return ResetEventType.FLAG;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_AMOUNT))
-			return StoreShowType.AMOUNT;
+			return ResetEventType.AMOUNT;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
@@ -58,6 +60,10 @@ public class ResetEventModel extends StoreBaseModel {
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
+	}
+	public String toString() {
+		return type==ResetEventType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
+						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
 	}
 
 }

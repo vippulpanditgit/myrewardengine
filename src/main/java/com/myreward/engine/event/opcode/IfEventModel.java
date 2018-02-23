@@ -20,15 +20,31 @@ public class IfEventModel extends IfBaseModel {
 		GE
 	}
 	public enum IfCompletionDtType {
-		LE,
-		LT,
-		EQ,
-		GT,
-		GE
+		LE("_LE"),
+		LT("_LT"),
+		EQ("_EQ"),
+		GT("_GT"),
+		GE("_GE");
+		
+		private final String value;
+		IfCompletionDtType(String value) {
+			this.value = value;
+		}
+		public String value(){
+			return this.value;
+		}
 	}
 	public enum IfCompletionFlgType {
-		SET,
-		NOT_SET
+		SET("_set"),
+		NOT_SET("_not_set");
+		
+		private final String value;
+		IfCompletionFlgType(String value) {
+			this.value = value;
+		}
+		public String value(){
+			return this.value;
+		}
 	}
 
 	private static String OPCODE_LABEL_FLAG = "if_cmp_flg";

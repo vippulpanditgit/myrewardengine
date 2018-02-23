@@ -4,8 +4,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.ResetDurationModel.ResetDurationType;
+
 public class ResetRewardModel extends StoreBaseModel {
-	public enum StoreRewardType {
+	public enum ResetRewardType {
 		FLAG,
 		AMOUNT
 	}
@@ -14,7 +16,7 @@ public class ResetRewardModel extends StoreBaseModel {
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
-	private StoreRewardType type;
+	private ResetRewardType type;
 	private String name;
 	private String amount;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
@@ -23,24 +25,24 @@ public class ResetRewardModel extends StoreBaseModel {
 	}
 
 	public ResetRewardModel(String statement) {
-		StoreRewardType storePriorityType = getType(statement);
+		ResetRewardType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {
 			type = storePriorityType;
-			if(type==StoreRewardType.AMOUNT) {
+			if(type==ResetRewardType.AMOUNT) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				amount = amountOperand[1];
-			} else if(type==StoreRewardType.FLAG) {
+			} else if(type==ResetRewardType.FLAG) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
 			}
 		}
 	}
-	public StoreRewardType getType(String opcode) {
+	public ResetRewardType getType(String opcode) {
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_FLAG))
-			return StoreRewardType.FLAG;
+			return ResetRewardType.FLAG;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_AMOUNT))
-			return StoreRewardType.AMOUNT;
+			return ResetRewardType.AMOUNT;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
@@ -58,6 +60,10 @@ public class ResetRewardModel extends StoreBaseModel {
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
+	}
+	public String toString() {
+		return type==ResetRewardType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
+						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
 	}
 
 }

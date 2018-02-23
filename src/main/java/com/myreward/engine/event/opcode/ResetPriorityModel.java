@@ -4,8 +4,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.ResetDurationModel.ResetDurationType;
+
 public class ResetPriorityModel extends StoreBaseModel {
-	public enum StorePriorityType {
+	public enum ResetPriorityType {
 		FLAG,
 		AMOUNT
 	}
@@ -14,7 +16,7 @@ public class ResetPriorityModel extends StoreBaseModel {
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
-	private StorePriorityType type;
+	private ResetPriorityType type;
 	private String name;
 	private String amount;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
@@ -23,24 +25,24 @@ public class ResetPriorityModel extends StoreBaseModel {
 	}
 
 	public ResetPriorityModel(String statement) {
-		StorePriorityType storePriorityType = getType(statement);
+		ResetPriorityType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {
 			type = storePriorityType;
-			if(type==StorePriorityType.AMOUNT) {
+			if(type==ResetPriorityType.AMOUNT) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				amount = amountOperand[1];
-			} else if(type==StorePriorityType.FLAG) {
+			} else if(type==ResetPriorityType.FLAG) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
 			}
 		}
 	}
-	public StorePriorityType getType(String opcode) {
+	public ResetPriorityType getType(String opcode) {
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_FLAG))
-			return StorePriorityType.FLAG;
+			return ResetPriorityType.FLAG;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_AMOUNT))
-			return StorePriorityType.AMOUNT;
+			return ResetPriorityType.AMOUNT;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
@@ -58,6 +60,10 @@ public class ResetPriorityModel extends StoreBaseModel {
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
+	}
+	public String toString() {
+		return type==ResetPriorityType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
+						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
 	}
 
 }

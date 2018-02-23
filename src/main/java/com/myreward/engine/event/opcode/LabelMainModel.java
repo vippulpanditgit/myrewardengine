@@ -18,5 +18,8 @@ public class LabelMainModel extends LabelBaseModel {
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
 	}
+	public String toString() {
+		return OPCODE_LABEL;
+	}
 
 }
