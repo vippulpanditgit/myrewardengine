@@ -21,7 +21,6 @@ public class StoreDurationModel extends StoreBaseModel {
 
 	public StoreDurationModel() {
 	}
-
 	public StoreDurationModel(String statement) {
 		StoreDurationType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {
@@ -58,6 +57,10 @@ public class StoreDurationModel extends StoreBaseModel {
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
+	}
+	public String toString() {
+		return type==StoreDurationType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
+						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
 	}
 
 }

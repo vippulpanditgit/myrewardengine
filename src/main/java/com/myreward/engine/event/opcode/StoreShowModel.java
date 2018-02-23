@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.StoreRepeatModel.StoreRepeatType;
+
 public class StoreShowModel extends StoreBaseModel {
 	public enum StoreShowType {
 		FLAG,
@@ -58,6 +60,10 @@ public class StoreShowModel extends StoreBaseModel {
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
+	}
+	public String toString() {
+		return type==StoreShowType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
+						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
 	}
 
 }

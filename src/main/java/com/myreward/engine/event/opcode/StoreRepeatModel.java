@@ -4,8 +4,9 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+
 public class StoreRepeatModel extends StoreBaseModel {
-	public enum StorePriorityType {
+	public enum StoreRepeatType {
 		FLAG,
 		AMOUNT,
 		TYPE
@@ -16,7 +17,7 @@ public class StoreRepeatModel extends StoreBaseModel {
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
-	private StorePriorityType type;
+	private StoreRepeatType type;
 	private String name;
 	private String amount;
 	private String after;
@@ -26,30 +27,30 @@ public class StoreRepeatModel extends StoreBaseModel {
 	}
 
 	public StoreRepeatModel(String statement) {
-		StorePriorityType storePriorityType = getType(statement);
+		StoreRepeatType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {
 			type = storePriorityType;
-			if(type==StorePriorityType.AMOUNT) {
+			if(type==StoreRepeatType.AMOUNT) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				amount = amountOperand[1];
-			} else if(type==StorePriorityType.FLAG) {
+			} else if(type==StoreRepeatType.FLAG) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
-			} else if(type==StorePriorityType.TYPE) {
+			} else if(type==StoreRepeatType.TYPE) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_TYPE, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				after = amountOperand[1];
 			}
 		}
 	}
-	public StorePriorityType getType(String opcode) {
+	public StoreRepeatType getType(String opcode) {
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_FLAG))
-			return StorePriorityType.FLAG;
+			return StoreRepeatType.FLAG;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_AMOUNT))
-			return StorePriorityType.AMOUNT;
+			return StoreRepeatType.AMOUNT;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_TYPE))
-			return StorePriorityType.TYPE;
+			return StoreRepeatType.TYPE;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
@@ -67,6 +68,10 @@ public class StoreRepeatModel extends StoreBaseModel {
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
+	}
+	public String toString() {
+		return type==StoreRepeatType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
+						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
 	}
 
 }
