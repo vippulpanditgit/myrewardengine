@@ -31,7 +31,7 @@ public class StoreGatekeeperModel extends StoreBaseModel {
 				name = amountOperand[0];
 				amount = amountOperand[1];
 			} else if(type==StoreGatekeeperType.FLAG) {
-				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, null, statement);
+				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
 			}
 		}

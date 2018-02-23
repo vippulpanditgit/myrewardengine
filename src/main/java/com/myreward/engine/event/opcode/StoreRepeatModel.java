@@ -4,25 +4,28 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class ResetPriorityModel extends StoreBaseModel {
+public class StoreRepeatModel extends StoreBaseModel {
 	public enum StorePriorityType {
 		FLAG,
-		AMOUNT
+		AMOUNT,
+		TYPE
 	}
-	private static String OPCODE_LABEL_FLAG = "reset_pri_flg";
-	private static String OPCODE_LABEL_AMOUNT = "reset_pri_amt";
+	private static String OPCODE_LABEL_FLAG = "store_rpt_flg";
+	private static String OPCODE_LABEL_AMOUNT = "store_rpt_aft";
+	private static String OPCODE_LABEL_TYPE = "store_rpt_typ";
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
 	private StorePriorityType type;
 	private String name;
 	private String amount;
+	private String after;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
-	public ResetPriorityModel() {
+	public StoreRepeatModel() {
 	}
 
-	public ResetPriorityModel(String statement) {
+	public StoreRepeatModel(String statement) {
 		StorePriorityType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {
 			type = storePriorityType;
@@ -33,6 +36,10 @@ public class ResetPriorityModel extends StoreBaseModel {
 			} else if(type==StorePriorityType.FLAG) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
+			} else if(type==StorePriorityType.TYPE) {
+				String[] amountOperand = this.parse(OPCODE_LABEL_TYPE, OPERAND_FORMAT_PATTERN, statement);
+				name = amountOperand[0];
+				after = amountOperand[1];
 			}
 		}
 	}
@@ -41,6 +48,8 @@ public class ResetPriorityModel extends StoreBaseModel {
 			return StorePriorityType.FLAG;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_AMOUNT))
 			return StorePriorityType.AMOUNT;
+		if(StringUtils.startsWith(opcode, OPCODE_LABEL_TYPE))
+			return StorePriorityType.TYPE;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
