@@ -1,6 +1,7 @@
 package com.myreward.engine.event.processor;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,6 +14,7 @@ import com.myreward.engine.event.opcode.*;
 public class EventProcessor {
 	private MyRewardPCodeGenerator myRewardCodeGenerator;
 	private Map<String, Integer> fnXref = new HashMap<String, Integer>();
+	private List<OpCodeBaseModel> instructionOpCodes = new ArrayList<OpCodeBaseModel>();
 	private List<OpCodeBaseModel> opCodeList = Arrays.asList(new CallFunctionModel(),
 											new CallGatekeeperModel(),
 											new CallPriorityModel(),
@@ -23,6 +25,7 @@ public class EventProcessor {
 											new IfEventModel(),
 											new IfGatekeeperModel(),
 											new IfRewardModel(),
+											new LabelDurationModel(),
 											new LabelFunctionModel(),
 											new LabelGatekeeperModel(),
 											new LabelMainModel(),
@@ -33,7 +36,8 @@ public class EventProcessor {
 											new StoreGatekeeperModel(),
 											new StorePriorityModel(),
 											new StoreRewardModel(),
-											new StoreShowModel());
+											new StoreShowModel(),
+											new ReturnModel());
 	
 	public void readPCode(MyRewardPCodeGenerator myRewardCodeGenerator) {
 		this.myRewardCodeGenerator = myRewardCodeGenerator;
@@ -51,13 +55,17 @@ public class EventProcessor {
 				Iterator<OpCodeBaseModel> opCodeBaseModelIterator = opCodeList.iterator();
 				while(opCodeBaseModelIterator.hasNext()) {
 					OpCodeBaseModel opCodeBaseModel = opCodeBaseModelIterator.next();
-					String[] opCodeHandler = opCodeBaseModel.OPCODE_HANDLER;
+					String[] opCodeHandler = opCodeBaseModel.getOpcodes();
 					for(int opCodeIndex=0;opCodeIndex<opCodeHandler.length;opCodeIndex++) {
-						if(opCodeHandler[opCodeIndex].equalsIgnoreCase(opcode.substring(0, opCodeHandler[opCodeIndex].length()))) {
+						System.out.println(opCodeHandler[opCodeIndex]);
+						if(opcode.length()>=opCodeHandler[opCodeIndex].length() && 
+								opCodeHandler[opCodeIndex].equalsIgnoreCase(opcode.substring(0, opCodeHandler[opCodeIndex].length()))) {
 							try {
-								OpCodeBaseModel newFoo = opCodeBaseModel.getClass().newInstance();
 								Constructor constructor = opCodeBaseModel.getClass().getConstructor(new Class[] { String.class});
 								OpCodeBaseModel realInstance = (OpCodeBaseModel) constructor.newInstance(new Object[] { opcode });
+								instructionOpCodes.add(realInstance);
+								System.out.println("Test");
+								break;
 							} catch(Exception exp){
 								exp.printStackTrace();
 							}

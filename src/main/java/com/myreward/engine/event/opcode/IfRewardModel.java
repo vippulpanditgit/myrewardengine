@@ -86,4 +86,9 @@ public class IfRewardModel extends IfBaseModel {
 			return new String[]{operandValue};
 		}
 	}	
+	@Override
+	public String[] getOpcodes() {
+		return OPCODE_HANDLER;
+	}
+
 }

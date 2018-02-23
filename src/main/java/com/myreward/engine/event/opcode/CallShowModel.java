@@ -32,4 +32,9 @@ public class CallShowModel extends CallBaseModel {
 		String[] functionCallParameter = pattern.split(operandValue);
 		return functionCallParameter;
 	}
+	@Override
+	public String[] getOpcodes() {
+		return OPCODE_HANDLER;
+	}
+
 }

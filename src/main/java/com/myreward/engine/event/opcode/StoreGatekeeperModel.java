@@ -55,4 +55,9 @@ public class StoreGatekeeperModel extends StoreBaseModel {
 			return new String[]{operandValue};
 		}
 	}	
+	@Override
+	public String[] getOpcodes() {
+		return OPCODE_HANDLER;
+	}
+
 }

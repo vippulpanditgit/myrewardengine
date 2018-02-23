@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import org.antlr.v4.runtime.*;
 
+import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardFunctionXRef;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
@@ -98,6 +99,9 @@ public class test {
             myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
             myRewardDataSegment.printString();
             System.out.println(myRewardCodeGenerator.getCodeSegment());
+            EventProcessor eventProcessor = new EventProcessor();
+            eventProcessor.readPCode(myRewardCodeGenerator);
+            eventProcessor.preprocess();
  		} catch(Exception exp) {
 			exp.printStackTrace();
 		}

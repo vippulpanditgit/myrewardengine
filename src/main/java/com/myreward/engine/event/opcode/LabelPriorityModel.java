@@ -20,5 +20,9 @@ public class LabelPriorityModel extends LabelBaseModel {
 			version = fields[2];
 		}
 	}
+	@Override
+	public String[] getOpcodes() {
+		return OPCODE_HANDLER;
+	}
 
 }

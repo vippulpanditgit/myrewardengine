@@ -86,4 +86,9 @@ public class IfGatekeeperModel extends IfBaseModel {
 			return new String[]{operandValue};
 		}
 	}	
+	@Override
+	public String[] getOpcodes() {
+		return OPCODE_HANDLER;
+	}
+
 }

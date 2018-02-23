@@ -1,5 +1,7 @@
 package com.myreward.engine.event.opcode;
 
-public class OpCodeBaseModel {
-	public static String[] OPCODE_HANDLER;
+public abstract class OpCodeBaseModel {
+	
+	public abstract String[] getOpcodes();
+	
 }

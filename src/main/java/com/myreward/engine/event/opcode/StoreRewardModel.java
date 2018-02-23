@@ -31,7 +31,7 @@ public class StoreRewardModel extends StoreBaseModel {
 				name = amountOperand[0];
 				amount = amountOperand[1];
 			} else if(type==StoreRewardType.FLAG) {
-				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, null, statement);
+				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
 			}
 		}
@@ -55,4 +55,9 @@ public class StoreRewardModel extends StoreBaseModel {
 			return new String[]{operandValue};
 		}
 	}	
+	@Override
+	public String[] getOpcodes() {
+		return OPCODE_HANDLER;
+	}
+
 }

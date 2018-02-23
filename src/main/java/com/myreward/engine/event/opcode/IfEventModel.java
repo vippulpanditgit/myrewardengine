@@ -1,5 +1,6 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -8,9 +9,17 @@ public class IfEventModel extends IfBaseModel {
 	public enum IfCompletionType {
 		FLAG,
 		AMOUNT,
-		EVENT
+		EVENT,
+		DATE
 	}
 	public enum IfCompletionAmtType {
+		LE,
+		LT,
+		EQ,
+		GT,
+		GE
+	}
+	public enum IfCompletionDtType {
 		LE,
 		LT,
 		EQ,
@@ -25,17 +34,22 @@ public class IfEventModel extends IfBaseModel {
 	private static String OPCODE_LABEL_FLAG = "if_cmp_flg";
 	private static String OPCODE_LABEL_AMOUNT = "if_cmp_amt";
 	private static String OPCODE_LABEL_EVENT = "if_evt_nm";
+	private static String OPCODE_LABEL_DATE = "if_evt_dt";
+	
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
 	private IfCompletionType type;
 	private IfCompletionAmtType amountType;
 	private IfCompletionFlgType flagType;
+	private IfCompletionDtType dtType;
+
 	private String name;
 	private String amount;
 	private String eventName;
 	private int gotoLine;
-	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT, OPCODE_LABEL_EVENT};
+	private Date date;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT, OPCODE_LABEL_EVENT, OPCODE_LABEL_DATE};
 
 	public IfEventModel() {
 		
@@ -60,6 +74,21 @@ public class IfEventModel extends IfBaseModel {
 				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_AMOUNT+"_ge")) {
 					amountType = IfCompletionAmtType.GE;
 				}
+			} else if(type==IfCompletionType.DATE) {
+				String[] dateOperand = this.parse(OPCODE_LABEL_DATE, OPERAND_FORMAT_PATTERN, statement);
+				String longDate = dateOperand[0].trim();
+				date = new Date(Long.parseLong(longDate));
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+"_le")) {
+					dtType = IfCompletionDtType.LE;
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+"_lt")) {
+					dtType = IfCompletionDtType.LT;
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+"_eq")) {
+					dtType = IfCompletionDtType.EQ;
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+"_gt")) {
+					dtType = IfCompletionDtType.GT;
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+"_ge")) {
+					dtType = IfCompletionDtType.GE;
+				}
 			} else if(type==IfCompletionType.FLAG) {
 				String[] flagOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = flagOperand[0];
@@ -82,6 +111,8 @@ public class IfEventModel extends IfBaseModel {
 			return IfCompletionType.AMOUNT;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_EVENT))
 			return IfCompletionType.EVENT;
+		if(StringUtils.startsWith(opcode, OPCODE_LABEL_DATE))
+			return IfCompletionType.DATE;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
@@ -95,5 +126,10 @@ public class IfEventModel extends IfBaseModel {
 		} else {
 			return new String[]{operandValue};
 		}
-	}	
+	}
+	@Override
+	public String[] getOpcodes() {
+		return OPCODE_HANDLER;
+	}
+
 }

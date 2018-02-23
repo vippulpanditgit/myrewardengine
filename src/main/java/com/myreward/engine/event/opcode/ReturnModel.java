@@ -14,5 +14,9 @@ public class ReturnModel extends OpCodeBaseModel {
 		if(!StringUtils.equalsIgnoreCase(statement, OPCODE_LABEL))
 				return;
 	}
+	@Override
+	public String[] getOpcodes() {
+		return OPCODE_HANDLER;
+	}
 
 }

@@ -54,5 +54,10 @@ public class StorePriorityModel extends StoreBaseModel {
 		} else {
 			return new String[]{operandValue};
 		}
-	}	
+	}
+	@Override
+	public String[] getOpcodes() {
+		return OPCODE_HANDLER;
+	}
+
 }

@@ -14,5 +14,9 @@ public class LabelMainModel extends LabelBaseModel {
 		if(!StringUtils.equalsIgnoreCase(statement, OPCODE_LABEL))
 				return;
 	}
+	@Override
+	public String[] getOpcodes() {
+		return OPCODE_HANDLER;
+	}
 
 }
