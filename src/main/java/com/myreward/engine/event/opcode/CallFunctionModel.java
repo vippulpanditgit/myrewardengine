@@ -4,6 +4,9 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.OperationResultDO;
+
 public class CallFunctionModel extends CallBaseModel {
 	public static String OPCODE_LABEL = "call_fn";
 	private static String OPCODE_OPERAND_START = "(";
@@ -39,5 +42,10 @@ public class CallFunctionModel extends CallBaseModel {
 	}
 	public String toString() {
 		return OPCODE_LABEL+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+version+OPCODE_OPERAND_END;
+	}
+	public OperationResultDO process(EventDO event) {
+		OperationResultDO operationResultDO = null;
+
+		return operationResultDO;
 	}
 }

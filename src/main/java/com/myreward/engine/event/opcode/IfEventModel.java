@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.event.opcode.IfDurationModel.IfDurationType;
 import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
 
 public class IfEventModel extends IfBaseModel {
@@ -161,7 +162,7 @@ public class IfEventModel extends IfBaseModel {
 	}
 	
 	public OperationResultDO process(EventDO event) {
-		OperationResultDO operationResultDO = new OperationResultDO();
+		OperationResultDO operationResultDO = null;
 		if(type==IfCompletionType.FLAG) {
 		}
 		if(type==IfCompletionType.AMOUNT) {
@@ -169,9 +170,13 @@ public class IfEventModel extends IfBaseModel {
 		if(type==IfCompletionType.EVENT) {
 			if(event.isValid()) {
 				if(StringUtils.equalsAnyIgnoreCase(event.getActivityName(), name)) {
-					
+					operationResultDO = new IfOperationResult();
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
 				} else {
-					
+					operationResultDO = new IfOperationResult();
+					((IfOperationResult)operationResultDO).setResult(false);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
 				}
 			}
 		}
