@@ -9,11 +9,14 @@ public class StoreRepeatModel extends StoreBaseModel {
 	public enum StoreRepeatType {
 		FLAG,
 		AMOUNT,
-		TYPE
+		TYPE,
+		DATE
 	}
 	private static String OPCODE_LABEL_FLAG = "store_rpt_flg";
 	private static String OPCODE_LABEL_AMOUNT = "store_rpt_aft";
 	private static String OPCODE_LABEL_TYPE = "store_rpt_typ";
+	private static String OPCODE_LABEL_DATE = "store_rpt_dt";
+
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
@@ -21,7 +24,7 @@ public class StoreRepeatModel extends StoreBaseModel {
 	private String name;
 	private String amount;
 	private String after;
-	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT, OPCODE_LABEL_TYPE};
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT, OPCODE_LABEL_TYPE, OPCODE_LABEL_DATE};
 
 	public StoreRepeatModel() {
 	}
@@ -41,6 +44,10 @@ public class StoreRepeatModel extends StoreBaseModel {
 				String[] amountOperand = this.parse(OPCODE_LABEL_TYPE, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				after = amountOperand[1];
+			} else if(type==StoreRepeatType.DATE) {
+				String[] amountOperand = this.parse(OPCODE_LABEL_DATE, null, statement);
+				name = amountOperand[0];
+//				after = amountOperand[1];
 			}
 		}
 	}
@@ -51,6 +58,8 @@ public class StoreRepeatModel extends StoreBaseModel {
 			return StoreRepeatType.AMOUNT;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_TYPE))
 			return StoreRepeatType.TYPE;
+		if(StringUtils.startsWith(opcode, OPCODE_LABEL_DATE))
+			return StoreRepeatType.DATE;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {

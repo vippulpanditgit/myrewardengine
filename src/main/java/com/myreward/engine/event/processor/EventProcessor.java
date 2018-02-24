@@ -26,6 +26,7 @@ public class EventProcessor {
 											new IfEventModel(),
 											new IfGatekeeperModel(),
 											new IfRewardModel(),
+											new IfRepeatModel(),
 											new LabelDurationModel(),
 											new LabelFunctionModel(),
 											new LabelGatekeeperModel(),

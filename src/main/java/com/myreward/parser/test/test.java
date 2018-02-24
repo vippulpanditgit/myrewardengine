@@ -17,6 +17,7 @@ import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
 import com.myreward.parser.grammar.visitor.MyRewardVisitor;
 import com.myreward.parser.symbol.SymbolProcessingEngine;
 import com.myreward.parser.util.MyRewardParserUtil;
+import com.myreward.parser.util.RuntimeLib;
 
 public class test {
 
@@ -99,6 +100,8 @@ public class test {
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
             myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
+            
+            MyRewardDataSegment myRewardDataSegmentClone = (MyRewardDataSegment) RuntimeLib.deepClone(myRewardDataSegment);
             myRewardDataSegment.printString();
             System.out.println(myRewardCodeGenerator.getCodeSegment().size()+"<<"+ myRewardCodeGenerator.getCodeSegment());
             EventProcessor eventProcessor = new EventProcessor();
