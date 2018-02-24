@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.event.opcode.IfDurationModel.IfDurationType;
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.OperationResultDO;
 
 public class IfEventModel extends IfBaseModel {
 	public enum IfCompletionType {
@@ -156,6 +158,26 @@ public class IfEventModel extends IfBaseModel {
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
+	}
+	
+	public OperationResultDO process(EventDO event) {
+		OperationResultDO operationResultDO = new OperationResultDO();
+		if(type==IfCompletionType.FLAG) {
+		}
+		if(type==IfCompletionType.AMOUNT) {
+		}
+		if(type==IfCompletionType.EVENT) {
+			if(event.isValid()) {
+				if(StringUtils.equalsAnyIgnoreCase(event.getActivityName(), name)) {
+					
+				} else {
+					
+				}
+			}
+		}
+		if(type==IfCompletionType.DATE) {
+		}
+		return operationResultDO;		
 	}
 	public String toString() {
 		if(type==IfCompletionType.FLAG) {
