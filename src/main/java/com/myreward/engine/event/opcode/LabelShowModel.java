@@ -27,5 +27,9 @@ public class LabelShowModel extends LabelBaseModel {
 	public String toString() {
 		return OPCODE_LABEL+ARGUMENT_SEPERATOR+name+ARGUMENT_SEPERATOR+version;
 	}
+	public boolean equals(LabelShowModel labelShowModel) {
+		return StringUtils.equalsIgnoreCase(name, labelShowModel.name)
+				&& StringUtils.equalsIgnoreCase(version, labelShowModel.version);
+	}
 
 }

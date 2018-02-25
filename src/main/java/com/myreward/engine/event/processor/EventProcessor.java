@@ -8,11 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.engine.event.opcode.*;
+import com.myreward.engine.model.event.EventDO;
 
 public class EventProcessor {
 	private MyRewardPCodeGenerator myRewardCodeGenerator;
+	private MyRewardDataSegment myRewardDataSegment;
 	private Map<String, Integer> fnXref = new HashMap<String, Integer>();
 	private List<OpCodeBaseModel> instructionOpCodes = new ArrayList<OpCodeBaseModel>();
 	private List<OpCodeBaseModel> opCodeList = Arrays.asList(new CallFunctionModel(),
@@ -104,12 +107,33 @@ public class EventProcessor {
         
     }
 	
-	public void run() {
+    private int findMainOpCode() {
+    	Iterator<OpCodeBaseModel> instructionOpCodeIterator = instructionOpCodes.iterator();
+    	int index = 0;
+    	while(instructionOpCodeIterator.hasNext()) {
+    		OpCodeBaseModel opCodeBaseModel = instructionOpCodeIterator.next();
+    		if(opCodeBaseModel instanceof LabelMainModel)
+    			return index;
+     		index++;
+    	}
+    	return index;
+    }
+
+	public boolean run() {
 		if(this.myRewardCodeGenerator==null)
-			return;
-		
+			return false;
+		if(this.myRewardDataSegment==null)
+			return false;
+		int mainIndex = findMainOpCode();
+		if(mainIndex==0)
+			return false;
+		// read event
+		EventDO eventDO = new EventDO();
 		while(true) {
-			
+			mainIndex++;
+			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(mainIndex);
+			if(opCodeBaseModel instanceof ReturnModel)
+				break;
 		}
 	}
 
@@ -119,5 +143,21 @@ public class EventProcessor {
 
 	public void setInstructionOpCodes(List<OpCodeBaseModel> instructionOpCodes) {
 		this.instructionOpCodes = instructionOpCodes;
+	}
+
+	public MyRewardPCodeGenerator getMyRewardCodeGenerator() {
+		return myRewardCodeGenerator;
+	}
+
+	public void setMyRewardCodeGenerator(MyRewardPCodeGenerator myRewardCodeGenerator) {
+		this.myRewardCodeGenerator = myRewardCodeGenerator;
+	}
+
+	public MyRewardDataSegment getMyRewardDataSegment() {
+		return myRewardDataSegment;
+	}
+
+	public void setMyRewardDataSegment(MyRewardDataSegment myRewardDataSegment) {
+		this.myRewardDataSegment = myRewardDataSegment;
 	}
 }

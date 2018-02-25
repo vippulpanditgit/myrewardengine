@@ -27,5 +27,9 @@ public class LabelDurationModel extends LabelBaseModel {
 	public String toString() {
 		return OPCODE_LABEL+ARGUMENT_SEPERATOR+name+ARGUMENT_SEPERATOR+version;
 	}
+	public boolean equals(LabelDurationModel labelDurationModel) {
+		return StringUtils.equalsIgnoreCase(name, labelDurationModel.name)
+				&& StringUtils.equalsIgnoreCase(version, labelDurationModel.version);
+	}
 
 }

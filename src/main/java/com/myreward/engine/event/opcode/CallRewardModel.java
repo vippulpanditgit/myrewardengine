@@ -4,6 +4,12 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.IfEventModel.IfCompletionType;
+import com.myreward.engine.model.event.CallOperationResult;
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.IfOperationResult;
+import com.myreward.engine.model.event.OperationResultDO;
+
 public class CallRewardModel extends CallBaseModel {
 	private static String OPCODE_LABEL = "call_rwd";
 	private static String OPCODE_OPERAND_START = "(";
@@ -39,5 +45,14 @@ public class CallRewardModel extends CallBaseModel {
 	public String toString() {
 		return OPCODE_LABEL+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+version+OPCODE_OPERAND_END;
 	}
-
+	public OperationResultDO process(EventDO event) {
+		OperationResultDO operationResultDO = null;
+		if(event.isValid()) {
+			operationResultDO = new CallOperationResult();
+			((CallOperationResult)operationResultDO).setResult(true);
+			((CallOperationResult)operationResultDO).setLabelHashValue(name);
+			((CallOperationResult)operationResultDO).setLabelVersion(version);
+		}
+		return operationResultDO;		
+	}
 }

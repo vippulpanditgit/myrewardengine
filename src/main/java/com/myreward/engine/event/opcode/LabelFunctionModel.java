@@ -26,5 +26,9 @@ public class LabelFunctionModel extends LabelBaseModel {
 	public String toString() {
 		return OPCODE_LABEL+ARGUMENT_SEPERATOR+name+ARGUMENT_SEPERATOR+version;
 	}
+	public boolean equals(LabelFunctionModel labelFunctionModel) {
+		return StringUtils.equalsIgnoreCase(name, labelFunctionModel.name)
+				&& StringUtils.equalsIgnoreCase(version, labelFunctionModel.version);
+	}
 
 }

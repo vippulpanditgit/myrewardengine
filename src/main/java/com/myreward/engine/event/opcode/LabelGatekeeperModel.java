@@ -27,5 +27,9 @@ public class LabelGatekeeperModel extends LabelBaseModel {
 	public String toString() {
 		return OPCODE_LABEL+ARGUMENT_SEPERATOR+name+ARGUMENT_SEPERATOR+version;
 	}
+	public boolean equals(LabelGatekeeperModel labelGatekeeperModel) {
+		return StringUtils.equalsIgnoreCase(name, labelGatekeeperModel.name)
+				&& StringUtils.equalsIgnoreCase(version, labelGatekeeperModel.version);
+	}
 
 }

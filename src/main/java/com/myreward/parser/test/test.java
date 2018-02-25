@@ -99,14 +99,23 @@ public class test {
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
             myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
-            myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
             
+            // Create the data segment
+            myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
+            // Copy the data segment
             MyRewardDataSegment myRewardDataSegmentClone = (MyRewardDataSegment) RuntimeLib.deepClone(myRewardDataSegment);
-            myRewardDataSegment.printString();
+
+            myRewardDataSegmentClone.printString();
             System.out.println(myRewardCodeGenerator.getCodeSegment().size()+"<<"+ myRewardCodeGenerator.getCodeSegment());
             EventProcessor eventProcessor = new EventProcessor();
             eventProcessor.readPCode(myRewardCodeGenerator);
+            eventProcessor.setMyRewardDataSegment(myRewardDataSegmentClone);
+            
             eventProcessor.preprocess();
+            if(!eventProcessor.run()) {
+            	System.out.println("This is not working.");
+            }
+            
             System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
  		} catch(Exception exp) {
 			exp.printStackTrace();

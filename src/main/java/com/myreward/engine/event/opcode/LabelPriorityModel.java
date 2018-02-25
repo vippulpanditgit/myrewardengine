@@ -27,5 +27,9 @@ public class LabelPriorityModel extends LabelBaseModel {
 	public String toString() {
 		return OPCODE_LABEL+ARGUMENT_SEPERATOR+name+ARGUMENT_SEPERATOR+version;
 	}
+	public boolean equals(LabelPriorityModel labelPriorityModel) {
+		return StringUtils.equalsIgnoreCase(name, labelPriorityModel.name)
+				&& StringUtils.equalsIgnoreCase(version, labelPriorityModel.version);
+	}
 
 }
