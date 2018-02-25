@@ -135,6 +135,7 @@ public class EventProcessor {
 			if(opCodeBaseModel instanceof ReturnModel)
 				break;
 		}
+		return true;
 	}
 
 	public List<OpCodeBaseModel> getInstructionOpCodes() {
