@@ -1,8 +1,15 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.engine.model.event.StatementOperationResult;
+import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
 public class AddRewardModel extends OpCodeBaseModel {
 	private static final String ARGUMENT_SEPERATOR = ",";
@@ -39,6 +46,20 @@ public class AddRewardModel extends OpCodeBaseModel {
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
+	}
+
+	@Override
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
+			EventDO event) {
+		OperationResultDO operationResultDO = new StatementOperationResult();;
+		EventDataObject eventDataObject = myRewardDataSegment.search(name);
+		if(eventDataObject!=null) {
+			eventDataObject.amount += Integer.valueOf(amount);
+			operationResultDO.setResult(true);
+			return operationResultDO;
+		}
+		operationResultDO.setResult(false);
+		return operationResultDO;
 	}
 
 }

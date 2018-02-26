@@ -183,16 +183,16 @@ public class IfEventModel extends IfBaseModel {
 	
 	public String toString() {
 		if(type==IfCompletionType.FLAG) {
-			return OPCODE_LABEL_FLAG+flagType.value+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
+			return OPCODE_LABEL_FLAG+flagType.value()+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
 		}
 		if(type==IfCompletionType.AMOUNT) {
-			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+			return OPCODE_LABEL_AMOUNT+(amountType!=null?amountType.value():"")+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
 		}
 		if(type==IfCompletionType.EVENT) {
-			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+			return OPCODE_LABEL_AMOUNT+amountType!=null?amountType.value():""+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
 		}
 		if(type==IfCompletionType.DATE) {
-			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+			return OPCODE_LABEL_AMOUNT+amountType!=null?amountType.value():""+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
 		}
 		return null;
 	}

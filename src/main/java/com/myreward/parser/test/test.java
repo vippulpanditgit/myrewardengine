@@ -84,10 +84,10 @@ public class test {
 								+ "event(E)"
 							+ "},"
 							+ "event(GF).any(1){"
-								+ "event(H).reward(10)"
+								+ "event(H).reward(10,100)"
 							+ "}"
 						+ "}"
-					+ "}.reward(100)";
+					+ "}.reward(100,1000)";
 
 			
 			
@@ -104,8 +104,8 @@ public class test {
             myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
             // Copy the data segment
             MyRewardDataSegment myRewardDataSegmentClone = (MyRewardDataSegment) RuntimeLib.deepClone(myRewardDataSegment);
-
             myRewardDataSegmentClone.printString();
+
             System.out.println(myRewardCodeGenerator.getCodeSegment().size()+"<<"+ myRewardCodeGenerator.getCodeSegment());
             EventProcessor eventProcessor = new EventProcessor();
             eventProcessor.readPCode(myRewardCodeGenerator);
@@ -115,6 +115,7 @@ public class test {
             if(!eventProcessor.run()) {
             	System.out.println("This is not working.");
             }
+            myRewardDataSegmentClone.printString();
             
             System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
  		} catch(Exception exp) {

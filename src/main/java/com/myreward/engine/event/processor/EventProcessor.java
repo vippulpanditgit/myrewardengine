@@ -13,6 +13,7 @@ import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.engine.event.opcode.*;
 import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
 
 public class EventProcessor {
@@ -132,15 +133,28 @@ public class EventProcessor {
 		// read event
 		EventDO eventDO = new EventDO();
 		//Testing - VP
-		eventDO.setActivityName("B");
+		eventDO.setActivityName("H");
 		eventDO.setActivityDate(new Date());
 		//Testing - VP
 		while(true) {
-			mainIndex++;
+			if(mainIndex < instructionOpCodes.size()-1)
+				mainIndex++;
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(mainIndex);
 			if(opCodeBaseModel instanceof ReturnModel)
 				break;
 			OperationResultDO operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, eventDO);
+			if(operationResultDO instanceof IfOperationResult) {
+				int index = ((IfOperationResult)operationResultDO).getNextOperationNumber();
+				if(index>0)
+					mainIndex += (index-1);
+				else {
+					while(mainIndex<instructionOpCodes.size()) {
+						mainIndex++;
+						if(instructionOpCodes.get(mainIndex) instanceof ReturnModel)
+							break;
+					}
+				}
+			}
 		}
 		return true;
 	}
