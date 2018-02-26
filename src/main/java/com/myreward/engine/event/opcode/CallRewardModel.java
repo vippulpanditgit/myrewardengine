@@ -79,6 +79,18 @@ public class CallRewardModel extends CallBaseModel {
 				break;
 
 			operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, event);
+			if(operationResultDO instanceof IfOperationResult) {
+				int index = ((IfOperationResult)operationResultDO).getNextOperationNumber();
+				if(index>0)
+					callbackFunctionModelIndex += (index-1);
+				else {
+					while(callbackFunctionModelIndex<instructionOpCodes.size()) {
+						callbackFunctionModelIndex++;
+						if(instructionOpCodes.get(callbackFunctionModelIndex) instanceof ReturnModel)
+							break;
+					}
+				}
+			}
 			
 		}
 		return operationResultDO;

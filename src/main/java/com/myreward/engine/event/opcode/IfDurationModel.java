@@ -136,7 +136,7 @@ public class IfDurationModel extends IfBaseModel {
 					((IfOperationResult)operationResultDO).setResult(true);
 					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
 				} else {
-					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setResult(false);
 					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
 				}
 				return operationResultDO;

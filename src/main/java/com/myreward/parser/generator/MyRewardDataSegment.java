@@ -121,6 +121,9 @@ public class MyRewardDataSegment implements Serializable {
 			amount = Double.valueOf(rewardAmount);
 			return amount.doubleValue();
 		}
+		public double getReward(){
+			return amount.doubleValue();
+		}
 		public void setMaxRepeat(int maxRepeat) {
 			maxRepeat = Integer.valueOf(maxRepeat);
 		}
