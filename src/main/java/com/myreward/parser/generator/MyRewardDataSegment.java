@@ -38,10 +38,13 @@ public class MyRewardDataSegment implements Serializable {
 		public String toString() {
 			return name+"<<"+id+"<<"+description+"<<"+eventStatus+"<<"+eventCount+"<<"+amount+"<<"+maxRepeat+"<<"+priority;
 		}
-		public void setEventCompletionStatus() {
+		public void setEventCompletionFlag() {
 			eventStatus |= 0x01;
 		}
-		public boolean isEventCompletionStatusSet() {
+		public void resetEventCompletionFlag() {
+			eventStatus &= 0xfe;
+		}
+		public boolean isEventCompletionFlagSet() {
 			if((eventStatus & 0x01)==0x01)
 				return true;
 			return false;

@@ -78,7 +78,7 @@ public class StoreEventModel extends StoreBaseModel {
 		OperationResultDO operationResultDO = new StatementOperationResult();;
 		EventDataObject eventDataObject = myRewardDataSegment.search(name);
 		if(eventDataObject!=null) {
-			eventDataObject.setEventCompletionStatus();
+			eventDataObject.setEventCompletionFlag();
 			operationResultDO.setResult(true);
 			return operationResultDO;
 		}

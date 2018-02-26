@@ -1,10 +1,17 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.event.opcode.ResetDurationModel.ResetDurationType;
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.IfOperationResult;
+import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.engine.model.event.StatementOperationResult;
+import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
 public class ResetEventModel extends StoreBaseModel {
 	public enum ResetEventType {
@@ -64,6 +71,20 @@ public class ResetEventModel extends StoreBaseModel {
 	public String toString() {
 		return type==ResetEventType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
 						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
+	}
+
+	@Override
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
+			EventDO event) {
+		OperationResultDO operationResultDO = new StatementOperationResult();
+		EventDataObject eventDataObject = myRewardDataSegment.search(name);
+		if(eventDataObject!=null) {
+			eventDataObject.resetEventCompletionFlag();
+			operationResultDO.setResult(true);
+			return operationResultDO;
+		}
+		operationResultDO.setResult(false);
+		return operationResultDO;
 	}
 
 }
