@@ -166,7 +166,8 @@ public class IfEventModel extends IfBaseModel {
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
 		if(!StringUtils.startsWith(value, opcodeLabelFlag))
 			return null;
-		String operandValue = StringUtils.substringBetween(value, OPCODE_OPERAND_START, OPCODE_OPERAND_END);
+		String operandValue = StringUtils.substringAfter(value, OPCODE_OPERAND_START);
+		operandValue = StringUtils.substringBeforeLast(operandValue, OPCODE_OPERAND_END);
 		if(operandSeparator!=null) {
 			Pattern pattern = Pattern.compile(operandSeparator);
 			String[] functionCallParameter = pattern.split(operandValue);
