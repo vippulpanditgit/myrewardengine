@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
@@ -38,11 +41,21 @@ public class MyRewardDataSegment implements Serializable {
 		public void setEventCompletionStatus() {
 			eventStatus |= 0x01;
 		}
+		public boolean isEventCompletionStatusSet() {
+			if((eventStatus & 0x01)==0x01)
+				return true;
+			return false;
+		}
 		public void resetGatekeeperStatus() {
 			eventStatus &= 0xfd;
 		}
 		public void setGatekeeperStatus() {
 			eventStatus |= 0x02;
+		}
+		public boolean isGatekeeperStatusSet() {
+			if((eventStatus & 0x02)==0x02)
+				return true;
+			return false;
 		}
 		public void resetRewardStatus() {
 			eventStatus &= 0xfb;
@@ -50,18 +63,46 @@ public class MyRewardDataSegment implements Serializable {
 		public void setRewardStatus() {
 			eventStatus |= 0x04;
 		}
+		public boolean isRewardStatusSet() {
+			if((eventStatus & 0x04)==0x04)
+				return true;
+			return false;
+		}
 		public void setShowFlag() {
 			eventStatus |= 0x08;
+		}
+		public boolean isShowFlagSet() {
+			if((eventStatus & 0x08)==0x08)
+				return true;
+			return false;
 		}
 		public void setPriorityFlag() {
 			eventStatus |=0x10;
 		}
+		public boolean isPriorityFlagSet() {
+			if((eventStatus & 0x10)==0x10)
+				return true;
+			return false;
+		}
+
 		public void setRepeatFlag() {
 			eventStatus |= 0x20;
 		}
+		public boolean isRepeatFlagSet() {
+			if((eventStatus & 0x20)==0x20)
+				return true;
+			return false;
+		}
+
 		public void setDurationFlag() {
 			eventStatus |= 0x40;
 		}
+		public boolean isDurationFlagSet() {
+			if((eventStatus & 0x40)==0x40)
+				return true;
+			return false;
+		}
+
 		public void resetDurationFlag() {
 			eventStatus &= 0xbf;
 		}
@@ -119,6 +160,14 @@ public class MyRewardDataSegment implements Serializable {
 	}
 	public void printString() {
 		dataSegment.forEach(eventObject -> System.out.println(eventObject));
+	}
+	public EventDataObject search(String id) {
+		Integer eventDataObjectIndex = xmapdataSegment.get(Integer.valueOf(id));
+		if(eventDataObjectIndex!=null) {
+			return dataSegment.get(eventDataObjectIndex.intValue());
+			
+		}
+		return null;
 	}
 
 }

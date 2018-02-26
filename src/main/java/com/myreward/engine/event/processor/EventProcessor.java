@@ -3,6 +3,7 @@ package com.myreward.engine.event.processor;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.engine.event.opcode.*;
 import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.OperationResultDO;
 
 public class EventProcessor {
 	private MyRewardPCodeGenerator myRewardCodeGenerator;
@@ -129,11 +131,16 @@ public class EventProcessor {
 			return false;
 		// read event
 		EventDO eventDO = new EventDO();
+		//Testing - VP
+		eventDO.setActivityName("B");
+		eventDO.setActivityDate(new Date());
+		//Testing - VP
 		while(true) {
 			mainIndex++;
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(mainIndex);
 			if(opCodeBaseModel instanceof ReturnModel)
 				break;
+			OperationResultDO operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, eventDO);
 		}
 		return true;
 	}

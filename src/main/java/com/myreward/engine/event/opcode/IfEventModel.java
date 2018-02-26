@@ -1,6 +1,7 @@
 package com.myreward.engine.event.opcode;
 
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,9 @@ import com.myreward.engine.event.opcode.IfDurationModel.IfDurationType;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.engine.model.event.StatementOperationResult;
+import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
 public class IfEventModel extends IfBaseModel {
 	public enum IfCompletionType {
@@ -161,29 +165,6 @@ public class IfEventModel extends IfBaseModel {
 		return OPCODE_HANDLER;
 	}
 	
-	public OperationResultDO process(EventDO event) {
-		OperationResultDO operationResultDO = null;
-		if(type==IfCompletionType.FLAG) {
-		}
-		if(type==IfCompletionType.AMOUNT) {
-		}
-		if(type==IfCompletionType.EVENT) {
-			if(event.isValid()) {
-				if(StringUtils.equalsAnyIgnoreCase(event.getActivityName(), name)) {
-					operationResultDO = new IfOperationResult();
-					((IfOperationResult)operationResultDO).setResult(true);
-					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
-				} else {
-					operationResultDO = new IfOperationResult();
-					((IfOperationResult)operationResultDO).setResult(false);
-					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
-				}
-			}
-		}
-		if(type==IfCompletionType.DATE) {
-		}
-		return operationResultDO;		
-	}
 	public String toString() {
 		if(type==IfCompletionType.FLAG) {
 			return OPCODE_LABEL_FLAG+flagType.value+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
@@ -198,5 +179,45 @@ public class IfEventModel extends IfBaseModel {
 			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
 		}
 		return null;
+	}
+
+	@Override
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event) {
+		OperationResultDO operationResultDO = null;
+		if(type==IfCompletionType.FLAG) {
+			operationResultDO = new IfOperationResult();;
+			EventDataObject eventDataObject = myRewardDataSegment.search(name);
+			if(eventDataObject!=null) {
+				if(eventDataObject.isEventCompletionStatusSet()) {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				} else {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+				}
+				return operationResultDO;
+			}
+			operationResultDO.setResult(false);
+			return operationResultDO;
+
+		}
+		if(type==IfCompletionType.AMOUNT) {
+		}
+		if(type==IfCompletionType.EVENT) {
+			if(event.isValid()) {
+				if(StringUtils.equalsAnyIgnoreCase(event.getActivityName(), eventName)) {
+					operationResultDO = new IfOperationResult();
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				} else {
+					operationResultDO = new IfOperationResult();
+					((IfOperationResult)operationResultDO).setResult(false);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+				}
+			}
+		}
+		if(type==IfCompletionType.DATE) {
+		}
+		return operationResultDO;	
 	}
 }

@@ -10,6 +10,10 @@ public class LabelFunctionModel extends LabelBaseModel {
 	
 	public LabelFunctionModel() {
 	}
+	public LabelFunctionModel(String name, String version) {
+		this.name = name;
+		this.version = version;
+	}
 	public LabelFunctionModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);
 		if(fields.length==3) {
@@ -19,6 +23,7 @@ public class LabelFunctionModel extends LabelBaseModel {
 			version = fields[2];
 		}
 	}
+	
 	@Override
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;

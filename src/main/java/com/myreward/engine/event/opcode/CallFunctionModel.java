@@ -1,11 +1,15 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class CallFunctionModel extends CallBaseModel {
 	public static String OPCODE_LABEL = "call_fn";
@@ -43,9 +47,32 @@ public class CallFunctionModel extends CallBaseModel {
 	public String toString() {
 		return OPCODE_LABEL+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+version+OPCODE_OPERAND_END;
 	}
-	public OperationResultDO process(EventDO event) {
+    private int findOpCode(List<OpCodeBaseModel> instructionOpCodes, LabelFunctionModel labelFunctionModel) {
+    	Iterator<OpCodeBaseModel> instructionOpCodeIterator = instructionOpCodes.iterator();
+    	int index = 0;
+    	while(instructionOpCodeIterator.hasNext()) {
+    		OpCodeBaseModel opCodeBaseModel = instructionOpCodeIterator.next();
+    		if(opCodeBaseModel instanceof LabelFunctionModel)
+    			if(((LabelFunctionModel)opCodeBaseModel).equals(labelFunctionModel))
+    				return index;
+     		index++;
+    	}
+    	return index;
+    }
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event) {
 		OperationResultDO operationResultDO = null;
+		LabelFunctionModel labelFunctionModel = new LabelFunctionModel(name, version);
+		int callbackFunctionModelIndex = this.findOpCode(instructionOpCodes, labelFunctionModel);
+		if(callbackFunctionModelIndex==0)
+			return new ErrorOperationResultDO(ErrorCode.FUNCTION_NOT_FOUND);
+		while(true) {
+			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(++callbackFunctionModelIndex);
+			if(opCodeBaseModel instanceof ReturnModel)
+				break;
 
+			operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, event);
+			
+		}
 		return operationResultDO;
 	}
 }
