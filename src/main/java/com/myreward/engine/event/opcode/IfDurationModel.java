@@ -1,10 +1,17 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.IfEventModel.IfCompletionType;
 import com.myreward.engine.event.opcode.StorePriorityModel.StorePriorityType;
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.IfOperationResult;
+import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
 public class IfDurationModel extends IfBaseModel {
 	public enum IfDurationType {
@@ -49,6 +56,7 @@ public class IfDurationModel extends IfBaseModel {
 	private IfDurationFlgType flagType;
 	private String name;
 	private String amount;
+	private int gotoLine = 3;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
 	public IfDurationModel() {
@@ -115,6 +123,30 @@ public class IfDurationModel extends IfBaseModel {
 			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
 		}
 		return null;
+	}
+	@Override
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
+			EventDO event) {
+		OperationResultDO operationResultDO = null;
+		if(type==IfDurationType.FLAG) {
+			operationResultDO = new IfOperationResult();;
+			EventDataObject eventDataObject = myRewardDataSegment.search(name);
+			if(eventDataObject!=null) {
+				if(eventDataObject.isDurationFlagSet()) {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				} else {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+				}
+				return operationResultDO;
+			}
+			operationResultDO.setResult(false);
+			return operationResultDO;
+		}
+		if(type==IfDurationType.AMOUNT) {
+		}
+		return operationResultDO;
 	}
 
 }

@@ -10,6 +10,10 @@ public class LabelRewardModel extends LabelBaseModel {
 
 	public LabelRewardModel() {
 	}
+	public LabelRewardModel(String name, String version) {
+		this.name = name;
+		this.version = version;
+	}
 
 	public LabelRewardModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);

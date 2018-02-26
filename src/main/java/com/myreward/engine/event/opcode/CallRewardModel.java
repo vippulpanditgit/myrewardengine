@@ -1,14 +1,18 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.event.opcode.IfEventModel.IfCompletionType;
 import com.myreward.engine.model.event.CallOperationResult;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class CallRewardModel extends CallBaseModel {
 	private static String OPCODE_LABEL = "call_rwd";
@@ -45,7 +49,41 @@ public class CallRewardModel extends CallBaseModel {
 	public String toString() {
 		return OPCODE_LABEL+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+version+OPCODE_OPERAND_END;
 	}
-	public OperationResultDO process(EventDO event) {
+    private int findOpCode(List<OpCodeBaseModel> instructionOpCodes, LabelRewardModel labelRewardModel) {
+    	Iterator<OpCodeBaseModel> instructionOpCodeIterator = instructionOpCodes.iterator();
+    	int index = 0;
+    	boolean isFound = false;
+    	while(instructionOpCodeIterator.hasNext()) {
+    		OpCodeBaseModel opCodeBaseModel = instructionOpCodeIterator.next();
+    		if(opCodeBaseModel instanceof LabelRewardModel)
+    			if(((LabelRewardModel)opCodeBaseModel).equals(labelRewardModel)){
+    				isFound = true;
+    				return index;
+    			}
+     		index++;
+    	}
+    	if(!isFound)
+    		return -1;
+    	else 
+    		return index;
+    }
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event) {
+		OperationResultDO operationResultDO = null;
+		LabelRewardModel labelRewardModel = new LabelRewardModel(name, version);
+		int callbackFunctionModelIndex = this.findOpCode(instructionOpCodes, labelRewardModel);
+		if(callbackFunctionModelIndex<0)
+			return new ErrorOperationResultDO(ErrorCode.FUNCTION_NOT_FOUND);
+		while(true) {
+			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(++callbackFunctionModelIndex);
+			if(opCodeBaseModel instanceof ReturnModel)
+				break;
+
+			operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, event);
+			
+		}
+		return operationResultDO;
+	}
+/*	public OperationResultDO process(EventDO event) {
 		OperationResultDO operationResultDO = null;
 		if(event.isValid()) {
 			operationResultDO = new CallOperationResult();
@@ -54,5 +92,5 @@ public class CallRewardModel extends CallBaseModel {
 			((CallOperationResult)operationResultDO).setLabelVersion(version);
 		}
 		return operationResultDO;		
-	}
+	}*/
 }
