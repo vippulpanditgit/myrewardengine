@@ -136,6 +136,13 @@ public class MyRewardDataSegment implements Serializable {
 		public int getPriority() {
 			return priority.intValue();
 		}
+		public void resetPriorityFlag() {
+			eventStatus &= 0xef;
+		}
+		public void resetShowFlag() {
+			eventStatus &= 0xf7;
+			
+		}
 	}
 	public void processDataSegment(SymbolTable symbolTable) {
 		List<Symbol> symbolList =  symbolTable.getAllSymbol();

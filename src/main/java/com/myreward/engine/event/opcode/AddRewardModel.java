@@ -47,6 +47,9 @@ public class AddRewardModel extends OpCodeBaseModel {
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
 	}
+	public String toString() {
+		return OPCODE_LABEL_AMOUNT+this.OPCODE_OPERAND_START+name+this.OPERAND_FORMAT_PATTERN+amount+this.OPCODE_OPERAND_END;
+	}
 
 	@Override
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
@@ -54,7 +57,7 @@ public class AddRewardModel extends OpCodeBaseModel {
 		OperationResultDO operationResultDO = new StatementOperationResult();;
 		EventDataObject eventDataObject = myRewardDataSegment.search(name);
 		if(eventDataObject!=null) {
-			eventDataObject.amount += Integer.valueOf(amount);
+			eventDataObject.amount += Double.valueOf(amount);
 			operationResultDO.setResult(true);
 			return operationResultDO;
 		}

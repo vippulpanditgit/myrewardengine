@@ -56,7 +56,7 @@ public class IfDurationModel extends IfBaseModel {
 	private IfDurationFlgType flagType;
 	private String name;
 	private String amount;
-	private int gotoLine = 3;
+	private int gotoLine = -1;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
 	public IfDurationModel() {

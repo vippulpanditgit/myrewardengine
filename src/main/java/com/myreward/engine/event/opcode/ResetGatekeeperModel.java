@@ -1,10 +1,14 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.event.opcode.ResetDurationModel.ResetDurationType;
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class ResetGatekeeperModel extends StoreBaseModel {
 	public enum ResetGatekeeperType {
@@ -64,6 +68,13 @@ public class ResetGatekeeperModel extends StoreBaseModel {
 	public String toString() {
 		return type==ResetGatekeeperType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
 						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
+	}
+
+	@Override
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
+			EventDO event) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

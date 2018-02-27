@@ -140,6 +140,7 @@ public class EventProcessor {
 			if(mainIndex < instructionOpCodes.size()-1)
 				mainIndex++;
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(mainIndex);
+System.out.println(opCodeBaseModel);
 			if(opCodeBaseModel instanceof ReturnModel)
 				break;
 			OperationResultDO operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, eventDO);

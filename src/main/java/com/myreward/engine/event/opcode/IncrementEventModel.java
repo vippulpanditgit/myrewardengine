@@ -50,7 +50,9 @@ public class IncrementEventModel extends OpCodeBaseModel {
 	public String[] getOpcodes() {
 		return OPCODE_HANDLER;
 	}
-
+	public String toString() {
+		return OPCODE_LABEL+this.OPCODE_OPERAND_START+name+this.OPCODE_OPERAND_END;
+	}
 	@Override
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event) {
 		OperationResultDO operationResultDO = new StatementOperationResult();;
