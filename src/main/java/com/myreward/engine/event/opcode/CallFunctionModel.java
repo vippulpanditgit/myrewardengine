@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
 
@@ -72,6 +73,18 @@ System.out.println(opCodeBaseModel);
 				break;
 
 			operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, event);
+			if(operationResultDO instanceof IfOperationResult) {
+				int index = ((IfOperationResult)operationResultDO).getNextOperationNumber();
+				if(index>0)
+					callbackFunctionModelIndex += (index-1);
+				else {
+					while(callbackFunctionModelIndex<instructionOpCodes.size()) {
+						callbackFunctionModelIndex++;
+						if(instructionOpCodes.get(callbackFunctionModelIndex) instanceof ReturnModel)
+							break;
+					}
+				}
+			}
 			
 		}
 		return operationResultDO;
