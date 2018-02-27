@@ -77,7 +77,7 @@ public class test {
 			String event_time_based = "package test event(A).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(1) event(A).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(10)";
 			String event_between_different = "package test event(A).any(1).between('1997-07-16T19:20:30.45+01:00','2000-07-16T19:20:30.45+01:00').reward(1) event(A).any(1).between('2000-07-17T19:20:30.45+01:00','2017-07-16T19:20:30.45+01:00').reward(2)";
 			String testEvent = "package global "
-					+ "event(GA).any(1){"
+					+ "event(GA).any(2){"
 						+ "event(B),"
 						+ "event(GC).any(1){"
 							+ "event(GD).any(1){"

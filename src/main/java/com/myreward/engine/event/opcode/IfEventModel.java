@@ -218,6 +218,19 @@ public class IfEventModel extends IfBaseModel {
 
 		}
 		if(type==IfCompletionType.AMOUNT) {
+			operationResultDO = new IfOperationResult();;
+			EventDataObject eventDataObject = myRewardDataSegment.search(name);
+			if(StringUtils.startsWith(amount, "mod(")) {
+				String modValue = StringUtils.substringBetween(amount, "mod(", ")");
+				int intModValue = Integer.valueOf(modValue).intValue();
+				if(eventDataObject.eventCount%intModValue==0) {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				} else {
+					((IfOperationResult)operationResultDO).setResult(false);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(-1);
+				}				
+			}
 		}
 		if(type==IfCompletionType.EVENT) {
 			if(event.isValid()) {

@@ -136,6 +136,22 @@ public class EventProcessor {
 		eventDO.setActivityName("H");
 		eventDO.setActivityDate(new Date());
 		//Testing - VP
+		mainIndex = processEvent(mainIndex, eventDO);
+		
+		mainIndex = findMainOpCode();
+		if(mainIndex==0)
+			return false;
+
+		eventDO.setActivityName("B");
+		eventDO.setActivityDate(new Date());
+		mainIndex = processEvent(mainIndex, eventDO);
+
+		
+
+		return true;
+	}
+
+	private int processEvent(int mainIndex, EventDO eventDO) {
 		while(true) {
 			if(mainIndex < instructionOpCodes.size()-1)
 				mainIndex++;
@@ -157,7 +173,7 @@ System.out.println(opCodeBaseModel);
 				}
 			}
 		}
-		return true;
+		return mainIndex;
 	}
 
 	public List<OpCodeBaseModel> getInstructionOpCodes() {
