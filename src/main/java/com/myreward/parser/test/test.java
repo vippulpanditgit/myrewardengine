@@ -90,8 +90,8 @@ public class test {
 					+ "}.reward(100,1000)";
 
 			
-			
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(testEvent);
+			String oneEvent1 = "package global event(H).reward(10,100) event(Q).any(1).reward(1,10)";
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(oneEvent1);
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
             MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
@@ -113,7 +113,7 @@ public class test {
             
             eventProcessor.preprocess();
             if(!eventProcessor.run()) {
-            	System.out.println("This is not working.");
+            		System.out.println("This is not working.");
             }
             myRewardDataSegmentClone.printString();
             

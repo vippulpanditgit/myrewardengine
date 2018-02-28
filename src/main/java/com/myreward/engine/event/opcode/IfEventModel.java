@@ -204,13 +204,23 @@ public class IfEventModel extends IfBaseModel {
 			operationResultDO = new IfOperationResult();;
 			EventDataObject eventDataObject = myRewardDataSegment.search(name);
 			if(eventDataObject!=null) {
-				if(eventDataObject.isEventCompletionFlagSet()) {
-					((IfOperationResult)operationResultDO).setResult(true);
-					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
-				} else {
-					((IfOperationResult)operationResultDO).setResult(false);
-					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
-				}
+				if(flagType==IfCompletionFlgType.SET) {
+					if(eventDataObject.isEventCompletionFlagSet()) {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					} else {
+						((IfOperationResult)operationResultDO).setResult(false);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+					}
+				} else if(flagType==IfCompletionFlgType.NOT_SET) {
+					if(eventDataObject.isEventCompletionFlagSet()) {
+						((IfOperationResult)operationResultDO).setResult(false);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+					} else {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					}
+				} 
 				return operationResultDO;
 			}
 			operationResultDO.setResult(false);
