@@ -10,7 +10,10 @@ public class LabelDurationModel extends LabelBaseModel {
 
 	public LabelDurationModel() {
 	}
-
+	public LabelDurationModel(String name, String version) {
+		this.name = name;
+		this.version = version;
+	}
 	public LabelDurationModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);
 		if(fields.length==3) {

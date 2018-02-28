@@ -49,24 +49,24 @@ public class CallRewardModel extends CallBaseModel {
 	public String toString() {
 		return OPCODE_LABEL+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+version+OPCODE_OPERAND_END;
 	}
-    private int findOpCode(List<OpCodeBaseModel> instructionOpCodes, LabelRewardModel labelRewardModel) {
-    	Iterator<OpCodeBaseModel> instructionOpCodeIterator = instructionOpCodes.iterator();
-    	int index = 0;
-    	boolean isFound = false;
-    	while(instructionOpCodeIterator.hasNext()) {
-    		OpCodeBaseModel opCodeBaseModel = instructionOpCodeIterator.next();
-    		if(opCodeBaseModel instanceof LabelRewardModel)
-    			if(((LabelRewardModel)opCodeBaseModel).equals(labelRewardModel)){
-    				isFound = true;
-    				return index;
-    			}
-     		index++;
-    	}
-    	if(!isFound)
-    		return -1;
-    	else 
-    		return index;
-    }
+	private int findOpCode(List<OpCodeBaseModel> instructionOpCodes, LabelRewardModel labelRewardModel) {
+		Iterator<OpCodeBaseModel> instructionOpCodeIterator = instructionOpCodes.iterator();
+		int index = 0;
+		boolean isFound = false;
+		while(instructionOpCodeIterator.hasNext()) {
+			OpCodeBaseModel opCodeBaseModel = instructionOpCodeIterator.next();
+			if(opCodeBaseModel instanceof LabelRewardModel)
+				if(((LabelRewardModel)opCodeBaseModel).equals(labelRewardModel)){
+					isFound = true;
+					return index;
+				}
+			index++;
+		}
+		if(!isFound)
+			return -1;
+		else 
+			return index;
+	}
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event) {
 		OperationResultDO operationResultDO = null;
 		LabelRewardModel labelRewardModel = new LabelRewardModel(name, version);

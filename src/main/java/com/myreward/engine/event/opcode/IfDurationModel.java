@@ -83,7 +83,22 @@ public class IfDurationModel extends IfBaseModel {
 				}
 			} else if(type==IfDurationType.FLAG) {
 				String[] flagOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
-				name = flagOperand[0];
+				if(flagOperand.length>0)
+					if(StringUtils.contains(flagOperand[0], OPERAND_FORMAT_PATTERN)) {
+						flagOperand = StringUtils.split(flagOperand[0], OPERAND_FORMAT_PATTERN);
+						if(flagOperand.length==1)
+							name = flagOperand[0];
+						if(flagOperand.length==2) {
+							name = flagOperand[0];
+							gotoLine = Integer.valueOf(flagOperand[1]);
+						}
+						if(flagOperand.length==3) {
+							name = flagOperand[0];
+							gotoLine = Integer.valueOf(flagOperand[2]);
+						}
+						
+					} else 
+						name = flagOperand[0];
 				if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+IfDurationFlgType.SET.value())) {
 					flagType = IfDurationFlgType.SET;
 				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+IfDurationFlgType.NOT_SET.value())) {
@@ -132,12 +147,22 @@ public class IfDurationModel extends IfBaseModel {
 			operationResultDO = new IfOperationResult();;
 			EventDataObject eventDataObject = myRewardDataSegment.search(name);
 			if(eventDataObject!=null) {
-				if(eventDataObject.isDurationFlagSet()) {
-					((IfOperationResult)operationResultDO).setResult(true);
-					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
-				} else {
-					((IfOperationResult)operationResultDO).setResult(false);
-					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+				if(flagType == IfDurationFlgType.SET) {
+					if(eventDataObject.isDurationFlagSet()) {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					} else {
+						((IfOperationResult)operationResultDO).setResult(false);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+					}
+				} else if(flagType == IfDurationFlgType.NOT_SET) {
+					if(eventDataObject.isDurationFlagSet()) {
+						((IfOperationResult)operationResultDO).setResult(false);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+					} else {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					}
 				}
 				return operationResultDO;
 			}
