@@ -29,7 +29,7 @@ public class GroupMetaModel extends BaseMetaModel {
 //	private String[] anyLogicGroupOpCodesListTemplate = {"OP_OR", "push_ref(%s)", "ifref_num(%s,%d)", "call_rwd(%s)", "return"};
 	private String[] anyLogicGroupOpCodesListTemplate = {"if_cmp_flg_set(%s,,+%d)","inc_cmp_cnt(%s)","reset_cmp_flg(%s)"};
 	private String[] plainAnyLogicGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","return"};
-	private String[] rewardGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","call_rwd(%s:%s)","return"};
+	private String[] rewardGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","store_cmp_flg(%s)","call_rwd(%s:%s)","return"};
 	private String[] allLogicGroupOpCodesListTemplate = {"OP_AND", "push_ref(%s)"};
 	
 	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s:%s"};
@@ -65,9 +65,10 @@ public class GroupMetaModel extends BaseMetaModel {
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
 					if(rewardMetaModel!=null) {
-						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,1));
-						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.symbolIndex)));
-						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[2]));
+						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,4));
+						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));						
+						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[2], parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.symbolIndex)));
+						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[3]));
 					} else {
 						groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[1]));
 					}
