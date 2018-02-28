@@ -36,7 +36,7 @@ public class MyRewardDataSegment implements Serializable {
 		public long id;
 		
 		public String toString() {
-			return name+"<<"+id+"<<"+description+"<<"+eventStatus+"<<"+eventCount+"<<"+amount+"<<"+maxRepeat+"<<"+priority;
+			return name+"<<"+id+"<<"+description+"<<"+eventStatus+"<<"+eventCount+"<<"+amount+"<<"+maxRepeat+"<<"+priority+"<<"+nextRpeat;
 		}
 		public void setEventCompletionFlag() {
 			eventStatus |= 0x01;

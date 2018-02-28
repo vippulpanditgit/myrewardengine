@@ -91,7 +91,7 @@ public class test {
 
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2017-07-16T19:20:30.45+01:00').reward(10,100) event(Q).any(1).reward(1,10)";
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(oneEvent1);
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(pseudo_group_repeat);
             Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
             
             MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
