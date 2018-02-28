@@ -61,7 +61,7 @@ public class GroupMetaModel extends BaseMetaModel {
 				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
 				Symbol eventSymbol = MyRewardParser.symbolTable.lookup(new Symbol(eventMetaModel.getEventName()));
 				if(ordinalMetaModel instanceof AnyMetaModel) {
-					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?6:4));
+					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?7:4));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
 					if(rewardMetaModel!=null) {
