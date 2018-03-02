@@ -111,15 +111,15 @@ public class IfEventModel extends IfBaseModel {
 				String[] dateOperand = this.parse(OPCODE_LABEL_DATE, OPERAND_FORMAT_PATTERN, statement);
 				String longDate = dateOperand[0].trim();
 				date = new Date(Long.parseLong(longDate));
-				if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+IfCompletionDtType.LE.value)) {
+				if(StringUtils.startsWithIgnoreCase(statement, OPCODE_LABEL_DATE+IfCompletionDtType.LE.value)) {
 					dtType = IfCompletionDtType.LE;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+IfCompletionDtType.LT.value)) {
+				} else if(StringUtils.startsWithIgnoreCase(statement, OPCODE_LABEL_DATE+IfCompletionDtType.LT.value)) {
 					dtType = IfCompletionDtType.LT;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+IfCompletionDtType.EQ.value)) {
+				} else if(StringUtils.startsWithIgnoreCase(statement, OPCODE_LABEL_DATE+IfCompletionDtType.EQ.value)) {
 					dtType = IfCompletionDtType.EQ;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+IfCompletionDtType.GT.value)) {
+				} else if(StringUtils.startsWithIgnoreCase(statement, OPCODE_LABEL_DATE+IfCompletionDtType.GT.value)) {
 					dtType = IfCompletionDtType.GT;
-				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_DATE+IfCompletionDtType.GE.value)) {
+				} else if(StringUtils.startsWithIgnoreCase(statement, OPCODE_LABEL_DATE+IfCompletionDtType.GE.value)) {
 					dtType = IfCompletionDtType.GE;
 				}
 			} else if(type==IfCompletionType.FLAG) {
@@ -192,7 +192,7 @@ public class IfEventModel extends IfBaseModel {
 			return OPCODE_LABEL_EVENT+OPCODE_OPERAND_START+eventName+OPERAND_FORMAT_PATTERN+gotoLine+OPCODE_OPERAND_END;
 		}
 		if(type==IfCompletionType.DATE) {
-			return OPCODE_LABEL_DATE+amountType!=null?amountType.value():""+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
+			return OPCODE_LABEL_DATE+dtType.value+OPCODE_OPERAND_START+date.getTime()+OPCODE_OPERAND_END;
 		}
 		return null;
 	}

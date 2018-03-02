@@ -52,8 +52,8 @@ public class CallDurationModel extends CallBaseModel {
 		boolean isFound = false;
 		while(instructionOpCodeIterator.hasNext()) {
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodeIterator.next();
-			if(opCodeBaseModel instanceof LabelRewardModel)
-				if(((LabelRewardModel)opCodeBaseModel).equals(labelDurationModel)){
+			if(opCodeBaseModel instanceof LabelDurationModel)
+				if(((LabelDurationModel)opCodeBaseModel).equals(labelDurationModel)){
 					isFound = true;
 					return index;
 				}

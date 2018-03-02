@@ -31,6 +31,7 @@ public class GroupMetaModel extends BaseMetaModel {
 	private String[] plainAnyLogicGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","return"};
 	private String[] rewardGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","store_cmp_flg(%s)","call_rwd(%s:%s)","return"};
 	private String[] allLogicGroupOpCodesListTemplate = {"OP_AND", "push_ref(%s)"};
+	private String[] preRepeatEventOpCodeListTemplate = {"if_rpt_flg_not_set(%s)", "call_rpt(%s:%s)", "if_rpt_flg_set(%s)", "if_evt_dt_lt(%s)", "store_rpt_dt(%s)"};
 	
 	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s:%s"};
 	private String[] suffixGroupOpCodesListTemplate = {"return"};
@@ -54,6 +55,7 @@ public class GroupMetaModel extends BaseMetaModel {
 				SymbolTable symbolTable = MyRewardParser.symbolTable;
 				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 				rewardMetaModel = parentEventMetaModel.getRewardMetaModel();
+				// Create a lbl for function for the group
 				groupOpCodes.add(String.format(prefixGroupOpCodesListTemplate[0],parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.symbolIndex)));
 			}
 			Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
