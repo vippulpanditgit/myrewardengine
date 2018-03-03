@@ -42,6 +42,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[1], gatekeeperSourceSymbol.getFullyQualifiedId(),2));
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[2], gatekeeperTargetSymbol.getFullyQualifiedId()));
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[3], gatekeeperSourceSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.addAll(Arrays.asList(eventMetaModel.model()));
 		}
 		return gatekeeperOpcodes.toArray(new String[0]);
 	}
