@@ -2,6 +2,7 @@ package com.myreward.parser.metamodel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -15,7 +16,11 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 
 	// Gatekeeper source check
 	private String[] gatekeeperSourceEventOpCodeListTemplate = {"lbl_gtk:%s:%s", "if_cmp_flg_set(%d,,+%s)", "set_gtk_flg(%d)", "return"};
-	
+	private String[] prefixGatekeeperOpCodesListTemplate = {"lbl_fn:%s:%s"};
+	private String[] gatekeeperOpCodesListTemplate = {"inc_cmp_cnt(%s)", "set_cmp_flg(%s)"};
+	private String[] suffixGatekeeperOpCodesListTemplate = {"return"};
+	public static String overrideTemplate = "%d";
+
 	// Gatekeeper check
 //	private String[] gatekeeperEventOpCodeListTemplate = {"label:%s", "if_gtk_flag(%d)", "return"};
 
@@ -24,7 +29,19 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	}
 	@Override
 	public String[] build() {
-		return eventMetaModel.build();
+		List<String> gatekeeperOpCodes = new ArrayList<String>();
+		Symbol eventSymbol = new Symbol(eventMetaModel.getEventName());
+		
+		SymbolTable symbolTable = MyRewardParser.symbolTable;
+		eventSymbol = symbolTable.lookup(eventSymbol);
+
+		gatekeeperOpCodes.add(String.format(prefixGatekeeperOpCodesListTemplate[0],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.symbolIndex)));
+		gatekeeperOpCodes.add(String.format(gatekeeperOpCodesListTemplate[0],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.symbolIndex)));
+		gatekeeperOpCodes.add(String.format(gatekeeperOpCodesListTemplate[1],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.symbolIndex)));
+
+
+		gatekeeperOpCodes.add(String.format(suffixGatekeeperOpCodesListTemplate[0]));
+		return gatekeeperOpCodes.toArray(new String[0]);
 	}
 	@Override
 	public String[] model() {
