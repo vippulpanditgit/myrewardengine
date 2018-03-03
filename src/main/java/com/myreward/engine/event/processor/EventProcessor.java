@@ -142,7 +142,7 @@ public class EventProcessor {
 		if(mainIndex==0)
 			return false;
 
-		eventDO.setActivityName("C");
+		eventDO.setActivityName("H");
 		eventDO.setActivityDate(new Date());
 		mainIndex = processEvent(mainIndex, eventDO);
 		return true;

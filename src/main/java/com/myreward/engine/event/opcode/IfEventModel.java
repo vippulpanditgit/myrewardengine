@@ -256,6 +256,49 @@ public class IfEventModel extends IfBaseModel {
 			}
 		}
 		if(type==IfCompletionType.DATE) {
+			operationResultDO = new IfOperationResult();
+			if(dtType == IfCompletionDtType.LE) {
+				if(event.getActivityDate().compareTo(date)<=0) {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				} else {
+					((IfOperationResult)operationResultDO).setResult(false);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+				}
+			} else if(dtType == IfCompletionDtType.LT) {
+				if(event.getActivityDate().compareTo(date)<0) {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				} else {
+					((IfOperationResult)operationResultDO).setResult(false);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+				}
+			} else if(dtType == IfCompletionDtType.EQ) {
+				if(event.getActivityDate().compareTo(date)==0) {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				} else {
+					((IfOperationResult)operationResultDO).setResult(false);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+				}
+
+			} else if(dtType == IfCompletionDtType.GT) {
+				if(event.getActivityDate().compareTo(date)>0) {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				} else {
+					((IfOperationResult)operationResultDO).setResult(false);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+				}
+			} else if(dtType == IfCompletionDtType.GE) {
+				if(event.getActivityDate().compareTo(date)>=0) {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				} else {
+					((IfOperationResult)operationResultDO).setResult(false);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+				}
+			}
 		}
 		return operationResultDO;	
 	}
