@@ -11,44 +11,42 @@ import com.myreward.engine.model.event.StatementOperationResult;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
-
-public class StoreEventModel extends StoreBaseModel {
-	public enum StoreEventType {
+public class SetDurationModel extends SetBaseModel {
+	public enum StoreDurationType {
 		FLAG,
 		AMOUNT
 	}
-	private static String OPCODE_LABEL_FLAG = "store_cmp_flg";
-	private static String OPCODE_LABEL_AMOUNT = "store_cmp_amt";
+	private static String OPCODE_LABEL_FLAG = "set_dur_flg";
+	private static String OPCODE_LABEL_AMOUNT = "set_dur_amt";
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
-	private StoreEventType type;
+	private StoreDurationType type;
 	private String name;
 	private String amount;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
-	public StoreEventModel() {
+	public SetDurationModel() {
 	}
-
-	public StoreEventModel(String statement) {
-		StoreEventType storePriorityType = getType(statement);
+	public SetDurationModel(String statement) {
+		StoreDurationType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {
 			type = storePriorityType;
-			if(type==StoreEventType.AMOUNT) {
+			if(type==StoreDurationType.AMOUNT) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				amount = amountOperand[1];
-			} else if(type==StoreEventType.FLAG) {
+			} else if(type==StoreDurationType.FLAG) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
 			}
 		}
 	}
-	public StoreEventType getType(String opcode) {
+	public StoreDurationType getType(String opcode) {
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_FLAG))
-			return StoreEventType.FLAG;
+			return StoreDurationType.FLAG;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_AMOUNT))
-			return StoreEventType.AMOUNT;
+			return StoreDurationType.AMOUNT;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
@@ -68,17 +66,16 @@ public class StoreEventModel extends StoreBaseModel {
 		return OPCODE_HANDLER;
 	}
 	public String toString() {
-		return type==StoreEventType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
+		return type==StoreDurationType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
 						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
 	}
-
 	@Override
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
 			EventDO event) {
 		OperationResultDO operationResultDO = new StatementOperationResult();;
 		EventDataObject eventDataObject = myRewardDataSegment.search(name);
 		if(eventDataObject!=null) {
-			eventDataObject.setEventCompletionFlag();
+			eventDataObject.setDurationFlag();
 			operationResultDO.setResult(true);
 			return operationResultDO;
 		}

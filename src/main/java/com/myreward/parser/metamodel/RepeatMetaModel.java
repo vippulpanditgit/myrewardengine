@@ -25,7 +25,7 @@ public class RepeatMetaModel extends BaseMetaModel {
 	public int repeatAfter;
 	public RepeatCriteria repeatCriteria;
 	
-	private String[] repeatOpCodeListTemplate = {"lbl_rpt:%s:%s", "store_rpt_flg(%d)", "store_rpt_typ(%d,%d)", "store_rpt_aft(%d,%d)", "return"};
+	private String[] repeatOpCodeListTemplate = {"lbl_rpt:%s:%s", "set_rpt_flg(%d)", "set_rpt_typ(%d,%d)", "set_rpt_aft(%d,%d)", "return"};
 
 	@Override
 	public String[] build() {

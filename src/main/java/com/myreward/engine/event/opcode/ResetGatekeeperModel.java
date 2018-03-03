@@ -10,7 +10,7 @@ import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
 
-public class ResetGatekeeperModel extends StoreBaseModel {
+public class ResetGatekeeperModel extends SetBaseModel {
 	public enum ResetGatekeeperType {
 		FLAG,
 		AMOUNT

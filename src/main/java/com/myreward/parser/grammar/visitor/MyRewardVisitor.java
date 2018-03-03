@@ -243,7 +243,7 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 		groupDefContext.groupDefMetaModel.instructionStack.push("label:"+groupEventId);
 		groupDefContext.groupDefMetaModel.instructionStack.push("push_ref("+groupEventId+")");
 		BaseMetaModel response = visitChildren(ctx);
-		groupDefContext.groupDefMetaModel.instructionStack.push("store_ref("+groupEventId+")");
+		groupDefContext.groupDefMetaModel.instructionStack.push("set_ref("+groupEventId+")");
 		groupDefContext.groupDefMetaModel.instructionStack.push("pop_ref("+groupEventId+")");
 		groupDefContext.groupDefMetaModel.instructionStack.push("return");
 		groupMetaModelList.add(groupDefContext.groupDefMetaModel);
@@ -316,7 +316,7 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 								int groupEventId = currentEventId;
 								groupDefContext.groupDefMetaModel.instructionStack.push("label:"+groupEventId);
 								groupDefContext.groupDefMetaModel.instructionStack.push("push_ref("+groupEventId+")");
-								groupDefContext.groupDefMetaModel.instructionStack.push("store_ref("+groupEventId+")");
+								groupDefContext.groupDefMetaModel.instructionStack.push("set_ref("+groupEventId+")");
 								groupDefContext.groupDefMetaModel.instructionStack.push("pop_ref("+groupEventId+")");
 								groupDefContext.groupDefMetaModel.instructionStack.push("return");
 								gatekeeperMetaModelList.add(groupDefContext.groupDefMetaModel);

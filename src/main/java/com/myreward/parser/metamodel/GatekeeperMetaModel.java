@@ -14,7 +14,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	public EventMetaModel eventMetaModel;
 
 	// Gatekeeper source check
-	private String[] gatekeeperSourceEventOpCodeListTemplate = {"lbl_gtk:%s:%s", "if_cmp_flg_set(%d,,+%s)", "store_gtk_flg(%d)", "return"};
+	private String[] gatekeeperSourceEventOpCodeListTemplate = {"lbl_gtk:%s:%s", "if_cmp_flg_set(%d,,+%s)", "set_gtk_flg(%d)", "return"};
 	
 	// Gatekeeper check
 //	private String[] gatekeeperEventOpCodeListTemplate = {"label:%s", "if_gtk_flag(%d)", "return"};

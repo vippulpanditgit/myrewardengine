@@ -25,13 +25,13 @@ public class GroupMetaModel extends BaseMetaModel {
 	public static String overrideTemplate = "%d";
 	
 //	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s"};
-//	private String[] suffixGroupOpCodesListTemplate = {"store_ref(%s)", "pop_ref(%s)", "return"};
+//	private String[] suffixGroupOpCodesListTemplate = {"set_ref(%s)", "pop_ref(%s)", "return"};
 //	private String[] anyLogicGroupOpCodesListTemplate = {"OP_OR", "push_ref(%s)", "ifref_num(%s,%d)", "call_rwd(%s)", "return"};
 	private String[] anyLogicGroupOpCodesListTemplate = {"if_cmp_flg_set(%s,,+%d)","inc_cmp_cnt(%s)","reset_cmp_flg(%s)"};
 	private String[] plainAnyLogicGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","return"};
-	private String[] rewardGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","store_cmp_flg(%s)","call_rwd(%s:%s)","return"};
+	private String[] rewardGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","set_cmp_flg(%s)","call_rwd(%s:%s)","return"};
 	private String[] allLogicGroupOpCodesListTemplate = {"OP_AND", "push_ref(%s)"};
-	private String[] preRepeatEventOpCodeListTemplate = {"if_rpt_flg_not_set(%s)", "call_rpt(%s:%s)", "if_rpt_flg_set(%s)", "if_evt_dt_lt(%s)", "store_rpt_dt(%s)"};
+	private String[] preRepeatEventOpCodeListTemplate = {"if_rpt_flg_not_set(%s)", "call_rpt(%s:%s)", "if_rpt_flg_set(%s)", "if_evt_dt_lt(%s)", "set_rpt_dt(%s)"};
 	
 	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s:%s"};
 	private String[] suffixGroupOpCodesListTemplate = {"return"};

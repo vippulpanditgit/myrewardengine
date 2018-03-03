@@ -5,66 +5,50 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.SetGatekeeperModel.StoreGatekeeperType;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.engine.model.event.StatementOperationResult;
 import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
-
-public class StoreRepeatModel extends StoreBaseModel {
-	public enum StoreRepeatType {
+public class SetPriorityModel extends SetBaseModel {
+	public enum StorePriorityType {
 		FLAG,
-		AMOUNT,
-		TYPE,
-		DATE
+		AMOUNT
 	}
-	private static String OPCODE_LABEL_FLAG = "store_rpt_flg";
-	private static String OPCODE_LABEL_AMOUNT = "store_rpt_aft";
-	private static String OPCODE_LABEL_TYPE = "store_rpt_typ";
-	private static String OPCODE_LABEL_DATE = "store_rpt_dt";
-
+	private static String OPCODE_LABEL_FLAG = "set_pri_flg";
+	private static String OPCODE_LABEL_AMOUNT = "set_pri_amt";
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
-	private StoreRepeatType type;
+	private StorePriorityType type;
 	private String name;
 	private String amount;
-	private String after;
-	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT, OPCODE_LABEL_TYPE, OPCODE_LABEL_DATE};
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
-	public StoreRepeatModel() {
+	public SetPriorityModel() {
 	}
 
-	public StoreRepeatModel(String statement) {
-		StoreRepeatType storePriorityType = getType(statement);
+	public SetPriorityModel(String statement) {
+		StorePriorityType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {
 			type = storePriorityType;
-			if(type==StoreRepeatType.AMOUNT) {
+			if(type==StorePriorityType.AMOUNT) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_AMOUNT, OPERAND_FORMAT_PATTERN, statement);
 				name = amountOperand[0];
 				amount = amountOperand[1];
-			} else if(type==StoreRepeatType.FLAG) {
+			} else if(type==StorePriorityType.FLAG) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
-			} else if(type==StoreRepeatType.TYPE) {
-				String[] amountOperand = this.parse(OPCODE_LABEL_TYPE, OPERAND_FORMAT_PATTERN, statement);
-				name = amountOperand[0];
-				after = amountOperand[1];
-			} else if(type==StoreRepeatType.DATE) {
-				String[] amountOperand = this.parse(OPCODE_LABEL_DATE, null, statement);
-				name = amountOperand[0];
-//				after = amountOperand[1];
 			}
 		}
 	}
-	public StoreRepeatType getType(String opcode) {
+	public StorePriorityType getType(String opcode) {
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_FLAG))
-			return StoreRepeatType.FLAG;
+			return StorePriorityType.FLAG;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_AMOUNT))
-			return StoreRepeatType.AMOUNT;
-		if(StringUtils.startsWith(opcode, OPCODE_LABEL_TYPE))
-			return StoreRepeatType.TYPE;
-		if(StringUtils.startsWith(opcode, OPCODE_LABEL_DATE))
-			return StoreRepeatType.DATE;
+			return StorePriorityType.AMOUNT;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
@@ -84,15 +68,22 @@ public class StoreRepeatModel extends StoreBaseModel {
 		return OPCODE_HANDLER;
 	}
 	public String toString() {
-		return type==StoreRepeatType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
+		return type==StorePriorityType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
 						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
 	}
 
 	@Override
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
 			EventDO event) {
-		// TODO Auto-generated method stub
-		return null;
+		OperationResultDO operationResultDO = new StatementOperationResult();;
+		EventDataObject eventDataObject = myRewardDataSegment.search(name);
+		if(eventDataObject!=null) {
+			eventDataObject.setPriorityFlag();
+			operationResultDO.setResult(true);
+			return operationResultDO;
+		}
+		operationResultDO.setResult(false);
+		return operationResultDO;
 	}
 
 }

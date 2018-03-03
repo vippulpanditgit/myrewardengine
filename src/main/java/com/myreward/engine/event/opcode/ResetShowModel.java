@@ -12,7 +12,7 @@ import com.myreward.engine.model.event.StatementOperationResult;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
-public class ResetShowModel extends StoreBaseModel {
+public class ResetShowModel extends SetBaseModel {
 	public enum ResetShowType {
 		FLAG,
 		AMOUNT

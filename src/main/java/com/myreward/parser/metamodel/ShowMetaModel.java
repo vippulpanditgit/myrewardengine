@@ -10,7 +10,7 @@ import com.myreward.parser.symbol.SymbolTable;
 public class ShowMetaModel extends BaseMetaModel {
 	public boolean isShow;
 
-	private String[] showOpCodeListTemplate = {"lbl_shw:%s:%s", "store_shw_flg(%d)", "return"};
+	private String[] showOpCodeListTemplate = {"lbl_shw:%s:%s", "set_shw_flg(%d)", "return"};
 
 	@Override
 	public String[] build() {

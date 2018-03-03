@@ -5,14 +5,14 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.myreward.engine.event.opcode.StoreEventModel.StoreEventType;
+import com.myreward.engine.event.opcode.SetEventModel.StoreEventType;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.engine.model.event.StatementOperationResult;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
-public class ResetDurationModel extends StoreBaseModel {
+public class ResetDurationModel extends SetBaseModel {
 	public enum ResetDurationType {
 		FLAG,
 		AMOUNT

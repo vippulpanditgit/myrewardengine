@@ -5,20 +5,20 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.myreward.engine.event.opcode.StoreRepeatModel.StoreRepeatType;
+import com.myreward.engine.event.opcode.SetRepeatModel.StoreRepeatType;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.engine.model.event.StatementOperationResult;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
-public class StoreShowModel extends StoreBaseModel {
+public class SetShowModel extends SetBaseModel {
 	public enum StoreShowType {
 		FLAG,
 		AMOUNT
 	}
-	private static String OPCODE_LABEL_FLAG = "store_shw_flg";
-	private static String OPCODE_LABEL_AMOUNT = "store_shw_amt";
+	private static String OPCODE_LABEL_FLAG = "set_shw_flg";
+	private static String OPCODE_LABEL_AMOUNT = "set_shw_amt";
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
@@ -27,10 +27,10 @@ public class StoreShowModel extends StoreBaseModel {
 	private String amount;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
-	public StoreShowModel() {
+	public SetShowModel() {
 	}
 
-	public StoreShowModel(String statement) {
+	public SetShowModel(String statement) {
 		StoreShowType storePriorityType = getType(statement);
 		if(storePriorityType!=null) {
 			type = storePriorityType;
