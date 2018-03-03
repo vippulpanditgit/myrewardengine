@@ -133,7 +133,7 @@ public class EventProcessor {
 		// read event
 		EventDO eventDO = new EventDO();
 		//Testing - VP
-		eventDO.setActivityName("B");
+		eventDO.setActivityName("H");
 		eventDO.setActivityDate(new Date());
 		//Testing - VP
 		mainIndex = processEvent(mainIndex, eventDO);
@@ -142,7 +142,7 @@ public class EventProcessor {
 		if(mainIndex==0)
 			return false;
 
-		eventDO.setActivityName("H");
+		eventDO.setActivityName("B");
 		eventDO.setActivityDate(new Date());
 		mainIndex = processEvent(mainIndex, eventDO);
 		return true;
