@@ -8,7 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.myreward.engine.event.opcode.ResetDurationModel.ResetDurationType;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.engine.model.event.StatementOperationResult;
 import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
 public class ResetGatekeeperModel extends SetBaseModel {
 	public enum ResetGatekeeperType {
@@ -73,8 +75,15 @@ public class ResetGatekeeperModel extends SetBaseModel {
 	@Override
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
 			EventDO event) {
-		// TODO Auto-generated method stub
-		return null;
+		OperationResultDO operationResultDO = new StatementOperationResult();;
+		EventDataObject eventDataObject = myRewardDataSegment.search(name);
+		if(eventDataObject!=null) {
+			eventDataObject.resetGatekeeperStatus();;
+			operationResultDO.setResult(true);
+			return operationResultDO;
+		}
+		operationResultDO.setResult(false);
+		return operationResultDO;
 	}
 
 }

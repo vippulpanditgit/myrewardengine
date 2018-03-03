@@ -43,7 +43,7 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] rewardOutcomeEventOpCodeListTemplate = {"call_rwd(%s:%s)"}; 
 	private String[] suffixEventOpCodeListTemplate = {"return"};
 	private String[] preRepeatEventOpCodeListTemplate = {"if_rpt_flg_not_set(%s)", "call_rpt(%s:%s)", "if_rpt_flg_set(%s)", "if_evt_dt_lt(%s)", "set_rpt_dt(%s)"};
-	
+	private String[] resetGatekeeperFlag = {"reset_gtk_flg(%s)"};
 	// Calling outcome 
 	private String[] callShowOpCodeListTemplate = {"call_shw(%s:%s)"};
 	private String[] callPriorityOpCodeListTemplate = {"call_pri(%s:%s)"};
@@ -170,6 +170,9 @@ public class EventMetaModel extends BaseMetaModel {
 				}
 			} 
 		}
+		if(this.gatekeeperMetaModel!=null) {
+			groupOpcodeList.addAll(Arrays.asList(this.gatekeeperMetaModel.build()));
+		}
 		return groupOpcodeList.toArray(new String[0]);
 	}
 	@Override
@@ -248,6 +251,7 @@ public class EventMetaModel extends BaseMetaModel {
 					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
 					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[1], eventSymbol.getFullyQualifiedId()));
 				}
+				eventOpCodeList.add(String.format(this.resetGatekeeperFlag[0], eventSymbol.getFullyQualifiedId()));
 				eventOpCodeList.add(String.format(this.gatekeeperConstraintEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
 				eventOpCodeList.add(String.format(this.gatekeeperConstraintEventOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
 				if(this.rewardMetaModel!=null) {
@@ -283,6 +287,9 @@ public class EventMetaModel extends BaseMetaModel {
 			level = this.climbUpTheEventStackTree(this, callStackOpCodeList, level);
 			callStackOpCodeList.add(0, String.format(prefixCallStackOpCodeListTemplate[0], eventName, level+3));
 			callStackOpCodeList.add(String.format(suffixCallStackOpCodeListTemplate[0], eventName));
+			if(this.gatekeeperMetaModel!=null) {
+				callStackOpCodeList.addAll(Arrays.asList(this.gatekeeperMetaModel.call_stack()));
+			}
 			return callStackOpCodeList.toArray(new String[0]);
 		}
 	}

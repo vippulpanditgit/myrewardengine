@@ -72,8 +72,11 @@ public class CallGatekeeperModel extends CallBaseModel {
 			return new ErrorOperationResultDO(ErrorCode.FUNCTION_NOT_FOUND);
 		while(true) {
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(++callbackFunctionModelIndex);
-			if(opCodeBaseModel instanceof ReturnModel)
+			if(opCodeBaseModel instanceof ReturnModel) {
+				((IfOperationResult)operationResultDO).setResult(true);
+				((IfOperationResult)operationResultDO).setNextOperationNumber(1);
 				break;
+			}
 
 			operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, event);
 System.out.println(opCodeBaseModel);

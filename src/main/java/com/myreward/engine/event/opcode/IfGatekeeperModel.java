@@ -5,10 +5,11 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.myreward.engine.event.opcode.IfDurationModel.IfDurationType;
 import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
 public class IfGatekeeperModel extends IfBaseModel {
 	public enum IfGatekeeperType {
@@ -125,7 +126,63 @@ public class IfGatekeeperModel extends IfBaseModel {
 	@Override
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
 			EventDO event) {
-		System.out.println("Not Implmented - IfGatekeeperModel.process");
-		return null;
+		OperationResultDO operationResultDO = null;
+		if(type==IfGatekeeperType.FLAG) {
+			operationResultDO = new IfOperationResult();;
+			EventDataObject eventDataObject = myRewardDataSegment.search(name);
+			if(eventDataObject!=null) {
+				if(eventDataObject.isRewardStatusSet()) {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				} else {
+					((IfOperationResult)operationResultDO).setResult(false);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(2);
+				}
+				return operationResultDO;
+			}
+			operationResultDO.setResult(false);
+			return operationResultDO;
+		}
+		if(type==IfGatekeeperType.AMOUNT) {
+			operationResultDO = new IfOperationResult();;
+			EventDataObject eventDataObject = myRewardDataSegment.search(name);
+			((IfOperationResult)operationResultDO).setResult(false);
+			((IfOperationResult)operationResultDO).setNextOperationNumber(-1);
+			if(eventDataObject!=null) {
+				if(amountType==IfGatekeeperAmtType.LT) {
+					if(eventDataObject.getReward() < Double.valueOf(amount)) {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					}
+				}
+				if(amountType==IfGatekeeperAmtType.LE) {
+					if(eventDataObject.getReward() <= Double.valueOf(amount)) {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					}
+				}
+				if(amountType==IfGatekeeperAmtType.EQ) {
+					if(eventDataObject.getReward() == Double.valueOf(amount)) {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					}
+				}
+				if(amountType==IfGatekeeperAmtType.GE) {
+					if(eventDataObject.getReward() >= Double.valueOf(amount)) {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					}
+				}
+				if(amountType==IfGatekeeperAmtType.GT) {
+					if(eventDataObject.getReward() > Double.valueOf(amount)) {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					}
+				}
+				return operationResultDO;
+			}
+			return operationResultDO;
+		}
+		return operationResultDO;
 	}
 }

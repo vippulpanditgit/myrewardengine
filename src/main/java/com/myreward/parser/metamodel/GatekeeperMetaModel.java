@@ -24,7 +24,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	}
 	@Override
 	public String[] build() {
-		return null;
+		return eventMetaModel.build();
 	}
 	@Override
 	public String[] model() {
@@ -48,7 +48,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	@Override
 	public String[] call_stack() {
 		// TODO Auto-generated method stub
-		return null;
+		return eventMetaModel.call_stack();
 	}
 
 
