@@ -52,8 +52,8 @@ public class CallShowModel extends CallBaseModel {
 	    	int index = 0;
 	    	while(instructionOpCodeIterator.hasNext()) {
 	    		OpCodeBaseModel opCodeBaseModel = instructionOpCodeIterator.next();
-	    		if(opCodeBaseModel instanceof LabelFunctionModel)
-	    			if(((LabelFunctionModel)opCodeBaseModel).equals(labelShowModel))
+	    		if(opCodeBaseModel instanceof LabelShowModel)
+	    			if(((LabelShowModel)opCodeBaseModel).equals(labelShowModel))
 	    				return index;
 	     		index++;
 	    	}

@@ -55,8 +55,8 @@ public class CallGatekeeperModel extends CallBaseModel {
     	int index = 0;
     	while(instructionOpCodeIterator.hasNext()) {
     		OpCodeBaseModel opCodeBaseModel = instructionOpCodeIterator.next();
-    		if(opCodeBaseModel instanceof LabelFunctionModel)
-    			if(((LabelFunctionModel)opCodeBaseModel).equals(labelGatekeeperModel))
+    		if(opCodeBaseModel instanceof LabelGatekeeperModel)
+    			if(((LabelGatekeeperModel)opCodeBaseModel).equals(labelGatekeeperModel))
     				return index;
      		index++;
     	}

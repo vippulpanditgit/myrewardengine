@@ -51,8 +51,8 @@ public class CallPriorityModel extends CallBaseModel {
     	int index = 0;
     	while(instructionOpCodeIterator.hasNext()) {
     		OpCodeBaseModel opCodeBaseModel = instructionOpCodeIterator.next();
-    		if(opCodeBaseModel instanceof LabelFunctionModel)
-    			if(((LabelFunctionModel)opCodeBaseModel).equals(labelPriorityModel))
+    		if(opCodeBaseModel instanceof LabelPriorityModel)
+    			if(((LabelPriorityModel)opCodeBaseModel).equals(labelPriorityModel))
     				return index;
      		index++;
     	}
