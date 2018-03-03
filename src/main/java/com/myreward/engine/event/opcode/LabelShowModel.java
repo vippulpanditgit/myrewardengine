@@ -10,7 +10,10 @@ public class LabelShowModel extends LabelBaseModel {
 	
 	public LabelShowModel() {
 	}
-
+	public LabelShowModel(String name, String version) {
+		this.name = name;
+		this.version = version;
+	}
 	public LabelShowModel(String showStatement) {
 		String[] fields = StringUtils.split(showStatement, ARGUMENT_SEPERATOR);
 		if(fields.length==3) {

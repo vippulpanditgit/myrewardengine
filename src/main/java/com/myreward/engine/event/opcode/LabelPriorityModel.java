@@ -10,7 +10,10 @@ public class LabelPriorityModel extends LabelBaseModel {
 
 	public LabelPriorityModel() {
 	}
-
+	public LabelPriorityModel(String name, String version) {
+		this.name = name;
+		this.version = version;
+	}
 	public LabelPriorityModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);
 		if(fields.length==3) {

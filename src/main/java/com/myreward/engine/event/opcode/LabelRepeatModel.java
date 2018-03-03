@@ -10,6 +10,10 @@ public class LabelRepeatModel extends LabelBaseModel {
 
 	public LabelRepeatModel() {
 	}
+	public LabelRepeatModel(String name, String version) {
+		this.name = name;
+		this.version = version;
+	}
 
 	public LabelRepeatModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);

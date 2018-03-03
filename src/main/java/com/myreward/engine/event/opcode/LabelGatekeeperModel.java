@@ -10,6 +10,10 @@ public class LabelGatekeeperModel extends LabelBaseModel {
 
 	public LabelGatekeeperModel() {
 	}
+	public LabelGatekeeperModel(String name, String version) {
+		this.name = name;
+		this.version = version;
+	}
 
 	public LabelGatekeeperModel(String statement) {
 		String[] fields = StringUtils.split(statement, ARGUMENT_SEPERATOR);

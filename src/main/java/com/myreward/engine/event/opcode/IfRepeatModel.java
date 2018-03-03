@@ -1,10 +1,14 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.event.opcode.IfDurationModel.IfDurationType;
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class IfRepeatModel extends IfBaseModel {
 	public enum IfRepeatType {
@@ -115,6 +119,13 @@ public class IfRepeatModel extends IfBaseModel {
 		if(type==IfRepeatType.AMOUNT) {
 			return OPCODE_LABEL_AMOUNT+amountType.value()+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
 		}
+		return null;
+	}
+
+	@Override
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
+			EventDO event) {
+		System.out.println("Not Implmented - IfRepeatModel.process");
 		return null;
 	}
 }

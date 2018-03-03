@@ -1,6 +1,12 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class LabelDurationModel extends LabelBaseModel {
 	private static String OPCODE_LABEL = "lbl_dur";
@@ -33,6 +39,12 @@ public class LabelDurationModel extends LabelBaseModel {
 	public boolean equals(LabelDurationModel labelDurationModel) {
 		return StringUtils.equalsIgnoreCase(name, labelDurationModel.name)
 				&& StringUtils.equalsIgnoreCase(version, labelDurationModel.version);
+	}
+	@Override
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
+			EventDO event) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
