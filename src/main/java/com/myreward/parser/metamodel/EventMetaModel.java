@@ -307,6 +307,17 @@ public class EventMetaModel extends BaseMetaModel {
 			eventMetaModel = eventMetaModel.parent.parent;
 			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);
 		}
+		if(eventMetaModel!=null && eventMetaModel.parent!=null
+				&&  eventMetaModel.parent instanceof GatekeeperMetaModel) {
+			EventMetaModel groupEventMetaModel = (EventMetaModel)eventMetaModel.parent.parent;
+			Symbol eventSymbol = new Symbol(groupEventMetaModel.eventName);
+			SymbolTable symbolTable = MyRewardParser.symbolTable;
+			eventSymbol = symbolTable.lookup(eventSymbol);
+			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
+			eventMetaModel = eventMetaModel.parent.parent;
+			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);
+			
+		}
 		return level;
 	}
 

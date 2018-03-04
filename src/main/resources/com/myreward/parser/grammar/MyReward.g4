@@ -343,6 +343,7 @@ gatekeeper_def returns [GatekeeperMetaModel gatekeeperMetaModel]
 	@init{$gatekeeperMetaModel = new GatekeeperMetaModel();} 
 	: GATEKEEPER LPAREN eventDef=event_def RPAREN {
 									$gatekeeperMetaModel.eventMetaModel = $eventDef.eventMetaModel;
+									$eventDef.eventMetaModel.parent = $gatekeeperMetaModel;
 								}
 	;
 reward_def returns [RewardMetaModel rewardMetaModel]
