@@ -10,6 +10,7 @@ import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.engine.model.event.StatementOperationResult;
 import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class CallGatekeeperModel extends CallBaseModel {
@@ -73,8 +74,9 @@ public class CallGatekeeperModel extends CallBaseModel {
 		while(true) {
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(++callbackFunctionModelIndex);
 			if(opCodeBaseModel instanceof ReturnModel) {
-				((IfOperationResult)operationResultDO).setResult(true);
-				((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+				operationResultDO = new StatementOperationResult();
+//				((IfOperationResult)operationResultDO).setResult(true);
+//				((IfOperationResult)operationResultDO).setNextOperationNumber(1);
 				break;
 			}
 
