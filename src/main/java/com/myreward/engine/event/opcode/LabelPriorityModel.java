@@ -1,6 +1,12 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class LabelPriorityModel extends LabelBaseModel {
 	private static String OPCODE_LABEL = "lbl_pri";
@@ -33,6 +39,12 @@ public class LabelPriorityModel extends LabelBaseModel {
 	public boolean equals(LabelPriorityModel labelPriorityModel) {
 		return StringUtils.equalsIgnoreCase(name, labelPriorityModel.name)
 				&& StringUtils.equalsIgnoreCase(version, labelPriorityModel.version);
+	}
+	@Override
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
+			EventDO event) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

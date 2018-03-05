@@ -1,6 +1,12 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class LabelMainModel extends LabelBaseModel {
 	private static String OPCODE_LABEL = "lbl_main";
@@ -20,6 +26,13 @@ public class LabelMainModel extends LabelBaseModel {
 	}
 	public String toString() {
 		return OPCODE_LABEL;
+	}
+
+	@Override
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
+			EventDO event) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

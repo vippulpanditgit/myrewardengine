@@ -1,6 +1,12 @@
 package com.myreward.engine.event.opcode;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+
+import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class LabelGatekeeperModel extends LabelBaseModel {
 	private static String OPCODE_LABEL = "lbl_gtk";
@@ -34,6 +40,12 @@ public class LabelGatekeeperModel extends LabelBaseModel {
 	public boolean equals(LabelGatekeeperModel labelGatekeeperModel) {
 		return StringUtils.equalsIgnoreCase(name, labelGatekeeperModel.name)
 				&& StringUtils.equalsIgnoreCase(version, labelGatekeeperModel.version);
+	}
+	@Override
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
+			EventDO event) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
