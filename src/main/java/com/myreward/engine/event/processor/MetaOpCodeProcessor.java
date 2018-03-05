@@ -13,9 +13,17 @@ import com.myreward.parser.util.MyRewardParserUtil;
 
 public class MetaOpCodeProcessor {
 	private List<String> metaDataList;
+	private MyRewardPCodeGenerator myRewardPCodeGenerator;
 	
 	public MetaOpCodeProcessor() {
 		metaDataList = new ArrayList<String>();
+		setMyRewardPCodeGenerator(null);
+	}
+	public MyRewardPCodeGenerator getMyRewardPCodeGenerator() {
+		return myRewardPCodeGenerator;
+	}
+	public void setMyRewardPCodeGenerator(MyRewardPCodeGenerator myRewardPCodeGenerator) {
+		this.myRewardPCodeGenerator = myRewardPCodeGenerator;
 	}
 	public void initialize() {
 		if(metaDataList!=null) {
@@ -48,7 +56,7 @@ public class MetaOpCodeProcessor {
 		}
 		return null;
 	}
-	public MyRewardPCodeGenerator parse(String rule) {
+	public void parse(String rule) {
         Myreward_defsContext fileContext = setup(rule).myreward_defs(); 
         
         MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
@@ -57,7 +65,7 @@ public class MetaOpCodeProcessor {
         myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
         myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
         
-        return myRewardCodeGenerator;
+        this.setMyRewardPCodeGenerator(myRewardCodeGenerator);
 	}
 	
 }

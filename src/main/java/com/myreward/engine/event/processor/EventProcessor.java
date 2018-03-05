@@ -19,7 +19,7 @@ import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
 
 public class EventProcessor {
-	private MyRewardPCodeGenerator myRewardCodeGenerator;
+	private MetaOpCodeProcessor metaOpCodeProcessor;
 	private MyRewardDataSegment myRewardDataSegment;
 	private Map<String, Integer> fnXref = new HashMap<String, Integer>();
 	private List<OpCodeBaseModel> instructionOpCodes = new ArrayList<OpCodeBaseModel>();
@@ -60,16 +60,16 @@ public class EventProcessor {
 											new AddRewardModel(),
 											new IncrementEventModel());
 	
-	public void readPCode(MyRewardPCodeGenerator myRewardCodeGenerator) {
-		this.myRewardCodeGenerator = myRewardCodeGenerator;
+	public EventProcessor(MetaOpCodeProcessor metaOpCodeProcessor) {
+		this.metaOpCodeProcessor = metaOpCodeProcessor;
+		
 	}
-
 	public void preprocess() {
-		if(this.myRewardCodeGenerator==null)
+		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			return;
-		if(this.myRewardCodeGenerator.getCodeSegment()!=null
-				&& this.myRewardCodeGenerator.getCodeSegment().size()>0) {
-			Iterator<String> codeSegmentIterator = this.myRewardCodeGenerator.getCodeSegment().iterator();
+		if(metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment()!=null
+				&& metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment().size()>0) {
+			Iterator<String> codeSegmentIterator = metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment().iterator();
 			int index=0;
 			while(codeSegmentIterator.hasNext()) {
 				boolean isOpcodeFound = false;
@@ -101,17 +101,7 @@ public class EventProcessor {
 			}
 		}
 	}
-	
-    public static void main(String[] args) {
-        MyRewardPCodeGenerator test = new MyRewardPCodeGenerator();
-        test.getCodeSegment().add("lbl_dur:65:0");
-        test.getCodeSegment().add("if_evt_dt_le(869077230045)");
-        EventProcessor eventProcessor = new EventProcessor();
-        eventProcessor.readPCode(test);
-        eventProcessor.preprocess();
-        
-    }
-	
+		
     private int findMainOpCode() {
     	Iterator<OpCodeBaseModel> instructionOpCodeIterator = instructionOpCodes.iterator();
     	int index = 0;
@@ -124,6 +114,7 @@ public class EventProcessor {
     	return index;
     }
     public MyRewardDataSegment createDataSegment() {
+        MyRewardDataSegment myRewardDataSegment = new MyRewardDataSegment();
         // Create the data segment
         myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
         // Copy the data segment
@@ -132,7 +123,7 @@ public class EventProcessor {
 
     }
 	public boolean run() {
-		if(this.myRewardCodeGenerator==null)
+		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			return false;
 		if(this.myRewardDataSegment==null)
 			return false;
@@ -188,14 +179,6 @@ System.out.println(opCodeBaseModel);
 
 	public void setInstructionOpCodes(List<OpCodeBaseModel> instructionOpCodes) {
 		this.instructionOpCodes = instructionOpCodes;
-	}
-
-	public MyRewardPCodeGenerator getMyRewardCodeGenerator() {
-		return myRewardCodeGenerator;
-	}
-
-	public void setMyRewardCodeGenerator(MyRewardPCodeGenerator myRewardCodeGenerator) {
-		this.myRewardCodeGenerator = myRewardCodeGenerator;
 	}
 
 	public MyRewardDataSegment getMyRewardDataSegment() {

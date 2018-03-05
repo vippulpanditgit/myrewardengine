@@ -9,6 +9,7 @@ import java.util.Arrays;
 import org.antlr.v4.runtime.*;
 
 import com.myreward.engine.event.processor.EventProcessor;
+import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardFunctionXRef;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
@@ -91,31 +92,17 @@ public class test {
 
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(oneEvent1);
-            Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
-            
-            MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
-            MyRewardDataSegment myRewardDataSegment = new MyRewardDataSegment();
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
-            myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
-            
-            // Create the data segment
-            myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
-            // Copy the data segment
-            MyRewardDataSegment myRewardDataSegmentClone = (MyRewardDataSegment) RuntimeLib.deepClone(myRewardDataSegment);
-            myRewardDataSegmentClone.printString();
-
-            System.out.println(myRewardCodeGenerator.getCodeSegment().size()+"<<"+ myRewardCodeGenerator.getCodeSegment());
-            EventProcessor eventProcessor = new EventProcessor();
-            eventProcessor.readPCode(myRewardCodeGenerator);
-            eventProcessor.setMyRewardDataSegment(myRewardDataSegmentClone);
+			MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor();
+            EventProcessor eventProcessor = new EventProcessor(metaOpCodeProcessor);
+			metaOpCodeProcessor.initialize();
+			metaOpCodeProcessor.parse(oneEvent1);
+            MyRewardDataSegment myRewardDataSegment = eventProcessor.createDataSegment();
+            eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
             
             eventProcessor.preprocess();
             if(!eventProcessor.run()) {
             		System.out.println("This is not working.");
             }
-            myRewardDataSegmentClone.printString();
             
             System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
  		} catch(Exception exp) {
