@@ -11,6 +11,8 @@ import java.util.Map;
 
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
+import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.util.RuntimeLib;
 import com.myreward.engine.event.opcode.*;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.IfOperationResult;
@@ -121,7 +123,14 @@ public class EventProcessor {
     	}
     	return index;
     }
+    public MyRewardDataSegment createDataSegment() {
+        // Create the data segment
+        myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
+        // Copy the data segment
+        MyRewardDataSegment myRewardDataSegmentClone = (MyRewardDataSegment) RuntimeLib.deepClone(myRewardDataSegment);
+        return myRewardDataSegmentClone;
 
+    }
 	public boolean run() {
 		if(this.myRewardCodeGenerator==null)
 			return false;
