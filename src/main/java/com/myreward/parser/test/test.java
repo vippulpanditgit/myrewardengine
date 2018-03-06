@@ -95,7 +95,7 @@ public class test {
 			MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor();
             EventProcessor eventProcessor = new EventProcessor(metaOpCodeProcessor);
 			metaOpCodeProcessor.initialize();
-			metaOpCodeProcessor.parse(oneEvent1);
+			metaOpCodeProcessor.parse(testEvent);
             MyRewardDataSegment myRewardDataSegment = eventProcessor.createDataSegment();
             eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
             
