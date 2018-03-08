@@ -13,6 +13,8 @@ import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.util.RuntimeLib;
+import com.myreward.engine.event.error.ErrorCode;
+import com.myreward.engine.event.error.EventProcessingException;
 import com.myreward.engine.event.opcode.*;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.IfOperationResult;
@@ -64,9 +66,9 @@ public class EventProcessor {
 		this.metaOpCodeProcessor = metaOpCodeProcessor;
 		
 	}
-	public void preprocess() {
+	public void preprocess() throws EventProcessingException {
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
-			return;
+			throw new EventProcessingException(ErrorCode.EVENT_METADATA_NOT_PRESET);
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment()!=null
 				&& metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment().size()>0) {
 			Iterator<String> codeSegmentIterator = metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment().iterator();
