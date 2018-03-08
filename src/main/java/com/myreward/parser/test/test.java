@@ -113,7 +113,7 @@ public class test {
     		
             System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
             myRewardDataSegment.printString();
- 		} catch(Exception exp) {
+ 		} catch(Exception|MetadataParsingException exp) {
 			exp.printStackTrace();
 		}
 
