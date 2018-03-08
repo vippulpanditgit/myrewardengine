@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.antlr.v4.runtime.RecognitionException;
+
+import com.myreward.engine.event.error.MetadataParsingException;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
@@ -38,7 +41,7 @@ public class MetaOpCodeProcessor {
 		metaDataList = null;
 		
 	}
-	public MyRewardParser setup(String rule) {
+	public MyRewardParser setup(String rule) throws MetadataParsingException {
 		if(rule!=null) {
 			metaDataList.add(rule);
 		}
@@ -51,12 +54,10 @@ public class MetaOpCodeProcessor {
 			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(ruleList.toString());
 			return myRewardParser;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new MetadataParsingException();
 		}
-		return null;
 	}
-	public void parse(String rule) {
+	public void parse(String rule) throws RecognitionException, MetadataParsingException {
         Myreward_defsContext fileContext = setup(rule).myreward_defs(); 
         
         MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
@@ -66,6 +67,9 @@ public class MetaOpCodeProcessor {
         myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
         
         this.setMyRewardPCodeGenerator(myRewardCodeGenerator);
+	}
+	public void print_code_segment() {
+		
 	}
 	
 }

@@ -124,7 +124,7 @@ public class EventProcessor {
         return myRewardDataSegmentClone;
 
     }
-	public boolean process_event(EventDO eventDO) {
+	public boolean process_event(EventDO eventDO) throws EventProcessingException {
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			return false;
 		if(this.myRewardDataSegment==null)
