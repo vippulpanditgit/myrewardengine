@@ -98,12 +98,16 @@ public class test {
             EventProcessor eventProcessor = new EventProcessor(metaOpCodeProcessor);
 			metaOpCodeProcessor.initialize();
 			metaOpCodeProcessor.parse(reward_metadata);
+			metaOpCodeProcessor.print_code_segment();
             MyRewardDataSegment myRewardDataSegment = eventProcessor.createDataSegment();
             eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
             
             eventProcessor.create_meta_tree();
     		EventDO eventDO = new EventDO();
     		eventDO.setActivityName("H");
+    		eventDO.setActivityDate(new Date());
+            eventProcessor.process_event(eventDO);
+    		eventDO.setActivityName("B");
     		eventDO.setActivityDate(new Date());
             eventProcessor.process_event(eventDO);
     		

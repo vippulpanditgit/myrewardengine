@@ -69,7 +69,7 @@ public class MetaOpCodeProcessor {
         this.setMyRewardPCodeGenerator(myRewardCodeGenerator);
 	}
 	public void print_code_segment() {
-		
+		System.out.println(this.getMyRewardPCodeGenerator().getCodeSegment());
 	}
 	
 }
