@@ -129,23 +129,15 @@ public class EventProcessor {
 			return false;
 		if(this.myRewardDataSegment==null)
 			return false;
-		int mainIndex = findMainOpCode();
-		if(mainIndex==0)
-			return false;
+		int lbl_main_index = findMainOpCode();
+		if(lbl_main_index==0)
+			throw new EventProcessingException(ErrorCode.LABEL_MAIN_NOT_FOUND);
 		//Testing - VP
-		mainIndex = processEvent(mainIndex, eventDO);
-		
-		mainIndex = findMainOpCode();
-		if(mainIndex==0)
-			return false;
-
-		eventDO.setActivityName("B");
-		eventDO.setActivityDate(new Date());
-		mainIndex = processEvent(mainIndex, eventDO);
+		lbl_main_index = process_event(lbl_main_index, eventDO);
 		return true;
 	}
 
-	private int processEvent(int mainIndex, EventDO eventDO) {
+	private int process_event(int mainIndex, EventDO eventDO) {
 		while(true) {
 			if(mainIndex < instructionOpCodes.size()-1)
 				mainIndex++;
