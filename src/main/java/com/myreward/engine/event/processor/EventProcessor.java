@@ -66,7 +66,7 @@ public class EventProcessor {
 		this.metaOpCodeProcessor = metaOpCodeProcessor;
 		
 	}
-	public void preprocess() throws EventProcessingException {
+	public void create_meta_tree() throws EventProcessingException {
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			throw new EventProcessingException(ErrorCode.EVENT_METADATA_NOT_PRESET);
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment()!=null
@@ -124,7 +124,7 @@ public class EventProcessor {
         return myRewardDataSegmentClone;
 
     }
-	public boolean run() {
+	public boolean process_event(EventDO eventDO) {
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			return false;
 		if(this.myRewardDataSegment==null)
@@ -132,11 +132,6 @@ public class EventProcessor {
 		int mainIndex = findMainOpCode();
 		if(mainIndex==0)
 			return false;
-		// read event
-		EventDO eventDO = new EventDO();
-		//Testing - VP
-		eventDO.setActivityName("H");
-		eventDO.setActivityDate(new Date());
 		//Testing - VP
 		mainIndex = processEvent(mainIndex, eventDO);
 		

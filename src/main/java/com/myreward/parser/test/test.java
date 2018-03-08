@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.antlr.v4.runtime.*;
 
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
+import com.myreward.engine.model.event.EventDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardFunctionXRef;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
@@ -99,11 +101,12 @@ public class test {
             MyRewardDataSegment myRewardDataSegment = eventProcessor.createDataSegment();
             eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
             
-            eventProcessor.preprocess();
-            if(!eventProcessor.run()) {
-            		System.out.println("This is not working.");
-            }
-            
+            eventProcessor.create_meta_tree();
+    		EventDO eventDO = new EventDO();
+    		eventDO.setActivityName("H");
+    		eventDO.setActivityDate(new Date());
+            eventProcessor.process_event(eventDO);
+    		
             System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
             myRewardDataSegment.printString();
  		} catch(Exception exp) {
