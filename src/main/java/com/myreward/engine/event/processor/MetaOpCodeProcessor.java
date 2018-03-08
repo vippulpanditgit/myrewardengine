@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.RecognitionException;
 
+import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.event.error.MetadataParsingException;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
@@ -54,7 +55,7 @@ public class MetaOpCodeProcessor {
 			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(ruleList.toString());
 			return myRewardParser;
 		} catch (IOException e) {
-			throw new MetadataParsingException();
+			throw new MetadataParsingException(ErrorCode.GENERAL_PARSING_EXCEPTION);
 		}
 	}
 	public void parse(String rule) throws RecognitionException, MetadataParsingException {

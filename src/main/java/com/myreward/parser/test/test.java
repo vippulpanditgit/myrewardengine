@@ -9,6 +9,7 @@ import java.util.Date;
 
 import org.antlr.v4.runtime.*;
 
+import com.myreward.engine.event.error.MetadataParsingException;
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.engine.model.event.EventDO;
@@ -113,7 +114,7 @@ public class test {
     		
             System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
             myRewardDataSegment.printString();
- 		} catch(Exception|MetadataParsingException exp) {
+ 		} catch(Exception exp) {
 			exp.printStackTrace();
 		}
 
