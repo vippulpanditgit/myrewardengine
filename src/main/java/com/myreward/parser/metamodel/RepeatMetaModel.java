@@ -25,7 +25,7 @@ public class RepeatMetaModel extends BaseMetaModel {
 	public int repeatAfter;
 	public RepeatCriteria repeatCriteria;
 	
-	private String[] repeatOpCodeListTemplate = {"lbl_rpt:%s:%s", "set_rpt_flg(%d)", "set_rpt_typ(%d,%d)", "set_rpt_aft(%d,%d)", "return"};
+	private String[] repeatOpCodeListTemplate = {"lbl_rpt:%s:%s", "desc(\".repeat(%s(%s),%s,%d)\")", "set_rpt_flg(%d)", "set_rpt_typ(%d,%d)", "set_rpt_aft(%d,%d)", "return"};
 
 	@Override
 	public String[] build() {
@@ -40,10 +40,11 @@ public class RepeatMetaModel extends BaseMetaModel {
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
 			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
-			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
-			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId(), repeatCriteria.repeatType));
-			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId(), repeatAfter));
-			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[4], eventSymbol.getFullyQualifiedId()));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[1], eventSymbol.getName(), eventSymbol.getFullyQualifiedId(), repeatCriteria.name(), repeatAfter));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId(), repeatCriteria.repeatType));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[4], eventSymbol.getFullyQualifiedId(), repeatAfter));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[5], eventSymbol.getFullyQualifiedId()));
 		}
 		return repeatOpCodeList.toArray(new String[0]);
 	}

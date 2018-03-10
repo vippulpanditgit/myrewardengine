@@ -15,7 +15,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	public EventMetaModel eventMetaModel;
 
 	// Gatekeeper source check
-	private String[] gatekeeperSourceEventOpCodeListTemplate = {"lbl_gtk:%s:%s", "if_cmp_flg_set(%d,,+%s)", "set_gtk_flg(%d)", "return"};
+	private String[] gatekeeperSourceEventOpCodeListTemplate = {"lbl_gtk:%s:%s", "desc(\".gatekeeper(%s(%s))\")", "if_cmp_flg_set(%d,,+%s)", "set_gtk_flg(%d)", "return"};
 	private String[] prefixGatekeeperOpCodesListTemplate = {"lbl_fn:%s:%s"};
 	private String[] gatekeeperOpCodesListTemplate = {"inc_cmp_cnt(%s)", "set_cmp_flg(%s)"};
 	private String[] suffixGatekeeperOpCodesListTemplate = {"return"};
@@ -56,9 +56,10 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 			Symbol gatekeeperTargetSymbol = new Symbol(gatekeeperTargetEvent.getEventName());
 			gatekeeperTargetSymbol = symbolTable.lookup(gatekeeperTargetSymbol);
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), String.format(EventMetaModel.overrideTemplate, ++gatekeeperSourceSymbol.symbolIndex)));
-			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[1], gatekeeperSourceSymbol.getFullyQualifiedId(),2));
-			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[2], gatekeeperTargetSymbol.getFullyQualifiedId()));
-			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[3], gatekeeperSourceSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[1], gatekeeperSourceSymbol.getName(), gatekeeperSourceSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[2], gatekeeperSourceSymbol.getFullyQualifiedId(),2));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[3], gatekeeperTargetSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[4], gatekeeperSourceSymbol.getFullyQualifiedId()));
 			gatekeeperOpcodes.addAll(Arrays.asList(eventMetaModel.model()));
 		}
 		return gatekeeperOpcodes.toArray(new String[0]);
