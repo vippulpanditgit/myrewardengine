@@ -24,9 +24,9 @@ public class MetaStandAloneTestCase extends BaseTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		getMetaOpCodeProcessor().parse(MetaStandAloneEvent.metaDataDuration);
+		getMetaOpCodeProcessor().parse(MetaStandAloneEvent.metaDataDuration, false);
         eventProcessor = new EventProcessor(getMetaOpCodeProcessor());
-        eventProcessor.setMyRewardDataSegment(eventProcessor.createDataSegment());
+        eventProcessor.setMyRewardDataSegment(getMetaOpCodeProcessor().createDataSegment());
         eventProcessor.create_meta_tree();
 	}
 

@@ -119,15 +119,7 @@ public class EventProcessor {
     	}
     	return index;
     }
-/*    public MyRewardDataSegment createDataSegment() {
-        MyRewardDataSegment myRewardDataSegment = new MyRewardDataSegment();
-        // Create the data segment
-        myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
-        // Copy the data segment
-        MyRewardDataSegment myRewardDataSegmentClone = (MyRewardDataSegment) RuntimeLib.deepClone(myRewardDataSegment);
-        return myRewardDataSegmentClone;
 
-    }*/
 	public boolean process_event(EventDO eventDO) throws EventProcessingException {
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			throw new EventProcessingException(ErrorCode.NO_PCODE_GENERATED);

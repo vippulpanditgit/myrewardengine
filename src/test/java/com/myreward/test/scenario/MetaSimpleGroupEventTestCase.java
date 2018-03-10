@@ -26,7 +26,7 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 	@Test
 	public void test() {
 		try {
-			getMetaOpCodeProcessor().parse(MetaSimpleGroupEvent.metaData);
+			getMetaOpCodeProcessor().parse(MetaSimpleGroupEvent.metaData, false);
 			getMetaOpCodeProcessor().print_code_segment();
 		} catch (RecognitionException | MetadataParsingException e) {
 			// TODO Auto-generated catch block
