@@ -10,10 +10,12 @@ import org.antlr.v4.runtime.RecognitionException;
 
 import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.event.error.MetadataParsingException;
+import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
 import com.myreward.parser.util.MyRewardParserUtil;
+import com.myreward.parser.util.RuntimeLib;
 
 public class MetaOpCodeProcessor {
 	private List<String> metaDataList;
@@ -72,5 +74,14 @@ public class MetaOpCodeProcessor {
 	public void print_code_segment() {
 		System.out.println(this.getMyRewardPCodeGenerator().getCodeSegment());
 	}
-	
+    public MyRewardDataSegment createDataSegment() {
+        MyRewardDataSegment myRewardDataSegment = new MyRewardDataSegment();
+        // Create the data segment
+        myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
+        // Copy the data segment
+        MyRewardDataSegment myRewardDataSegmentClone = (MyRewardDataSegment) RuntimeLib.deepClone(myRewardDataSegment);
+        return myRewardDataSegmentClone;
+
+    }
+
 }
