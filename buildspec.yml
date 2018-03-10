@@ -18,8 +18,7 @@ phases:
       - mkdir deploy
       - mkdir deploy/lib
       - cp target/myrewardengine-0.0.1-SNAPSHOT.jar deploy/lib
- artifacts:
+artifacts:
   type: zip
   files:
     - deploy/lib/myrewardengine-0.0.1-SNAPSHOT.jar
- 
