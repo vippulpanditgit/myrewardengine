@@ -66,6 +66,10 @@ public class EventProcessor {
 		this.metaOpCodeProcessor = metaOpCodeProcessor;
 		
 	}
+	public EventProcessor(MetaOpCodeProcessor metaOpCodeProcessor, MyRewardDataSegment myRewardDataSegment) {
+		this.metaOpCodeProcessor = metaOpCodeProcessor;
+		this.myRewardDataSegment = myRewardDataSegment;
+	}
 	public void create_meta_tree() throws EventProcessingException {
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			throw new EventProcessingException(ErrorCode.EVENT_METADATA_NOT_PRESET);
@@ -115,7 +119,7 @@ public class EventProcessor {
     	}
     	return index;
     }
-    public MyRewardDataSegment createDataSegment() {
+/*    public MyRewardDataSegment createDataSegment() {
         MyRewardDataSegment myRewardDataSegment = new MyRewardDataSegment();
         // Create the data segment
         myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
@@ -123,12 +127,12 @@ public class EventProcessor {
         MyRewardDataSegment myRewardDataSegmentClone = (MyRewardDataSegment) RuntimeLib.deepClone(myRewardDataSegment);
         return myRewardDataSegmentClone;
 
-    }
+    }*/
 	public boolean process_event(EventDO eventDO) throws EventProcessingException {
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
-			return false;
+			throw new EventProcessingException(ErrorCode.NO_PCODE_GENERATED);
 		if(this.myRewardDataSegment==null)
-			return false;
+			throw new EventProcessingException(ErrorCode.DATASEGMENT_NOT_INITIALIZED);
 		int lbl_main_index = findMainOpCode();
 		if(lbl_main_index==0)
 			throw new EventProcessingException(ErrorCode.LABEL_MAIN_NOT_FOUND);

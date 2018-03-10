@@ -60,7 +60,7 @@ public class MetaOpCodeProcessor {
 			throw new MetadataParsingException(ErrorCode.GENERAL_PARSING_EXCEPTION);
 		}
 	}
-	public void parse(String rule) throws RecognitionException, MetadataParsingException {
+	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetadataParsingException {
         Myreward_defsContext fileContext = setup(rule).myreward_defs(); 
         
         MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
@@ -70,6 +70,16 @@ public class MetaOpCodeProcessor {
         myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
         
         this.setMyRewardPCodeGenerator(myRewardCodeGenerator);
+        if(isReturnGeneratedPCode) {
+        		return this.getPCode();
+        }
+        return null;
+	}
+	public String[] getPCode() {
+		if(this.getMyRewardPCodeGenerator().getCodeSegment()!=null) {
+			return this.getMyRewardPCodeGenerator().getCodeSegment().toArray(new String[0]);
+		}
+		return null;
 	}
 	public void print_code_segment() {
 		System.out.println(this.getMyRewardPCodeGenerator().getCodeSegment());
