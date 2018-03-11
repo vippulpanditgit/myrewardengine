@@ -17,7 +17,7 @@ phases:
       - echo Build completed on `date`
       - mkdir deploy
       - mkdir deploy/lib
-      - mvn deploy:deploy-file -Durl=https://s3.console.aws.amazon.com/s3/buckets/myrewardcore/snapshot/?region=us-west-2&tab=overview/ -Dfile=target/myrewardengine-0.0.1-SNAPSHOT.jar -DgroupId=com.myreward.engine -DartificatId=myrewardengine -Dpackaging=jar -Dversion=0.0.1-SNAPSHOT
+      - mvn deploy:deploy-file -Durl=file:///https://s3.console.aws.amazon.com/s3/buckets/myrewardcore/snapshot/?region=us-west-2&tab=overview/ -Dfile=target/myrewardengine-0.0.1-SNAPSHOT.jar -DgroupId=com.myreward.engine -DartifactId=myrewardengine -Dpackaging=jar -Dversion=0.0.1-SNAPSHOT
       - cp target/myrewardengine-0.0.1-SNAPSHOT.jar deploy/lib
 artifacts:
   type: zip
