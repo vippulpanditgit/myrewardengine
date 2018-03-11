@@ -13,6 +13,7 @@ import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.util.RuntimeLib;
+import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.event.error.EventProcessingException;
 import com.myreward.engine.event.opcode.*;
@@ -122,7 +123,7 @@ public class EventProcessor {
     	return index;
     }
 
-	public boolean process_event(EventDO eventDO) throws EventProcessingException {
+	public boolean process_event(EventDO eventDO) throws Exception {
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			throw new EventProcessingException(ErrorCode.NO_PCODE_GENERATED);
 		if(this.myRewardDataSegment==null)
@@ -131,11 +132,15 @@ public class EventProcessor {
 		if(lbl_main_index==0)
 			throw new EventProcessingException(ErrorCode.LABEL_MAIN_NOT_FOUND);
 		//Testing - VP
-		lbl_main_index = process_event(lbl_main_index, eventDO);
+		try {
+			step(lbl_main_index, eventDO);
+		} catch (Exception e) {
+			throw e;
+		}
 		return true;
 	}
 
-	private int process_event(int mainIndex, EventDO eventDO) {
+	public int step(int mainIndex, EventDO eventDO) throws Exception {
 		while(true) {
 			if(mainIndex < instructionOpCodes.size()-1)
 				mainIndex++;
@@ -143,7 +148,15 @@ public class EventProcessor {
 System.out.println(opCodeBaseModel);
 			if(opCodeBaseModel instanceof ReturnModel)
 				break;
-			OperationResultDO operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, eventDO);
+			OperationResultDO operationResultDO = null;
+			try {
+				operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, eventDO);
+			} catch (DebugException debugException) {
+				debugException.opCodeIndex = mainIndex;
+				debugException.eventDO = eventDO;
+				debugException.myRewardDataSegment = myRewardDataSegment;
+				throw debugException;
+			}
 			if(operationResultDO instanceof IfOperationResult) {
 				int index = ((IfOperationResult)operationResultDO).getNextOperationNumber();
 				if(index>0)

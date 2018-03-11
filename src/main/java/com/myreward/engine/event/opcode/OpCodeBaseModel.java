@@ -11,6 +11,6 @@ public abstract class OpCodeBaseModel implements Serializable {
 	
 	public abstract String[] getOpcodes();
 
-	public abstract OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event);
+	public abstract OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event)  throws Exception ;
 	
 }

@@ -10,6 +10,7 @@ import java.util.Date;
 import org.antlr.v4.runtime.*;
 
 import com.myreward.engine.app.AppVariables;
+import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.MetadataParsingException;
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
@@ -110,11 +111,24 @@ public class test {
     		EventDO eventDO = new EventDO();
     		eventDO.setActivityName("H");
     		eventDO.setActivityDate(new Date());
-            eventProcessor.process_event(eventDO);
-    		eventDO.setActivityName("B");
+    		try {
+    			eventProcessor.process_event(eventDO);
+    		} catch(DebugException debugException) {
+    			eventProcessor.setMyRewardDataSegment(debugException.myRewardDataSegment);
+    			while(true) {
+    				try {
+    					eventProcessor.step(debugException.opCodeIndex, debugException.eventDO);
+    				} catch(DebugException deepDebugException) {
+    					debugException.eventDO = deepDebugException.eventDO;
+    					debugException.myRewardDataSegment = deepDebugException.myRewardDataSegment;
+    					debugException.opCodeIndex = deepDebugException.opCodeIndex;
+    				}
+    			}
+    		}
+/*    		eventDO.setActivityName("B");
     		eventDO.setActivityDate(new Date());
             eventProcessor.process_event(eventDO);
-    		
+*/    		
             System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
             myRewardDataSegment.printString();
  		} catch(Exception exp) {

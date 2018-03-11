@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
@@ -12,6 +13,7 @@ import com.myreward.parser.generator.MyRewardDataSegment;
 public class DebugModel extends OpCodeBaseModel {
 	private static String OPCODE_LABEL = "debug";
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL};
+	public boolean ignore = false;
 
 	public DebugModel() {
 	}
@@ -34,8 +36,9 @@ public class DebugModel extends OpCodeBaseModel {
 
 	@Override
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
-			EventDO event) {
-		// TODO Auto-generated method stub
+			EventDO event) throws Exception {
+		if(!ignore)
+			throw new DebugException();
 		return null;
 	}
 

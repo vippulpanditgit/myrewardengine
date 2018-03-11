@@ -61,7 +61,7 @@ public class CallShowModel extends CallBaseModel {
 	    }
 		@Override
 		public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
-				EventDO event) {
+				EventDO event)  throws Exception {
 			OperationResultDO operationResultDO = null;
 			LabelShowModel labelShowModel = new LabelShowModel(name, version);
 			int callbackFunctionModelIndex = this.findOpCode(instructionOpCodes, labelShowModel);

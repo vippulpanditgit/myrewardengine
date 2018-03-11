@@ -65,7 +65,7 @@ public class CallGatekeeperModel extends CallBaseModel {
     }
 	@Override
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
-			EventDO event) {
+			EventDO event)  throws Exception {
 		OperationResultDO operationResultDO = null;
 		LabelGatekeeperModel labelGatekeeperModel = new LabelGatekeeperModel(name, version);
 		int callbackFunctionModelIndex = this.findOpCode(instructionOpCodes, labelGatekeeperModel);

@@ -60,7 +60,7 @@ public class CallFunctionModel extends CallBaseModel {
     	}
     	return index;
     }
-	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event) {
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event)  throws Exception{
 		OperationResultDO operationResultDO = null;
 		LabelFunctionModel labelFunctionModel = new LabelFunctionModel(name, version);
 		int callbackFunctionModelIndex = this.findOpCode(instructionOpCodes, labelFunctionModel);

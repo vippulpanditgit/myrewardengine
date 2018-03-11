@@ -64,7 +64,7 @@ public class CallDurationModel extends CallBaseModel {
 		else 
 			return index;
 	}
-	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event) {
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event)  throws Exception{
 		OperationResultDO operationResultDO = null;
 		LabelDurationModel labelDurationModel = new LabelDurationModel(name, version);
 		int callbackFunctionModelIndex = this.findOpCode(instructionOpCodes, labelDurationModel);
