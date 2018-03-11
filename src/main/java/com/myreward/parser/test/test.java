@@ -9,6 +9,7 @@ import java.util.Date;
 
 import org.antlr.v4.runtime.*;
 
+import com.myreward.engine.app.AppVariables;
 import com.myreward.engine.event.error.MetadataParsingException;
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
@@ -95,9 +96,11 @@ public class test {
 
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
+			
+			AppVariables.getInstance().isDebug = true;
 			MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor();
 			metaOpCodeProcessor.initialize();
-			metaOpCodeProcessor.parse(oneEventWithGatekeeper, false);
+			metaOpCodeProcessor.parse(oneEvent1, false);
 			metaOpCodeProcessor.print_code_segment();
             MyRewardDataSegment myRewardDataSegment = metaOpCodeProcessor.createDataSegment();
             EventProcessor eventProcessor = new EventProcessor(metaOpCodeProcessor);

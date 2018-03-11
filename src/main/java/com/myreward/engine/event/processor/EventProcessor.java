@@ -60,7 +60,9 @@ public class EventProcessor {
 											new SetRepeatModel(),
 											new SetEventModel(),
 											new AddRewardModel(),
-											new IncrementEventModel());
+											new IncrementEventModel(),
+											new DescriptionModel(),
+											new DebugModel());
 	
 	public EventProcessor(MetaOpCodeProcessor metaOpCodeProcessor) {
 		this.metaOpCodeProcessor = metaOpCodeProcessor;

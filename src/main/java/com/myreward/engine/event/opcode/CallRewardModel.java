@@ -96,14 +96,5 @@ System.out.println(opCodeBaseModel);
 		}
 		return operationResultDO;
 	}
-/*	public OperationResultDO process(EventDO event) {
-		OperationResultDO operationResultDO = null;
-		if(event.isValid()) {
-			operationResultDO = new CallOperationResult();
-			((CallOperationResult)operationResultDO).setResult(true);
-			((CallOperationResult)operationResultDO).setLabelHashValue(name);
-			((CallOperationResult)operationResultDO).setLabelVersion(version);
-		}
-		return operationResultDO;		
-	}*/
+
 }

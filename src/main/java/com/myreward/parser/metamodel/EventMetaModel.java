@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
 
+import com.myreward.engine.app.AppVariables;
 import com.myreward.parser.generator.MyRewardFunctionXRef;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.symbol.Symbol;
@@ -282,7 +283,9 @@ public class EventMetaModel extends BaseMetaModel {
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
 			List<String> callStackOpCodeList = new ArrayList<String>();
-			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), String.valueOf(eventSymbol.symbolIndex--)));
+			if(AppVariables.getInstance().isDebug)
+				callStackOpCodeList.add("debug");
+			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), String.valueOf(eventSymbol.symbolIndex--)));			
 			int level=0;
 			level = this.climbUpTheEventStackTree(this, callStackOpCodeList, level);
 			callStackOpCodeList.add(0, String.format(prefixCallStackOpCodeListTemplate[0], eventName, level+3));
@@ -303,6 +306,8 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(groupEventMetaModel.eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
+			if(AppVariables.getInstance().isDebug)
+				callStackOpCodeList.add("debug");
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
 			eventMetaModel = eventMetaModel.parent.parent;
 			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);
