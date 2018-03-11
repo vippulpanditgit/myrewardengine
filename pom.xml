@@ -11,14 +11,14 @@
 	</properties>
 	<distributionManagement>
 		<repository>
-			<id>Component1-s3-release-repo</id>
+			<id>aws-release</id>
 			<name>Release Repository for Component1</name>
-			<url>s3://myrewardcore/release</url>
+			<url>s3://myrewardcore/release/</url>
 		</repository>
 		<snapshotRepository>
-			<id>Component1-s3-snapshot-repo</id>
+			<id>aws-snapshot</id>
 			<name>Snapshot Repository for Component1</name>
-			<url>s3://myrewardcore/snapshot</url>
+			<url>s3://myrewardcore/snapshot/</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<repositories>
