@@ -19,8 +19,7 @@ phases:
       - mkdir deploy/lib
       - cp target/myrewardengine-0.0.1-SNAPSHOT.jar deploy/lib
       - aws s3 cp target/myrewardengine-0.0.1-SNAPSHOT.jar s3://myrewardcore/snapshot/myrewardengine-0.0.1-SNAPSHOT.jar
-      - mvn deploy:deploy-file -Durl=https://buckets.s3.amazonaws.com/snapshot/ -Dfile=myrewardengine-0.0.1-SNAPSHOT.jar -DgroupId=com.myreward.engine -DartifactId=myrewardengine -Dpackaging=jar -Dversion=0.0.1-SNAPSHOT
-artifacts:
+ artifacts:
   type: zip
   files:
     - deploy/lib/myrewardengine-0.0.1-SNAPSHOT.jar
