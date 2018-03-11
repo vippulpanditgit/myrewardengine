@@ -140,11 +140,11 @@ public class EventProcessor {
 		return true;
 	}
 
-	public int step(int mainIndex, EventDO eventDO) throws Exception {
+	public int step(int currentOpCodeIndex, EventDO eventDO) throws Exception {
 		while(true) {
-			if(mainIndex < instructionOpCodes.size()-1)
-				mainIndex++;
-			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(mainIndex);
+			if(currentOpCodeIndex < instructionOpCodes.size()-1)
+				currentOpCodeIndex++;
+			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(currentOpCodeIndex);
 System.out.println(opCodeBaseModel);
 			if(opCodeBaseModel instanceof ReturnModel)
 				break;
@@ -152,7 +152,7 @@ System.out.println(opCodeBaseModel);
 			try {
 				operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, eventDO);
 			} catch (DebugException debugException) {
-				debugException.opCodeIndex = mainIndex;
+				debugException.opCodeIndex = currentOpCodeIndex;
 				debugException.eventDO = eventDO;
 				debugException.myRewardDataSegment = myRewardDataSegment;
 				throw debugException;
@@ -160,17 +160,17 @@ System.out.println(opCodeBaseModel);
 			if(operationResultDO instanceof IfOperationResult) {
 				int index = ((IfOperationResult)operationResultDO).getNextOperationNumber();
 				if(index>0)
-					mainIndex += (index-1);
+					currentOpCodeIndex += (index-1);
 				else {
-					while(mainIndex<instructionOpCodes.size()) {
-						mainIndex++;
-						if(instructionOpCodes.get(mainIndex) instanceof ReturnModel)
+					while(currentOpCodeIndex<instructionOpCodes.size()) {
+						currentOpCodeIndex++;
+						if(instructionOpCodes.get(currentOpCodeIndex) instanceof ReturnModel)
 							break;
 					}
 				}
 			}
 		}
-		return mainIndex;
+		return currentOpCodeIndex;
 	}
 
 	public List<OpCodeBaseModel> getInstructionOpCodes() {

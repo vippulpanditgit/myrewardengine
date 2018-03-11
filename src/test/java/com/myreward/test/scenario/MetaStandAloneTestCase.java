@@ -41,7 +41,7 @@ public class MetaStandAloneTestCase extends BaseTestCase {
             eventProcessor.process_event(createEvent("A", new Date()));
 //           eventProcessor.getMyRewardDataSegment().printString();
 //            assertTrue(eventProcessor.getMyRewardDataSegment().getDataObject("A".hashCode()).eventCount.compareTo(Integer.valueOf(1))==1);
-		} catch (RecognitionException | EventProcessingException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
