@@ -23,6 +23,9 @@ public class DebugModel extends OpCodeBaseModel {
 			return null;
 		return null;
 	}	
+	public String toString() {
+		return OPCODE_LABEL;
+	}
 	
 	@Override
 	public String[] getOpcodes() {
