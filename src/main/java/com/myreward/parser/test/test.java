@@ -118,6 +118,9 @@ public class test {
     			while(true) {
     				try {
     					int index = eventProcessor.step(debugException.opCodeIndex, debugException.eventDO);
+    					debugException.opCodeIndex = index;
+    					if(eventProcessor.getInstructionOpCodes().size()-1<=index)
+    						break;
     					System.out.println(index);
     				} catch(DebugException deepDebugException) {
     					debugException.eventDO = deepDebugException.eventDO;
@@ -130,7 +133,7 @@ public class test {
     		eventDO.setActivityDate(new Date());
             eventProcessor.process_event(eventDO);
 */    		
-            System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
+//            System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
             myRewardDataSegment.printString();
  		} catch(Exception exp) {
 			exp.printStackTrace();
