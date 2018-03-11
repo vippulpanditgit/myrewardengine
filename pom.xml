@@ -129,4 +129,11 @@
 			</plugin>
 		</plugins>
 	</build>
+	<developers>
+		<developer>
+			<id>vpandit</id>
+			<name>Vippul Pandit</name>
+			<email>vippul.pandit.git@gmail.com</email>
+		</developer>
+	</developers>
 </project>
