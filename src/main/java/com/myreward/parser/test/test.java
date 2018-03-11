@@ -117,7 +117,8 @@ public class test {
     			eventProcessor.setMyRewardDataSegment(debugException.myRewardDataSegment);
     			while(true) {
     				try {
-    					eventProcessor.step(debugException.opCodeIndex, debugException.eventDO);
+    					int index = eventProcessor.step(debugException.opCodeIndex, debugException.eventDO);
+    					System.out.println(index);
     				} catch(DebugException deepDebugException) {
     					debugException.eventDO = deepDebugException.eventDO;
     					debugException.myRewardDataSegment = deepDebugException.myRewardDataSegment;
