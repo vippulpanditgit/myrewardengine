@@ -4,6 +4,46 @@
 	<groupId>com.myreward.engine</groupId>
 	<artifactId>myrewardengine</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+	<distributionManagement>
+		<repository>
+			<id>Component1-s3-release-repo</id>
+			<name>Release Repository for Component1</name>
+			<url>s3://myrewardcore/release</url>
+		</repository>
+		<snapshotRepository>
+			<id>Component1-s3-snapshot-repo</id>
+			<name>Snapshot Repository for Component1</name>
+			<url>s3://myrewardcore/snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<repositories>
+		<repository>
+			<id>Component1-s3-release-repo</id>
+			<name>S3 Release Repository for component1</name>
+			<url>s3://myrewardcore/release</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>Component1-s3-snapshot-repo</id>
+			<name>Component1-s3-snapshot-repo</name>
+			<url>s3://myrewardcore/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>	
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/antlr/antlr -->
 		<dependency>
@@ -24,6 +64,13 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<extensions>
+			<extension>
+				<groupId>org.springframework.build</groupId>
+				<artifactId>aws-maven</artifactId>
+				<version>5.0.0.RELEASE</version>
+			</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.antlr</groupId>
@@ -31,14 +78,14 @@
 				<version>4.7.1</version>
 				<executions>
 					<execution>
-					<configuration>
-						<arguments></arguments>
-						<libDirectory></libDirectory>
-						<listener>false</listener>
-						<visitor>true</visitor>
-						<sourceDirectory>src/main/resources</sourceDirectory>
-						<outputDirectory>generated-sources/antlr4</outputDirectory>
-					</configuration>
+						<configuration>
+							<arguments></arguments>
+							<libDirectory></libDirectory>
+							<listener>false</listener>
+							<visitor>true</visitor>
+							<sourceDirectory>src/main/resources</sourceDirectory>
+							<outputDirectory>generated-sources/antlr4</outputDirectory>
+						</configuration>
 						<goals>
 							<goal>antlr4</goal>
 						</goals>
@@ -47,8 +94,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
 </project>
