@@ -27,7 +27,7 @@ phases:
       - aws configure set aws_access_key_id 'AKIAJIMBBDYMDRJQ2Y6Q'
       - aws configure set aws_secret_access_key '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'
       - aws configure set region us-west-2
-      - mvn deploy
+      - mvn install
   post_build:
     commands:
       - echo Build completed on `date`
