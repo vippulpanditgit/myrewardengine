@@ -10,6 +10,8 @@ phases:
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase...
+      - aws configure set aws_access_key_id "AKIAJUIM5LFKKQJNHR3Q"
+      - aws configure set aws_secret_access_key "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"     
  #     - echo "[default]" > ~/.aws/credentials
  #     - echo "aws_access_key_id = $(cat credentials.json | jq '.AccessKeyId' | sed s'/"//g')" >> ~/.aws/credentials
  #     - echo "aws_secret_access_key = $(cat credentials.json | jq '.SecretAccessKey' | sed s'/"//g')" >> ~/.aws/credentials
@@ -17,8 +19,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - aws configure set aws_access_key_id AKIAJUIM5LFKKQJNHR3Q
-      - aws configure set aws_secret_access_key 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
+      - aws configure set aws_access_key_id "AKIAJUIM5LFKKQJNHR3Q"
+      - aws configure set aws_secret_access_key "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"
       - mvn clean
       - mvn install
       - mvn deploy
