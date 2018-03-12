@@ -10,15 +10,15 @@ phases:
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase...
-      - echo "[default]" > ~/.aws/credentials
-      - echo "aws_access_key_id = $(cat credentials.json | jq '.AccessKeyId' | sed s'/"//g')" >> ~/.aws/credentials
-      - echo "aws_secret_access_key = $(cat credentials.json | jq '.SecretAccessKey' | sed s'/"//g')" >> ~/.aws/credentials
-      - echo "aws_session_token = $(cat credentials.json | jq '.Token' | sed s'/"//g')" >> ~/.aws/credentials
+ #     - echo "[default]" > ~/.aws/credentials
+ #     - echo "aws_access_key_id = $(cat credentials.json | jq '.AccessKeyId' | sed s'/"//g')" >> ~/.aws/credentials
+ #     - echo "aws_secret_access_key = $(cat credentials.json | jq '.SecretAccessKey' | sed s'/"//g')" >> ~/.aws/credentials
+ #     - echo "aws_session_token = $(cat credentials.json | jq '.Token' | sed s'/"//g')" >> ~/.aws/credentials
   build:
     commands:
       - echo Build started on `date`
-      - aws configure set aws_access_key_id `./jq -r '.AccessKeyId' aws_credentials.json`
-      - aws configure set aws_secret_access_key `./jq -r '.SecretAccessKey' aws_credentials.json`
+      - aws configure set aws_access_key_id AKIAJUIM5LFKKQJNHR3Q
+      - aws configure set aws_secret_access_key 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
       - mvn clean
       - mvn install
       - mvn deploy
