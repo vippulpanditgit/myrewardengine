@@ -7,15 +7,15 @@ phases:
   install:
     commands:
       - echo Nothing to do in the install phase...
-      - aws configure set aws_access_key_id AKIAJIMBBDYMDRJQ2Y6Q
-      - aws configure set aws_secret_access_key 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     
+      - aws configure set aws_access_key_id 'AKIAJIMBBDYMDRJQ2Y6Q'
+      - aws configure set aws_secret_access_key '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'     
       - aws configure set region us-west-2
       
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase...
-      - aws configure set aws_access_key_id AKIAJIMBBDYMDRJQ2Y6Q
-      - aws configure set aws_secret_access_key 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     
+      - aws configure set aws_access_key_id 'AKIAJIMBBDYMDRJQ2Y6Q'
+      - aws configure set aws_secret_access_key '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'     
       - aws configure set region us-west-2
       - echo "[default]" > ~/.aws/credentials
 #      - echo "aws_access_key_id = $(cat credentials.json | jq '.AccessKeyId' | sed s'/"//g')" >> ~/.aws/credentials
@@ -24,8 +24,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - aws configure set aws_access_key_id AKIAJIMBBDYMDRJQ2Y6Q
-      - aws configure set aws_secret_access_key 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
+      - aws configure set aws_access_key_id 'AKIAJIMBBDYMDRJQ2Y6Q'
+      - aws configure set aws_secret_access_key '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'
       - aws configure set region us-west-2
       - mvn deploy
   post_build:
