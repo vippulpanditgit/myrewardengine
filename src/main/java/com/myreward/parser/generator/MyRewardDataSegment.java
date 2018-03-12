@@ -178,7 +178,6 @@ public class MyRewardDataSegment implements Serializable {
 		Integer eventDataObjectIndex = xmapdataSegment.get(Integer.valueOf(id));
 		if(eventDataObjectIndex!=null) {
 			return dataSegment.get(eventDataObjectIndex.intValue());
-			
 		}
 		return null;
 	}
