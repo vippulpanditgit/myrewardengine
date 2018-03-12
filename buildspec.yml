@@ -1,5 +1,8 @@
 version: 0.2
-
+env:
+  variables:
+    AWS_ACCESS_KEY_ID:"AKIAJUIM5LFKKQJNHR3Q"
+    AWS_SECRET_ACCESS_KEY:"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"
 phases:
   install:
     commands:
