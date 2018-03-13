@@ -13,19 +13,19 @@
 		<repository>
 			<id>aws-release</id>
 			<name>Release Repository for Component1</name>
-			<url>s3://myrewardcore/release/</url>
+			<url>s3://myrewardcore.repo/release/</url>
 		</repository>
 		<snapshotRepository>
 			<id>aws-snapshot</id>
 			<name>Snapshot Repository for Component1</name>
-			<url>s3://myrewardcore/snapshot/</url>
+			<url>s3://myrewardcore.repo/snapshot/</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<repositories>
 		<repository>
 			<id>aws-release</id>
 			<name>S3 Release Repository for component1</name>
-			<url>s3://myrewardcore/release/</url>
+			<url>s3://myrewardcore.repo/release/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -36,7 +36,7 @@
 		<repository>
 			<id>aws-snapshot</id>
 			<name>Component1-s3-snapshot-repo</name>
-			<url>s3://myrewardcore/snapshot/</url>
+			<url>s3://myrewardcore.repo/snapshot/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
