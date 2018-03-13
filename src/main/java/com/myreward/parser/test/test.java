@@ -10,6 +10,7 @@ import java.util.Date;
 import org.antlr.v4.runtime.*;
 
 import com.myreward.engine.app.AppVariables;
+import com.myreward.engine.delegate.EventDataObjectDelegate;
 import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.MetadataParsingException;
 import com.myreward.engine.event.processor.EventProcessor;
@@ -104,6 +105,7 @@ public class test {
 			metaOpCodeProcessor.parse(oneEvent1, false);
 			metaOpCodeProcessor.print_code_segment();
             MyRewardDataSegment myRewardDataSegment = metaOpCodeProcessor.createDataSegment();
+            myRewardDataSegment.setDelegate(new EventDataObjectDelegate());
             EventProcessor eventProcessor = new EventProcessor(metaOpCodeProcessor);
             eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
             
