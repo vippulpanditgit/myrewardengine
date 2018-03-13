@@ -1,32 +1,15 @@
 version: 0.2
-#env:
-#  variables:
-#    AWS_ACCESS_KEY_ID:"AKIAJIMBBDYMDRJQ2Y6Q"
-#    AWS_SECRET_ACCESS_KEY:"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"
 phases:
   install:
     commands:
       - echo Nothing to do in the install phase...
-      - aws configure set aws_access_key_id 'AKIAJIMBBDYMDRJQ2Y6Q'
-      - aws configure set aws_secret_access_key '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'     
-      - aws configure set region us-west-2
       
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase...
-      - aws configure set aws_access_key_id 'AKIAJIMBBDYMDRJQ2Y6Q'
-      - aws configure set aws_secret_access_key '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'     
-      - aws configure set region us-west-2
-      - echo "[default]" > ~/.aws/credentials
-#      - echo "aws_access_key_id = $(cat credentials.json | jq '.AccessKeyId' | sed s'/"//g')" >> ~/.aws/credentials
-#      - echo "aws_secret_access_key = $(cat credentials.json | jq '.SecretAccessKey' | sed s'/"//g')" >> ~/.aws/credentials
-#      - echo "aws_session_token = $(cat credentials.json | jq '.Token' | sed s'/"//g')" >> ~/.aws/credentials
   build:
     commands:
       - echo Build started on `date`
-      - aws configure set aws_access_key_id 'AKIAJIMBBDYMDRJQ2Y6Q'
-      - aws configure set aws_secret_access_key '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'
-      - aws configure set region us-west-2
       - mvn install
   post_build:
     commands:
@@ -35,7 +18,6 @@ phases:
       - mkdir deploy/lib
       - cp target/myrewardengine-0.0.1-SNAPSHOT.jar deploy/lib
       - aws s3 cp target/myrewardengine-0.0.1-SNAPSHOT.jar s3://myrewardcore/snapshot/myrewardengine-0.0.1-SNAPSHOT.jar
-#      - mvn install:install-file -Dfile=target/myrewardengine-0.0.1-SNAPSHOT.jar -DgroupId=com.myreward -DartifactId=myrewardcore -Dversion=0.0.1 -Dpackaging=jar -DlocalRepositoryPath=s3://myreward/snapshot
 artifacts:
   type: zip
   files:
