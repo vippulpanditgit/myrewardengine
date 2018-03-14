@@ -98,7 +98,6 @@ public class test {
 
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
-			
 			AppVariables.getInstance().isDebug = true;
 			MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor();
 			metaOpCodeProcessor.initialize();
@@ -137,7 +136,7 @@ public class test {
 */    		
 //            System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
             myRewardDataSegment.printString();
- 		} catch(Exception exp) {
+		} catch(Exception exp) {
 			exp.printStackTrace();
 		}
 
