@@ -11,7 +11,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.myreward.engine.annotation.AttributeStatus;
 import com.myreward.engine.delegate.EventDataObjectDelegate;
 import com.myreward.engine.delegate.IRuntimeDelegate;
 import com.myreward.parser.symbol.Symbol;
@@ -47,7 +46,6 @@ public class MyRewardDataSegment implements Serializable {
 		public String toString() {
 			return name+"<<"+id+"<<"+description+"<<"+eventStatus+"<<"+eventCount+"<<"+amount+"<<"+maxRepeat+"<<"+priority+"<<"+nextRpeat;
 		}
-		@AttributeStatus()
 		public void setEventCompletionFlag() {
 			eventStatus |= 0x01;
 			if(this.eventDelegate!=null)
