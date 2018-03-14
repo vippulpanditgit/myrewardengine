@@ -120,6 +120,7 @@ public class EventProcessor {
     }
 
  	public boolean process_event(EventDO eventDO) throws Exception {
+ 		
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			throw new EventProcessingException(ErrorCode.NO_PCODE_GENERATED);
 		if(this.myRewardDataSegment==null)
