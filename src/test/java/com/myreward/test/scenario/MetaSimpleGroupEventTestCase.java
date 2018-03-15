@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.myreward.engine.event.error.MetaDataParsingException1;
+import com.myreward.engine.event.error.MetaDataParsingException;
 import com.myreward.parser.test.BaseTestCase;
 import com.myreward.parser.test.scenario.MetaSimpleGroupEvent;
 
@@ -28,7 +28,7 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 		try {
 			getMetaOpCodeProcessor().parse(MetaSimpleGroupEvent.metaData, false);
 			getMetaOpCodeProcessor().print_code_segment();
-		} catch (RecognitionException | MetaDataParsingException1 e) {
+		} catch (RecognitionException | MetaDataParsingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

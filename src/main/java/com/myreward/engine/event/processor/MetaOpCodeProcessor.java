@@ -9,7 +9,7 @@ import java.util.List;
 import org.antlr.v4.runtime.RecognitionException;
 
 import com.myreward.engine.event.error.ErrorCode;
-import com.myreward.engine.event.error.MetaDataParsingException1;
+import com.myreward.engine.event.error.MetaDataParsingException;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
@@ -44,7 +44,7 @@ public class MetaOpCodeProcessor {
 		metaDataList = null;
 		
 	}
-	public MyRewardParser setup(String rule) throws MetaDataParsingException1 {
+	public MyRewardParser setup(String rule) throws MetaDataParsingException {
 		if(rule!=null) {
 			metaDataList.add(rule);
 		}
@@ -57,10 +57,10 @@ public class MetaOpCodeProcessor {
 			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(ruleList.toString());
 			return myRewardParser;
 		} catch (IOException e) {
-			throw new MetaDataParsingException1(ErrorCode.GENERAL_PARSING_EXCEPTION);
+			throw new MetaDataParsingException(ErrorCode.GENERAL_PARSING_EXCEPTION);
 		}
 	}
-	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException1 {
+	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException {
         Myreward_defsContext fileContext = setup(rule).myreward_defs(); 
         
         MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
