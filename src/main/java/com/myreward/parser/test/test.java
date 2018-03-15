@@ -9,7 +9,7 @@ import java.util.Date;
 
 import org.antlr.v4.runtime.*;
 
-import com.myreward.engine.app.AppVariables;
+import com.myreward.engine.app.AppContext;
 import com.myreward.engine.audit.AuditManager;
 import com.myreward.engine.audit.ObjectJsonSerializer;
 import com.myreward.engine.delegate.EventDataObjectDelegate;
@@ -100,7 +100,7 @@ public class test {
 
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
-			AppVariables.getInstance().isDebug = true;
+			AppContext.getInstance().isDebug = true;
 			MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor();
 			metaOpCodeProcessor.initialize();
 			metaOpCodeProcessor.parse(oneEvent1, false);
@@ -111,6 +111,7 @@ public class test {
             eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
             
             eventProcessor.create_meta_tree();
+            AppContext.getInstance().
     		EventDO eventDO = new EventDO();
     		eventDO.setActivityName("H");
     		eventDO.setActivityDate(new Date());
