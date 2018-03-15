@@ -2,7 +2,7 @@ package com.myreward.engine.audit;
 
 public enum AuditEventType {
 	AUDIT_EVENT_INIT("00000000000", "AUDIT_EVENT_INIT", "Audit initializaiton."),
-	AUDIT_EVENT_TERMINATION("99999999999", "AUDIT_EVENT_INIT", "Audit initializaiton.");
+	AUDIT_EVENT_TERMINATION("99999999999", "AUDIT_EVENT_INIT", "Audit Termination.");
 	
 	private String code;
 	private String value;

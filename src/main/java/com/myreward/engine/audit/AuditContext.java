@@ -15,5 +15,11 @@ public final class AuditContext {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 	}
+	public static IAuditOutputStream<AuditEvent> getAuditStream() {
+		return auditStream;
+	}
+	public static void setAuditStream(IAuditOutputStream<AuditEvent> auditStream) {
+		AuditContext.auditStream = auditStream;
+	}
 
 }

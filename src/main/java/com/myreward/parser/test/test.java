@@ -10,6 +10,8 @@ import java.util.Date;
 import org.antlr.v4.runtime.*;
 
 import com.myreward.engine.app.AppVariables;
+import com.myreward.engine.audit.AuditManager;
+import com.myreward.engine.audit.ObjectJsonSerializer;
 import com.myreward.engine.delegate.EventDataObjectDelegate;
 import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.MetadataParsingException;
@@ -113,6 +115,7 @@ public class test {
     		eventDO.setActivityName("H");
     		eventDO.setActivityDate(new Date());
     		try {
+    			AuditManager.getInstance().audit(new AuditEvent());
     			eventProcessor.process_event(eventDO);
     		} catch(DebugException debugException) {
     			eventProcessor.setMyRewardDataSegment(debugException.myRewardDataSegment);
@@ -135,7 +138,9 @@ public class test {
             eventProcessor.process_event(eventDO);
 */    		
 //            System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
-            myRewardDataSegment.printString();
+    			byte[] json = ObjectJsonSerializer.toJson(myRewardDataSegment.getDataObject(66), null);
+    			System.out.println(new String(json));
+ //           myRewardDataSegment.printString();
 		} catch(Exception exp) {
 			exp.printStackTrace();
 		}
