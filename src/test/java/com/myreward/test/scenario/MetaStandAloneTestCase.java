@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.myreward.engine.event.error.EventProcessingException;
-import com.myreward.engine.event.error.MetadataParsingException;
+import com.myreward.engine.event.error.MetaDataParsingException1;
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.parser.generator.MyRewardDataSegment;

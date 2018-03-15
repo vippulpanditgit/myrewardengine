@@ -14,7 +14,7 @@ import com.myreward.engine.audit.AuditManager;
 import com.myreward.engine.audit.ObjectJsonSerializer;
 import com.myreward.engine.delegate.EventDataObjectDelegate;
 import com.myreward.engine.event.error.DebugException;
-import com.myreward.engine.event.error.MetadataParsingException;
+import com.myreward.engine.event.error.MetaDataParsingException1;
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.engine.model.event.EventDO;
