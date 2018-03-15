@@ -9,9 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.engine.audit.AuditEvent;
+import com.myreward.engine.audit.AuditEventType;
+import com.myreward.engine.audit.AuditManager;
 import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.event.error.EventProcessingException;
+import com.myreward.engine.event.error.MetaDataCreationException;
 import com.myreward.engine.event.opcode.*;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.IfOperationResult;
@@ -69,7 +73,8 @@ public class EventProcessor {
 		this.metaOpCodeProcessor = metaOpCodeProcessor;
 		this.myRewardDataSegment = myRewardDataSegment;
 	}
-	public void create_meta_tree() throws EventProcessingException {
+	public void create_meta_tree() throws EventProcessingException, MetaDataCreationException {
+		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_START, null));
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			throw new EventProcessingException(ErrorCode.EVENT_METADATA_NOT_PRESET);
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment()!=null
@@ -95,16 +100,17 @@ public class EventProcessor {
 //								System.out.println("Test");
 								break;
 							} catch(Exception exp){
-								exp.printStackTrace();
+								throw new MetaDataCreationException("Exception creating Metadata tree", exp);
 							}
 						}
 					}
 				}
 				if(!isOpcodeFound)
-					System.out.println(opcode);
+					throw new MetaDataCreationException("Exception creating Metadata tree", new Exception("Opcode Handler not found- "+opcode));
 				index++;
 			}
 		}
+		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_END, null));
 	}
 		
     private int findMainOpCode() {

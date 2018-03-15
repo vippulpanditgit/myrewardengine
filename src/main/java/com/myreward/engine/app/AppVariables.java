@@ -1,5 +1,6 @@
 package com.myreward.engine.app;
 
+@Deprecated
 public class AppVariables {
 	public boolean isDebug = false;
 	private static AppVariables instance;
