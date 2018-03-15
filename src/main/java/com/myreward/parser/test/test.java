@@ -115,7 +115,7 @@ public class test {
     		eventDO.setActivityName("H");
     		eventDO.setActivityDate(new Date());
     		try {
-    			AuditManager.getInstance().audit(new AuditEvent());
+//    			AuditManager.getInstance().audit(new AuditEvent());
     			eventProcessor.process_event(eventDO);
     		} catch(DebugException debugException) {
     			eventProcessor.setMyRewardDataSegment(debugException.myRewardDataSegment);
