@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.engine.app.AppInstanceContext;
 import com.myreward.engine.audit.AuditEvent;
 import com.myreward.engine.audit.AuditEventType;
 import com.myreward.engine.audit.AuditManager;
@@ -22,6 +23,7 @@ import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
 
 public class EventProcessor {
+	private AppInstanceContext parentContext;
 	private MetaOpCodeProcessor metaOpCodeProcessor;
 	private MyRewardDataSegment myRewardDataSegment;
 	private Map<String, Integer> fnXref = new HashMap<String, Integer>();
@@ -66,11 +68,13 @@ public class EventProcessor {
 											new DescriptionModel(),
 											new DebugModel());
 	
-	public EventProcessor(MetaOpCodeProcessor metaOpCodeProcessor) {
+	public EventProcessor(AppInstanceContext parentContext, MetaOpCodeProcessor metaOpCodeProcessor) {
+		this.parentContext = parentContext;
 		this.metaOpCodeProcessor = metaOpCodeProcessor;
 		
 	}
-	public EventProcessor(MetaOpCodeProcessor metaOpCodeProcessor, MyRewardDataSegment myRewardDataSegment) {
+	public EventProcessor(AppInstanceContext parentContext, MetaOpCodeProcessor metaOpCodeProcessor, MyRewardDataSegment myRewardDataSegment) {
+		this.parentContext = parentContext;
 		this.metaOpCodeProcessor = metaOpCodeProcessor;
 		this.myRewardDataSegment = myRewardDataSegment;
 	}

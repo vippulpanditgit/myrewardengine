@@ -11,12 +11,14 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.app.AppInstanceContext;
 import com.myreward.engine.delegate.EventDataObjectDelegate;
 import com.myreward.engine.delegate.IRuntimeDelegate;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
 public class MyRewardDataSegment implements Serializable {
+	private AppInstanceContext parentContext;
 	private Map<Integer, Integer> xmapdataSegment = new HashMap<Integer, Integer>();
 	private List<EventDataObject> dataSegment = new ArrayList<EventDataObject>();
 	private IRuntimeDelegate delegate;

@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.RecognitionException;
 
+import com.myreward.engine.app.AppInstanceContext;
 import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.event.error.EventProcessingException;
 import com.myreward.engine.event.error.MetaDataCreationException;
@@ -22,12 +23,14 @@ import com.myreward.parser.util.MyRewardParserUtil;
 import com.myreward.parser.util.RuntimeLib;
 
 public class MetaOpCodeProcessor {
+	private AppInstanceContext parentContext;
 	private List<String> metaDataList;
 	private MyRewardPCodeGenerator myRewardPCodeGenerator;
 	private List<OpCodeBaseModel> runtimeOpCodes = new ArrayList<OpCodeBaseModel>();
 	
-	public MetaOpCodeProcessor() {
+	public MetaOpCodeProcessor(AppInstanceContext parentContext) {
 		metaDataList = new ArrayList<String>();
+		this.parentContext = parentContext;
 		setMyRewardPCodeGenerator(null);
 	}
 	public MyRewardPCodeGenerator getMyRewardPCodeGenerator() {
@@ -105,7 +108,7 @@ public class MetaOpCodeProcessor {
 
     }
     public EventProcessor createEventProcessor(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment) {
-    	EventProcessor eventProcessor = new EventProcessor(this);
+    	EventProcessor eventProcessor = new EventProcessor(parentContext, this);
     	eventProcessor.setInstructionOpCodes(instructionOpCodes);
     	eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
     	return eventProcessor;

@@ -32,8 +32,8 @@ import com.myreward.parser.util.RuntimeLib;
 
 public class test {
 
-	public MetaOpCodeProcessor createMetaOpCodeProcessor(String rule) throws RecognitionException, MetaDataParsingException {
-		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor();
+	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException {
+		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor(appInstanceContext);
 		metaOpCodeProcessor.initialize();
 		metaOpCodeProcessor.parse(rule, false);
 		metaOpCodeProcessor.print_code_segment();
@@ -109,18 +109,20 @@ public class test {
 
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
-            AppContext.getInstance().add("oneEvent1", new test().createMetaOpCodeProcessor(oneEvent1));
             AppInstanceContext appInstanceContext = new AppInstanceContext();
+            AppContext.getInstance().add("oneEvent1", new test().createMetaOpCodeProcessor(appInstanceContext, oneEvent1));
             appInstanceContext.isDebug = true;
             appInstanceContext.username = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();
             appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get("oneEvent1");
-            appInstanceContext.myRewardDataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
+            appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
             appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
-            															appInstanceContext.myRewardDataSegment);
+            															appInstanceContext.dataSegment);
     		EventDO eventDO = new EventDO();
     		eventDO.setActivityName("H");
     		eventDO.setActivityDate(new Date());
+			appInstanceContext.print_data_segment();
+
     		try {
     			if(appInstanceContext.isInstanceReady())
     				appInstanceContext.eventProcessor.process_event(eventDO);
@@ -141,7 +143,7 @@ public class test {
     		}
 //    			byte[] json = ObjectJsonSerializer.toJson(appInstanceContext.eventProcessor.getMyRewardDataSegment().getDataObject(66), null);
 //    			System.out.println(new String(json));
-    			appInstanceContext.myRewardDataSegment.printString();
+    			appInstanceContext.print_data_segment();
 		} catch(Exception exp) {
 			exp.printStackTrace();
 		}
