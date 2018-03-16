@@ -7,6 +7,7 @@ import java.util.Date;
 import org.antlr.v4.runtime.RecognitionException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.myreward.engine.event.error.EventProcessingException;
@@ -34,6 +35,7 @@ public class MetaStandAloneTestCase extends BaseTestCase {
 	public void tearDown() throws Exception {
 		super.tearDown();
 	}
+	@Ignore
 	@Test
 	public void test() {
 		try {

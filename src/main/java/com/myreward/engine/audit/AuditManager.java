@@ -4,7 +4,7 @@ public class AuditManager implements IAuditManager {
 	private static IAuditManager auditManager;
 
 	private AuditManager() {
-		auditManager = new AuditManager();
+		
 	}
 	
 	public static IAuditManager getInstance() {

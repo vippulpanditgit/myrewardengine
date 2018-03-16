@@ -111,7 +111,6 @@ public class test {
             eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
             
             eventProcessor.create_meta_tree();
-            AppContext.getInstance().
     		EventDO eventDO = new EventDO();
     		eventDO.setActivityName("H");
     		eventDO.setActivityDate(new Date());
