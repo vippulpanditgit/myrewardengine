@@ -1,6 +1,7 @@
 package com.myreward.engine.event.processor;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -9,7 +10,10 @@ import java.util.List;
 import org.antlr.v4.runtime.RecognitionException;
 
 import com.myreward.engine.event.error.ErrorCode;
+import com.myreward.engine.event.error.EventProcessingException;
+import com.myreward.engine.event.error.MetaDataCreationException;
 import com.myreward.engine.event.error.MetaDataParsingException;
+import com.myreward.engine.event.opcode.OpCodeBaseModel;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
@@ -32,6 +36,12 @@ public class MetaOpCodeProcessor {
 		this.myRewardPCodeGenerator = myRewardPCodeGenerator;
 	}
 	public void initialize() {
+		if(metaDataList!=null) {
+			metaDataList = null;
+			metaDataList = new ArrayList<String>();
+		}
+	}
+	public void initialize(String rule) {
 		if(metaDataList!=null) {
 			metaDataList = null;
 			metaDataList = new ArrayList<String>();
@@ -97,5 +107,45 @@ public class MetaOpCodeProcessor {
     	EventProcessor eventProcessor = new EventProcessor(this);
     	return eventProcessor;
     }
-
+	public List<OpCodeBaseModel> create_runtime_opcode_tree() throws EventProcessingException, MetaDataCreationException {
+//		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_START, null));
+		List<OpCodeBaseModel> runtimeOpCodes = new ArrayList<OpCodeBaseModel>();
+		if(this.getMyRewardPCodeGenerator()==null)
+			throw new EventProcessingException(ErrorCode.EVENT_METADATA_NOT_PRESET);
+		if(this.getMyRewardPCodeGenerator().getCodeSegment()!=null
+				&& this.getMyRewardPCodeGenerator().getCodeSegment().size()>0) {
+			Iterator<String> codeSegmentIterator = this.getMyRewardPCodeGenerator().getCodeSegment().iterator();
+			int index=0;
+			while(codeSegmentIterator.hasNext()) {
+				boolean isOpcodeFound = false;
+				String opcode = codeSegmentIterator.next();
+				Iterator<OpCodeBaseModel> opCodeBaseModelIterator = RuntimeSupportedOpCodeModel.getInstance().getSupportedOpCodeHandlers().iterator();
+				while(opCodeBaseModelIterator.hasNext()) {
+					OpCodeBaseModel opCodeBaseModel = opCodeBaseModelIterator.next();
+					String[] opCodeHandler = opCodeBaseModel.getOpcodes();
+					for(int opCodeIndex=0;opCodeIndex<opCodeHandler.length;opCodeIndex++) {
+//						System.out.println(opCodeHandler[opCodeIndex]);
+						if(opcode.length()>=opCodeHandler[opCodeIndex].length() && 
+								opCodeHandler[opCodeIndex].equalsIgnoreCase(opcode.substring(0, opCodeHandler[opCodeIndex].length()))) {
+							try {
+								Constructor constructor = opCodeBaseModel.getClass().getConstructor(new Class[] { String.class});
+								OpCodeBaseModel realInstance = (OpCodeBaseModel) constructor.newInstance(new Object[] { opcode });
+								runtimeOpCodes.add(realInstance);
+								isOpcodeFound = true;
+//								System.out.println("Test");
+								break;
+							} catch(Exception exp){
+								throw new MetaDataCreationException("Exception creating Metadata tree", exp);
+							}
+						}
+					}
+				}
+				if(!isOpcodeFound)
+					throw new MetaDataCreationException("Exception creating Metadata tree", new Exception("Opcode Handler not found- "+opcode));
+				index++;
+			}
+		}
+//		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_END, null));
+		return runtimeOpCodes;
+	}
 }

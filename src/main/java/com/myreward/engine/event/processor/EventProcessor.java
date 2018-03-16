@@ -26,6 +26,7 @@ public class EventProcessor {
 	private MyRewardDataSegment myRewardDataSegment;
 	private Map<String, Integer> fnXref = new HashMap<String, Integer>();
 	private List<OpCodeBaseModel> instructionOpCodes = new ArrayList<OpCodeBaseModel>();
+	@Deprecated
 	private List<OpCodeBaseModel> opCodeList = Arrays.asList(new CallFunctionModel(),
 											new CallGatekeeperModel(),
 											new CallPriorityModel(),
@@ -73,8 +74,9 @@ public class EventProcessor {
 		this.metaOpCodeProcessor = metaOpCodeProcessor;
 		this.myRewardDataSegment = myRewardDataSegment;
 	}
+	@Deprecated
 	public void create_meta_tree() throws EventProcessingException, MetaDataCreationException {
-		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_START, null));
+//		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_START, null));
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
 			throw new EventProcessingException(ErrorCode.EVENT_METADATA_NOT_PRESET);
 		if(metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment()!=null
@@ -110,7 +112,7 @@ public class EventProcessor {
 				index++;
 			}
 		}
-		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_END, null));
+//		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_END, null));
 	}
 		
     private int findMainOpCode() {

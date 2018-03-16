@@ -117,7 +117,7 @@ public class test {
             appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get("oneEvent1");
             appInstanceContext.myRewardDataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
             appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor();
-            appInstanceContext.eventProcessor.create_meta_tree();
+            appInstanceContext.eventProcessor.setInstructionOpCodes(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree());
             appInstanceContext.eventProcessor.setMyRewardDataSegment(appInstanceContext.myRewardDataSegment);
     		EventDO eventDO = new EventDO();
     		eventDO.setActivityName("H");
