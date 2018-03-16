@@ -32,7 +32,7 @@ import com.myreward.parser.util.RuntimeLib;
 
 public class test {
 
-	public MetaOpCodeProcessor createOpCode(String rule) throws RecognitionException, MetaDataParsingException {
+	public MetaOpCodeProcessor createMetaOpCodeProcessor(String rule) throws RecognitionException, MetaDataParsingException {
 		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor();
 		metaOpCodeProcessor.initialize();
 		metaOpCodeProcessor.parse(rule, false);
@@ -109,16 +109,15 @@ public class test {
 
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
-            AppContext.getInstance().add("oneEvent1", new test().createOpCode(oneEvent1));
+            AppContext.getInstance().add("oneEvent1", new test().createMetaOpCodeProcessor(oneEvent1));
             AppInstanceContext appInstanceContext = new AppInstanceContext();
             appInstanceContext.isDebug = true;
             appInstanceContext.username = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();
             appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get("oneEvent1");
             appInstanceContext.myRewardDataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
-            appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor();
-            appInstanceContext.eventProcessor.setInstructionOpCodes(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree());
-            appInstanceContext.eventProcessor.setMyRewardDataSegment(appInstanceContext.myRewardDataSegment);
+            appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
+            															appInstanceContext.myRewardDataSegment);
     		EventDO eventDO = new EventDO();
     		eventDO.setActivityName("H");
     		eventDO.setActivityDate(new Date());

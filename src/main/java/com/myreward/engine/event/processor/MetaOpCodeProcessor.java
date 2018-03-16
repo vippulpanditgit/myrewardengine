@@ -24,6 +24,7 @@ import com.myreward.parser.util.RuntimeLib;
 public class MetaOpCodeProcessor {
 	private List<String> metaDataList;
 	private MyRewardPCodeGenerator myRewardPCodeGenerator;
+	private List<OpCodeBaseModel> runtimeOpCodes = new ArrayList<OpCodeBaseModel>();
 	
 	public MetaOpCodeProcessor() {
 		metaDataList = new ArrayList<String>();
@@ -103,13 +104,15 @@ public class MetaOpCodeProcessor {
         return myRewardDataSegmentClone;
 
     }
-    public EventProcessor createEventProcessor() {
+    public EventProcessor createEventProcessor(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment) {
     	EventProcessor eventProcessor = new EventProcessor(this);
+    	eventProcessor.setInstructionOpCodes(instructionOpCodes);
+    	eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
     	return eventProcessor;
     }
 	public List<OpCodeBaseModel> create_runtime_opcode_tree() throws EventProcessingException, MetaDataCreationException {
 //		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_START, null));
-		List<OpCodeBaseModel> runtimeOpCodes = new ArrayList<OpCodeBaseModel>();
+		runtimeOpCodes = new ArrayList<OpCodeBaseModel>();
 		if(this.getMyRewardPCodeGenerator()==null)
 			throw new EventProcessingException(ErrorCode.EVENT_METADATA_NOT_PRESET);
 		if(this.getMyRewardPCodeGenerator().getCodeSegment()!=null
