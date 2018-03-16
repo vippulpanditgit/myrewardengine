@@ -9,11 +9,13 @@ public final class AuditContext {
  	private static IAuditOutputStream<AuditEvent> auditStream; 
 
 	private AuditContext() {
-		
+		init();
 	}
 	final static void init() {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
+		auditStream = new AuditProcessOuptutStream();
+		stopWatch.stop();
 	}
 	public static IAuditOutputStream<AuditEvent> getAuditStream() {
 		return auditStream;

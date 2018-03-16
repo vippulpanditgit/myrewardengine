@@ -15,7 +15,6 @@ public class AuditManager implements IAuditManager {
 				AuditContext.init();
 				auditManager = result = new AuditManager();
 			}
-			auditManager = new AuditManager();
 		}
 		return auditManager;
 	}
