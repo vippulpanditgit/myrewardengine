@@ -6,10 +6,12 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 import org.antlr.v4.runtime.*;
 
 import com.myreward.engine.app.AppContext;
+import com.myreward.engine.app.AppInstanceContext;
 import com.myreward.engine.audit.AuditManager;
 import com.myreward.engine.audit.ObjectJsonSerializer;
 import com.myreward.engine.delegate.EventDataObjectDelegate;
@@ -111,19 +113,29 @@ public class test {
             eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
             
             eventProcessor.create_meta_tree();
+            AppContext.getInstance().add("oneEvent1", eventProcessor.getInstructionOpCodes());
+            AppInstanceContext appInstanceContext = new AppInstanceContext();
+            appInstanceContext.isDebug = true;
+            appInstanceContext.username = "vippul";
+            appInstanceContext.uuid = UUID.randomUUID().toString();
+            appInstanceContext.myRewardDataSegment = myRewardDataSegment;
+            appInstanceContext.virtualInstructionOpCodes = AppContext.getInstance().get("oneEvent1");
+            appInstanceContext.eventProcessor = metaOpCodeProcessor.createEventProcessor();
+            appInstanceContext.eventProcessor.setInstructionOpCodes(eventProcessor.getInstructionOpCodes());
+            appInstanceContext.eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
     		EventDO eventDO = new EventDO();
     		eventDO.setActivityName("H");
     		eventDO.setActivityDate(new Date());
     		try {
 //    			AuditManager.getInstance().audit(new AuditEvent());
-    			eventProcessor.process_event(eventDO);
+    			appInstanceContext.eventProcessor.process_event(eventDO);
     		} catch(DebugException debugException) {
-    			eventProcessor.setMyRewardDataSegment(debugException.myRewardDataSegment);
+    			appInstanceContext.eventProcessor.setMyRewardDataSegment(debugException.myRewardDataSegment);
     			while(true) {
     				try {
-    					int index = eventProcessor.step(debugException.opCodeIndex, debugException.eventDO);
+    					int index = appInstanceContext.eventProcessor.step(debugException.opCodeIndex, debugException.eventDO);
     					debugException.opCodeIndex = index;
-    					if(eventProcessor.getInstructionOpCodes().size()-1<=index)
+    					if(appInstanceContext.eventProcessor.getInstructionOpCodes().size()-1<=index)
     						break;
     					System.out.println(index);
     				} catch(DebugException deepDebugException) {

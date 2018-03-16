@@ -25,7 +25,10 @@ public class AppContext {
 			instructionLibrary = new ConcurrentHashMap<String, List<OpCodeBaseModel>>();
 		instructionLibrary.put(name, model);
 		return true;
-		
 	}
-	
+	public List<OpCodeBaseModel> get(String name) {
+		if(instructionLibrary!=null)
+			instructionLibrary.get(name);
+		return null;
+	}
 }

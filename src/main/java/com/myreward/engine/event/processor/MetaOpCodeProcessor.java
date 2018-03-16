@@ -93,5 +93,9 @@ public class MetaOpCodeProcessor {
         return myRewardDataSegmentClone;
 
     }
+    public EventProcessor createEventProcessor() {
+    	EventProcessor eventProcessor = new EventProcessor(this);
+    	return eventProcessor;
+    }
 
 }
