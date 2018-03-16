@@ -6,12 +6,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.myreward.engine.event.opcode.OpCodeBaseModel;
+import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 
 public class AppContext {
 	@Deprecated
 	public boolean isDebug = false;
 	private static AppContext instance;
-	private static Map<String, List<OpCodeBaseModel>> instructionLibrary;
+	private static Map<String, MetaOpCodeProcessor> instructionLibrary;
 	protected AppContext() {
 		
 	}
@@ -20,15 +21,15 @@ public class AppContext {
 			instance = new AppContext();
 		return instance;
 	}
-	public boolean add(String name, List<OpCodeBaseModel> model) {
+	public boolean add(String name, MetaOpCodeProcessor model) {
 		if(instructionLibrary==null)
-			instructionLibrary = new ConcurrentHashMap<String, List<OpCodeBaseModel>>();
+			instructionLibrary = new ConcurrentHashMap<String, MetaOpCodeProcessor>();
 		instructionLibrary.put(name, model);
 		return true;
 	}
-	public List<OpCodeBaseModel> get(String name) {
+	public MetaOpCodeProcessor get(String name) {
 		if(instructionLibrary!=null)
-			instructionLibrary.get(name);
+			return instructionLibrary.get(name);
 		return null;
 	}
 }

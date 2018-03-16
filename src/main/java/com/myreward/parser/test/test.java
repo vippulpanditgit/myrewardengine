@@ -32,6 +32,13 @@ import com.myreward.parser.util.RuntimeLib;
 
 public class test {
 
+	public MetaOpCodeProcessor createOpCode(String rule) throws RecognitionException, MetaDataParsingException {
+		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor();
+		metaOpCodeProcessor.initialize();
+		metaOpCodeProcessor.parse(rule, false);
+		metaOpCodeProcessor.print_code_segment();
+		return metaOpCodeProcessor;
+	}
 	public static void main(String[] args) {
 		try {
 			String oneEventWithGatekeeper = "package myclient event(BIOMETRIC.ALLSOURCES.HEALTHFAIR).reward(1).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').repeat(MONTHLY,2).show(true).priority(1).gatekeeper(event(FILE.MDFRM.OFFLINEHEALTHFAIREVENT))";
@@ -102,33 +109,22 @@ public class test {
 
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
-			AppContext.getInstance().isDebug = true;
-			MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor();
-			metaOpCodeProcessor.initialize();
-			metaOpCodeProcessor.parse(oneEvent1, false);
-			metaOpCodeProcessor.print_code_segment();
-            MyRewardDataSegment myRewardDataSegment = metaOpCodeProcessor.createDataSegment();
-//            myRewardDataSegment.setDelegate(new EventDataObjectDelegate());
-            EventProcessor eventProcessor = new EventProcessor(metaOpCodeProcessor);
-            eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
-            
-            eventProcessor.create_meta_tree();
-            AppContext.getInstance().add("oneEvent1", eventProcessor.getInstructionOpCodes());
+            AppContext.getInstance().add("oneEvent1", new test().createOpCode(oneEvent1));
             AppInstanceContext appInstanceContext = new AppInstanceContext();
             appInstanceContext.isDebug = true;
             appInstanceContext.username = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();
-            appInstanceContext.myRewardDataSegment = myRewardDataSegment;
-            appInstanceContext.virtualInstructionOpCodes = AppContext.getInstance().get("oneEvent1");
-            appInstanceContext.eventProcessor = metaOpCodeProcessor.createEventProcessor();
-            appInstanceContext.eventProcessor.setInstructionOpCodes(eventProcessor.getInstructionOpCodes());
-            appInstanceContext.eventProcessor.setMyRewardDataSegment(myRewardDataSegment);
+            appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get("oneEvent1");
+            appInstanceContext.myRewardDataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
+            appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor();
+            appInstanceContext.eventProcessor.create_meta_tree();
+            appInstanceContext.eventProcessor.setMyRewardDataSegment(appInstanceContext.myRewardDataSegment);
     		EventDO eventDO = new EventDO();
     		eventDO.setActivityName("H");
     		eventDO.setActivityDate(new Date());
     		try {
-//    			AuditManager.getInstance().audit(new AuditEvent());
-    			appInstanceContext.eventProcessor.process_event(eventDO);
+    			if(appInstanceContext.isInstanceReady())
+    				appInstanceContext.eventProcessor.process_event(eventDO);
     		} catch(DebugException debugException) {
     			appInstanceContext.eventProcessor.setMyRewardDataSegment(debugException.myRewardDataSegment);
     			while(true) {
@@ -137,7 +133,6 @@ public class test {
     					debugException.opCodeIndex = index;
     					if(appInstanceContext.eventProcessor.getInstructionOpCodes().size()-1<=index)
     						break;
-    					System.out.println(index);
     				} catch(DebugException deepDebugException) {
     					debugException.eventDO = deepDebugException.eventDO;
     					debugException.myRewardDataSegment = deepDebugException.myRewardDataSegment;
@@ -145,14 +140,9 @@ public class test {
     				}
     			}
     		}
-/*    		eventDO.setActivityName("B");
-    		eventDO.setActivityDate(new Date());
-            eventProcessor.process_event(eventDO);
-*/    		
-//            System.out.println("Test "+eventProcessor.getInstructionOpCodes().size());
-    			byte[] json = ObjectJsonSerializer.toJson(myRewardDataSegment.getDataObject(66), null);
-    			System.out.println(new String(json));
- //           myRewardDataSegment.printString();
+//    			byte[] json = ObjectJsonSerializer.toJson(appInstanceContext.eventProcessor.getMyRewardDataSegment().getDataObject(66), null);
+//    			System.out.println(new String(json));
+    			appInstanceContext.myRewardDataSegment.printString();
 		} catch(Exception exp) {
 			exp.printStackTrace();
 		}
