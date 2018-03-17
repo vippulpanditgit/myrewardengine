@@ -1,26 +1,22 @@
 package com.myreward.engine.event.processor;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.engine.app.AppInstanceContext;
-import com.myreward.engine.audit.AuditEvent;
-import com.myreward.engine.audit.AuditEventType;
-import com.myreward.engine.audit.AuditManager;
 import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.event.error.EventProcessingException;
-import com.myreward.engine.event.error.MetaDataCreationException;
-import com.myreward.engine.event.opcode.*;
+import com.myreward.engine.event.opcode.LabelMainModel;
+import com.myreward.engine.event.opcode.OpCodeBaseModel;
+import com.myreward.engine.event.opcode.ReturnModel;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class EventProcessor {
 	private AppInstanceContext parentContext;

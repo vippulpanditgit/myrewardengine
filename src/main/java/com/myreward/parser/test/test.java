@@ -1,34 +1,16 @@
 package com.myreward.parser.test;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.RecognitionException;
 
 import com.myreward.engine.app.AppContext;
 import com.myreward.engine.app.AppInstanceContext;
-import com.myreward.engine.audit.AuditManager;
-import com.myreward.engine.audit.ObjectJsonSerializer;
-import com.myreward.engine.delegate.EventDataObjectDelegate;
 import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.MetaDataParsingException;
-import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.engine.model.event.EventDO;
-import com.myreward.parser.generator.MyRewardDataSegment;
-import com.myreward.parser.generator.MyRewardFunctionXRef;
-import com.myreward.parser.generator.MyRewardPCodeGenerator;
-import com.myreward.parser.grammar.MyRewardParser;
-import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
-import com.myreward.parser.grammar.visitor.MyRewardVisitor;
-import com.myreward.parser.symbol.SymbolProcessingEngine;
-import com.myreward.parser.util.MyRewardParserUtil;
-import com.myreward.parser.util.RuntimeLib;
 
 public class test {
 

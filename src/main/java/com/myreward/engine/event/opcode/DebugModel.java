@@ -1,7 +1,6 @@
 package com.myreward.engine.event.opcode;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 

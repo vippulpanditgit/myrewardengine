@@ -11,22 +11,26 @@ import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 public class AppContext {
 	private static AppContext instance;
 	private static Map<String, MetaOpCodeProcessor> instructionLibrary;
+
 	protected AppContext() {
-		
+
 	}
+
 	public static AppContext getInstance() {
-		if(instance==null)
+		if (instance == null)
 			instance = new AppContext();
 		return instance;
 	}
+
 	public boolean add(String name, MetaOpCodeProcessor model) {
-		if(instructionLibrary==null)
+		if (instructionLibrary == null)
 			instructionLibrary = new ConcurrentHashMap<String, MetaOpCodeProcessor>();
 		instructionLibrary.put(name, model);
 		return true;
 	}
+
 	public MetaOpCodeProcessor get(String name) {
-		if(instructionLibrary!=null)
+		if (instructionLibrary != null)
 			return instructionLibrary.get(name);
 		return null;
 	}

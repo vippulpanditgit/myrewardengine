@@ -1,7 +1,5 @@
 package com.myreward.engine.delegate;
 
-import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
-
 public class EventDataObjectDelegate implements IRuntimeDelegate {
 	public static String trace(StackTraceElement e[]) {
 		boolean doNext = false;

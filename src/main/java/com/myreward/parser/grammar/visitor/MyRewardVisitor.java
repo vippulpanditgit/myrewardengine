@@ -1,7 +1,6 @@
 package com.myreward.parser.grammar.visitor;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,9 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 import com.myreward.parser.grammar.MyRewardBaseVisitor;
 import com.myreward.parser.grammar.MyRewardParser.All_defContext;
@@ -40,8 +37,8 @@ import com.myreward.parser.metamodel.BaseMetaModel;
 import com.myreward.parser.metamodel.GatekeeperMetaModel;
 import com.myreward.parser.metamodel.GroupMetaModel;
 import com.myreward.parser.symbol.Symbol;
-import com.myreward.parser.symbol.SymbolTable;
 import com.myreward.parser.symbol.Symbol.SymbolType;
+import com.myreward.parser.symbol.SymbolTable;
 
 public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 

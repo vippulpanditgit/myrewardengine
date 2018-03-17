@@ -3,15 +3,12 @@ package com.myreward.parser.metamodel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.UUID;
 
-import com.myreward.engine.app.AppContext;
 import com.myreward.parser.generator.MyRewardFunctionXRef;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
-import com.myreward.parser.util.DateTimeConvertorUtil;
 
 public class EventMetaModel extends BaseMetaModel {
 	public enum EventType {

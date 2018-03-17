@@ -7,8 +7,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.event.error.ErrorCode;
-import com.myreward.engine.event.opcode.IfEventModel.IfCompletionType;
-import com.myreward.engine.model.event.CallOperationResult;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;

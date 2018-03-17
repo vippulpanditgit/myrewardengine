@@ -2,9 +2,7 @@ package com.myreward.parser.metamodel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.symbol.Symbol;

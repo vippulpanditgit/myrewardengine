@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.myreward.engine.event.opcode.SetRepeatModel.StoreRepeatType;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.engine.model.event.StatementOperationResult;
