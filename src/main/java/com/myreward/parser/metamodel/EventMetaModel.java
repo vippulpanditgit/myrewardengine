@@ -283,8 +283,6 @@ public class EventMetaModel extends BaseMetaModel {
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
 			List<String> callStackOpCodeList = new ArrayList<String>();
-			if(AppContext.getInstance().isDebug)
-				callStackOpCodeList.add("debug");
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), String.valueOf(eventSymbol.symbolIndex--)));			
 			int level=0;
 			level = this.climbUpTheEventStackTree(this, callStackOpCodeList, level);
@@ -306,8 +304,6 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(groupEventMetaModel.eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			if(AppContext.getInstance().isDebug)
-				callStackOpCodeList.add("debug");
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
 			eventMetaModel = eventMetaModel.parent.parent;
 			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);

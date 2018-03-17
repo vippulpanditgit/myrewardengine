@@ -9,8 +9,6 @@ import com.myreward.engine.event.opcode.OpCodeBaseModel;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 
 public class AppContext {
-	@Deprecated
-	public boolean isDebug = false;
 	private static AppContext instance;
 	private static Map<String, MetaOpCodeProcessor> instructionLibrary;
 	protected AppContext() {

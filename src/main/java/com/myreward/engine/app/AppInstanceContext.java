@@ -16,15 +16,12 @@ public class AppInstanceContext {
 	public boolean isDebug = false;
 	public MyRewardDataSegment dataSegment;
 	public MetaOpCodeProcessor metaOpCodeProcessor;
-	public List<OpCodeBaseModel> virtualInstructionOpCodes;
 	public EventProcessor eventProcessor;
 	public Stack<Object> stackSegment;
-	public Heap<Object> headSegment;
+	public Heap<Object> heapSegment;
 	
 	public boolean isInstanceReady() {
 		if(dataSegment!=null
-//				&& virtualInstructionOpCodes!=null
-//				&& virtualInstructionOpCodes.size()>0
 				&& eventProcessor!=null)
 			return true;
 		return false;
@@ -32,5 +29,4 @@ public class AppInstanceContext {
 	public void print_data_segment() {
 		dataSegment.printString();
 	}
-
 }
