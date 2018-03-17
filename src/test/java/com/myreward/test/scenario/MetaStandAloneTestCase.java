@@ -1,20 +1,15 @@
 package com.myreward.test.scenario;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Date;
 
-import org.antlr.v4.runtime.RecognitionException;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.myreward.engine.event.error.EventProcessingException;
-import com.myreward.engine.event.error.MetaDataParsingException;
-import com.myreward.engine.event.processor.EventProcessor;
-import com.myreward.engine.model.event.EventDO;
-import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.test.BaseTestCase;
-import com.myreward.parser.test.scenario.MetaSimpleGroupEvent;
 import com.myreward.parser.test.scenario.MetaStandAloneEvent;
 
 public class MetaStandAloneTestCase extends BaseTestCase {
