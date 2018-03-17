@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.antlr.v4.runtime.RecognitionException;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,9 +38,26 @@ public class MetaStandAloneTestCase extends BaseTestCase {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("B", new Date()));
-				this.getAppInstanceContext().print_data_segment();
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").name.equalsIgnoreCase("B"));
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").eventCount==1);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").eventCount==0);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").getReward()==0.0);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").isEventCompletionFlagSet());
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").eventCount==1);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").getReward()==1.0);
+				Assert.assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("C").isEventCompletionFlagSet());
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("C", new Date()));
-				this.getAppInstanceContext().print_data_segment();
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").name.equalsIgnoreCase("C"));
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").eventCount==1);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").eventCount==1);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").getReward()==0.0);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").getReward()==0.0);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").isEventCompletionFlagSet());
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").eventCount==2);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").getReward()==2.0);
+				Assert.assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("C").isEventCompletionFlagSet());
+				Assert.assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("B").isEventCompletionFlagSet());
+
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

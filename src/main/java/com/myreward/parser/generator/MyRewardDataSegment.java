@@ -210,6 +210,10 @@ public class MyRewardDataSegment implements Serializable {
 			return dataSegment.get(dataSegmentIndex.intValue());
 		} return null;
 	}
+	public EventDataObject getDataObject(String ruleAttrName) {
+		int ruleAttrHashcode = ruleAttrName.hashCode();
+		return getDataObject(ruleAttrHashcode);
+	}
 	public void setDataObject(int id, EventDataObject eventDataObject) {
 		if(xmapdataSegment!=null) {
 			Integer dataSegmentIndex = xmapdataSegment.get(id);
