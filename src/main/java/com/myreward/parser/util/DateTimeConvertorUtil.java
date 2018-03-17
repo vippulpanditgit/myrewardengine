@@ -21,7 +21,7 @@ public class DateTimeConvertorUtil {
 
 	public static Date fromISO8601UTC(String dateStr) {
 		TimeZone tz = TimeZone.getTimeZone("UTC");
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 		df.setTimeZone(tz);
 
 		try {

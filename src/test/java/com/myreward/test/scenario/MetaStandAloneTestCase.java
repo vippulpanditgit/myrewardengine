@@ -1,15 +1,12 @@
 package com.myreward.test.scenario;
 
-import static org.junit.Assert.*;
-
 import java.util.Date;
 
 import org.antlr.v4.runtime.RecognitionException;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.myreward.engine.event.error.EventProcessingException;
 import com.myreward.engine.event.error.MetaDataParsingException;
@@ -22,12 +19,12 @@ import com.myreward.parser.test.scenario.MetaStandAloneEvent;
 
 public class MetaStandAloneTestCase extends BaseTestCase {
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		super.tearDown();
 	}
@@ -38,14 +35,14 @@ public class MetaStandAloneTestCase extends BaseTestCase {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("A", new Date()));
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").name.equalsIgnoreCase("A"));
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").eventCount==1);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").getReward()==1.0);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isDurationFlagSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isGatekeeperStatusSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isPriorityFlagSet());
-				Assert.assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("A").isRepeatFlagSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isShowFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").name.equalsIgnoreCase("A"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").getReward()==1.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isDurationFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isGatekeeperStatusSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isPriorityFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("A").isRepeatFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isShowFlagSet());
 
 			}
 		} catch (Exception e) {

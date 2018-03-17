@@ -1,14 +1,11 @@
 package com.myreward.test.scenario;
 
-import static org.junit.Assert.*;
-
 import java.util.Date;
 
-import org.antlr.v4.runtime.RecognitionException;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.myreward.engine.event.error.MetaDataParsingException;
 import com.myreward.parser.test.BaseTestCase;
@@ -16,12 +13,12 @@ import com.myreward.parser.test.scenario.MetaSimpleGroupEvent;
 
 public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		super.tearDown();
 	}
@@ -32,30 +29,30 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("B", new Date()));
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").name.equalsIgnoreCase("B"));
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").eventCount==1);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").eventCount==0);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").getReward()==0.0);
-				Assert.assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isDurationFlagSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").isGatekeeperStatusSet());
-				Assert.assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isPriorityFlagSet());
-				Assert.assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isRepeatFlagSet());
-				Assert.assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isShowFlagSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").isEventCompletionFlagSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").eventCount==1);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").getReward()==1.0);
-				Assert.assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("C").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").name.equalsIgnoreCase("B"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").eventCount==0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").getReward()==0.0);
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isDurationFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").isGatekeeperStatusSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isPriorityFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isRepeatFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isShowFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").getReward()==1.0);
+				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("C").isEventCompletionFlagSet());
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("C", new Date()));
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").name.equalsIgnoreCase("C"));
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").eventCount==1);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").eventCount==1);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").getReward()==0.0);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").getReward()==0.0);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").isEventCompletionFlagSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").eventCount==2);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").getReward()==2.0);
-				Assert.assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("C").isEventCompletionFlagSet());
-				Assert.assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("B").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").name.equalsIgnoreCase("C"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").getReward()==0.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").getReward()==0.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").eventCount==2);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").getReward()==2.0);
+				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("C").isEventCompletionFlagSet());
+				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("B").isEventCompletionFlagSet());
 
 			}
 		} catch (Exception e) {
@@ -66,7 +63,6 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 
 	@Override
 	public String getRule() {
-		// TODO Auto-generated method stub
 		return MetaSimpleGroupEvent.metaData;
 	}
 

@@ -1,14 +1,11 @@
 package com.myreward.parser.test;
 
-import static org.junit.Assert.*;
-
 import java.util.Date;
 import java.util.UUID;
 
 import org.antlr.v4.runtime.RecognitionException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.myreward.engine.app.AppContext;
 import com.myreward.engine.app.AppInstanceContext;
@@ -29,7 +26,7 @@ public abstract class BaseTestCase {
 		return metaOpCodeProcessor;
 	}
 	public abstract String getRule();
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
         appInstanceContext = new AppInstanceContext();
         AppContext.getInstance().add("oneEvent1", new test().createMetaOpCodeProcessor(appInstanceContext, getRule()));
@@ -42,7 +39,7 @@ public abstract class BaseTestCase {
         															appInstanceContext.dataSegment);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 	}
 	protected EventDO createEvent(String name, Date eventDate) {
