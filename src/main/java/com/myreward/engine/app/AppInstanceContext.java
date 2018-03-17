@@ -11,7 +11,7 @@ import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.util.Heap;
 
 public class AppInstanceContext {
-	public String username;
+	public String actor;
 	public String uuid;
 	public boolean isDebug = false;
 	public MyRewardDataSegment dataSegment;

@@ -112,7 +112,7 @@ public class test {
             AppInstanceContext appInstanceContext = new AppInstanceContext();
             AppContext.getInstance().add("oneEvent1", new test().createMetaOpCodeProcessor(appInstanceContext, oneEvent1));
             appInstanceContext.isDebug = true;
-            appInstanceContext.username = "vippul";
+            appInstanceContext.actor = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();
             appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get("oneEvent1");
             appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
