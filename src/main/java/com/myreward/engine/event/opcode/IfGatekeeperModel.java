@@ -131,7 +131,7 @@ public class IfGatekeeperModel extends IfBaseModel {
 			operationResultDO = new IfOperationResult();;
 			EventDataObject eventDataObject = myRewardDataSegment.search(name);
 			if(eventDataObject!=null) {
-				if(eventDataObject.isRewardStatusSet()) {
+				if(eventDataObject.isGatekeeperStatusSet()) {
 					((IfOperationResult)operationResultDO).setResult(true);
 					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
 				} else {

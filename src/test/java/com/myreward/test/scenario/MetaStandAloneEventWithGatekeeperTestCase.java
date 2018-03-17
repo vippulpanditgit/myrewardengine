@@ -39,6 +39,7 @@ public class MetaStandAloneEventWithGatekeeperTestCase extends BaseTestCase {
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isPriorityFlagSet());
 				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("A").isRepeatFlagSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isShowFlagSet());
+System.out.println("**** Next Event*****");				
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("KB", new Date()));
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").name.equalsIgnoreCase("A"));
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").eventCount==1);
