@@ -37,31 +37,15 @@ public class MetaStandAloneTestCase extends BaseTestCase {
 		try {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
-				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("B", new Date()));
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").name.equalsIgnoreCase("B"));
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").eventCount==1);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").eventCount==0);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").getReward()==0.0);
-				Assert.assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isDurationFlagSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").isGatekeeperStatusSet());
-				Assert.assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isPriorityFlagSet());
-				Assert.assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isRepeatFlagSet());
-				Assert.assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isShowFlagSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").isEventCompletionFlagSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").eventCount==1);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").getReward()==1.0);
-				Assert.assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("C").isEventCompletionFlagSet());
-				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("C", new Date()));
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").name.equalsIgnoreCase("C"));
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").eventCount==1);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").eventCount==1);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").getReward()==0.0);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").getReward()==0.0);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").isEventCompletionFlagSet());
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").eventCount==2);
-				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").getReward()==2.0);
-				Assert.assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("C").isEventCompletionFlagSet());
-				Assert.assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("B").isEventCompletionFlagSet());
+				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("A", new Date()));
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").name.equalsIgnoreCase("A"));
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").eventCount==1);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").getReward()==1.0);
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isDurationFlagSet());
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isGatekeeperStatusSet());
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isPriorityFlagSet());
+				Assert.assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("A").isRepeatFlagSet());
+				Assert.assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isShowFlagSet());
 
 			}
 		} catch (Exception e) {
@@ -73,7 +57,7 @@ public class MetaStandAloneTestCase extends BaseTestCase {
 	@Override
 	public String getRule() {
 		// TODO Auto-generated method stub
-		return MetaSimpleGroupEvent.metaData;
+		return MetaStandAloneEvent.metaDataDuration;
 	}
 
 }
