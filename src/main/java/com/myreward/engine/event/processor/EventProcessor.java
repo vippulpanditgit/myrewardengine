@@ -28,45 +28,7 @@ public class EventProcessor {
 	private MyRewardDataSegment myRewardDataSegment;
 	private Map<String, Integer> fnXref = new HashMap<String, Integer>();
 	private List<OpCodeBaseModel> instructionOpCodes = new ArrayList<OpCodeBaseModel>();
-	@Deprecated
-	private List<OpCodeBaseModel> opCodeList = Arrays.asList(new CallFunctionModel(),
-											new CallGatekeeperModel(),
-											new CallPriorityModel(),
-											new CallRepeatModel(),
-											new CallRewardModel(),
-											new CallShowModel(),
-											new CallDurationModel(),
-											new IfDurationModel(),
-											new IfEventModel(),
-											new IfGatekeeperModel(),
-											new IfRewardModel(),
-											new IfRepeatModel(),
-											new LabelDurationModel(),
-											new LabelFunctionModel(),
-											new LabelGatekeeperModel(),
-											new LabelMainModel(),
-											new LabelPriorityModel(),
-											new LabelRepeatModel(),
-											new LabelRewardModel(),
-											new LabelShowModel(),
-											new SetGatekeeperModel(),
-											new SetPriorityModel(),
-											new SetRewardModel(),
-											new SetShowModel(),
-											new SetDurationModel(),
-											new ReturnModel(),
-											new ResetDurationModel(),
-											new ResetGatekeeperModel(),
-											new ResetPriorityModel(),
-											new ResetRewardModel(),
-											new ResetShowModel(),
-											new ResetEventModel(),
-											new SetRepeatModel(),
-											new SetEventModel(),
-											new AddRewardModel(),
-											new IncrementEventModel(),
-											new DescriptionModel(),
-											new DebugModel());
+
 	
 	public EventProcessor(AppInstanceContext parentContext, MetaOpCodeProcessor metaOpCodeProcessor) {
 		this.parentContext = parentContext;
@@ -78,46 +40,7 @@ public class EventProcessor {
 		this.metaOpCodeProcessor = metaOpCodeProcessor;
 		this.myRewardDataSegment = myRewardDataSegment;
 	}
-	@Deprecated
-	public void create_meta_tree() throws EventProcessingException, MetaDataCreationException {
-//		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_START, null));
-		if(metaOpCodeProcessor.getMyRewardPCodeGenerator()==null)
-			throw new EventProcessingException(ErrorCode.EVENT_METADATA_NOT_PRESET);
-		if(metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment()!=null
-				&& metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment().size()>0) {
-			Iterator<String> codeSegmentIterator = metaOpCodeProcessor.getMyRewardPCodeGenerator().getCodeSegment().iterator();
-			int index=0;
-			while(codeSegmentIterator.hasNext()) {
-				boolean isOpcodeFound = false;
-				String opcode = codeSegmentIterator.next();
-				Iterator<OpCodeBaseModel> opCodeBaseModelIterator = opCodeList.iterator();
-				while(opCodeBaseModelIterator.hasNext()) {
-					OpCodeBaseModel opCodeBaseModel = opCodeBaseModelIterator.next();
-					String[] opCodeHandler = opCodeBaseModel.getOpcodes();
-					for(int opCodeIndex=0;opCodeIndex<opCodeHandler.length;opCodeIndex++) {
-//						System.out.println(opCodeHandler[opCodeIndex]);
-						if(opcode.length()>=opCodeHandler[opCodeIndex].length() && 
-								opCodeHandler[opCodeIndex].equalsIgnoreCase(opcode.substring(0, opCodeHandler[opCodeIndex].length()))) {
-							try {
-								Constructor constructor = opCodeBaseModel.getClass().getConstructor(new Class[] { String.class});
-								OpCodeBaseModel realInstance = (OpCodeBaseModel) constructor.newInstance(new Object[] { opcode });
-								instructionOpCodes.add(realInstance);
-								isOpcodeFound = true;
-//								System.out.println("Test");
-								break;
-							} catch(Exception exp){
-								throw new MetaDataCreationException("Exception creating Metadata tree", exp);
-							}
-						}
-					}
-				}
-				if(!isOpcodeFound)
-					throw new MetaDataCreationException("Exception creating Metadata tree", new Exception("Opcode Handler not found- "+opcode));
-				index++;
-			}
-		}
-//		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_END, null));
-	}
+
 		
     private int findMainOpCode() {
     	Iterator<OpCodeBaseModel> instructionOpCodeIterator = instructionOpCodes.iterator();
