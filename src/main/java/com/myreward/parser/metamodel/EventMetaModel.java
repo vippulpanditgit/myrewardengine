@@ -36,7 +36,7 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] suffixCallStackOpCodeListTemplate = {"return"};
 	
 	private String[] prefixEventOpCodeListTemplate = {"lbl_fn:%s:%s"};
-	private String[] eventOpCodesListTemplate = {"inc_cmp_cnt(%s)", "set_cmp_flg(%s)"};
+	private String[] eventOpCodesListTemplate = {"if_gtk_rel_call_not_set(%s,,+3)", "inc_cmp_cnt(%s)", "set_cmp_flg(%s)"};
 
 	private String[] gatekeeperConstraintEventOpCodeListTemplate = {"call_gtk(%s:%s)", "if_gtk_flg_set(%d)"};
 	private String[] rewardOutcomeEventOpCodeListTemplate = {"call_rwd(%s:%s)"}; 
@@ -220,7 +220,8 @@ public class EventMetaModel extends BaseMetaModel {
 				eventOpCodeList.add(String.format(this.postCallDurationOpCodeListTemplate[1], eventSymbol.getFullyQualifiedId()));
 
 				eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
-				eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[1], eventSymbol.getFullyQualifiedId()));
+				eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[1], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
+				eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
 			}
 			if(this.showMetaModel!=null) {
 				eventOpCodeList.add(String.format(callShowOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), String.format(overrideTemplate, eventSymbol.symbolIndex)));
@@ -230,8 +231,8 @@ public class EventMetaModel extends BaseMetaModel {
 			}
 			if(this.rewardMetaModel!=null) {
 				if(this.durationMetaModel==null) { // The increment is already done on duration
-					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
-					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[1], eventSymbol.getFullyQualifiedId()));
+					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[1], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
+					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
 				}
 				if(groupMetaModel!=null) {
 					if(groupMetaModel.eventMetaModelList==null || groupMetaModel.eventMetaModelList.size()==0) {
@@ -247,8 +248,8 @@ public class EventMetaModel extends BaseMetaModel {
 			}
 			if(this.gatekeeperMetaModel!=null) {
 				if(this.durationMetaModel==null && this.rewardMetaModel==null) { // The completion increment already done on duration or reward block.
-					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
-					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[1], eventSymbol.getFullyQualifiedId()));
+					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[1], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
+					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
 				}
 				eventOpCodeList.add(String.format(this.resetGatekeeperFlag[0], eventSymbol.getFullyQualifiedId()));
 				eventOpCodeList.add(String.format(this.gatekeeperConstraintEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
@@ -262,8 +263,8 @@ public class EventMetaModel extends BaseMetaModel {
 			if(this.gatekeeperMetaModel==null 
 					&& this.rewardMetaModel==null
 					&& this.durationMetaModel==null) {
-				eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
-				eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[1], eventSymbol.getFullyQualifiedId()));
+				eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[1], eventSymbol.getFullyQualifiedId(), eventSymbol.symbolIndex));
+				eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
 			}
 			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId()));
 			return eventOpCodeList.toArray(new String[0]);

@@ -14,17 +14,20 @@ import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 public class SetGatekeeperModel extends SetBaseModel {
 	public enum StoreGatekeeperType {
 		FLAG,
-		AMOUNT
+		AMOUNT,
+		CALL
 	}
 	private static String OPCODE_LABEL_FLAG = "set_gtk_flg";
 	private static String OPCODE_LABEL_AMOUNT = "set_gtk_amt";
+	private static String OPCODE_LABEL_CALL = "set_gtk_rel_call";
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
+	private static String OPERAND_FIELD_PATTERN = ":";
 	private StoreGatekeeperType type;
 	private String name;
 	private String amount;
-	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT, OPCODE_LABEL_CALL};
 
 	public SetGatekeeperModel() {
 	}
@@ -40,6 +43,9 @@ public class SetGatekeeperModel extends SetBaseModel {
 			} else if(type==StoreGatekeeperType.FLAG) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_FLAG, null, statement);
 				name = amountOperand[0];
+			} else if(type==StoreGatekeeperType.CALL) {
+				String[] amountOperand = this.parse(OPCODE_LABEL_CALL, OPERAND_FIELD_PATTERN, statement);
+				name = amountOperand[0];
 			}
 		}
 	}
@@ -48,6 +54,8 @@ public class SetGatekeeperModel extends SetBaseModel {
 			return StoreGatekeeperType.FLAG;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_AMOUNT))
 			return StoreGatekeeperType.AMOUNT;
+		if(StringUtils.startsWith(opcode, OPCODE_LABEL_CALL))
+			return StoreGatekeeperType.CALL;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
@@ -67,8 +75,13 @@ public class SetGatekeeperModel extends SetBaseModel {
 		return OPCODE_HANDLER;
 	}
 	public String toString() {
-		return type==StoreGatekeeperType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
-						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
+		if(type==StoreGatekeeperType.FLAG)
+			return (OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END);
+		if(type==StoreGatekeeperType.AMOUNT)
+			return (OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
+		if(type==StoreGatekeeperType.CALL)
+			return (OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END);
+		return null;
 	}
 
 	@Override
@@ -77,9 +90,16 @@ public class SetGatekeeperModel extends SetBaseModel {
 		OperationResultDO operationResultDO = new StatementOperationResult();;
 		EventDataObject eventDataObject = myRewardDataSegment.search(name);
 		if(eventDataObject!=null) {
-			eventDataObject.setGatekeeperStatus();
-			operationResultDO.setResult(true);
-			return operationResultDO;
+			if(type==StoreGatekeeperType.FLAG) {
+				eventDataObject.setGatekeeperStatus();
+				operationResultDO.setResult(true);
+				return operationResultDO;
+			}
+			if(type==StoreGatekeeperType.CALL) {
+				eventDataObject.setGatekeeperRelatedFlag();
+				operationResultDO.setResult(true);
+				return operationResultDO;
+			}
 		}
 		operationResultDO.setResult(false);
 		return operationResultDO;
