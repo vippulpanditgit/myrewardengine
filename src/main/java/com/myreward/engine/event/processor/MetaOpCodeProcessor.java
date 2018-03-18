@@ -141,7 +141,7 @@ public class MetaOpCodeProcessor {
 //								System.out.println("Test");
 								break;
 							} catch(Exception exp){
-								throw new MetaDataCreationException("Exception creating Metadata tree", exp);
+								throw new MetaDataCreationException("Exception creating Metadata tree "+opcode, exp);
 							}
 						}
 					}

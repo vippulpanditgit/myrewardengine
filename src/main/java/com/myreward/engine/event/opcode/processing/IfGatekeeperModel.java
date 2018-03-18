@@ -14,7 +14,8 @@ import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 public class IfGatekeeperModel extends IfBaseModel {
 	public enum IfGatekeeperType {
 		FLAG,
-		AMOUNT
+		AMOUNT,
+		CALL
 	}
 	public enum IfGatekeeperAmtType {
 		LE("_LE"),
@@ -43,18 +44,32 @@ public class IfGatekeeperModel extends IfBaseModel {
 			return this.value;
 		}
 	}
-
+	public enum IfGatekeeperCallFlgType {
+		SET("_set"),
+		NOT_SET("_not_set");
+		
+		private final String value;
+		IfGatekeeperCallFlgType(String value) {
+			this.value = value;
+		}
+		public String value(){
+			return this.value;
+		}
+	}
 	private static String OPCODE_LABEL_FLAG = "if_gtk_flg";
 	private static String OPCODE_LABEL_AMOUNT = "if_gtk_amt";
+	private static String OPCODE_LABEL_CALL = "if_gtk_rel_call";
 	private static String OPCODE_OPERAND_START = "(";
 	private static String OPCODE_OPERAND_END = ")";
 	private static String OPERAND_FORMAT_PATTERN = ",";
 	private IfGatekeeperType type;
 	private IfGatekeeperAmtType amountType;
 	private IfGatekeeperFlgType flagType;
+	private IfGatekeeperCallFlgType callFlagType;
 	private String name;
 	private String amount;
-	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
+	private int gotoLine;
+	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT, OPCODE_LABEL_CALL};
 
 	public IfGatekeeperModel() {
 		
@@ -87,6 +102,15 @@ public class IfGatekeeperModel extends IfBaseModel {
 				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_FLAG+IfGatekeeperFlgType.NOT_SET.value)) {
 					flagType = IfGatekeeperFlgType.NOT_SET;
 				}
+			} else if(type==IfGatekeeperType.CALL) {
+				String[] flagOperand = this.parse(OPCODE_LABEL_CALL, OPERAND_FORMAT_PATTERN, statement);
+				name = flagOperand[0];
+				gotoLine = Integer.valueOf(flagOperand[2]);
+				if(StringUtils.startsWith(statement, OPCODE_LABEL_CALL+IfGatekeeperCallFlgType.SET.value)) {
+					callFlagType = IfGatekeeperCallFlgType.SET;
+				} else if(StringUtils.startsWith(statement, OPCODE_LABEL_CALL+IfGatekeeperCallFlgType.NOT_SET.value)) {
+					callFlagType = IfGatekeeperCallFlgType.NOT_SET;
+				}
 			}
 		}
 	}
@@ -95,6 +119,8 @@ public class IfGatekeeperModel extends IfBaseModel {
 			return IfGatekeeperType.FLAG;
 		if(StringUtils.startsWith(opcode, OPCODE_LABEL_AMOUNT))
 			return IfGatekeeperType.AMOUNT;
+		if(StringUtils.startsWith(opcode, OPCODE_LABEL_CALL))
+			return IfGatekeeperType.CALL;
 		return null;
 	}
 	public String[] parse(String opcodeLabelFlag, String operandSeparator, String value) {
@@ -117,6 +143,9 @@ public class IfGatekeeperModel extends IfBaseModel {
 		if(type==IfGatekeeperType.FLAG) {
 			return OPCODE_LABEL_FLAG+flagType.value+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
 		}
+		if(type==IfGatekeeperType.CALL) {
+			return OPCODE_LABEL_CALL+callFlagType.value+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END;
+		}
 		if(type==IfGatekeeperType.AMOUNT) {
 			return OPCODE_LABEL_AMOUNT+amountType.value+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END;
 		}
@@ -137,6 +166,22 @@ public class IfGatekeeperModel extends IfBaseModel {
 				} else {
 					((IfOperationResult)operationResultDO).setResult(false);
 					((IfOperationResult)operationResultDO).setNextOperationNumber(2);
+				}
+				return operationResultDO;
+			}
+			operationResultDO.setResult(false);
+			return operationResultDO;
+		}
+		if(type==IfGatekeeperType.CALL) {
+			operationResultDO = new IfOperationResult();;
+			EventDataObject eventDataObject = myRewardDataSegment.search(name);
+			if(eventDataObject!=null) {
+				if(eventDataObject.isGatekeeperRelatedFlagSet()) {
+					((IfOperationResult)operationResultDO).setResult(true);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+				} else {
+					((IfOperationResult)operationResultDO).setResult(false);
+					((IfOperationResult)operationResultDO).setNextOperationNumber(1);
 				}
 				return operationResultDO;
 			}
