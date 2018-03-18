@@ -27,6 +27,7 @@ public class MyRewardDataSegment implements Serializable {
 		// 0x0000 0000 0001 0000 - priority enabled
 		// 0x0000 0000 0010 0000 - repeat enabled
 		// 0x0000 0000 0100 0000 - duration - 1 within duration, 0 for outside duration
+		// 0x0000 0000 1000 0000 - gatekeeper call - 1 when event complete and event count are not changed(0x80)
 		public short eventStatus = 0x02;
 		public Integer eventCount = Integer.valueOf(0);
 		public Double amount = Double.valueOf(0.0);
@@ -139,6 +140,23 @@ public class MyRewardDataSegment implements Serializable {
 			if(this.eventDelegate!=null)
 				this.eventDelegate.changed(this, EventDataObjectDelegate.trace(Thread.currentThread().getStackTrace()));
 		}
+		public void setGatekeeperRelatedFlag() {
+			eventStatus |= 0x80;
+			if(this.eventDelegate!=null)
+				this.eventDelegate.changed(this, EventDataObjectDelegate.trace(Thread.currentThread().getStackTrace()));
+		}
+		public boolean isGatekeeperRelatedFlagSet() {
+			if((eventStatus & 0x80)==0x80)
+				return true;
+			return false;
+		}
+
+		public void resetGatekeeperRelatedFlag() {
+			eventStatus &= 0x7f;
+			if(this.eventDelegate!=null)
+				this.eventDelegate.changed(this, EventDataObjectDelegate.trace(Thread.currentThread().getStackTrace()));
+		}
+
 		public int increaseCount() {
 			eventCount = Integer.valueOf(eventCount.intValue() + 1);
 			if(this.eventDelegate!=null)

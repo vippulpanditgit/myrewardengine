@@ -32,6 +32,7 @@ public class EventMetaModel extends BaseMetaModel {
 	// Only for Standalone events
 	private String[] prefixCallStackOpCodeListTemplate = {"if_evt_nm(%s,%d)"};
 	private String[] bodyCallStackOpCodeListTemplate = {"call_fn(%s:%s)"};
+	private String[] bodyCallStackOpCodeListGateKeeperTemplate = {"set_gtk_rel_call(%s:%s)", "call_fn(%s:%s)"};
 	private String[] suffixCallStackOpCodeListTemplate = {"return"};
 	
 	private String[] prefixEventOpCodeListTemplate = {"lbl_fn:%s:%s"};
@@ -312,7 +313,8 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(groupEventMetaModel.eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, ++eventSymbol.symbolIndex)));
+			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, ++eventSymbol.symbolIndex)));
+			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[1], eventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
 			eventMetaModel = eventMetaModel.parent.parent;
 			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);
 			
