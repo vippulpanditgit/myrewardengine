@@ -29,11 +29,11 @@ public abstract class BaseTestCase {
 	@BeforeEach
 	public void setUp() throws Exception {
         appInstanceContext = new AppInstanceContext();
-        AppContext.getInstance().add("oneEvent1", new test().createMetaOpCodeProcessor(appInstanceContext, getRule()));
+        AppContext.getInstance().add("test_rule", new test().createMetaOpCodeProcessor(appInstanceContext, getRule()));
         appInstanceContext.isDebug = false;
         appInstanceContext.actor = "vippul";
         appInstanceContext.uuid = UUID.randomUUID().toString();
-        appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get("oneEvent1");
+        appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get("test_rule");
         appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
         appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
         															appInstanceContext.dataSegment);
