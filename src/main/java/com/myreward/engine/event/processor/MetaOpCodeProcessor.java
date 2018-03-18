@@ -14,7 +14,7 @@ import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.event.error.EventProcessingException;
 import com.myreward.engine.event.error.MetaDataCreationException;
 import com.myreward.engine.event.error.MetaDataParsingException;
-import com.myreward.engine.event.opcode.OpCodeBaseModel;
+import com.myreward.engine.event.opcode.processing.OpCodeBaseModel;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
