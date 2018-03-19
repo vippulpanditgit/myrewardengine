@@ -56,7 +56,7 @@ public class GroupMetaModel extends BaseMetaModel {
 				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 				rewardMetaModel = parentEventMetaModel.getRewardMetaModel();
 				// Create a lbl for function for the group
-				groupOpCodes.add(String.format(prefixGroupOpCodesListTemplate[0],parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.symbolIndex)));
+				groupOpCodes.add(String.format(prefixGroupOpCodesListTemplate[0],parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.version)));
 			}
 			Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
 			while(eventMetaModelListIterator.hasNext()) {
@@ -70,7 +70,7 @@ public class GroupMetaModel extends BaseMetaModel {
 					if(rewardMetaModel!=null) {
 						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,4));
 						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));						
-						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[2], parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.symbolIndex)));
+						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[2], parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.version)));
 						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[3]));
 					} else {
 						groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[1]));

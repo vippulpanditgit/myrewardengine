@@ -25,7 +25,7 @@ public class PriorityMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
+			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
 			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[1], eventSymbol.getName(), eventSymbol.getFullyQualifiedId(), priority));
 			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));
 			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId(), priority));

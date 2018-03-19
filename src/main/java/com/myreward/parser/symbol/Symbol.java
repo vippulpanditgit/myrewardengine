@@ -24,9 +24,13 @@ public class Symbol implements Serializable{
 	private int level;
 	private int id;
 	private int fullyQualifiedId;
-	public int symbolIndex=-1;
-
-	private Symbol container;
+	// version would be 0 for the base event symbol, incremented by 1 for each occurence.
+	public int version=-1;
+	// If the event is used in more than 1 place, an alias is created for 
+	//     each instance and the version field is incremented.
+	public Symbol alias;
+	// Container of the symbol. 
+	private Symbol parent;
 	// True if the symbol is used in its block
 	private boolean isReferenced;
 	// True if the symbol is created from an import statement
@@ -64,8 +68,8 @@ public class Symbol implements Serializable{
 	}
 	public String getFullyQualifiedName() {
 		String fullResourceName = name; 
-		if(container!=null)
-			fullResourceName = container.getName()+"."+name;
+		if(parent!=null)
+			fullResourceName = parent.getName()+"."+name;
 		return fullResourceName;
 		
 	}
@@ -82,10 +86,10 @@ public class Symbol implements Serializable{
 		this.level = level;
 	}
 	public Symbol getContainer() {
-		return container;
+		return parent;
 	}
 	public void setContainer(Symbol container) {
-		this.container = container;
+		this.parent = container;
 	}
 	public boolean isReferenced() {
 		return isReferenced;
@@ -185,8 +189,8 @@ public class Symbol implements Serializable{
 	}
 	public int getFullyQualifiedId() {
 		String fullResourceName = name; 
-		if(container!=null)
-			fullResourceName = container.getName()+"."+name;
+		if(parent!=null)
+			fullResourceName = parent.getName()+"."+name;
 		fullyQualifiedId = fullResourceName.hashCode();
 		return fullyQualifiedId;
 	}

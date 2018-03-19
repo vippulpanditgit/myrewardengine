@@ -28,7 +28,7 @@ public class RewardMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
 			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[1], eventSymbol.getName(), String.valueOf(eventSymbol.getFullyQualifiedId()),rewardAmount, maxRewardAmount));
 			if(parentEventMetaModel.getDuraitonMetaModel()!=null) {
 				rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));

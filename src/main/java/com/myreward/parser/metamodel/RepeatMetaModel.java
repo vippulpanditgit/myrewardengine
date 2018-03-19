@@ -39,7 +39,7 @@ public class RepeatMetaModel extends BaseMetaModel {
 			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
-			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.symbolIndex)));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
 			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[1], eventSymbol.getName(), eventSymbol.getFullyQualifiedId(), repeatCriteria.name(), repeatAfter));
 			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));
 			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId(), repeatCriteria.repeatType));
