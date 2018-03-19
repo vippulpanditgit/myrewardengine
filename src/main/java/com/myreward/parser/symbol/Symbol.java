@@ -197,4 +197,16 @@ public class Symbol implements Serializable{
 	public String toString() {
 		return name+"<<"+id+"<<"+fullyQualifiedId+"<<"+type+"<<"+level+"<<"+rewardAttribute+"<<"+callDeclarationList;
 	}
+	public int getVersion() {
+		return version;
+	}
+	public void setVersion(int version) {
+		this.version = version;
+	}
+	public Symbol getAlias() {
+		return alias;
+	}
+	public void setAlias(Symbol alias) {
+		this.alias = alias;
+	}
 }
