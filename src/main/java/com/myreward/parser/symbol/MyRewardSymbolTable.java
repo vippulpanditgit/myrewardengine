@@ -27,8 +27,14 @@ public class MyRewardSymbolTable extends SymbolTable {
 	    // Iterating the list in forward direction
 	    while(it.hasNext()){
 	    	Symbol symbolValue = (Symbol)it.next();
-	    	if(symbolValue.getFullyQualifiedId()==symbol.getFullyQualifiedId())
+	    	if(symbolValue.getFullyQualifiedId()==symbol.getFullyQualifiedId()) {
+	    		while(symbolValue.alias!=null)
+	    			symbolValue = symbolValue.alias;
+	    		if(symbolValue.alias==null)
+	    			symbolValue.alias = symbol;
+	    		symbol.version = symbolValue.version+1;
 	    		return false;
+	    	}
 	    }
 		return symbolList.add(symbol);
 	}

@@ -195,7 +195,7 @@ public class Symbol implements Serializable{
 		return fullyQualifiedId;
 	}
 	public String toString() {
-		return name+"<<"+id+"<<"+fullyQualifiedId+"<<"+type+"<<"+level+"<<"+rewardAttribute+"<<"+callDeclarationList;
+		return name+"<<"+id+"<<"+fullyQualifiedId+"<<"+version+"<<"+type+"<<"+level+"<<"+rewardAttribute+"<<"+callDeclarationList+"||"+(alias!=null?alias.toString():"");
 	}
 	public int getVersion() {
 		return version;
