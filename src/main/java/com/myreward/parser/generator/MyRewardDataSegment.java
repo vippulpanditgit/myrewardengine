@@ -19,11 +19,12 @@ import com.myreward.engine.delegate.IRuntimeDelegate;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
-public class MyRewardDataSegment implements Serializable {
+public class MyRewardDataSegment<T> implements Serializable {
 	private AppInstanceContext parentContext;
 	private MultiValuedMap<Integer, Integer> xmapdataSegment = new ArrayListValuedHashMap<Integer, Integer>();
 	private List<EventDataObject> dataSegment = new ArrayList<EventDataObject>();
 	private IRuntimeDelegate delegate;
+	private T delegateT; // New delegate
 	public class EventDataObject implements Serializable {
 		// 0x0000 0000 0000 0001 - Event Complete
 		// 0x0000 0000 0000 0010 - Gatekeeper - 1 for complete, 0 for incomplete
@@ -50,7 +51,7 @@ public class MyRewardDataSegment implements Serializable {
 			this.eventDelegate.creation(this);
 		}
 		public String toString() {
-			return name+"<<"+id+"<<"+description+"<<"+eventStatus+"<<"+eventCount+"<<"+amount+"<<"+maxRepeat+"<<"+priority+"<<"+nextRpeat;
+			return name+"<<"+id+"<<"+version+"<<"+description+"<<"+eventStatus+"<<"+eventCount+"<<"+amount+"<<"+maxRepeat+"<<"+priority+"<<"+nextRpeat;
 		}
 		public void setEventCompletionFlag() {
 			eventStatus |= 0x01;
@@ -217,7 +218,7 @@ public class MyRewardDataSegment implements Serializable {
 		int index=0;
 		while(symbolIterator.hasNext()) {
 			Symbol symbol = symbolIterator.next();
-			if(symbol.alias!=null) {
+			if(symbol.childrenList!=null) {
 				while(symbol!=null) {
 					EventDataObject eventDataObject = new EventDataObject();
 					eventDataObject.name = symbol.getFullyQualifiedName();
@@ -225,7 +226,7 @@ public class MyRewardDataSegment implements Serializable {
 					eventDataObject.version = symbol.getVersion();
 					xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
 					dataSegment.add(eventDataObject);
-					symbol = symbol.alias;
+					symbol = symbol.childrenList;
 				}
 			} else {
 				EventDataObject eventDataObject = new EventDataObject();

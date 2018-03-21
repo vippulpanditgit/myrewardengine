@@ -28,10 +28,6 @@ public class MyRewardSymbolTable extends SymbolTable {
 	    while(it.hasNext()){
 	    	Symbol symbolValue = (Symbol)it.next();
 	    	if(symbolValue.getFullyQualifiedId()==symbol.getFullyQualifiedId()) {
-	    		while(symbolValue.alias!=null)
-	    			symbolValue = symbolValue.alias;
-	    		if(symbolValue.alias==null)
-	    			symbolValue.alias = symbol;
 	    		symbol.version = symbolValue.version+1;
 	    		return false;
 	    	}

@@ -21,14 +21,14 @@ public class Symbol implements Serializable{
 	// The symbol's name
 	private String name;
 	private SymbolType type;
-	private int level;
+	private int level=0;
 	private int id;
 	private int fullyQualifiedId;
 	// version would be 0 for the base event symbol, incremented by 1 for each occurence.
-	public int version=-1;
+	public int version=0;
 	// If the event is used in more than 1 place, an alias is created for 
 	//     each instance and the version field is incremented.
-	public Symbol alias;
+	public List<Symbol> childrenList = null;
 	// Container of the symbol. 
 	private Symbol parent;
 	// True if the symbol is used in its block
@@ -195,7 +195,7 @@ public class Symbol implements Serializable{
 		return fullyQualifiedId;
 	}
 	public String toString() {
-		return name+"<<"+id+"<<"+fullyQualifiedId+"<<"+version+"<<"+type+"<<"+level+"<<"+rewardAttribute+"<<"+callDeclarationList+"||"+(alias!=null?alias.toString():"");
+		return name+"<<"+id+"<<"+fullyQualifiedId+"<<"+version+"<<"+type+"<<"+level+"<<"+rewardAttribute+"<<"+callDeclarationList+"||"+(childrenList!=null?childrenList.toString():"");
 	}
 	public int getVersion() {
 		return version;
@@ -203,10 +203,25 @@ public class Symbol implements Serializable{
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	public Symbol getAlias() {
-		return alias;
+	public List<Symbol> getChildrenList() {
+		if(this.childrenList==null)
+			this.childrenList = new ArrayList<Symbol>();
+		return childrenList;
 	}
-	public void setAlias(Symbol alias) {
-		this.alias = alias;
+	public void setChildrenList(List<Symbol> children) {
+		if(this.childrenList==null)
+			this.childrenList = new ArrayList<Symbol>();
+		this.childrenList = children;
 	}
+	public void addChildren(List<Symbol> childrenList) {
+		if(this.childrenList==null)
+			this.childrenList = new ArrayList<Symbol>();
+		this.childrenList.addAll(childrenList);
+	}
+	public void addChild(Symbol child) {
+		if(this.childrenList==null)
+			this.childrenList = new ArrayList<Symbol>();
+		this.childrenList.add(child);
+	}
+
 }

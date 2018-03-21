@@ -221,14 +221,22 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 					}
 	;
 event_name returns [String eventName]
-	: eventNameElement=ID { current = new Symbol();
+	: eventNameElement=ID {
+				Symbol storedCurrent = current; 
+				current = new Symbol();
 				current.setName($eventNameElement.getText());
 				current.setLevel(level);
 				current.setType(Symbol.SymbolType.EVENT);
 				current.setContainer(packageSymbol);
-				symbolTable.insertSymbol(current);
-				$eventName = $eventNameElement.getText();
+				if(storedCurrent==null)
+					symbolTable.insertSymbol(current);
+				else {
+					storedCurrent.addChild(current);
+					current = storedCurrent;
+					
 				}
+				$eventName = $eventNameElement.getText();
+		}
 	;
 group_def returns [GroupMetaModel groupDefMetaModel]
 	: groupAnyLogic=any_def LBRACE groupEventDef = group_events_def RBRACE {
