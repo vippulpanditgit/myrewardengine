@@ -37,6 +37,7 @@ public class MyRewardDataSegment implements Serializable {
 		public String description;
 		public String name;
 		public long id;
+		public long version;
 		private IRuntimeDelegate eventDelegate;
 		
 		public void delegate(IRuntimeDelegate eventDelegate) {
@@ -211,12 +212,25 @@ public class MyRewardDataSegment implements Serializable {
 		int index=0;
 		while(symbolIterator.hasNext()) {
 			Symbol symbol = symbolIterator.next();
-			EventDataObject eventDataObject = new EventDataObject();
-			eventDataObject.name = symbol.getFullyQualifiedName();
-			eventDataObject.id = symbol.getFullyQualifiedId();
-			
-			xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
-			dataSegment.add(eventDataObject);
+			if(symbol.alias!=null) {
+				while(symbol!=null) {
+					EventDataObject eventDataObject = new EventDataObject();
+					eventDataObject.name = symbol.getFullyQualifiedName();
+					eventDataObject.id = symbol.getFullyQualifiedId();
+					eventDataObject.version = symbol.getVersion();
+					xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
+					dataSegment.add(eventDataObject);
+					symbol = symbol.alias;
+				}
+			} else {
+				EventDataObject eventDataObject = new EventDataObject();
+				eventDataObject.name = symbol.getFullyQualifiedName();
+				eventDataObject.id = symbol.getFullyQualifiedId();
+				eventDataObject.version = symbol.getVersion();
+				xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
+				dataSegment.add(eventDataObject);
+				
+			}
 		}
 	}
 	public EventDataObject getDataObject(int id) {
