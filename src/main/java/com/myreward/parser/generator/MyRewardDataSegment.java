@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
+
 import com.myreward.engine.app.AppInstanceContext;
 import com.myreward.engine.delegate.EventDataObjectDelegate;
 import com.myreward.engine.delegate.IRuntimeDelegate;
@@ -16,7 +19,7 @@ import com.myreward.parser.symbol.SymbolTable;
 
 public class MyRewardDataSegment implements Serializable {
 	private AppInstanceContext parentContext;
-	private Map<Integer, Integer> xmapdataSegment = new HashMap<Integer, Integer>();
+	private MultiValuedMap<Integer, Integer> xmapdataSegment = new ArrayListValuedHashMap<Integer, Integer>();
 	private List<EventDataObject> dataSegment = new ArrayList<EventDataObject>();
 	private IRuntimeDelegate delegate;
 	public class EventDataObject implements Serializable {
