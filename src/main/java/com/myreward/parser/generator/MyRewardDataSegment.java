@@ -2,8 +2,10 @@ package com.myreward.parser.generator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -236,30 +238,41 @@ public class MyRewardDataSegment implements Serializable {
 			}
 		}
 	}
-	public EventDataObject getDataObject(int id) {
+	public List<EventDataObject> getDataObject(int id) {
 		if(xmapdataSegment!=null) {
-			Integer dataSegmentIndex = xmapdataSegment.get(id);
-			return dataSegment.get(dataSegmentIndex.intValue());
-		} return null;
+			Collection<Integer> dataSegmentIndex = xmapdataSegment.get(id);
+			List<EventDataObject> dataObjectList = new ArrayList<EventDataObject>();
+			if(dataSegmentIndex!=null) {
+				Iterator<Integer> dataSegmentIndexIterator = dataSegmentIndex.iterator();
+				while(dataSegmentIndexIterator.hasNext()) {
+					Integer dataSegmentIndexValue = dataSegmentIndexIterator.next();
+					dataObjectList.add(dataSegment.get(dataSegmentIndexValue.intValue()));
+				}
+			}
+			return dataObjectList;
+		} 
+		return null;
 	}
-	public EventDataObject getDataObject(String ruleAttrName) {
+	public List<EventDataObject> getDataObject(String ruleAttrName) {
 		int ruleAttrHashcode = ruleAttrName.hashCode();
 		return getDataObject(ruleAttrHashcode);
 	}
 	public void setDataObject(int id, EventDataObject eventDataObject) {
 		if(xmapdataSegment!=null) {
-			Integer dataSegmentIndex = xmapdataSegment.get(id);
-			dataSegment.remove(dataSegmentIndex.intValue());
-			dataSegment.add(dataSegmentIndex.intValue(), eventDataObject);
+			Collection<Integer> dataSegmentIndex = xmapdataSegment.get(id);
+			if(dataSegmentIndex!=null && dataSegmentIndex.size()==1) {
+				dataSegment.remove(dataSegmentIndex.toArray(new Integer[0])[0].intValue());
+				dataSegment.add(dataSegmentIndex.toArray(new Integer[0])[0].intValue(), eventDataObject);
+			}
 		}
 	}
 	public void printString() {
 		dataSegment.forEach(eventObject -> System.out.println(eventObject));
 	}
 	public EventDataObject search(String id) {
-		Integer eventDataObjectIndex = xmapdataSegment.get(Integer.valueOf(id));
-		if(eventDataObjectIndex!=null) {
-			return dataSegment.get(eventDataObjectIndex.intValue());
+		Collection<Integer> eventDataObjectIndex = xmapdataSegment.get(Integer.valueOf(id));
+		if(eventDataObjectIndex!=null && eventDataObjectIndex.size()==1) {
+			return dataSegment.get(eventDataObjectIndex.toArray(new Integer[0])[0].intValue());
 		}
 		return null;
 	}
