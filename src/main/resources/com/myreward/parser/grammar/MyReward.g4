@@ -222,13 +222,15 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	;
 event_name returns [String eventName]
 	: eventNameElement=ID {
+				System.out.println("**** level "+level);
+				
 				Symbol storedCurrent = current; 
 				current = new Symbol();
 				current.setName($eventNameElement.getText());
 				current.setLevel(level);
 				current.setType(Symbol.SymbolType.EVENT);
 				current.setContainer(packageSymbol);
-				if(storedCurrent==null)
+				if(storedCurrent==null || level==0)
 					symbolTable.insertSymbol(current);
 				else {
 					storedCurrent.addChild(current);
@@ -239,12 +241,14 @@ event_name returns [String eventName]
 		}
 	;
 group_def returns [GroupMetaModel groupDefMetaModel]
-	: groupAnyLogic=any_def LBRACE groupEventDef = group_events_def RBRACE {
+	: groupAnyLogic=any_def LBRACE{level++;} groupEventDef = group_events_def RBRACE {
+																level--;
 																$groupEventDef.groupEventsDefMetaModel.parent = $groupDefMetaModel;
 																$groupDefMetaModel = $groupEventDef.groupEventsDefMetaModel;	
 																$groupDefMetaModel.ordinalMetaModel = $groupAnyLogic.anyMetaModel;
 															}
-	| groupAllLogic=all_def LBRACE groupEventDef = group_events_def RBRACE {
+	| groupAllLogic=all_def LBRACE{level++;} groupEventDef = group_events_def RBRACE {
+																level--;
 																$groupAllLogic.groupModel.parent = $groupDefMetaModel;
 																$groupDefMetaModel = $groupAllLogic.groupModel;
 																$groupDefMetaModel.eventMetaModelList = $groupEventDef.groupEventsDefMetaModel.eventMetaModelList;

@@ -68,7 +68,6 @@ public class test {
 			String pseudo_2_groups = "package test event(GA).any(1) {event(B), event(C)}.reward(1) event(GD).any(1){event(E), event(F)}.reward(1)";
 			String pseudo2 = "package test event(GA).any(1) {event(B).any(1), event(C)}.between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(100,1000)";
 			String pseudo_standalone = "package test event(A).any(1).reward(1).repeat(WEEKLY,2)";
-			String event_2_groups_triggered_by_same_event = "package test event(GA).any(1){event(A), event(B)} event(GAA).any(1){event(A), event(C)}";
 			String pseudo_between_repeat = "package test event(A).any(1).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(1).repeat(WEEKLY,2)";
 			String pseudo_between = "package test event(A).any(1).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00')";
 			String pseudo_gatekeeper = "package test event(GA).any(1) {event(B), event(C)}.show(true).priority(1) event(GD).any(1){event(E), event(F)}.gatekeeper(event(GA))";
@@ -92,7 +91,9 @@ public class test {
 
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
-            AppInstanceContext appInstanceContext = new AppInstanceContext();
+			String event_2_groups_triggered_by_same_event = "package test event(GA).any(1){event(A), event(B)} event(GAA).any(1){event(A), event(C)}";
+
+			AppInstanceContext appInstanceContext = new AppInstanceContext();
             AppContext.getInstance().add("test_event_hash", 
             		new test().createMetaOpCodeProcessor(appInstanceContext, event_2_groups_triggered_by_same_event));
             appInstanceContext.isDebug = true;
