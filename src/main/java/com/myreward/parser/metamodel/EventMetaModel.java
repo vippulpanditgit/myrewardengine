@@ -177,6 +177,7 @@ public class EventMetaModel extends BaseMetaModel {
 	@Override
 	public String[] model() {
 		Symbol eventSymbol = new Symbol(eventName);
+		eventSymbol.setNamespace(this.parent.);;
 		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		eventSymbol = symbolTable.lookup(eventSymbol);
 //		++eventSymbol.version;

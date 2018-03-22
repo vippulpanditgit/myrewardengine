@@ -9,6 +9,7 @@ public abstract class BaseMetaModel {
 	public SymbolTable symbolTable;
 	public BaseMetaModel parent;
 	public UUID uuid;
+	public String namespace;
 	public abstract String[] build();
 	public abstract String[] model();
 	public abstract String[] call_stack();

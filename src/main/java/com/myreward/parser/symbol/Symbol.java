@@ -239,5 +239,11 @@ public class Symbol implements Serializable{
 	public void setNamespace(String namespace) {
 		this.namespace = namespace;
 	}
+	public Symbol getParent() {
+		return parent;
+	}
+	public void setParent(Symbol parent) {
+		this.parent = parent;
+	}
 
 }

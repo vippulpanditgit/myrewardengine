@@ -52,9 +52,9 @@ public class MyRewardSymbolTable extends SymbolTable {
 		 
 	    // Iterating the list in forward direction
 	    while(it.hasNext()){
-		    	Symbol symbolValue = (Symbol)it.next();
-		    	if(symbolValue.getId()==symbol.getId())
-		    		return symbolValue;
+		   	Symbol symbolValue = (Symbol)it.next();
+		   	if(symbolValue.getId()==symbol.getId())
+		   		return symbolValue;
 	    }
 	    return null;
 	}
