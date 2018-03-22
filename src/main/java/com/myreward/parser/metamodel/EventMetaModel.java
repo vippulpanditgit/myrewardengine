@@ -179,7 +179,7 @@ public class EventMetaModel extends BaseMetaModel {
 		Symbol eventSymbol = new Symbol(eventName);
 		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		eventSymbol = symbolTable.lookup(eventSymbol);
-		++eventSymbol.version;
+//		++eventSymbol.version;
 		
 		if(this.durationMetaModel!=null) {
 			eventOpCodeList.addAll(Arrays.asList(durationMetaModel.model()));
@@ -206,7 +206,9 @@ public class EventMetaModel extends BaseMetaModel {
 			return eventOpCodeList.toArray(new String[0]);
 		} else {
 //			if(MyRewardFunctionXRef.fnXRef.get(String.valueOf(eventSymbol.getFullyQualifiedId()))==null) {
-			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(overrideTemplate, eventSymbol.version)));
+			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], 
+							String.valueOf(eventSymbol.getFullyQualifiedId()),
+							String.format(overrideTemplate, eventSymbol.version)));
 			MyRewardFunctionXRef.fnXRef.put(String.valueOf(eventSymbol.getFullyQualifiedId())+":"+String.format(overrideTemplate, eventSymbol.version), String.format(prefixEventOpCodeListTemplate[0], eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)));
 //			} else {
 //				eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(overrideTemplate, eventSymbol.symbolIndex)));

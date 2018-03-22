@@ -196,7 +196,7 @@ public class Symbol implements Serializable{
 		return fullyQualifiedId;
 	}
 	public String toString() {
-		return name+"<<"+id+"<<"+fullyQualifiedId+"<<"+version+"<<"+type+"<<"+level+"<<"+rewardAttribute+"<<"+callDeclarationList+"||"+(childrenList!=null?childrenList.toString():"");
+		return name+"<<"+id+"<<"+fullyQualifiedId+"<<"+namespace+"<<"+type+"<<"+level+"<<"+rewardAttribute+"<<"+callDeclarationList+"||"+(childrenList!=null?childrenList.toString():"");
 	}
 	public int getVersion() {
 		return version;
@@ -220,15 +220,24 @@ public class Symbol implements Serializable{
 		if(this.childrenList==null)
 			this.childrenList = new ArrayList<Symbol>();
 		childrenList.forEach(p -> p.parent = this);
-		childrenList.forEach(p -> p.namespace = this.namespace+"."+this.name);
+		childrenList.forEach(p -> p.namespace = this.namespace==null?this.name: this.namespace+"."+this.name);
 		this.childrenList.addAll(childrenList);
 	}
 	public void addChild(Symbol child) {
 		if(this.childrenList==null)
 			this.childrenList = new ArrayList<Symbol>();
-		child.parent = this;
-		child.namespace = this.namespace+"."+this.name;
+		Symbol parent = this;
+		while(parent.level >= child.level)
+			parent = parent.parent;
+		child.parent = parent;
+		child.namespace = parent.namespace==null?parent.name: parent.namespace+"."+parent.name;
 		this.childrenList.add(child);
+	}
+	public String getNamespace() {
+		return namespace;
+	}
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
 	}
 
 }

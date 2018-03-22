@@ -160,6 +160,9 @@ package_name returns [String packageNameElement]
 						packageSymbol.setType(Symbol.SymbolType.PACKAGE);
 						packageSymbol.setName($packageName.getText());
 						symbolTable.insertSymbol(packageSymbol);
+						packageSymbol.setNamespace(null);
+						current = packageSymbol;
+						level++;
 						$packageNameElement = $packageName.getText();
 					}
 	;		
@@ -222,7 +225,7 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	;
 event_name returns [String eventName]
 	: eventNameElement=ID {
-				System.out.println("**** level "+level);
+//				System.out.println("**** level "+level);
 				
 				Symbol storedCurrent = current; 
 				current = new Symbol();
@@ -230,13 +233,13 @@ event_name returns [String eventName]
 				current.setLevel(level);
 				current.setType(Symbol.SymbolType.EVENT);
 				current.setContainer(packageSymbol);
-				if(storedCurrent==null || level==0)
+				if(storedCurrent==null || level==0) {
 					symbolTable.insertSymbol(current);
-				else {
+				} else {
 					storedCurrent.addChild(current);
-					current = storedCurrent;
-					
+//					current = storedCurrent;
 				}
+				System.out.println("**** "+current);
 				$eventName = $eventNameElement.getText();
 		}
 	;
