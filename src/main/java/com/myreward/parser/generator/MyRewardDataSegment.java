@@ -43,6 +43,7 @@ public class MyRewardDataSegment<T> implements Serializable {
 		public String description;
 		public String name;
 		public long id;
+		public String namespace;
 		public long version;
 		private IRuntimeDelegate eventDelegate;
 		
@@ -219,15 +220,13 @@ public class MyRewardDataSegment<T> implements Serializable {
 		while(symbolIterator.hasNext()) {
 			Symbol symbol = symbolIterator.next();
 			if(symbol.childrenList!=null) {
-				while(symbol!=null) {
+				symbol.childrenList.forEach(p -> {
 					EventDataObject eventDataObject = new EventDataObject();
 					eventDataObject.name = symbol.getFullyQualifiedName();
 					eventDataObject.id = symbol.getFullyQualifiedId();
 					eventDataObject.version = symbol.getVersion();
-					xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
-					dataSegment.add(eventDataObject);
-					symbol = symbol.childrenList;
-				}
+//					xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
+					dataSegment.add(eventDataObject);});
 			} else {
 				EventDataObject eventDataObject = new EventDataObject();
 				eventDataObject.name = symbol.getFullyQualifiedName();

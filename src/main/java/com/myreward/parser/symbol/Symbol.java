@@ -32,6 +32,7 @@ public class Symbol implements Serializable{
 	// Container of the symbol. 
 	private Symbol parent;
 	// True if the symbol is used in its block
+	private String namespace;
 	private boolean isReferenced;
 	// True if the symbol is created from an import statement
 	private boolean isImported;
@@ -211,16 +212,22 @@ public class Symbol implements Serializable{
 	public void setChildrenList(List<Symbol> children) {
 		if(this.childrenList==null)
 			this.childrenList = new ArrayList<Symbol>();
+		childrenList.forEach(p -> p.parent = this);
+		childrenList.forEach(p -> p.namespace = this.name);
 		this.childrenList = children;
 	}
 	public void addChildren(List<Symbol> childrenList) {
 		if(this.childrenList==null)
 			this.childrenList = new ArrayList<Symbol>();
+		childrenList.forEach(p -> p.parent = this);
+		childrenList.forEach(p -> p.namespace = this.namespace+"."+this.name);
 		this.childrenList.addAll(childrenList);
 	}
 	public void addChild(Symbol child) {
 		if(this.childrenList==null)
 			this.childrenList = new ArrayList<Symbol>();
+		child.parent = this;
+		child.namespace = this.namespace+"."+this.name;
 		this.childrenList.add(child);
 	}
 
