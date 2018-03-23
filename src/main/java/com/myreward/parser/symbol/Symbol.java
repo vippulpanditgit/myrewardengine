@@ -226,14 +226,15 @@ public class Symbol implements Serializable{
 		this.childrenList.addAll(childrenList);
 	}
 	public void addChild(Symbol child) {
-		if(this.childrenList==null)
-			this.childrenList = new ArrayList<Symbol>();
 		Symbol parent = this;
 		while(parent.level >= child.level)
 			parent = parent.parent;
 		child.parent = parent;
 		child.namespace = parent.namespace==null?parent.name: parent.namespace+"."+parent.name;
-		this.childrenList.add(child);
+		if(parent.childrenList==null)
+			parent.childrenList = new ArrayList<Symbol>();
+		parent.setType(SymbolType.DERIVED_EVENT);
+		parent.childrenList.add(child);
 	}
 	public String getNamespace() {
 		return namespace;
