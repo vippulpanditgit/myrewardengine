@@ -297,7 +297,7 @@ public class EventMetaModel extends BaseMetaModel {
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			metaSymbol = symbolTable.lookup(metaSymbol);
 			List<String> callStackOpCodeList = new ArrayList<String>();
-			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(), String.valueOf(metaSymbol.version--)));			
+			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(), String.valueOf(metaSymbol.version/*--*/)));			
 			int level=0;
 			level = this.climbUpTheEventStackTree(this, callStackOpCodeList, level);
 			callStackOpCodeList.add(0, String.format(prefixCallStackOpCodeListTemplate[0], eventName, level+3));
@@ -329,7 +329,7 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol metaSymbol = new Symbol(groupEventMetaModel.eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			metaSymbol = symbolTable.lookup(metaSymbol);
-			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, ++metaSymbol.version)));
+			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, /*++*/metaSymbol.version)));
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[1], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, metaSymbol.version)));
 			eventMetaModel = eventMetaModel.parent.parent;
 			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);

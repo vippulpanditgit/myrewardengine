@@ -53,7 +53,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 			EventMetaModel gatekeeperTargetEvent = (EventMetaModel)this.parent;
 			Symbol gatekeeperTargetSymbol = new Symbol(gatekeeperTargetEvent.getEventName());
 			gatekeeperTargetSymbol = symbolTable.lookup(gatekeeperTargetSymbol);
-			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), String.format(EventMetaModel.overrideTemplate, ++gatekeeperSourceSymbol.version)));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), String.format(EventMetaModel.overrideTemplate, /*++*/gatekeeperSourceSymbol.version)));
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[1], gatekeeperSourceSymbol.getName(), gatekeeperSourceSymbol.getFullyQualifiedId()));
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[2], gatekeeperSourceSymbol.getFullyQualifiedId(),2));
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[3], gatekeeperTargetSymbol.getFullyQualifiedId()));

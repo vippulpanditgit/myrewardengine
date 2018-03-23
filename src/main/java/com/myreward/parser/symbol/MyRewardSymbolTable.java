@@ -28,7 +28,7 @@ public class MyRewardSymbolTable extends SymbolTable {
 	    while(it.hasNext()){
 	    	Symbol symbolValue = (Symbol)it.next();
 	    	if(symbolValue.getFullyQualifiedId()==symbol.getFullyQualifiedId()) {
-	    		symbol.version = symbolValue.version+1;
+//	    		symbol.version = symbolValue.version+1;
 	    		return false;
 	    	}
 	    }
