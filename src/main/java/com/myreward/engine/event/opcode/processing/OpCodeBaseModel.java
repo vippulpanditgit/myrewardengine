@@ -7,10 +7,12 @@ import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
 
-public abstract class OpCodeBaseModel implements Serializable {
+public  class OpCodeBaseModel implements Serializable {
 	
-	public abstract String[] getOpcodes();
+	public  String[] getOpcodes() {
+		return null;};
 
-	public abstract OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event)  throws Exception ;
+	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event)  throws Exception {
+		return null;};
 	
 }

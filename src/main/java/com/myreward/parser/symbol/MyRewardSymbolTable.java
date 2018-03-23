@@ -41,6 +41,16 @@ public class MyRewardSymbolTable extends SymbolTable {
 		return null;
 	}
 
+	private Symbol lookup(List<Symbol> childrenList, Symbol sourceSymbol) {
+		for(int index=0; index<childrenList.size();index++) {
+			Symbol targetSymbol = childrenList.get(index);
+			if(targetSymbol.getId()==sourceSymbol.getId())
+				return targetSymbol;
+			else if(targetSymbol.childrenList!=null)
+				return lookup(targetSymbol.childrenList, sourceSymbol);
+		}
+		return null;
+	}
 	@Override
 	public Symbol lookup(Symbol symbol) {
 		int hashValue = symbol.getId();
@@ -53,6 +63,12 @@ public class MyRewardSymbolTable extends SymbolTable {
 	    // Iterating the list in forward direction
 	    while(it.hasNext()){
 		   	Symbol symbolValue = (Symbol)it.next();
+		   	if(symbolValue.childrenList!=null) {
+		   		Symbol targetValue = this.lookup(symbolValue.childrenList, symbol);
+		   		if(targetValue!=null)
+		   			return targetValue;
+		   	}
+		   		
 		   	if(symbolValue.getId()==symbol.getId())
 		   		return symbolValue;
 	    }

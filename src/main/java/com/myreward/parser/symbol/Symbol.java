@@ -190,13 +190,15 @@ public class Symbol implements Serializable{
 	}
 	public int getFullyQualifiedId() {
 		String fullResourceName = name; 
-		if(parent!=null)
-			fullResourceName = parent.getName()+"."+name;
+		if(namespace!=null)
+			fullResourceName = namespace+"."+name;
 		fullyQualifiedId = fullResourceName.hashCode();
 		return fullyQualifiedId;
 	}
 	public String toString() {
-		return name+"<<"+id+"<<"+fullyQualifiedId+"<<"+namespace+"<<"+type+"<<"+level+"<<"+rewardAttribute+"<<"+callDeclarationList+"||"+(childrenList!=null?childrenList.toString():"");
+		return this.getName()+"<<"+this.getId()+"<<"+getFullyQualifiedId()+"<<"
+					+this.getNamespace()+"<<"+this.getType()+"<<"
+					+this.getLevel()+"<<"+rewardAttribute+"<<"+callDeclarationList;
 	}
 	public int getVersion() {
 		return version;
