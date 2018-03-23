@@ -68,8 +68,8 @@ public class MyRewardSymbolTable extends SymbolTable {
 		   		if(targetValue!=null)
 		   			return targetValue;
 		   	}
-		   		
-		   	if(symbolValue.getId()==symbol.getId())
+		   	
+		   	if(symbolValue.getFullyQualifiedId()==symbol.getFullyQualifiedId())
 		   		return symbolValue;
 	    }
 	    return null;

@@ -5,11 +5,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.symbol.Symbol;
+import com.myreward.parser.symbol.SymbolTable;
+
 public class PackageMetaModel extends BaseMetaModel {
 	public String packageName;
 	public List<BaseMetaModel> packageMetaModelList = new ArrayList<BaseMetaModel>();
 	@Override
 	public String[] build() {
+		metaSymbol = new Symbol(packageName);
+		metaSymbol =  MyRewardParser.symbolTable.lookup(metaSymbol);
+
 		List<String> packageOpcodeList = new ArrayList<String>();
 		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
 		while(packageMetaModelListIterator.hasNext()) {
