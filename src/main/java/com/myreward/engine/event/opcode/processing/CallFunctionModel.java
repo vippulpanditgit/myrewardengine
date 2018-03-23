@@ -64,8 +64,8 @@ public class CallFunctionModel extends CallBaseModel {
 		OperationResultDO operationResultDO = null;
 		LabelFunctionModel labelFunctionModel = new LabelFunctionModel(name, version);
 		int callbackFunctionModelIndex = this.findOpCode(instructionOpCodes, labelFunctionModel);
-		if(callbackFunctionModelIndex==0)
-			return new ErrorOperationResultDO(ErrorCode.FUNCTION_NOT_FOUND);
+//		if(callbackFunctionModelIndex==0)
+//			return new ErrorOperationResultDO(ErrorCode.FUNCTION_NOT_FOUND);
 		while(true) {
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(++callbackFunctionModelIndex);
 System.out.println(opCodeBaseModel);
