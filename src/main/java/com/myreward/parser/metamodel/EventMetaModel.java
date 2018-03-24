@@ -189,9 +189,18 @@ public class EventMetaModel extends BaseMetaModel {
 	@Override
 	public String[] model() {
 		Symbol metaSymbol = new Symbol(eventName);
-		metaSymbol.setNamespace(this.parent.namespace);
+		BaseMetaModel parentMetaModel = this.parent;
+		while(parentMetaModel!=null) {
+			if(parentMetaModel instanceof PackageMetaModel
+					|| parentMetaModel instanceof EventMetaModel) {
+				break;
+			} else 
+				parentMetaModel = parentMetaModel.parent;
+		}
+		metaSymbol.setNamespace(parentMetaModel.namespace);
 		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		metaSymbol = symbolTable.lookup(metaSymbol);
+		this.namespace = metaSymbol.getNamespace();
 //		++metaSymbol.version;
 		
 		if(this.durationMetaModel!=null) {

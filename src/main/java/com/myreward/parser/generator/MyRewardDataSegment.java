@@ -47,6 +47,14 @@ public class MyRewardDataSegment<T> implements Serializable {
 		public long version;
 		private IRuntimeDelegate eventDelegate;
 		
+		public EventDataObject() {
+			
+		}
+		public EventDataObject(Symbol symbol) {
+			this.name = symbol.getFullyQualifiedName();
+			this.id = symbol.getFullyQualifiedId();
+			this.version = symbol.getVersion();
+		}
 		public void delegate(IRuntimeDelegate eventDelegate) {
 			this.eventDelegate = eventDelegate;
 			this.eventDelegate.creation(this);
@@ -213,30 +221,42 @@ public class MyRewardDataSegment<T> implements Serializable {
 				this.eventDelegate.changed(this, EventDataObjectDelegate.trace(Thread.currentThread().getStackTrace()));
 		}
 	}
+	private int recursivelyCreateDataSegment(int index, Symbol symbol) {
+		if(symbol.childrenList!=null) {
+			for(int childIndex=0;childIndex<symbol.childrenList.size();childIndex++) {
+				EventDataObject eventDataObject = new EventDataObject(symbol.childrenList.get(childIndex));
+				xmapdataSegment.put(symbol.childrenList.get(childIndex).getFullyQualifiedId(), Integer.valueOf(index++));
+				dataSegment.add(index, eventDataObject);
+				index = this.recursivelyCreateDataSegment(index, symbol.childrenList.get(childIndex));
+			}
+		} else {
+			EventDataObject eventDataObject = new EventDataObject(symbol);
+			xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
+			dataSegment.add(index, eventDataObject);
+			
+		}
+		return index;
+	}
 	public void processDataSegment(SymbolTable symbolTable) {
 		List<Symbol> symbolList =  symbolTable.getAllSymbol();
 		ListIterator<Symbol> symbolIterator = symbolList.listIterator();
 		int index=0;
 		while(symbolIterator.hasNext()) {
 			Symbol symbol = symbolIterator.next();
-			if(symbol.childrenList!=null) {
-				symbol.childrenList.forEach(p -> {
-					EventDataObject eventDataObject = new EventDataObject();
-					eventDataObject.name = symbol.getFullyQualifiedName();
-					eventDataObject.id = symbol.getFullyQualifiedId();
-					eventDataObject.version = symbol.getVersion();
-//					xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
-					dataSegment.add(eventDataObject);});
+			index = this.recursivelyCreateDataSegment(index, symbol);
+/*			if(symbol.childrenList!=null) {
+				for(int childIndex=0;childIndex<symbol.childrenList.size();childIndex++) {
+					EventDataObject eventDataObject = new EventDataObject(symbol.childrenList.get(childIndex));
+					xmapdataSegment.put(symbol.childrenList.get(childIndex).getFullyQualifiedId(), Integer.valueOf(index++));
+					dataSegment.add(index, eventDataObject);
+				}
 			} else {
-				EventDataObject eventDataObject = new EventDataObject();
-				eventDataObject.name = symbol.getFullyQualifiedName();
-				eventDataObject.id = symbol.getFullyQualifiedId();
-				eventDataObject.version = symbol.getVersion();
+				EventDataObject eventDataObject = new EventDataObject(symbol);
 				xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
-				dataSegment.add(eventDataObject);
+				dataSegment.add(index, eventDataObject);
 				
 			}
-		}
+*/		}
 	}
 	public List<EventDataObject> getDataObject(int id) {
 		if(xmapdataSegment!=null) {
