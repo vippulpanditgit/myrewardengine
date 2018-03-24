@@ -30,14 +30,14 @@ public class MetaStandAloneTestCase extends BaseTestCase {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("A", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").name.equalsIgnoreCase("A"));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").getReward()==1.0);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isDurationFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isGatekeeperStatusSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("A").isRepeatFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("A").isShowFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").name.equalsIgnoreCase("A"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").getReward()==1.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isDurationFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isGatekeeperStatusSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isPriorityFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isRepeatFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isShowFlagSet());
 
 			}
 		} catch (Exception e) {

@@ -23,6 +23,7 @@ public class ShowMetaModel extends BaseMetaModel {
 		if(this.parent instanceof EventMetaModel) {
 			EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
+			eventSymbol.setNamespace(parentEventMetaModel.namespace);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			eventSymbol = symbolTable.lookup(eventSymbol);
 			showOpCodeList.add(String.format(showOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
