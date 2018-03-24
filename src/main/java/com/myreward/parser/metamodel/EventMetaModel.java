@@ -176,6 +176,8 @@ public class EventMetaModel extends BaseMetaModel {
 				}
 				if(parentEventMetaModel!=null) {
 					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
+					String parentEventNamespace = this.getSymbolNamespace(parentEventMetaModel);
+					parentEventSymbol.setNamespace(parentEventNamespace);
 					parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 					parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 				}
@@ -197,7 +199,10 @@ public class EventMetaModel extends BaseMetaModel {
 			} else 
 				parentMetaModel = parentMetaModel.parent;
 		}
-		metaSymbol.setNamespace(parentMetaModel.namespace);
+		if(parentMetaModel instanceof PackageMetaModel)
+			metaSymbol.setNamespace(((PackageMetaModel) parentMetaModel).packageName);
+		else if(parentMetaModel instanceof EventMetaModel)
+			metaSymbol.setNamespace(parentMetaModel.namespace+"."+((EventMetaModel) parentMetaModel).eventName);
 		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		metaSymbol = symbolTable.lookup(metaSymbol);
 		this.namespace = metaSymbol.getNamespace();
@@ -304,6 +309,8 @@ public class EventMetaModel extends BaseMetaModel {
 		} else {	
 			Symbol metaSymbol = new Symbol(eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
+			String namespace = this.getSymbolNamespace(this);
+			metaSymbol.setNamespace(namespace);
 			metaSymbol = symbolTable.lookup(metaSymbol);
 			List<String> callStackOpCodeList = new ArrayList<String>();
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(), String.valueOf(metaSymbol.version/*--*/)));			
@@ -325,6 +332,8 @@ public class EventMetaModel extends BaseMetaModel {
 			level++;
 			EventMetaModel groupEventMetaModel = (EventMetaModel)eventMetaModel.parent.parent;
 			Symbol metaSymbol = new Symbol(groupEventMetaModel.eventName);
+			String namespace = this.getSymbolNamespace(groupEventMetaModel);
+			metaSymbol.setNamespace(namespace);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			metaSymbol = symbolTable.lookup(metaSymbol);
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, metaSymbol.version)));

@@ -42,6 +42,16 @@ public class GroupMetaModel extends BaseMetaModel {
 		uuid = UUID.randomUUID();
 
 	}
+	private String getSymbolNamespace(BaseMetaModel baseMetaModel) {
+		if(baseMetaModel.parent.metaSymbol!=null) {
+			if(baseMetaModel.parent instanceof PackageMetaModel)
+				return baseMetaModel.parent.metaSymbol.getName();
+			else 
+				return baseMetaModel.parent.metaSymbol.getNamespace()+"."+baseMetaModel.parent.metaSymbol.getName();
+		} else
+			return this.getSymbolNamespace(baseMetaModel.parent);
+	}
+
 	public String[] build() {
 		List<String> groupOpCodes = new ArrayList<String>();
 		if(eventMetaModelList!=null && eventMetaModelList.size()>0) {
@@ -49,9 +59,11 @@ public class GroupMetaModel extends BaseMetaModel {
 			RewardMetaModel rewardMetaModel = null;
 			if(parent instanceof EventMetaModel) {
 				EventMetaModel parentEventMetaModel = (EventMetaModel)parent;
+				String namespace = this.getSymbolNamespace(parentEventMetaModel);
+
 				String eventName = parentEventMetaModel.getEventName();
 				parentEventSymbol = new Symbol(eventName);
-				
+				parentEventSymbol.setNamespace(namespace);
 				SymbolTable symbolTable = MyRewardParser.symbolTable;
 				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 				rewardMetaModel = parentEventMetaModel.getRewardMetaModel();
@@ -61,7 +73,10 @@ public class GroupMetaModel extends BaseMetaModel {
 			Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
 			while(eventMetaModelListIterator.hasNext()) {
 				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
-				Symbol eventSymbol = MyRewardParser.symbolTable.lookup(new Symbol(eventMetaModel.getEventName()));
+				Symbol lookupEvent = new Symbol(eventMetaModel.getEventName());
+				String namespace = this.getSymbolNamespace(eventMetaModel);
+				lookupEvent.setNamespace(namespace);
+				Symbol eventSymbol = MyRewardParser.symbolTable.lookup(lookupEvent);
 				if(ordinalMetaModel instanceof AnyMetaModel) {
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?8:5));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));

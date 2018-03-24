@@ -44,10 +44,13 @@ public class MyRewardSymbolTable extends SymbolTable {
 	private Symbol lookup(List<Symbol> childrenList, Symbol sourceSymbol) {
 		for(int index=0; index<childrenList.size();index++) {
 			Symbol targetSymbol = childrenList.get(index);
-			if(targetSymbol.getId()==sourceSymbol.getId())
+			if(targetSymbol.getFullyQualifiedId()==sourceSymbol.getFullyQualifiedId())
 				return targetSymbol;
-			else if(targetSymbol.childrenList!=null)
-				return lookup(targetSymbol.childrenList, sourceSymbol);
+			else if(targetSymbol.childrenList!=null) {
+				Symbol targetChildSymbol =  lookup(targetSymbol.childrenList, sourceSymbol);
+				if(targetChildSymbol!=null)
+					return targetChildSymbol;
+			}
 		}
 		return null;
 	}
