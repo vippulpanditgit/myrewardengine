@@ -29,6 +29,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	public String[] build() {
 		List<String> gatekeeperOpCodes = new ArrayList<String>();
 		Symbol eventSymbol = new Symbol(eventMetaModel.getEventName());
+		eventSymbol.setNamespace(namespace);
 		
 		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		eventSymbol = symbolTable.lookup(eventSymbol);

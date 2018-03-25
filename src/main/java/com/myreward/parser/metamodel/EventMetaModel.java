@@ -114,9 +114,13 @@ public class EventMetaModel extends BaseMetaModel {
 		if(baseMetaModel.parent.metaSymbol!=null) {
 			if(baseMetaModel.parent instanceof PackageMetaModel)
 				return baseMetaModel.parent.metaSymbol.getName();
+			else if(baseMetaModel.parent instanceof GatekeeperMetaModel)
+				return baseMetaModel.parent.metaSymbol.getName();
 			else 
 				return baseMetaModel.parent.metaSymbol.getNamespace()+"."+baseMetaModel.parent.metaSymbol.getName();
-		} else
+		} else if(baseMetaModel.parent instanceof GatekeeperMetaModel)
+			return  baseMetaModel.parent.namespace;
+		else 
 			return this.getSymbolNamespace(baseMetaModel.parent);
 		
 	}
@@ -194,13 +198,16 @@ public class EventMetaModel extends BaseMetaModel {
 		BaseMetaModel parentMetaModel = this.parent;
 		while(parentMetaModel!=null) {
 			if(parentMetaModel instanceof PackageMetaModel
-					|| parentMetaModel instanceof EventMetaModel) {
+					|| parentMetaModel instanceof EventMetaModel
+					|| parentMetaModel instanceof GatekeeperMetaModel) {
 				break;
 			} else 
 				parentMetaModel = parentMetaModel.parent;
 		}
 		if(parentMetaModel instanceof PackageMetaModel)
 			metaSymbol.setNamespace(((PackageMetaModel) parentMetaModel).packageName);
+		else if(parentMetaModel instanceof GatekeeperMetaModel)
+			metaSymbol.setNamespace(((GatekeeperMetaModel) parentMetaModel).namespace);
 		else if(parentMetaModel instanceof EventMetaModel)
 			metaSymbol.setNamespace(parentMetaModel.namespace+"."+((EventMetaModel) parentMetaModel).eventName);
 		SymbolTable symbolTable = MyRewardParser.symbolTable;
@@ -345,6 +352,7 @@ public class EventMetaModel extends BaseMetaModel {
 			level++;
 			EventMetaModel groupEventMetaModel = (EventMetaModel)eventMetaModel.parent.parent;
 			Symbol metaSymbol = new Symbol(groupEventMetaModel.eventName);
+			metaSymbol.setNamespace(this.getSymbolNamespace(eventMetaModel));
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			metaSymbol = symbolTable.lookup(metaSymbol);
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, /*++*/metaSymbol.version)));
