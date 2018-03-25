@@ -29,30 +29,30 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("B", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").name.equalsIgnoreCase("B"));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").eventCount==0);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").getReward()==0.0);
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isDurationFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").isGatekeeperStatusSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isRepeatFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("B").isShowFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").isEventCompletionFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").getReward()==1.0);
-				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("C").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").name.equalsIgnoreCase("test.GA.B"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").eventCount==0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").getReward()==0.0);
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isDurationFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isGatekeeperStatusSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isPriorityFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isRepeatFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isShowFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").getReward()==1.0);
+				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").isEventCompletionFlagSet());
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("C", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").name.equalsIgnoreCase("C"));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("B").getReward()==0.0);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("C").getReward()==0.0);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").isEventCompletionFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").eventCount==2);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("GA").getReward()==2.0);
-				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("C").isEventCompletionFlagSet());
-				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("B").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").name.equalsIgnoreCase("test.GA.C"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").getReward()==0.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").getReward()==0.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").eventCount==2);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").getReward()==2.0);
+				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").isEventCompletionFlagSet());
+				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isEventCompletionFlagSet());
 
 			}
 		} catch (Exception e) {

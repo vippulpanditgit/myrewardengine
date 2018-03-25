@@ -70,7 +70,7 @@ public class Symbol implements Serializable{
 	public String getFullyQualifiedName() {
 		String fullResourceName = name; 
 		if(parent!=null)
-			fullResourceName = parent.getName()+"."+name;
+			fullResourceName = parent.getFullyQualifiedName()+"."+name;
 		return fullResourceName;
 		
 	}
