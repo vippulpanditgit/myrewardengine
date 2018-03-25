@@ -30,7 +30,7 @@ public class MetaStandAloneTestCase extends BaseTestCase {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("A", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").name.equalsIgnoreCase("A"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").name.equalsIgnoreCase("myclient.A"));
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").eventCount==1);
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").getReward()==1.0);
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isDurationFlagSet());

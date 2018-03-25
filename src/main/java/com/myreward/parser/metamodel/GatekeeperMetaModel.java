@@ -46,12 +46,14 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 		List<String> gatekeeperOpcodes = new ArrayList<String>();
 		String gatekeeperSourceEventName = eventMetaModel.getEventName();
 		Symbol gatekeeperSourceSymbol = new Symbol(gatekeeperSourceEventName);
-		
+		this.namespace = parent.namespace;
+		gatekeeperSourceSymbol.setNamespace(this.namespace);
 		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		gatekeeperSourceSymbol = symbolTable.lookup(gatekeeperSourceSymbol);
 		if(this.parent instanceof EventMetaModel) {
 			EventMetaModel gatekeeperTargetEvent = (EventMetaModel)this.parent;
 			Symbol gatekeeperTargetSymbol = new Symbol(gatekeeperTargetEvent.getEventName());
+			gatekeeperTargetSymbol.setNamespace(gatekeeperTargetEvent.namespace);
 			gatekeeperTargetSymbol = symbolTable.lookup(gatekeeperTargetSymbol);
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), String.format(EventMetaModel.overrideTemplate, /*++*/gatekeeperSourceSymbol.version)));
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[1], gatekeeperSourceSymbol.getName(), gatekeeperSourceSymbol.getFullyQualifiedId()));
