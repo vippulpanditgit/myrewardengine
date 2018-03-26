@@ -9,6 +9,7 @@ import java.util.Stack;
 import java.util.UUID;
 
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.model.Marker;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -78,8 +79,10 @@ public class GroupMetaModel extends BaseMetaModel {
 				lookupEvent.setNamespace(namespace);
 				Symbol eventSymbol = MyRewardParser.symbolTable.lookup(lookupEvent);
 				if(ordinalMetaModel instanceof AnyMetaModel) {
+					int anyGroupIndex = groupOpCodes.size();
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?8:6));
 					groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,2));
+					int ordinalGroupIndex = groupOpCodes.size();
 					groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[1]));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], parentEventSymbol.getFullyQualifiedId()));
