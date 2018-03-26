@@ -41,7 +41,7 @@ public class MetaSubGroupEventNoRewardTestCase extends BaseTestCase {
 				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF.I").isShowFlagSet());
 				
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF").eventCount==1);
-				
+				System.out.println("***** Next Event");
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("E", new Date()));
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GC.E").name.equalsIgnoreCase("test.GA.GC.E"));
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GC.E").eventCount==1);
