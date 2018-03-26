@@ -95,7 +95,7 @@ public class test {
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
             AppContext.getInstance().add("test_event_hash", 
-            		new test().createMetaOpCodeProcessor(appInstanceContext, event_2_groups_triggered_by_same_event));
+            		new test().createMetaOpCodeProcessor(appInstanceContext, pseudo));
             appInstanceContext.isDebug = true;
             appInstanceContext.actor = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();

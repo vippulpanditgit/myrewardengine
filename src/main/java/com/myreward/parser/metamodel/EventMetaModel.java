@@ -159,6 +159,7 @@ public class EventMetaModel extends BaseMetaModel {
 					}
 					if(parentEventMetaModel!=null) {
 						Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
+						parentEventSymbol.setNamespace(parentEventMetaModel.namespace);
 						parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 						parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 					}
