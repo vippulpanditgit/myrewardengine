@@ -96,6 +96,8 @@ public class GroupMetaModel extends BaseMetaModel {
 						groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,2));
 						groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[1]));
 					}*/
+					groupOpCodes.remove(anyGroupIndex);
+					groupOpCodes.add(anyGroupIndex, String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),groupOpCodes.size()+1-anyGroupIndex));
 				} else if(ordinalMetaModel instanceof AllMetaModel) {
 					
 				}
