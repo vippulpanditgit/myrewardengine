@@ -35,14 +35,11 @@ public class PackageMetaModel extends BaseMetaModel {
 		return packageOpcodeList.toArray(new String[0]);
 	}
 	@Override
-	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
-		List<String> packageOpcodeList = new ArrayList<String>();
+	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
 		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
 		while(packageMetaModelListIterator.hasNext()) {
-			callStackFunctionModel.addAll(packageMetaModelListIterator.next().call_stack(callStackFunctionModel));
+			packageMetaModelListIterator.next().call_stack(callStackFunctionModel);
 		}
-		packageOpcodeList.add("return");
-		return callStackFunctionModel;
 	}
 
 }

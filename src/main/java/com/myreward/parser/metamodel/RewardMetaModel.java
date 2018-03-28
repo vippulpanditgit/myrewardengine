@@ -49,9 +49,9 @@ public class RewardMetaModel extends BaseMetaModel {
 		return rewardOpCodeList.toArray(new String[0]);
 	}
 	@Override
-	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
+	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
 		// TODO Auto-generated method stub
-		return null;
+		return;
 	}
 
 }

@@ -19,6 +19,7 @@ import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
+import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.util.MyRewardParserUtil;
 import com.myreward.parser.util.RuntimeLib;
 
@@ -81,9 +82,10 @@ public class MetaOpCodeProcessor {
 
         myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
         myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
-        fileContext.myRewardDef.myRewardMetaModel.call_stack(null);     
+        CallStackFunctionModel callStackFunctionModel=new CallStackFunctionModel();
+        fileContext.myRewardDef.myRewardMetaModel.call_stack(callStackFunctionModel);     
 //        myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack(null))); //mapping of event name to id
-        
+//        myRewardCodeGenerator.getCodeSegment().addAll(
         this.setMyRewardPCodeGenerator(myRewardCodeGenerator);
         if(isReturnGeneratedPCode) {
         		return this.getPCode();

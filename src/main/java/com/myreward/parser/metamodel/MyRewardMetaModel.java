@@ -2,9 +2,11 @@ package com.myreward.parser.metamodel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.ibm.icu.impl.UResource.Array;
 import com.myreward.parser.model.CallStackFunctionModel;
 
 public class MyRewardMetaModel extends BaseMetaModel {
@@ -31,16 +33,28 @@ public class MyRewardMetaModel extends BaseMetaModel {
 	}
 
 	@Override
-	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
-		List<String> myRewardOpcodeList = new ArrayList<String>();
+	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
 		if(callStackFunctionModel==null)
 			callStackFunctionModel = new CallStackFunctionModel();
-		myRewardOpcodeList.add("lbl_main");
+		callStackFunctionModel.add("lbl_main", null, new String[]{"lbl_main"});
 		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
 		while(packageMetaModelListIterator.hasNext()) {
-			callStackFunctionModel.addAll(packageMetaModelListIterator.next().call_stack(callStackFunctionModel));
+			packageMetaModelListIterator.next().call_stack(callStackFunctionModel);
 		}
-		return callStackFunctionModel;
+		callStackFunctionModel.add("return", null, new String[]{"return"});
+		this.optimize_events(callStackFunctionModel);
 	}
-
+	private void optimize_events(CallStackFunctionModel callStackFunctionModel) {
+		Hashtable<String, Integer> functionXRef = new Hashtable<String, Integer>();
+		List<String> code = new ArrayList<String>();
+		for(int index=0;index< callStackFunctionModel.v_table_function_list.size();index++) {
+			if(functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName)==null) {
+				functionXRef.put(callStackFunctionModel.v_table_function_list.get(index).eventName, new Integer(code.size()));
+				code.addAll(Arrays.asList(callStackFunctionModel.v_table_function_list.get(index).p_code_lst));
+			} else {
+				Integer functionIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName);
+				
+			}
+		}
+	}
 }

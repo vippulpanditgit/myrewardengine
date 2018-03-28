@@ -67,8 +67,8 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 		return gatekeeperOpcodes.toArray(new String[0]);
 	}
 	@Override
-	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
-		return eventMetaModel.call_stack(callStackFunctionModel);
+	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
+		eventMetaModel.call_stack(callStackFunctionModel);
 	}
 
 

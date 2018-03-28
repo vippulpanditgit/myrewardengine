@@ -16,9 +16,9 @@ public class LogicMetaModel extends BaseMetaModel {
 		return null;
 	}
 	@Override
-	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
+	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
 		// TODO Auto-generated method stub
-		return null;
+		return;
 	}
 
 }
