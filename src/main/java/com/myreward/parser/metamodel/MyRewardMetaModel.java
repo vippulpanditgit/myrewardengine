@@ -53,6 +53,15 @@ public class MyRewardMetaModel extends BaseMetaModel {
 				code.addAll(Arrays.asList(callStackFunctionModel.v_table_function_list.get(index).p_code_lst));
 			} else {
 				Integer functionIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName);
+				String[] otherSameEventPCode = callStackFunctionModel.v_table_function_list.get(index).p_code_lst;
+				int otherSameEventPCodeSize = callStackFunctionModel.v_table_function_list.get(index).p_code_lst.length;
+				if(callStackFunctionModel.v_table_function_list.size() < (index+1)) {//Check if last
+					//if not
+					Integer nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index+1).eventName);
+					code.remove(nextCodeSegmentIndex-1);
+					code.addAll(nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
+				}
+				
 				
 			}
 		}
