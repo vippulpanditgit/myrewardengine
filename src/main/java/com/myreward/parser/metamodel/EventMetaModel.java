@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.myreward.parser.generator.MyRewardFunctionXRef;
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -309,7 +310,7 @@ public class EventMetaModel extends BaseMetaModel {
 	}
 
 	@Override
-	public String[] call_stack() {
+	public CallStackFunctionModel call_stack() {
 		if(groupMetaModel!=null 
 				&& groupMetaModel.eventMetaModelList!=null 
 				&& groupMetaModel.eventMetaModelList.size()>0) {

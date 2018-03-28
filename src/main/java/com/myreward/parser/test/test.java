@@ -64,7 +64,6 @@ public class test {
 												+ "}"
 											+ "}"
 										+ "}";
-			String pseudo = "package test event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)}, event(GF).any(1) {event(H), event(I)}}";
 			String pseudo_2_groups = "package test event(GA).any(1) {event(B), event(C)}.reward(1) event(GD).any(1){event(E), event(F)}.reward(1)";
 			String pseudo2 = "package test event(GA).any(1) {event(B).any(1), event(C)}.between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(100,1000)";
 			String pseudo_standalone = "package test event(A).any(1).reward(1).repeat(WEEKLY,2)";
@@ -92,10 +91,11 @@ public class test {
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
 			String event_2_groups_triggered_by_same_event = "package test event(GA).any(1){event(A), event(B)} event(GAA).any(1){event(A), event(C)}";
+			String pseudo = "package test event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)}, event(GF).any(1) {event(H), event(I)}}";
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
             AppContext.getInstance().add("test_event_hash", 
-            		new test().createMetaOpCodeProcessor(appInstanceContext, pseudo));
+            		new test().createMetaOpCodeProcessor(appInstanceContext, event_2_groups_triggered_by_same_event));
             appInstanceContext.isDebug = true;
             appInstanceContext.actor = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();
@@ -103,36 +103,41 @@ public class test {
             appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
             appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
             															appInstanceContext.dataSegment);
-    		EventDO eventDO = new EventDO();
-    		eventDO.setActivityName("A");
-    		eventDO.setActivityDate(new Date());
-			appInstanceContext.print_data_segment();
+	    		EventDO eventDO = new EventDO();
+	    		eventDO.setActivityName("D");
+	    		eventDO.setActivityDate(new Date());
+	    		processEvent(appInstanceContext, eventDO);
+	    		processEvent(appInstanceContext, eventDO);
+	    		processEvent(appInstanceContext, eventDO);
 
-    		try {
-    			if(appInstanceContext.isInstanceReady())
-    				appInstanceContext.eventProcessor.process_event(eventDO);
-    		} catch(DebugException debugException) {
-    			appInstanceContext.eventProcessor.setMyRewardDataSegment(debugException.myRewardDataSegment);
-    			while(true) {
-    				try {
-    					int index = appInstanceContext.eventProcessor.step(debugException.opCodeIndex, debugException.eventDO);
-    					debugException.opCodeIndex = index;
-    					if(appInstanceContext.eventProcessor.getInstructionOpCodes().size()-1<=index)
-    						break;
-    				} catch(DebugException deepDebugException) {
-    					debugException.eventDO = deepDebugException.eventDO;
-    					debugException.myRewardDataSegment = deepDebugException.myRewardDataSegment;
-    					debugException.opCodeIndex = deepDebugException.opCodeIndex;
-    				}
-    			}
-    		}
-//    			byte[] json = ObjectJsonSerializer.toJson(appInstanceContext.eventProcessor.getMyRewardDataSegment().getDataObject(66), null);
-//    			System.out.println(new String(json));
-    			appInstanceContext.print_data_segment();
 		} catch(Exception exp) {
 			exp.printStackTrace();
 		}
 
     }
+	private static void processEvent(AppInstanceContext appInstanceContext, EventDO eventDO) throws Exception {
+		appInstanceContext.print_data_segment();
+		try {
+			if(appInstanceContext.isInstanceReady())
+				appInstanceContext.eventProcessor.process_event(eventDO);
+		} catch(DebugException debugException) {
+			appInstanceContext.eventProcessor.setMyRewardDataSegment(debugException.myRewardDataSegment);
+			while(true) {
+				try {
+					int index = appInstanceContext.eventProcessor.step(debugException.opCodeIndex, debugException.eventDO);
+					debugException.opCodeIndex = index;
+					if(appInstanceContext.eventProcessor.getInstructionOpCodes().size()-1<=index)
+						break;
+				} catch(DebugException deepDebugException) {
+					debugException.eventDO = deepDebugException.eventDO;
+					debugException.myRewardDataSegment = deepDebugException.myRewardDataSegment;
+					debugException.opCodeIndex = deepDebugException.opCodeIndex;
+				}
+			}
+		}
+//    			byte[] json = ObjectJsonSerializer.toJson(appInstanceContext.eventProcessor.getMyRewardDataSegment().getDataObject(66), null);
+//    			System.out.println(new String(json));
+			appInstanceContext.print_data_segment();
+	}
 
 }
