@@ -18,5 +18,8 @@ public class CallStackFunctionModel {
 	public void add(String eventName, String namespace, String[] p_code_lst) {
 		v_table_function_list.add(new _v_table_function(eventName, namespace, p_code_lst));
 	}
+	public void addAll(CallStackFunctionModel callStackFunctionModel) {
+		v_table_function_list.addAll(callStackFunctionModel.v_table_function_list);
+	}
 
 }

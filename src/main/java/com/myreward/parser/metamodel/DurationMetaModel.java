@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 import com.myreward.parser.util.DateTimeConvertorUtil;
@@ -51,7 +52,7 @@ public class DurationMetaModel extends BaseMetaModel {
 		return durationOpCodeList.toArray(new String[0]);
 	}
 	@Override
-	public String[] call_stack() {
+	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}

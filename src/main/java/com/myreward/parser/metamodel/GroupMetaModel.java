@@ -9,6 +9,7 @@ import java.util.Stack;
 import java.util.UUID;
 
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.Marker;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
@@ -122,17 +123,17 @@ public class GroupMetaModel extends BaseMetaModel {
 		return groupOpcodeList.toArray(new String[0]);
 	}
 	@Override
-	public String[] call_stack() {
+	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
 		List<String> groupOpcodeList = new ArrayList<String>();
 		if(eventMetaModelList!=null && eventMetaModelList.size()>0) { // events that are part of the group
 			ListIterator<EventMetaModel> groupMetaModelListIterator = eventMetaModelList.listIterator();
 			while(groupMetaModelListIterator.hasNext()) {
-				groupOpcodeList.addAll(Arrays.asList(groupMetaModelListIterator.next().call_stack()));
+				callStackFunctionModel.addAll(groupMetaModelListIterator.next().call_stack(callStackFunctionModel));
 			}
 		} else { // Standalone event with"any"
 			
 		}
-		return groupOpcodeList.toArray(new String[0]);
+		return callStackFunctionModel;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -35,7 +36,7 @@ public class ShowMetaModel extends BaseMetaModel {
 	}
 
 	@Override
-	public String[] call_stack() {
+	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}

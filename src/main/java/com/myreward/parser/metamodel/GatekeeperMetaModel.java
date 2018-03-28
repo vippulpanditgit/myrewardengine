@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -66,8 +67,8 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 		return gatekeeperOpcodes.toArray(new String[0]);
 	}
 	@Override
-	public String[] call_stack() {
-		return eventMetaModel.call_stack();
+	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
+		return eventMetaModel.call_stack(callStackFunctionModel);
 	}
 
 

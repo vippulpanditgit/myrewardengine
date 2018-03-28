@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.myreward.parser.model.CallStackFunctionModel;
+
 public class MyRewardMetaModel extends BaseMetaModel {
 	public List<PackageMetaModel> myRewardMetaModelList = new ArrayList<PackageMetaModel>();
 
@@ -29,14 +31,16 @@ public class MyRewardMetaModel extends BaseMetaModel {
 	}
 
 	@Override
-	public String[] call_stack() {
+	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
 		List<String> myRewardOpcodeList = new ArrayList<String>();
+		if(callStackFunctionModel==null)
+			callStackFunctionModel = new CallStackFunctionModel();
 		myRewardOpcodeList.add("lbl_main");
 		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
 		while(packageMetaModelListIterator.hasNext()) {
-			myRewardOpcodeList.addAll(Arrays.asList(packageMetaModelListIterator.next().call_stack()));
+			callStackFunctionModel.addAll(packageMetaModelListIterator.next().call_stack(callStackFunctionModel));
 		}
-		return myRewardOpcodeList.toArray(new String[0]);
+		return callStackFunctionModel;
 	}
 
 }

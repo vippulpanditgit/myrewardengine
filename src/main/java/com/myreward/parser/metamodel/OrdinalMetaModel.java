@@ -3,6 +3,8 @@ package com.myreward.parser.metamodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myreward.parser.model.CallStackFunctionModel;
+
 public class OrdinalMetaModel extends BaseMetaModel {
 	public int ordinal;
 	public List<GroupMetaModel> groupMetaModel = new ArrayList<GroupMetaModel>();
@@ -17,7 +19,7 @@ public class OrdinalMetaModel extends BaseMetaModel {
 		return null;
 	}
 	@Override
-	public String[] call_stack() {
+	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}

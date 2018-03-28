@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -34,14 +35,14 @@ public class PackageMetaModel extends BaseMetaModel {
 		return packageOpcodeList.toArray(new String[0]);
 	}
 	@Override
-	public String[] call_stack() {
+	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
 		List<String> packageOpcodeList = new ArrayList<String>();
 		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
 		while(packageMetaModelListIterator.hasNext()) {
-			packageOpcodeList.addAll(Arrays.asList(packageMetaModelListIterator.next().call_stack()));
+			callStackFunctionModel.addAll(packageMetaModelListIterator.next().call_stack(callStackFunctionModel));
 		}
 		packageOpcodeList.add("return");
-		return packageOpcodeList.toArray(new String[0]);
+		return callStackFunctionModel;
 	}
 
 }

@@ -81,7 +81,8 @@ public class MetaOpCodeProcessor {
 
         myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
         myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
-        myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack())); //mapping of event name to id
+        fileContext.myRewardDef.myRewardMetaModel.call_stack(null);     
+//        myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack(null))); //mapping of event name to id
         
         this.setMyRewardPCodeGenerator(myRewardCodeGenerator);
         if(isReturnGeneratedPCode) {

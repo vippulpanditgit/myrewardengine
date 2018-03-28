@@ -1,5 +1,7 @@
 package com.myreward.parser.metamodel;
 
+import com.myreward.parser.model.CallStackFunctionModel;
+
 public class LogicMetaModel extends BaseMetaModel {
 	private EventMetaModel lhsEventMetaModel;
 	private EventMetaModel rhsEventMetaModel;
@@ -14,7 +16,7 @@ public class LogicMetaModel extends BaseMetaModel {
 		return null;
 	}
 	@Override
-	public String[] call_stack() {
+	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}

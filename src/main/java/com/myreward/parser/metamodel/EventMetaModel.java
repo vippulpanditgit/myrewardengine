@@ -310,11 +310,11 @@ public class EventMetaModel extends BaseMetaModel {
 	}
 
 	@Override
-	public CallStackFunctionModel call_stack() {
+	public CallStackFunctionModel call_stack(CallStackFunctionModel callStackFunctionModel) {
 		if(groupMetaModel!=null 
 				&& groupMetaModel.eventMetaModelList!=null 
 				&& groupMetaModel.eventMetaModelList.size()>0) {
-			return groupMetaModel.call_stack();
+			return groupMetaModel.call_stack(callStackFunctionModel);
 		} else {	
 			Symbol metaSymbol = new Symbol(eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;
@@ -327,10 +327,11 @@ public class EventMetaModel extends BaseMetaModel {
 			level = this.climbUpTheEventStackTree(this, callStackOpCodeList, level);
 			callStackOpCodeList.add(0, String.format(prefixCallStackOpCodeListTemplate[0], eventName, level+3));
 			callStackOpCodeList.add(String.format(suffixCallStackOpCodeListTemplate[0], eventName));
+			callStackFunctionModel.add(eventName, namespace, callStackOpCodeList.toArray(new String[0]));
 			if(this.gatekeeperMetaModel!=null) {
-				callStackOpCodeList.addAll(Arrays.asList(this.gatekeeperMetaModel.call_stack()));
+				callStackFunctionModel.addAll(this.gatekeeperMetaModel.call_stack(callStackFunctionModel));
 			}
-			return callStackOpCodeList.toArray(new String[0]);
+			return callStackFunctionModel;
 		}
 	}
 	private int climbUpTheEventStackTree(BaseMetaModel eventMetaModel, List<String> callStackOpCodeList, int level) {
