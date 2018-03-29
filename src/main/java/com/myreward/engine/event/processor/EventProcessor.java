@@ -59,6 +59,8 @@ public class EventProcessor {
 		int lbl_main_index = findMainOpCode();
 		if(lbl_main_index==0)
 			throw new EventProcessingException(ErrorCode.LABEL_MAIN_NOT_FOUND);
+		if(lbl_main_index==this.instructionOpCodes.size())
+			throw new EventProcessingException(ErrorCode.LABEL_MAIN_NOT_FOUND);
 		//Testing - VP
 		try {
 			step(lbl_main_index, eventDO);
