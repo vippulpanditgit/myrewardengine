@@ -42,11 +42,13 @@ public class MyRewardMetaModel extends BaseMetaModel {
 			packageMetaModelListIterator.next().call_stack(callStackFunctionModel);
 		}
 		callStackFunctionModel.add("return", null, new String[]{"return"});
-		this.optimize_events(callStackFunctionModel);
+		String[] call_stack = this.optimize_events(callStackFunctionModel);
+		System.out.println("Test");
 	}
-	private void optimize_events(CallStackFunctionModel callStackFunctionModel) {
+	private String[] optimize_events(CallStackFunctionModel callStackFunctionModel) {
 		Hashtable<String, Integer> functionXRef = new Hashtable<String, Integer>();
 		List<String> code = new ArrayList<String>();
+		int netCodeDisplacement = 0;
 		for(int index=0;index< callStackFunctionModel.v_table_function_list.size();index++) {
 			if(functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName)==null) {
 				functionXRef.put(callStackFunctionModel.v_table_function_list.get(index).eventName, new Integer(code.size()));
@@ -55,15 +57,28 @@ public class MyRewardMetaModel extends BaseMetaModel {
 				Integer functionIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName);
 				String[] otherSameEventPCode = callStackFunctionModel.v_table_function_list.get(index).p_code_lst;
 				int otherSameEventPCodeSize = callStackFunctionModel.v_table_function_list.get(index).p_code_lst.length;
-				if(callStackFunctionModel.v_table_function_list.size() < (index+1)) {//Check if last
+				if(callStackFunctionModel.v_table_function_list.size() >= (functionIndex.intValue()+1)) {//Check if last
 					//if not
-					Integer nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index+1).eventName);
-					code.remove(nextCodeSegmentIndex-1);
-					code.addAll(nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
-				}
-				
-				
+					Integer nextCodeSegmentIndex = 0;
+					if(callStackFunctionModel.v_table_function_list.size() > (functionIndex.intValue()+1))
+						nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(functionIndex.intValue()+1).eventName);
+					else
+						nextCodeSegmentIndex = code.size();
+					code.remove(nextCodeSegmentIndex-1);//remove "return"
+					if(callStackFunctionModel.v_table_function_list.size() > (functionIndex.intValue()+1))
+						code.addAll(netCodeDisplacement+nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
+					else 
+						code.addAll(nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
+					code.remove(nextCodeSegmentIndex-1);// remove "if..."
+					netCodeDisplacement += (otherSameEventPCodeSize - 2);
+/*					for(int lowerIndex=index+1;lowerIndex<callStackFunctionModel.v_table_function_list.size();lowerIndex++) {
+						Integer sizeValue = functionXRef.get(callStackFunctionModel.v_table_function_list.get(lowerIndex).eventName);
+						sizeValue += otherSameEventPCodeSize;
+						functionXRef.put(callStackFunctionModel.v_table_function_list.get(index).eventName, sizeValue);
+					}
+*/				}
 			}
 		}
+		return code.toArray(new String[0]);
 	}
 }

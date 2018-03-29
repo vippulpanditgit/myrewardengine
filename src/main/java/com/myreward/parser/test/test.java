@@ -91,11 +91,12 @@ public class test {
 			
 			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
 			String event_2_groups_triggered_by_same_event = "package test event(GA).any(1){event(A), event(B)} event(GAA).any(1){event(A), event(C)}";
+			String event_2_groups_triggered_by_2_same_event = "package test event(GA).any(1){event(A), event(B)} event(GAA).any(1){event(A), event(B)}";
 			String pseudo = "package test event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)}, event(GF).any(1) {event(H), event(I)}}";
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
             AppContext.getInstance().add("test_event_hash", 
-            		new test().createMetaOpCodeProcessor(appInstanceContext, event_2_groups_triggered_by_same_event));
+            		new test().createMetaOpCodeProcessor(appInstanceContext, event_2_groups_triggered_by_2_same_event));
             appInstanceContext.isDebug = true;
             appInstanceContext.actor = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();
