@@ -315,7 +315,6 @@ public class EventMetaModel extends BaseMetaModel {
 				&& groupMetaModel.eventMetaModelList!=null 
 				&& groupMetaModel.eventMetaModelList.size()>0) {
 			groupMetaModel.call_stack(callStackFunctionModel);
-			return;
 		} else {	
 			Symbol metaSymbol = new Symbol(eventName);
 			SymbolTable symbolTable = MyRewardParser.symbolTable;

@@ -123,7 +123,7 @@ public class GroupMetaModel extends BaseMetaModel {
 		return groupOpcodeList.toArray(new String[0]);
 	}
 	@Override
-	public String[] call_stack(CallStackFunctionModel callStackFunctionModel) {
+	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
 		if(eventMetaModelList!=null && eventMetaModelList.size()>0) { // events that are part of the group
 			ListIterator<EventMetaModel> groupMetaModelListIterator = eventMetaModelList.listIterator();
 			while(groupMetaModelListIterator.hasNext()) {
@@ -132,7 +132,6 @@ public class GroupMetaModel extends BaseMetaModel {
 		} else { // Standalone event with"any"
 			
 		}
-		return null;
 	}
 
 }

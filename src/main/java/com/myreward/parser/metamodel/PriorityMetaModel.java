@@ -39,7 +39,6 @@ public class PriorityMetaModel extends BaseMetaModel {
 	@Override
 	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
 		// TODO Auto-generated method stub
-		return;
 	}
 
 }

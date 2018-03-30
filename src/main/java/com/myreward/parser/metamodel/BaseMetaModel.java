@@ -15,7 +15,5 @@ public abstract class BaseMetaModel {
 	public Symbol metaSymbol;
 	public abstract String[] build();
 	public abstract String[] model();
-	public abstract String[] call_stack(CallStackFunctionModel callStackFunctionModel);
-	
-
+	public abstract void call_stack(CallStackFunctionModel callStackFunctionModel);
 }
