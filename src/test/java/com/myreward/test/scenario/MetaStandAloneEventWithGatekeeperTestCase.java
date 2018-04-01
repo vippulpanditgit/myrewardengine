@@ -10,8 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.myreward.parser.test.BaseTestCase;
-import com.myreward.parser.test.scenario.MetaStandAloneEvent;
-import com.myreward.parser.test.scenario.MetaStandAloneEventWithGatekeeper;
 
 public class MetaStandAloneEventWithGatekeeperTestCase extends BaseTestCase {
 

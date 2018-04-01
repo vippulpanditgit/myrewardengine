@@ -1,16 +1,15 @@
 package com.myreward.test.scenario;
 
-import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Date;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.myreward.parser.test.BaseTestCase;
-
 import com.myreward.parser.test.scenario.MetaSimpleGroupEvent;
 
 public class MetaSimpleGroupEventTestCase extends BaseTestCase {

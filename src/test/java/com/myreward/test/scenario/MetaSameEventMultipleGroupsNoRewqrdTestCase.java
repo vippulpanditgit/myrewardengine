@@ -1,37 +1,18 @@
 package com.myreward.test.scenario;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
-import java.util.UUID;
 
-import org.antlr.v4.runtime.RecognitionException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.myreward.engine.app.AppContext;
-import com.myreward.engine.app.AppInstanceContext;
-import com.myreward.engine.event.error.MetaDataParsingException;
-import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.parser.test.BaseTestCase;
-import com.myreward.parser.test.test;
 import com.myreward.parser.test.scenario.MetaSameEventMultipleGroupsNoReward;
-import com.myreward.parser.test.scenario.MetaSubGroupEventNoReward;
 
 public class MetaSameEventMultipleGroupsNoRewqrdTestCase extends BaseTestCase {
-	
-	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException {
-		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor(appInstanceContext);
-		metaOpCodeProcessor.initialize();
-		assertNotNull(metaOpCodeProcessor);
-		metaOpCodeProcessor.parse(rule, false);
-		metaOpCodeProcessor.print_code_segment();
-		return metaOpCodeProcessor;
-	}
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
