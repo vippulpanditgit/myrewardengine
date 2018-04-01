@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.myreward.parser.test.BaseTestCase;
-import com.myreward.parser.test.scenario.MetaStandAloneEvent;
 import com.myreward.parser.test.scenario.MetaSubGroupEventNoReward;
 
 public class MetaSubGroupEventNoRewardTestCase extends BaseTestCase {
@@ -47,7 +46,7 @@ public class MetaSubGroupEventNoRewardTestCase extends BaseTestCase {
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GC.E").eventCount==1);
 				this.getAppInstanceContext().print_data_segment();
 
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GC").eventCount==0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GC").eventCount==1);
 				this.getAppInstanceContext().print_data_segment();
 			}
 		} catch (Exception e) {

@@ -2,13 +2,15 @@ package com.myreward.test.scenario;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.myreward.engine.event.error.MetaDataParsingException;
 import com.myreward.parser.test.BaseTestCase;
+
 import com.myreward.parser.test.scenario.MetaSimpleGroupEvent;
 
 public class MetaSimpleGroupEventTestCase extends BaseTestCase {
@@ -23,7 +25,6 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 		super.tearDown();
 	}
 
-	@Test
 	public void run_events() {
 		try {
 			this.getAppInstanceContext().print_data_segment();
@@ -42,6 +43,7 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").eventCount==1);
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").getReward()==1.0);
 				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").isEventCompletionFlagSet());
+				System.out.println("***** Next Event");
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("C", new Date()));
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").name.equalsIgnoreCase("test.GA.C"));
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").eventCount==1);
@@ -53,7 +55,7 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").getReward()==2.0);
 				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").isEventCompletionFlagSet());
 				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isEventCompletionFlagSet());
-
+				this.getAppInstanceContext().print_data_segment();
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
