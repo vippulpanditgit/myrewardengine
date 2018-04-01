@@ -16,7 +16,7 @@ import com.myreward.engine.model.event.EventDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
 
 public abstract class BaseTestCase {
-	private AppInstanceContext appInstanceContext;
+	protected AppInstanceContext appInstanceContext;
 	
 	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException {
 		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor(appInstanceContext);
@@ -29,7 +29,7 @@ public abstract class BaseTestCase {
 	@BeforeEach
 	public void setUp() throws Exception {
         appInstanceContext = new AppInstanceContext();
-        AppContext.getInstance().add("test_rule", new test().createMetaOpCodeProcessor(appInstanceContext, getRule()));
+        AppContext.getInstance().add("test_rule", this.createMetaOpCodeProcessor(appInstanceContext, getRule()));
         appInstanceContext.isDebug = false;
         appInstanceContext.actor = "vippul";
         appInstanceContext.uuid = UUID.randomUUID().toString();

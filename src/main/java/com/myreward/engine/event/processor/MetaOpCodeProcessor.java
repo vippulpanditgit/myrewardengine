@@ -85,9 +85,6 @@ public class MetaOpCodeProcessor {
         CallStackFunctionModel callStackFunctionModel = new CallStackFunctionModel();
         fileContext.myRewardDef.myRewardMetaModel.call_stack(callStackFunctionModel);  
         myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.optimize_events(callStackFunctionModel)));
-
-//        myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.call_stack(null))); //mapping of event name to id
-//        myRewardCodeGenerator.getCodeSegment().addAll(
         this.setMyRewardPCodeGenerator(myRewardCodeGenerator);
         if(isReturnGeneratedPCode) {
         		return this.getPCode();

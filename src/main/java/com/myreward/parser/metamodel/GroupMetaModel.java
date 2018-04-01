@@ -29,7 +29,7 @@ public class GroupMetaModel extends BaseMetaModel {
 //	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s"};
 //	private String[] suffixGroupOpCodesListTemplate = {"set_ref(%s)", "pop_ref(%s)", "return"};
 //	private String[] anyLogicGroupOpCodesListTemplate = {"OP_OR", "push_ref(%s)", "ifref_num(%s,%d)", "call_rwd(%s)", "return"};
-	private String[] anyLogicGroupOpCodesListTemplate = {"if_cmp_flg_set(%s,,+%d)","inc_cmp_cnt(%s)","set_cmp_flg(%s)","reset_cmp_flg(%s)"};
+	private String[] anyLogicGroupOpCodesListTemplate = {"if_cmp_flg_set(%s,,+%d)","inc_cmp_cnt(%s)",/*"set_cmp_flg(%s)",*/"reset_cmp_flg(%s)"};
 	private String[] plainAnyLogicGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","set_cmp_flg(%s)","return"};
 	private String[] rewardGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","set_cmp_flg(%s)","call_rwd(%s:%s)","return"};
 	private String[] allLogicGroupOpCodesListTemplate = {"OP_AND", "push_ref(%s)"};
@@ -83,8 +83,8 @@ public class GroupMetaModel extends BaseMetaModel {
 					int anyGroupIndex = groupOpCodes.size();
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?8:6));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));
-					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], parentEventSymbol.getFullyQualifiedId()));
-					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[3], eventSymbol.getFullyQualifiedId()));
+//					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], parentEventSymbol.getFullyQualifiedId()));
+					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
 					if(rewardMetaModel!=null) {
 						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,4));
 						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));						

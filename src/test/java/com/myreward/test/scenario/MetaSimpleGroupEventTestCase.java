@@ -25,6 +25,7 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void run_events() {
 		try {
 			this.getAppInstanceContext().print_data_segment();
