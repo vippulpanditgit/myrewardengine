@@ -54,6 +54,8 @@ public class MyRewardMetaModel extends BaseMetaModel {
 		int netCodeDisplacement = 0;
 		for(int index=0;index< callStackFunctionModel.v_table_function_list.size();index++) {
 			if(functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName)==null) {
+				if(StringUtils.equalsIgnoreCase(callStackFunctionModel.v_table_function_list.get(index).eventName, "return"))
+					continue;
 				functionXRef.put(callStackFunctionModel.v_table_function_list.get(index).eventName, new Integer(code.size()));
 				code.addAll(Arrays.asList(callStackFunctionModel.v_table_function_list.get(index).p_code_lst));
 			} else {

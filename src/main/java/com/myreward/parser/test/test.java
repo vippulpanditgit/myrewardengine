@@ -93,7 +93,7 @@ public class test {
 			String event_2_groups_triggered_by_same_event = "package test event(GA).any(1){event(A), event(B)} event(GAA).any(1){event(A), event(C)}";
 			String event_2_groups_triggered_by_2_same_event = "package test event(GA).any(1){event(A), event(B)} event(GAA).any(1){event(A), event(B)} event(GC).any(3) {event(A), event(C)}";
 			String pseudo = "package test event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)}, event(GF).any(1) {event(H), event(I)}}"
-					+ "package test1 event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)}, event(GF).any(1) {event(H), event(I)}}";
+					+ " package test1 event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)}, event(GF).any(1) {event(H), event(I)}}";
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
             AppContext.getInstance().add("test_event_hash", 
