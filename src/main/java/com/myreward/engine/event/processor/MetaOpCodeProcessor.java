@@ -117,9 +117,10 @@ public class MetaOpCodeProcessor {
 				int otherSameEventPCodeSize = callStackFunctionModel.v_table_function_list.get(index).p_code_lst.length;
 //				if(callStackFunctionModel.v_table_function_list.size() >= (functionIndex.intValue())) {//Check if last
 					//if not
-					Integer nextCodeSegmentIndex = 0;
-					if(callStackFunctionModel.v_table_function_list.size() > (functionIndex.intValue()+1))
-						nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(functionIndex.intValue()+1).eventName);
+					Integer nextCodeSegmentIndex = 0;//functionXRef.get(callStackFunctionModel.v_table_function_list.get(index+1).eventName);
+
+					if(!StringUtils.equalsIgnoreCase(callStackFunctionModel.v_table_function_list.get(index+1).eventName,"return"))
+						nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index+1).eventName);
 					else
 						nextCodeSegmentIndex = code.size();
 					code.remove(nextCodeSegmentIndex-1);//remove "return"
@@ -131,15 +132,22 @@ public class MetaOpCodeProcessor {
 						code.addAll(nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
 					code.remove(nextCodeSegmentIndex-1);// remove "if..."
 					netCodeDisplacement = (otherSameEventPCodeSize - 2);
+					final int codeDisplacement = netCodeDisplacement; 
 					String ifStmt = code.get(functionIndex);
 					code.remove(functionIndex.intValue());
 					code.add(functionIndex.intValue(), StringUtils.substringBefore(ifStmt, ",")+","+(Integer.valueOf(StringUtils.substringBetween(ifStmt, ",", ")"))+(otherSameEventPCodeSize - 2))+")");
-					for(int lowerIndex=functionIndex.intValue()+1; lowerIndex < functionXRef.size();lowerIndex++) {
+					for(int indexFunction=0;indexFunction<functionXRef.size();indexFunction++) {
+						String keyValue = functionXRef.keySet().toArray(new String[0])[indexFunction];
+						if(functionXRef.get(keyValue)> functionIndex.intValue()+1) {
+							functionXRef.put(keyValue, functionXRef.get(keyValue)+netCodeDisplacement);
+						}
+					}
+/*					for(int lowerIndex=functionIndex.intValue()+1; lowerIndex < functionXRef.size();lowerIndex++) {
 						String eventName = functionXRef.keySet().toArray(new String[0])[lowerIndex];
 						Integer sizeValue = functionXRef.get(eventName);
 						sizeValue += netCodeDisplacement;
 						functionXRef.put(eventName, sizeValue);
-					}
+					}*/
 /*					for(int lowerIndex=index+1;lowerIndex<callStackFunctionModel.v_table_function_list.size();lowerIndex++) {
 						Integer sizeValue = 0;
 						try {
