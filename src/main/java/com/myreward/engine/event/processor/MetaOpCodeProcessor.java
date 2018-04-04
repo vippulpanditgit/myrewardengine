@@ -81,6 +81,7 @@ public class MetaOpCodeProcessor {
 		}
 	}
 	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException {
+<<<<<<< HEAD
 		Myreward_defsContext fileContext = setup(rule).myreward_defs(); 
 		if(fileContext!=null && fileContext.children!=null && fileContext.children.size()>0) {
 	        this.setMyRewardPCodeGenerator(new MyRewardPCodeGenerator());
@@ -99,6 +100,21 @@ public class MetaOpCodeProcessor {
 	        		return this.getPCode();
 	        }
 		}
+=======
+        Myreward_defsContext fileContext = setup(rule).myreward_defs(); 
+        
+        MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
+//        MyRewardMetaModel myRewardMetaModel
+        myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
+        myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
+        CallStackFunctionModel callStackFunctionModel = new CallStackFunctionModel();
+        fileContext.myRewardDef.myRewardMetaModel.call_stack(callStackFunctionModel);  
+        myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.optimize_events(callStackFunctionModel)));
+        this.setMyRewardPCodeGenerator(myRewardCodeGenerator);
+        if(isReturnGeneratedPCode) {
+        		return this.getPCode();
+        }
+>>>>>>> 7cbeba37864e2f434695c2968b65e816995e3fbe
         return null;
 	}
 	public String[] optimize_events(CallStackFunctionModel callStackFunctionModel) {
