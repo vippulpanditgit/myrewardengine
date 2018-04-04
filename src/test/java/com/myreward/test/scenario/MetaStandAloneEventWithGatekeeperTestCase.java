@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.myreward.parser.test.BaseTestCase;
+import com.myreward.parser.test.scenario.MetaStandAloneEventWithGatekeeper;
 
 public class MetaStandAloneEventWithGatekeeperTestCase extends BaseTestCase {
 
@@ -23,7 +24,7 @@ public class MetaStandAloneEventWithGatekeeperTestCase extends BaseTestCase {
 		super.tearDown();
 	}
 
-	@Test
+//	@Test
 	public void run_events() {
 		try {
 			this.getAppInstanceContext().print_data_segment();

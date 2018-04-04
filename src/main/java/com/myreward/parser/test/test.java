@@ -109,8 +109,8 @@ public class test {
 	    		eventDO.setActivityName("E");
 	    		eventDO.setActivityDate(new Date());
 	    		processEvent(appInstanceContext, eventDO);
-	    		processEvent(appInstanceContext, eventDO);
-	    		processEvent(appInstanceContext, eventDO);
+//	    		processEvent(appInstanceContext, eventDO);
+//	    		processEvent(appInstanceContext, eventDO);
 
 		} catch(Exception exp) {
 			exp.printStackTrace();

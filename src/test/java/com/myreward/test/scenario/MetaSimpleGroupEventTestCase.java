@@ -17,11 +17,13 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
+		System.out.println("*** setUp()");
 	}
 
 	@AfterEach
 	public void tearDown() throws Exception {
 		super.tearDown();
+		System.out.println("*** tearDown()");
 	}
 
 	@Test

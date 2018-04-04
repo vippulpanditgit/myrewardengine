@@ -15,6 +15,7 @@ public class AppContext {
 
 	public void reset() {
 		instructionLibrary.clear();
+		instance = null;
 	}
 	public static AppContext getInstance() {
 		if (instance == null)

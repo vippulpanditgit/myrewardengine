@@ -5,9 +5,12 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.RecognitionException;
+import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.app.AppInstanceContext;
 import com.myreward.engine.event.error.ErrorCode;
@@ -18,7 +21,9 @@ import com.myreward.engine.event.opcode.processing.OpCodeBaseModel;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.grammar.MyRewardParser.Myreward_defContext;
 import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
+import com.myreward.parser.metamodel.MyRewardMetaModel;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.util.MyRewardParserUtil;
 import com.myreward.parser.util.RuntimeLib;
@@ -76,20 +81,81 @@ public class MetaOpCodeProcessor {
 		}
 	}
 	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException {
-        Myreward_defsContext fileContext = setup(rule).myreward_defs(); 
-        
-        MyRewardPCodeGenerator myRewardCodeGenerator = new MyRewardPCodeGenerator();
+		Myreward_defsContext fileContext = setup(rule).myreward_defs(); 
+		if(fileContext!=null && fileContext.children!=null && fileContext.children.size()>0) {
+	        this.setMyRewardPCodeGenerator(new MyRewardPCodeGenerator());
+	        CallStackFunctionModel callStackFunctionModel = new CallStackFunctionModel();
+			callStackFunctionModel.add("lbl_main", null, new String[]{"lbl_main"});
 
-        myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.model())); // side effect of receiving an event
-        myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.build())); // default execution of receiving the event
-        CallStackFunctionModel callStackFunctionModel = new CallStackFunctionModel();
-        fileContext.myRewardDef.myRewardMetaModel.call_stack(callStackFunctionModel);  
-        myRewardCodeGenerator.getCodeSegment().addAll(Arrays.asList(fileContext.myRewardDef.myRewardMetaModel.optimize_events(callStackFunctionModel)));
-        this.setMyRewardPCodeGenerator(myRewardCodeGenerator);
-        if(isReturnGeneratedPCode) {
-        		return this.getPCode();
-        }
+	        for(int index=0; index < fileContext.children.size();index++) {
+				MyRewardMetaModel myRewardMetaModel = ((Myreward_defContext)(fileContext.children.get(index))).myRewardMetaModel;
+		        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.model())); // side effect of receiving an event
+		        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.build())); // default execution of receiving the event
+		        myRewardMetaModel.call_stack(callStackFunctionModel);  
+			}
+	        callStackFunctionModel.add("return", null, new String[]{"return"});
+	        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(optimize_events(callStackFunctionModel)));
+	        if(isReturnGeneratedPCode) {
+	        		return this.getPCode();
+	        }
+		}
         return null;
+	}
+	public String[] optimize_events(CallStackFunctionModel callStackFunctionModel) {
+		Map<String, Integer> functionXRef = new LinkedHashMap<String, Integer>();
+		List<String> code = new ArrayList<String>();
+		int netCodeDisplacement = 0;
+		for(int index=0;index< callStackFunctionModel.v_table_function_list.size();index++) {
+			if(functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName)==null) {
+				if(StringUtils.equalsIgnoreCase(callStackFunctionModel.v_table_function_list.get(index).eventName, "return"))
+					continue;
+				functionXRef.put(callStackFunctionModel.v_table_function_list.get(index).eventName, new Integer(code.size()));
+				code.addAll(Arrays.asList(callStackFunctionModel.v_table_function_list.get(index).p_code_lst));
+			} else {
+				Integer functionIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName);
+				String[] otherSameEventPCode = callStackFunctionModel.v_table_function_list.get(index).p_code_lst;
+				int otherSameEventPCodeSize = callStackFunctionModel.v_table_function_list.get(index).p_code_lst.length;
+//				if(callStackFunctionModel.v_table_function_list.size() >= (functionIndex.intValue())) {//Check if last
+					//if not
+					Integer nextCodeSegmentIndex = 0;
+					if(callStackFunctionModel.v_table_function_list.size() > (functionIndex.intValue()+1))
+						nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(functionIndex.intValue()+1).eventName);
+					else
+						nextCodeSegmentIndex = code.size();
+					code.remove(nextCodeSegmentIndex-1);//remove "return"
+//					if(callStackFunctionModel.v_table_function_list.size() > (functionIndex.intValue()+1))
+					if(functionIndex.intValue()==functionXRef.get(functionXRef.keySet().toArray(new String[0])[functionXRef.size()-1])) //Check if last entry
+//						code.addAll(netCodeDisplacement+nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
+						code.addAll(Arrays.asList(otherSameEventPCode));
+					else 
+						code.addAll(nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
+					code.remove(nextCodeSegmentIndex-1);// remove "if..."
+					netCodeDisplacement = (otherSameEventPCodeSize - 2);
+					String ifStmt = code.get(functionIndex);
+					code.remove(functionIndex.intValue());
+					code.add(functionIndex.intValue(), StringUtils.substringBefore(ifStmt, ",")+","+(Integer.valueOf(StringUtils.substringBetween(ifStmt, ",", ")"))+(otherSameEventPCodeSize - 2))+")");
+					for(int lowerIndex=functionIndex.intValue()+1; lowerIndex < functionXRef.size();lowerIndex++) {
+						String eventName = functionXRef.keySet().toArray(new String[0])[lowerIndex];
+						Integer sizeValue = functionXRef.get(eventName);
+						sizeValue += netCodeDisplacement;
+						functionXRef.put(eventName, sizeValue);
+					}
+/*					for(int lowerIndex=index+1;lowerIndex<callStackFunctionModel.v_table_function_list.size();lowerIndex++) {
+						Integer sizeValue = 0;
+						try {
+							sizeValue = functionXRef.get(callStackFunctionModel.v_table_function_list.get(lowerIndex).eventName);
+							if(sizeValue!=null) {
+								sizeValue += netCodeDisplacement;
+								functionXRef.put(callStackFunctionModel.v_table_function_list.get(lowerIndex).eventName, sizeValue);
+							}
+						} catch(Exception exp) {
+							
+						}
+					}
+*///				}
+			}
+		}
+		return code.toArray(new String[0]);
 	}
 	public String[] getPCode() {
 		if(this.getMyRewardPCodeGenerator().getCodeSegment()!=null) {

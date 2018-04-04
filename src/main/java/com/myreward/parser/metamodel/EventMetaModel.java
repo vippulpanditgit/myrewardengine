@@ -197,6 +197,7 @@ public class EventMetaModel extends BaseMetaModel {
 	@Override
 	public String[] model() {
 		Symbol metaSymbol = new Symbol(eventName);
+ 
 		BaseMetaModel parentMetaModel = this.parent;
 		while(parentMetaModel!=null) {
 			if(parentMetaModel instanceof PackageMetaModel
@@ -305,6 +306,7 @@ public class EventMetaModel extends BaseMetaModel {
 				eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[2], metaSymbol.getFullyQualifiedId()));
 			}
 			eventOpCodeList.add(String.format(suffixEventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
+
 			return eventOpCodeList.toArray(new String[0]);
 		}
 	}
@@ -365,5 +367,7 @@ public class EventMetaModel extends BaseMetaModel {
 		}
 		return level;
 	}
-
+	public String toString() {
+		return eventName+"<<"+this.namespace;
+	}
 }

@@ -39,14 +39,14 @@ public class MyRewardMetaModel extends BaseMetaModel {
 
 	@Override
 	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
-		if(callStackFunctionModel==null)
-			callStackFunctionModel = new CallStackFunctionModel();
-		callStackFunctionModel.add("lbl_main", null, new String[]{"lbl_main"});
+//		if(callStackFunctionModel==null)
+//			callStackFunctionModel = new CallStackFunctionModel();
+//		callStackFunctionModel.add("lbl_main", null, new String[]{"lbl_main"});
 		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
 		while(packageMetaModelListIterator.hasNext()) {
 			packageMetaModelListIterator.next().call_stack(callStackFunctionModel);
 		}
-		callStackFunctionModel.add("return", null, new String[]{"return"});
+//		callStackFunctionModel.add("return", null, new String[]{"return"});
 	}
 	public String[] optimize_events(CallStackFunctionModel callStackFunctionModel) {
 		Map<String, Integer> functionXRef = new LinkedHashMap<String, Integer>();

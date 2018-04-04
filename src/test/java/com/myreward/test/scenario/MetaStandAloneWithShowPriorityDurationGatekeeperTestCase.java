@@ -24,7 +24,7 @@ public class MetaStandAloneWithShowPriorityDurationGatekeeperTestCase extends Ba
 		super.tearDown();
 	}
 
-	@Test
+//	@Test
 	public void run_events() {
 		try {
 			this.getAppInstanceContext().print_data_segment();

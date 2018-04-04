@@ -119,13 +119,13 @@ myreward_defs
 		}
 	;
 myreward_def returns [MyRewardMetaModel myRewardMetaModel]
-	: packageDef=package_def{$myRewardMetaModel = new MyRewardMetaModel();} (import_def{$packageDef.packageMetaModel.packageMetaModelList.add($import_def.importMetaModel);
+	: packageDef=package_def (import_def{$packageDef.packageMetaModel.packageMetaModelList.add($import_def.importMetaModel);
 										$import_def.importMetaModel.parent = $packageDef.packageMetaModel;})* 
 										(eventDef=event_def {
 					// Event Handling										
 					$eventDef.eventMetaModel.parent = $packageDef.packageMetaModel;
 					$packageDef.packageMetaModel.packageMetaModelList.add($eventDef.eventMetaModel);
-//					$myRewardMetaModel = new MyRewardMetaModel();
+					$myRewardMetaModel = new MyRewardMetaModel();
 					$packageDef.packageMetaModel.parent = $myRewardMetaModel;
 					$myRewardMetaModel.myRewardMetaModelList.add($packageDef.packageMetaModel);
 				}) +

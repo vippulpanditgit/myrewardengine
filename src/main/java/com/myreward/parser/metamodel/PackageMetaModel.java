@@ -37,7 +37,7 @@ public class PackageMetaModel extends BaseMetaModel {
 	@Override
 	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
 		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
-		List<String> call_stack = new ArrayList<String>();
+//		List<String> call_stack = new ArrayList<String>();
 		while(packageMetaModelListIterator.hasNext()) {
 			packageMetaModelListIterator.next().call_stack(callStackFunctionModel);
 		}
