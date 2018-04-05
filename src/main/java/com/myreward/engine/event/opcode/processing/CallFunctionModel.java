@@ -69,8 +69,10 @@ public class CallFunctionModel extends CallBaseModel {
 		while(true) {
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(++callbackFunctionModelIndex);
 System.out.println(opCodeBaseModel);
-			if(opCodeBaseModel instanceof ReturnModel)
+			if(opCodeBaseModel instanceof ReturnModel) {
+				operationResultDO = new ReturnModel().process(instructionOpCodes, myRewardDataSegment, null);
 				break;
+			}
 
 			operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, event);
 			if(operationResultDO instanceof IfOperationResult) {
@@ -80,8 +82,10 @@ System.out.println(opCodeBaseModel);
 				else {
 					while(callbackFunctionModelIndex<instructionOpCodes.size()) {
 						callbackFunctionModelIndex++;
-						if(instructionOpCodes.get(callbackFunctionModelIndex) instanceof ReturnModel)
+						if(instructionOpCodes.get(callbackFunctionModelIndex) instanceof ReturnModel) {
+							operationResultDO = new ReturnModel().process(instructionOpCodes, myRewardDataSegment, null);
 							break;
+						}
 					}
 				}
 			}

@@ -142,25 +142,6 @@ public class MetaOpCodeProcessor {
 							functionXRef.put(keyValue, functionXRef.get(keyValue)+netCodeDisplacement);
 						}
 					}
-/*					for(int lowerIndex=functionIndex.intValue()+1; lowerIndex < functionXRef.size();lowerIndex++) {
-						String eventName = functionXRef.keySet().toArray(new String[0])[lowerIndex];
-						Integer sizeValue = functionXRef.get(eventName);
-						sizeValue += netCodeDisplacement;
-						functionXRef.put(eventName, sizeValue);
-					}*/
-/*					for(int lowerIndex=index+1;lowerIndex<callStackFunctionModel.v_table_function_list.size();lowerIndex++) {
-						Integer sizeValue = 0;
-						try {
-							sizeValue = functionXRef.get(callStackFunctionModel.v_table_function_list.get(lowerIndex).eventName);
-							if(sizeValue!=null) {
-								sizeValue += netCodeDisplacement;
-								functionXRef.put(callStackFunctionModel.v_table_function_list.get(lowerIndex).eventName, sizeValue);
-							}
-						} catch(Exception exp) {
-							
-						}
-					}
-*///				}
 			}
 		}
 		return code.toArray(new String[0]);
