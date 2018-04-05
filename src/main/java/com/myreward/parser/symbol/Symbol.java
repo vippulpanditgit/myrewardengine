@@ -198,7 +198,7 @@ public class Symbol implements Serializable{
 	public String toString() {
 		return this.getName()+"<<"+this.getId()+"<<"+getFullyQualifiedId()+"<<"
 					+this.getNamespace()+"<<"+this.getType()+"<<"
-					+this.getLevel()+"<<"+rewardAttribute+"<<"+callDeclarationList;
+					+this.getLevel()+"<<"+rewardAttribute+"<<"+callDeclarationList+"\n"+childrenList;
 	}
 	public int getVersion() {
 		return version;

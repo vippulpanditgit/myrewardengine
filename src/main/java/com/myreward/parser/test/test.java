@@ -11,6 +11,7 @@ import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.MetaDataParsingException;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.engine.model.event.EventDO;
+import com.myreward.parser.grammar.MyRewardParser;
 
 public class test {
 
@@ -18,6 +19,8 @@ public class test {
 		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor(appInstanceContext);
 		metaOpCodeProcessor.initialize();
 		metaOpCodeProcessor.parse(rule, false);
+		
+		
 		metaOpCodeProcessor.print_code_segment();
 		return metaOpCodeProcessor;
 	}
@@ -94,10 +97,12 @@ public class test {
 			String event_2_groups_triggered_by_2_same_event = "package test event(GA).any(1){event(A), event(B)} event(GAA).any(1){event(A), event(B)} event(GC).any(3) {event(A), event(C)}";
 			String pseudo = "package test event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)}, event(GF).any(1) {event(H), event(I)}}"
 					+ " package test1 event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)}, event(GF).any(1) {event(H), event(I)}}";
+			String pseudo1 = "package test event(GA).any(10) {event(B),event(GC).any(3){event(D), event(E)}, event(GF).any(1) {event(H), event(I)}}"
+					+ " event(GH).any(1){event(GF), event(H)}";
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
             AppContext.getInstance().add("test_event_hash", 
-            		new test().createMetaOpCodeProcessor(appInstanceContext, pseudo));
+            		new test().createMetaOpCodeProcessor(appInstanceContext, pseudo1));
             appInstanceContext.isDebug = true;
             appInstanceContext.actor = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();
@@ -109,8 +114,8 @@ public class test {
 	    		eventDO.setActivityName("E");
 	    		eventDO.setActivityDate(new Date());
 	    		processEvent(appInstanceContext, eventDO);
-//	    		processEvent(appInstanceContext, eventDO);
-//	    		processEvent(appInstanceContext, eventDO);
+	   // 		processEvent(appInstanceContext, eventDO);
+	   // 		processEvent(appInstanceContext, eventDO);
 
 		} catch(Exception exp) {
 			exp.printStackTrace();

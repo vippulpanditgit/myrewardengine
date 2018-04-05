@@ -81,7 +81,12 @@ public class MetaOpCodeProcessor {
 		}
 	}
 	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException {
-		Myreward_defsContext fileContext = setup(rule).myreward_defs(); 
+		Myreward_defsContext fileContext = setup(rule).myreward_defs();
+		MyRewardParser.symbolTable.getAllSymbol().forEach(symbol-> {
+			System.out.println(symbol);
+		});
+		System.out.println("MetaOpCodeProcessor.parse "+MyRewardParser.symbolTable);
+
 		if(fileContext!=null && fileContext.children!=null && fileContext.children.size()>0) {
 	        this.setMyRewardPCodeGenerator(new MyRewardPCodeGenerator());
 	        CallStackFunctionModel callStackFunctionModel = new CallStackFunctionModel();

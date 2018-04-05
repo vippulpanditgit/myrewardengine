@@ -225,8 +225,6 @@ event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	;
 event_name returns [String eventName]
 	: eventNameElement=ID {
-//				System.out.println("**** level "+level);
-				
 				Symbol storedCurrent = current; 
 				current = new Symbol();
 				current.setName($eventNameElement.getText());
@@ -237,9 +235,8 @@ event_name returns [String eventName]
 					symbolTable.insertSymbol(current);
 				} else {
 					storedCurrent.addChild(current);
-//					current = storedCurrent;
 				}
-				System.out.println("**** "+current);
+//				System.out.println("**** "+current);
 				$eventName = $eventNameElement.getText();
 		}
 	;
