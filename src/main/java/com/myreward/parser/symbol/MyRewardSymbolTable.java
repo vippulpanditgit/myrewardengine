@@ -5,6 +5,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.myreward.parser.symbol.Symbol.SymbolType;
+
 public class MyRewardSymbolTable extends SymbolTable {
 	private List<Symbol> symbolList;
 	
@@ -87,7 +91,27 @@ public class MyRewardSymbolTable extends SymbolTable {
 	    }
 	    return null;
 	}
+	public boolean isReference(List<Symbol> symbolDictionary, Symbol refSym) {
+		int hashValue = refSym.getId();
+	    Iterator<Symbol> it = symbolDictionary.iterator();
 
+		if(hashValue==0 && refSym.getName()!=null)
+			hashValue = refSym.getName().hashCode();
+		refSym.setId(hashValue);
+		 
+	    // Iterating the list in forward direction
+	    while(it.hasNext()){
+		   	Symbol symbolValue = (Symbol)it.next();
+		   	if(symbolValue.childrenList!=null) {
+		   		return this.isReference(symbolValue.childrenList, refSym);
+		   	}
+		   	if(StringUtils.equalsIgnoreCase(symbolValue.getPackageName(), refSym.getPackageName())
+		   			&& StringUtils.equalsIgnoreCase(symbolValue.getName(), refSym.getName())
+		   			&& symbolValue.getType()==SymbolType.DERIVED_EVENT)
+		   		return true;
+	    }
+	    return false;		
+	}
 	@Override
 	public void exitScope() {
 		// TODO Auto-generated method stub

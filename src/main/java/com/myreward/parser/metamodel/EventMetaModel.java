@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import com.myreward.engine.event.error.ErrorCode;
+import com.myreward.engine.event.error.BuildException;
 import com.myreward.parser.generator.MyRewardFunctionXRef;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
@@ -125,15 +127,25 @@ public class EventMetaModel extends BaseMetaModel {
 			return this.getSymbolNamespace(baseMetaModel.parent);
 		
 	}
+	private String getPackageName(BaseMetaModel baseMetaModel) {
+		if(baseMetaModel.parent.metaSymbol!=null && baseMetaModel.parent instanceof PackageMetaModel)
+				return baseMetaModel.parent.metaSymbol.getName();
+		else 
+			return this.getPackageName(baseMetaModel.parent);
+		
+	}
+
 	@Override
-	public String[] build() {
+	public String[] build() throws BuildException {
 		List<String> groupOpcodeList = new ArrayList<String>();
 		String namespace = this.getSymbolNamespace(this);
 		metaSymbol = new Symbol(eventName);
 		metaSymbol.setNamespace(namespace);
-		SymbolTable symbolTable = MyRewardParser.symbolTable;
-		metaSymbol = symbolTable.lookup(metaSymbol);
-		if(groupMetaModel!=null) {
+		metaSymbol.setPackageName(this.getPackageName(this));
+		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
+		if(metaSymbol==null)
+			throw new BuildException(ErrorCode.SYMBOL_NOT_FOUND);
+		if(groupMetaModel!=null) { // If this event is a group event
 			if(groupMetaModel.eventMetaModelList!=null 
 				&& groupMetaModel.eventMetaModelList.size()>0) { // This is a derived event. It is triggered by an action.
 				if(this.durationMetaModel!=null) {
@@ -146,7 +158,7 @@ public class EventMetaModel extends BaseMetaModel {
 				if(this.parent instanceof EventMetaModel) {
 					EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
-					parentEventSymbol = symbolTable.lookup(parentEventSymbol);
+					parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
 					parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 				}  else if(this.parent instanceof GroupMetaModel) {
 					GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
@@ -161,18 +173,19 @@ public class EventMetaModel extends BaseMetaModel {
 					if(parentEventMetaModel!=null) {
 						Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
 						parentEventSymbol.setNamespace(parentEventMetaModel.namespace);
-						parentEventSymbol = symbolTable.lookup(parentEventSymbol);
+						parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
 						parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 					}
 				}
 
 			}
 		} else { // This is a standalone event.
+			boolean isRef = MyRewardParser.symbolTable.isReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
 			if(this.parent instanceof EventMetaModel) {
 				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 				Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
-				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
+				parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
 				parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 			}  else if(this.parent instanceof GroupMetaModel) {
 				GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
@@ -184,7 +197,7 @@ public class EventMetaModel extends BaseMetaModel {
 					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
 					String parentEventNamespace = this.getSymbolNamespace(parentEventMetaModel);
 					parentEventSymbol.setNamespace(parentEventNamespace);
-					parentEventSymbol = symbolTable.lookup(parentEventSymbol);
+					parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
 					parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 				}
 			} 
@@ -213,8 +226,7 @@ public class EventMetaModel extends BaseMetaModel {
 			metaSymbol.setNamespace(((GatekeeperMetaModel) parentMetaModel).namespace);
 		else if(parentMetaModel instanceof EventMetaModel)
 			metaSymbol.setNamespace(parentMetaModel.namespace+"."+((EventMetaModel) parentMetaModel).eventName);
-		SymbolTable symbolTable = MyRewardParser.symbolTable;
-		metaSymbol = symbolTable.lookup(metaSymbol);
+		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 		this.namespace = metaSymbol.getNamespace();
 //		++metaSymbol.version;
 		
@@ -242,15 +254,10 @@ public class EventMetaModel extends BaseMetaModel {
 			eventOpCodeList.addAll(Arrays.asList(groupMetaModel.model()));
 			return eventOpCodeList.toArray(new String[0]);
 		} else {
-//			if(MyRewardFunctionXRef.fnXRef.get(String.valueOf(metaSymbol.getFullyQualifiedId()))==null) {
 			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], 
 							String.valueOf(metaSymbol.getFullyQualifiedId()),
 							String.format(overrideTemplate, metaSymbol.version)));
 			MyRewardFunctionXRef.fnXRef.put(String.valueOf(metaSymbol.getFullyQualifiedId())+":"+String.format(overrideTemplate, metaSymbol.version), String.format(prefixEventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(overrideTemplate, metaSymbol.version)));
-//			} else {
-//				eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], String.valueOf(metaSymbol.getFullyQualifiedId()),String.format(overrideTemplate, metaSymbol.symbolIndex)));
-//				MyRewardFunctionXRef.fnXRef.put(String.valueOf(metaSymbol.getFullyQualifiedId())+":"+String.format(overrideTemplate, metaSymbol.symbolIndex), String.format(prefixEventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(overrideTemplate, metaSymbol.symbolIndex)));
-//			}
 
 			if(this.durationMetaModel!=null) {
 				eventOpCodeList.add(String.format(this.callDurationOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
@@ -319,10 +326,10 @@ public class EventMetaModel extends BaseMetaModel {
 			groupMetaModel.call_stack(callStackFunctionModel);
 		} else {	
 			Symbol metaSymbol = new Symbol(eventName);
-			SymbolTable symbolTable = MyRewardParser.symbolTable;
 			String namespace = this.getSymbolNamespace(this);
 			metaSymbol.setNamespace(namespace);
-			metaSymbol = symbolTable.lookup(metaSymbol);
+			metaSymbol.setPackageName(this.getPackageName(this));
+			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 			List<String> callStackOpCodeList = new ArrayList<String>();
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(), String.valueOf(metaSymbol.version/*--*/)));			
 			int level=0;
@@ -345,8 +352,7 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol metaSymbol = new Symbol(groupEventMetaModel.eventName);
 			String namespace = this.getSymbolNamespace(groupEventMetaModel);
 			metaSymbol.setNamespace(namespace);
-			SymbolTable symbolTable = MyRewardParser.symbolTable;
-			metaSymbol = symbolTable.lookup(metaSymbol);
+			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, metaSymbol.version)));
 			eventMetaModel = eventMetaModel.parent.parent;
 			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);
@@ -357,8 +363,7 @@ public class EventMetaModel extends BaseMetaModel {
 			EventMetaModel groupEventMetaModel = (EventMetaModel)eventMetaModel.parent.parent;
 			Symbol metaSymbol = new Symbol(groupEventMetaModel.eventName);
 			metaSymbol.setNamespace(this.getSymbolNamespace(eventMetaModel));
-			SymbolTable symbolTable = MyRewardParser.symbolTable;
-			metaSymbol = symbolTable.lookup(metaSymbol);
+			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, /*++*/metaSymbol.version)));
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[1], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, metaSymbol.version)));
 			eventMetaModel = eventMetaModel.parent.parent;

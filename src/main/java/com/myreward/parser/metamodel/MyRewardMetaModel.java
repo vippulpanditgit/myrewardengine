@@ -12,13 +12,14 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.ibm.icu.impl.UResource.Array;
+import com.myreward.engine.event.error.BuildException;
 import com.myreward.parser.model.CallStackFunctionModel;
 
 public class MyRewardMetaModel extends BaseMetaModel {
 	public List<PackageMetaModel> myRewardMetaModelList = new ArrayList<PackageMetaModel>();
 
 	@Override
-	public String[] build() {
+	public String[] build() throws BuildException {
 		List<String> myRewardOpcodeList = new ArrayList<String>();
 		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
 		while(packageMetaModelListIterator.hasNext()) {

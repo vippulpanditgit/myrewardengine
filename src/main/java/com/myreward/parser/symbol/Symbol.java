@@ -20,6 +20,7 @@ public class Symbol implements Serializable{
 	}
 	// The symbol's name
 	private String name;
+	private String packageName;
 	private SymbolType type;
 	private int level=0;
 	private int id;
@@ -196,7 +197,7 @@ public class Symbol implements Serializable{
 		return fullyQualifiedId;
 	}
 	public String toString() {
-		return this.getName()+"<<"+this.getId()+"<<"+getFullyQualifiedId()+"<<"
+		return this.getName()+"<<"+this.packageName+"<<"+this.getId()+"<<"+getFullyQualifiedId()+"<<"
 					+this.getNamespace()+"<<"+this.getType()+"<<"
 					+this.getLevel()+"<<"+rewardAttribute+"<<"+callDeclarationList+"\n"+childrenList;
 	}
@@ -248,5 +249,10 @@ public class Symbol implements Serializable{
 	public void setParent(Symbol parent) {
 		this.parent = parent;
 	}
-
+	public String getPackageName() {
+		return packageName;
+	}
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
 }

@@ -8,6 +8,7 @@ import java.util.ListIterator;
 import java.util.Stack;
 import java.util.UUID;
 
+import com.myreward.engine.event.error.BuildException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.Marker;
@@ -54,7 +55,7 @@ public class GroupMetaModel extends BaseMetaModel {
 			return this.getSymbolNamespace(baseMetaModel.parent);
 	}
 
-	public String[] build() {
+	public String[] build() throws BuildException {
 		List<String> groupOpCodes = new ArrayList<String>();
 		if(eventMetaModelList!=null && eventMetaModelList.size()>0) {
 			Symbol parentEventSymbol = null;

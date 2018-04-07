@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.RecognitionException;
 
 import com.myreward.engine.app.AppContext;
 import com.myreward.engine.app.AppInstanceContext;
+import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.MetaDataParsingException;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
@@ -15,7 +16,7 @@ import com.myreward.parser.grammar.MyRewardParser;
 
 public class test {
 
-	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException {
+	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException, BuildException {
 		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor(appInstanceContext);
 		metaOpCodeProcessor.initialize();
 		metaOpCodeProcessor.parse(rule, false);

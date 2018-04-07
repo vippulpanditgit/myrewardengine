@@ -156,7 +156,7 @@ package_def returns [PackageMetaModel packageMetaModel]
 	;
 package_name returns [String packageNameElement]
 	: packageName = ID {
-						Symbol packageSymbol = new Symbol();
+						packageSymbol = new Symbol();
 						packageSymbol.setType(Symbol.SymbolType.PACKAGE);
 						packageSymbol.setName($packageName.getText());
 						symbolTable.insertSymbol(packageSymbol);
@@ -230,6 +230,7 @@ event_name returns [String eventName]
 				current.setName($eventNameElement.getText());
 				current.setLevel(level);
 				current.setType(Symbol.SymbolType.EVENT);
+				current.setPackageName(packageSymbol.getName());
 				current.setContainer(packageSymbol);
 				if(storedCurrent==null || level==0) {
 					symbolTable.insertSymbol(current);

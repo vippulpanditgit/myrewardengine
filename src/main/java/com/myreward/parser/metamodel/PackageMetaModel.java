@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.myreward.engine.event.error.BuildException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.symbol.Symbol;
@@ -14,7 +15,7 @@ public class PackageMetaModel extends BaseMetaModel {
 	public String packageName;
 	public List<BaseMetaModel> packageMetaModelList = new ArrayList<BaseMetaModel>();
 	@Override
-	public String[] build() {
+	public String[] build() throws BuildException {
 		metaSymbol = new Symbol(packageName);
 		metaSymbol =  MyRewardParser.symbolTable.lookup(metaSymbol);
 

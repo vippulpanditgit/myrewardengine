@@ -13,6 +13,7 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.app.AppInstanceContext;
+import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.event.error.EventProcessingException;
 import com.myreward.engine.event.error.MetaDataCreationException;
@@ -80,7 +81,7 @@ public class MetaOpCodeProcessor {
 			throw new MetaDataParsingException(ErrorCode.GENERAL_PARSING_EXCEPTION);
 		}
 	}
-	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException {
+	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException, BuildException {
 		Myreward_defsContext fileContext = setup(rule).myreward_defs();
 		MyRewardParser.symbolTable.getAllSymbol().forEach(symbol-> {
 			System.out.println(symbol);
