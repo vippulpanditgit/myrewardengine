@@ -103,7 +103,8 @@ public class MyRewardSymbolTable extends SymbolTable {
 	    while(it.hasNext()){
 		   	Symbol symbolValue = (Symbol)it.next();
 		   	if(symbolValue.childrenList!=null) {
-		   		return this.isReference(symbolValue.childrenList, refSym);
+		   		if(this.isReference(symbolValue.childrenList, refSym))
+		   			return true;
 		   	}
 		   	if(StringUtils.equalsIgnoreCase(symbolValue.getPackageName(), refSym.getPackageName())
 		   			&& StringUtils.equalsIgnoreCase(symbolValue.getName(), refSym.getName())
