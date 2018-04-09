@@ -34,6 +34,7 @@ public class Symbol implements Serializable{
 	private Symbol parent;
 	// True if the symbol is used in its block
 	private String namespace;
+	private Symbol referredSymbol;
 	private boolean isReferenced;
 	// True if the symbol is created from an import statement
 	private boolean isImported;
@@ -254,5 +255,11 @@ public class Symbol implements Serializable{
 	}
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
+	}
+	public Symbol getReferredSymbol() {
+		return referredSymbol;
+	}
+	public void setReferredSymbol(Symbol referredSymbol) {
+		this.referredSymbol = referredSymbol;
 	}
 }

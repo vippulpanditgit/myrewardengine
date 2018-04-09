@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import com.myreward.engine.app.AppContext;
 import com.myreward.engine.app.AppInstanceContext;
+import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.MetaDataParsingException;
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
@@ -19,7 +20,7 @@ import com.myreward.parser.generator.MyRewardDataSegment;
 public abstract class BaseTestCase {
 	protected AppInstanceContext appInstanceContext;
 	
-	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException {
+	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException, BuildException {
 		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor(appInstanceContext);
 		metaOpCodeProcessor.initialize();
 		System.out.println("***** 4");

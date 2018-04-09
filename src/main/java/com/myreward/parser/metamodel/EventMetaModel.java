@@ -183,6 +183,7 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol eventReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
 			if(eventReference!=null) {
 				eventReference.setReferenced(true);
+				metaSymbol.setReferredSymbol(metaSymbol);
 				System.out.println(eventReference);
 			} else if(this.parent instanceof EventMetaModel) {
 				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
@@ -231,8 +232,6 @@ public class EventMetaModel extends BaseMetaModel {
 			metaSymbol.setNamespace(parentMetaModel.namespace+"."+((EventMetaModel) parentMetaModel).eventName);
 		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 		this.namespace = metaSymbol.getNamespace();
-//		++metaSymbol.version;
-		
 		if(this.durationMetaModel!=null) {
 			eventOpCodeList.addAll(Arrays.asList(durationMetaModel.model()));
 		}
