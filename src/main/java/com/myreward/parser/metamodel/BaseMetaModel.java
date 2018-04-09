@@ -3,6 +3,7 @@ package com.myreward.parser.metamodel;
 import java.util.UUID;
 
 import com.myreward.engine.event.error.BuildException;
+import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
@@ -17,4 +18,5 @@ public abstract class BaseMetaModel {
 	public abstract String[] build() throws BuildException;
 	public abstract String[] model();
 	public abstract void call_stack(CallStackFunctionModel callStackFunctionModel);
+	public abstract void lib_lookup() throws ReferencedModelException;
 }

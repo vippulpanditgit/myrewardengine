@@ -9,6 +9,7 @@ import java.util.Stack;
 import java.util.UUID;
 
 import com.myreward.engine.event.error.BuildException;
+import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.Marker;
@@ -133,6 +134,11 @@ public class GroupMetaModel extends BaseMetaModel {
 		} else { // Standalone event with"any"
 			
 		}
+	}
+	@Override
+	public void lib_lookup() throws ReferencedModelException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

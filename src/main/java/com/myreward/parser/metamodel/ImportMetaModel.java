@@ -3,6 +3,7 @@ package com.myreward.parser.metamodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
 
 public class ImportMetaModel extends BaseMetaModel {
@@ -22,6 +23,12 @@ public class ImportMetaModel extends BaseMetaModel {
 
 	@Override
 	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
+	}
+
+	@Override
+	public void lib_lookup() throws ReferencedModelException {
+		// TODO Auto-generated method stub
+		
 	}
 
 

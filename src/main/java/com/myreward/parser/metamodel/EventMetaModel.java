@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.myreward.engine.event.error.ErrorCode;
+import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.engine.event.error.BuildException;
 import com.myreward.parser.generator.MyRewardFunctionXRef;
 import com.myreward.parser.grammar.MyRewardParser;
@@ -180,11 +181,11 @@ public class EventMetaModel extends BaseMetaModel {
 
 			}
 		} else { // This is a standalone event.
-			Symbol eventReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
-			if(eventReference!=null) {
-				eventReference.setReferenced(true);
-				metaSymbol.setReferredSymbol(metaSymbol);
-				System.out.println(eventReference);
+			Symbol symbolReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
+			if(symbolReference!=null) {
+				symbolReference.setReferenced(true);
+				metaSymbol.setReferredSymbol(symbolReference);
+				System.out.println(symbolReference);
 			} else if(this.parent instanceof EventMetaModel) {
 				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
@@ -332,7 +333,7 @@ public class EventMetaModel extends BaseMetaModel {
 			metaSymbol.setNamespace(namespace);
 			metaSymbol.setPackageName(this.getPackageName(this));
 			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
-			if(metaSymbol.isReferenced()) {// If this symbol is a reference then don't generate a call stack
+			if(metaSymbol.getReferredSymbol()!=null) {// If this symbol is a reference then don't generate a call stack
 				
 			} else {
 				List<String> callStackOpCodeList = new ArrayList<String>();
@@ -380,5 +381,10 @@ public class EventMetaModel extends BaseMetaModel {
 	}
 	public String toString() {
 		return eventName+"<<"+this.namespace;
+	}
+	@Override
+	public void lib_lookup() throws ReferencedModelException {
+		// TODO Auto-generated method stub
+		
 	}
 }

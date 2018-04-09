@@ -8,16 +8,24 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.ibm.icu.impl.UResource.Array;
 import com.myreward.engine.event.error.BuildException;
+import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
 
 public class MyRewardMetaModel extends BaseMetaModel {
 	public List<PackageMetaModel> myRewardMetaModelList = new ArrayList<PackageMetaModel>();
 
+	public void lib_lookup() throws ReferencedModelException {
+		ListIterator<PackageMetaModel> packagesMetaModelListIterator = myRewardMetaModelList.listIterator();
+		while(packagesMetaModelListIterator.hasNext()) {
+			packagesMetaModelListIterator.next().lib_lookup();
+		}
+	}
 	@Override
 	public String[] build() throws BuildException {
 		List<String> myRewardOpcodeList = new ArrayList<String>();
@@ -40,14 +48,10 @@ public class MyRewardMetaModel extends BaseMetaModel {
 
 	@Override
 	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
-//		if(callStackFunctionModel==null)
-//			callStackFunctionModel = new CallStackFunctionModel();
-//		callStackFunctionModel.add("lbl_main", null, new String[]{"lbl_main"});
 		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
 		while(packageMetaModelListIterator.hasNext()) {
 			packageMetaModelListIterator.next().call_stack(callStackFunctionModel);
 		}
-//		callStackFunctionModel.add("return", null, new String[]{"return"});
 	}
 	public String[] optimize_events(CallStackFunctionModel callStackFunctionModel) {
 		Map<String, Integer> functionXRef = new LinkedHashMap<String, Integer>();
