@@ -181,9 +181,10 @@ public class EventMetaModel extends BaseMetaModel {
 			}
 		} else { // This is a standalone event.
 			Symbol eventReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
-			if(eventReference!=null)
+			if(eventReference!=null) {
+				eventReference.setReferenced(true);
 				System.out.println(eventReference);
-			if(this.parent instanceof EventMetaModel) {
+			} else if(this.parent instanceof EventMetaModel) {
 				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 				Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
@@ -332,15 +333,19 @@ public class EventMetaModel extends BaseMetaModel {
 			metaSymbol.setNamespace(namespace);
 			metaSymbol.setPackageName(this.getPackageName(this));
 			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
-			List<String> callStackOpCodeList = new ArrayList<String>();
-			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(), String.valueOf(metaSymbol.version/*--*/)));			
-			int level=0;
-			level = this.climbUpTheEventStackTree(this, callStackOpCodeList, level);
-			callStackOpCodeList.add(0, String.format(prefixCallStackOpCodeListTemplate[0], eventName, level+3));
-			callStackOpCodeList.add(String.format(suffixCallStackOpCodeListTemplate[0], eventName));
-			callStackFunctionModel.add(eventName, namespace, callStackOpCodeList.toArray(new String[0]));
-			if(this.gatekeeperMetaModel!=null) {
-				this.gatekeeperMetaModel.call_stack(callStackFunctionModel);
+			if(metaSymbol.isReferenced()) {// If this symbol is a reference then don't generate a call stack
+				
+			} else {
+				List<String> callStackOpCodeList = new ArrayList<String>();
+				callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(), String.valueOf(metaSymbol.version/*--*/)));			
+				int level=0;
+				level = this.climbUpTheEventStackTree(this, callStackOpCodeList, level);
+				callStackOpCodeList.add(0, String.format(prefixCallStackOpCodeListTemplate[0], eventName, level+3));
+				callStackOpCodeList.add(String.format(suffixCallStackOpCodeListTemplate[0], eventName));
+				callStackFunctionModel.add(eventName, namespace, callStackOpCodeList.toArray(new String[0]));
+				if(this.gatekeeperMetaModel!=null) {
+					this.gatekeeperMetaModel.call_stack(callStackFunctionModel);
+				}
 			}
 		}
 	}
