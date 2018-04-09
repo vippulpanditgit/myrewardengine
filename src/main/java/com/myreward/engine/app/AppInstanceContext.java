@@ -1,6 +1,7 @@
 package com.myreward.engine.app;
 
 import java.util.Stack;
+import java.util.function.Consumer;
 
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;

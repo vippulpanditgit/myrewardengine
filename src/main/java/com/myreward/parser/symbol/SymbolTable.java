@@ -28,6 +28,7 @@ public abstract class SymbolTable  implements Serializable {
 	public abstract boolean merge(List<Symbol> symbolList);
 	public abstract List<Symbol> getAllSymbol();
 	public abstract boolean isReference(List<Symbol> symbolDictionary, Symbol refSym);
+	public abstract Symbol getReference(List<Symbol> symbolDictionary, Symbol refSym);
 
 	
 	// Allocate a new empty symbol table

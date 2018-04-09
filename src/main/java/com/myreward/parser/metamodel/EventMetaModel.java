@@ -180,7 +180,9 @@ public class EventMetaModel extends BaseMetaModel {
 
 			}
 		} else { // This is a standalone event.
-			boolean isRef = MyRewardParser.symbolTable.isReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
+			Symbol eventReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
+			if(eventReference!=null)
+				System.out.println(eventReference);
 			if(this.parent instanceof EventMetaModel) {
 				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;

@@ -113,6 +113,30 @@ public class MyRewardSymbolTable extends SymbolTable {
 	    }
 	    return false;		
 	}
+	public Symbol getReference(List<Symbol> symbolDictionary, Symbol refSym) {
+		int hashValue = refSym.getId();
+	    Iterator<Symbol> it = symbolDictionary.iterator();
+
+		if(hashValue==0 && refSym.getName()!=null)
+			hashValue = refSym.getName().hashCode();
+		refSym.setId(hashValue);
+		 
+	    // Iterating the list in forward direction
+	    while(it.hasNext()){
+		   	Symbol symbolValue = (Symbol)it.next();
+		   	if(symbolValue.childrenList!=null) {
+		   		Symbol referenceSymbol = this.getReference(symbolValue.childrenList, refSym);
+		   		if(referenceSymbol!=null)
+		   			return referenceSymbol;
+		   	}
+		   	if(StringUtils.equalsIgnoreCase(symbolValue.getPackageName(), refSym.getPackageName())
+		   			&& StringUtils.equalsIgnoreCase(symbolValue.getName(), refSym.getName())
+		   			&& symbolValue.getType()==SymbolType.DERIVED_EVENT)
+		   		return symbolValue;
+	    }
+	    return null;		
+	}
+
 	@Override
 	public void exitScope() {
 		// TODO Auto-generated method stub
