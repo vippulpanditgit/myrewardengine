@@ -18,6 +18,7 @@ import com.myreward.engine.event.error.ErrorCode;
 import com.myreward.engine.event.error.EventProcessingException;
 import com.myreward.engine.event.error.MetaDataCreationException;
 import com.myreward.engine.event.error.MetaDataParsingException;
+import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.engine.event.opcode.processing.OpCodeBaseModel;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardPCodeGenerator;
@@ -81,12 +82,12 @@ public class MetaOpCodeProcessor {
 			throw new MetaDataParsingException(ErrorCode.GENERAL_PARSING_EXCEPTION);
 		}
 	}
-	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException, BuildException {
+	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException, BuildException, ReferencedModelException {
 		Myreward_defsContext fileContext = setup(rule).myreward_defs();
 		MyRewardParser.symbolTable.getAllSymbol().forEach(symbol-> {
 			System.out.println(symbol);
 		});
-		System.out.println("MetaOpCodeProcessor.parse "+MyRewardParser.symbolTable);
+//		System.out.println("MetaOpCodeProcessor.parse "+MyRewardParser.symbolTable);
 
 		if(fileContext!=null && fileContext.children!=null && fileContext.children.size()>0) {
 	        this.setMyRewardPCodeGenerator(new MyRewardPCodeGenerator());
@@ -95,7 +96,8 @@ public class MetaOpCodeProcessor {
 
 	        for(int index=0; index < fileContext.children.size();index++) {
 				MyRewardMetaModel myRewardMetaModel = ((Myreward_defContext)(fileContext.children.get(index))).myRewardMetaModel;
-		        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.model())); // side effect of receiving an event
+				myRewardMetaModel.lib_lookup();
+				this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.model())); // side effect of receiving an event
 		        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.build())); // default execution of receiving the event
 		        myRewardMetaModel.call_stack(callStackFunctionModel);  
 			}

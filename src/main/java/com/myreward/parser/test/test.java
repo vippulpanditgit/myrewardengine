@@ -10,18 +10,17 @@ import com.myreward.engine.app.AppInstanceContext;
 import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.MetaDataParsingException;
+import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.parser.grammar.MyRewardParser;
 
 public class test {
 
-	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException, BuildException {
+	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException, BuildException, ReferencedModelException {
 		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor(appInstanceContext);
 		metaOpCodeProcessor.initialize();
 		metaOpCodeProcessor.parse(rule, false);
-		
-		
 		metaOpCodeProcessor.print_code_segment();
 		return metaOpCodeProcessor;
 	}

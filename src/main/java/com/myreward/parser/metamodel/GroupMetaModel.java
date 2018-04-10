@@ -137,7 +137,10 @@ public class GroupMetaModel extends BaseMetaModel {
 	}
 	@Override
 	public void lib_lookup() throws ReferencedModelException {
-		// TODO Auto-generated method stub
+		Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
+		while(eventMetaModelListIterator.hasNext()) {
+			eventMetaModelListIterator.next().lib_lookup();
+		}
 		
 	}
 

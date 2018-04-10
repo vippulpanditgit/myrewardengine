@@ -2,17 +2,13 @@ package com.myreward.parser.metamodel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.ibm.icu.impl.UResource.Array;
 import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
@@ -92,19 +88,6 @@ public class MyRewardMetaModel extends BaseMetaModel {
 						sizeValue += netCodeDisplacement;
 						functionXRef.put(eventName, sizeValue);
 					}
-/*					for(int lowerIndex=index+1;lowerIndex<callStackFunctionModel.v_table_function_list.size();lowerIndex++) {
-						Integer sizeValue = 0;
-						try {
-							sizeValue = functionXRef.get(callStackFunctionModel.v_table_function_list.get(lowerIndex).eventName);
-							if(sizeValue!=null) {
-								sizeValue += netCodeDisplacement;
-								functionXRef.put(callStackFunctionModel.v_table_function_list.get(lowerIndex).eventName, sizeValue);
-							}
-						} catch(Exception exp) {
-							
-						}
-					}
-*///				}
 			}
 		}
 		return code.toArray(new String[0]);
