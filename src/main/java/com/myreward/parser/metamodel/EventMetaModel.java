@@ -387,6 +387,13 @@ public class EventMetaModel extends BaseMetaModel {
 	public String toString() {
 		return eventName+"<<"+this.namespace;
 	}
+	private BaseMetaModel getOrigin() {
+		BaseMetaModel parentMetaModel = this.parent;
+		while(parentMetaModel!=null && !(parentMetaModel instanceof MyRewardMetaModel)) {
+			parentMetaModel = parentMetaModel.parent;
+		}
+		return parentMetaModel;
+	}
 	@Override
 	public void lib_lookup() throws ReferencedModelException {
 		if(groupMetaModel!=null 
@@ -395,8 +402,9 @@ public class EventMetaModel extends BaseMetaModel {
 			groupMetaModel.lib_lookup();
 		} else {	
 			Symbol metaSymbol = new Symbol(eventName);
-			 
-			this.getSymbolsNamespace(this, "");
+			String namespace = "";
+			namespace = this.getSymbolsNamespace(this, namespace);
+			metaSymbol.setNamespace(namespace);
 			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 			Symbol symbolReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
 			if(symbolReference!=null) {
@@ -406,26 +414,29 @@ public class EventMetaModel extends BaseMetaModel {
 			}
 		}
 	}
-	private void getSymbolsNamespace(BaseMetaModel baseMetaModel, String namespace) {
+	private String getSymbolsNamespace(BaseMetaModel baseMetaModel, String namespace) {
 		BaseMetaModel parentMetaModel = baseMetaModel.parent;
 		while(parentMetaModel!=null) {
 			if(parentMetaModel instanceof PackageMetaModel
 					|| parentMetaModel instanceof EventMetaModel
 					|| parentMetaModel instanceof GatekeeperMetaModel) {
-				baseMetaModel = parentMetaModel;
 				break;
 			} else 
 				parentMetaModel = parentMetaModel.parent;
 		}
 		if(parentMetaModel instanceof PackageMetaModel) {
-			namespace = ((PackageMetaModel) baseMetaModel).packageName+"."+namespace;
-			return;
+			namespace = ((PackageMetaModel) parentMetaModel).packageName+"."+namespace;
+			return namespace;
 		}else if(parentMetaModel instanceof GatekeeperMetaModel)
-			namespace = ((GatekeeperMetaModel) baseMetaModel).namespace+"."+namespace;
-		else if(parentMetaModel instanceof EventMetaModel)
-			namespace = ((EventMetaModel)baseMetaModel).eventName;
-		this.getSymbolsNamespace(baseMetaModel, namespace);
-		return;
+			namespace = ((GatekeeperMetaModel) parentMetaModel).namespace+"."+namespace;
+		else if(parentMetaModel instanceof EventMetaModel) {
+			if(namespace!=null && namespace.length()>0)
+				namespace = ((EventMetaModel)parentMetaModel).eventName+"."+namespace;
+			else
+				namespace = ((EventMetaModel)parentMetaModel).eventName;
+		}
+		namespace = this.getSymbolsNamespace(parentMetaModel, namespace);
+		return namespace;
 /*		if(parentMetaModel instanceof PackageMetaModel)
 			metaSymbol.setNamespace(((PackageMetaModel) parentMetaModel).packageName);
 		else if(parentMetaModel instanceof GatekeeperMetaModel)
