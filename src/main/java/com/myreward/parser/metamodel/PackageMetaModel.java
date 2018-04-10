@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import com.myreward.engine.event.error.BuildException;
+import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
@@ -50,6 +51,16 @@ public class PackageMetaModel extends BaseMetaModel {
 		while(packageMetaModelListIterator.hasNext()) {
 			packageMetaModelListIterator.next().lib_lookup();
 		}
+	}
+	@Override
+	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
+		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
+		while(packageMetaModelListIterator.hasNext()) {
+			BaseMetaModel baseMetaModel = packageMetaModelListIterator.next().find(symbol);
+			if(baseMetaModel!=null)
+				return baseMetaModel;
+		}
+		return null;
 	}
 
 }

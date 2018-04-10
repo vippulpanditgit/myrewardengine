@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.myreward.engine.event.error.ErrorCode;
+import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.engine.event.error.BuildException;
 import com.myreward.parser.generator.MyRewardFunctionXRef;
@@ -408,9 +409,14 @@ public class EventMetaModel extends BaseMetaModel {
 			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 			Symbol symbolReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
 			if(symbolReference!=null) {
-				symbolReference.setReferenced(true);
-				metaSymbol.setReferredSymbol(symbolReference);
-				System.out.println(symbolReference);
+				BaseMetaModel myRewardModel = getOrigin();
+				try {
+					BaseMetaModel refMetaModel = myRewardModel.find(symbolReference);
+					System.out.println(refMetaModel);
+				} catch (MetaModelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -437,12 +443,18 @@ public class EventMetaModel extends BaseMetaModel {
 		}
 		namespace = this.getSymbolsNamespace(parentMetaModel, namespace);
 		return namespace;
-/*		if(parentMetaModel instanceof PackageMetaModel)
-			metaSymbol.setNamespace(((PackageMetaModel) parentMetaModel).packageName);
-		else if(parentMetaModel instanceof GatekeeperMetaModel)
-			metaSymbol.setNamespace(((GatekeeperMetaModel) parentMetaModel).namespace);
-		else if(parentMetaModel instanceof EventMetaModel)
-			metaSymbol.setNamespace(parentMetaModel.namespace+"."+((EventMetaModel) parentMetaModel).eventName);
-*/
+	}
+	@Override
+	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
+		if(groupMetaModel!=null 
+				&& groupMetaModel.eventMetaModelList!=null 
+				&& groupMetaModel.eventMetaModelList.size()>0) {
+			groupMetaModel.find(symbol);
+		} else {
+			if(symbol.getName().equalsIgnoreCase(this.eventName)
+					&& symbol.getNamespace().equalsIgnoreCase(this.namespace))
+				return this;
+		}
+		return null;
 	}
 }

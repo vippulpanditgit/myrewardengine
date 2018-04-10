@@ -3,8 +3,10 @@ package com.myreward.parser.metamodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.symbol.Symbol;
 
 public class OrdinalMetaModel extends BaseMetaModel {
 	public int ordinal;
@@ -26,6 +28,11 @@ public class OrdinalMetaModel extends BaseMetaModel {
 	public void lib_lookup() throws ReferencedModelException {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

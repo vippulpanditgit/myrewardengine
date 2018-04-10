@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
@@ -75,6 +76,11 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	public void lib_lookup() throws ReferencedModelException {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

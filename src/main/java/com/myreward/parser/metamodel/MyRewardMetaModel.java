@@ -10,8 +10,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.event.error.BuildException;
+import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.symbol.Symbol;
 
 public class MyRewardMetaModel extends BaseMetaModel {
 	public List<PackageMetaModel> myRewardMetaModelList = new ArrayList<PackageMetaModel>();
@@ -91,5 +93,15 @@ public class MyRewardMetaModel extends BaseMetaModel {
 			}
 		}
 		return code.toArray(new String[0]);
+	}
+	@Override
+	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
+		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
+		while(packageMetaModelListIterator.hasNext()) {
+			BaseMetaModel baseMetaModel = packageMetaModelListIterator.next().find(symbol);
+			if(baseMetaModel!=null)
+				return baseMetaModel;
+		}
+		return null;
 	}
 }

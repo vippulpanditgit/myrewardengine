@@ -9,6 +9,7 @@ import java.util.Stack;
 import java.util.UUID;
 
 import com.myreward.engine.event.error.BuildException;
+import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
@@ -142,6 +143,16 @@ public class GroupMetaModel extends BaseMetaModel {
 			eventMetaModelListIterator.next().lib_lookup();
 		}
 		
+	}
+	@Override
+	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
+		Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
+		while(eventMetaModelListIterator.hasNext()) {
+			BaseMetaModel baseMetaModel = eventMetaModelListIterator.next().find(symbol);
+			if(baseMetaModel!=null)
+				return baseMetaModel;
+		}
+		return null;
 	}
 
 }
