@@ -171,7 +171,7 @@ event_def returns [EventMetaModel eventMetaModel]
 						if($eventMetaModel==null)
 							$eventMetaModel = new EventMetaModel();
 						$eventMetaModel.setEventName($eventName.eventName);
-						$eventMetaModel.packageName = packageSymbol.getPackageName();
+						$eventMetaModel.packageName = packageSymbol.getName();
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
 				 } RPAREN (modifier=event_modifier_def {
 				 	$modifier.modifierMetaModel.parent = $eventMetaModel;
@@ -197,37 +197,37 @@ event_def returns [EventMetaModel eventMetaModel]
 event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	: DOT rewardDef=reward_def {
 						$rewardDef.rewardMetaModel.parent = $modifierMetaModel;
-						$rewardDef.rewardMetaModel.packageName = packageSymbol.getPackageName();
+						$rewardDef.rewardMetaModel.packageName = packageSymbol.getName();
 						$modifierMetaModel = $rewardDef.rewardMetaModel;
 					}
 	| DOT groupDef=group_def	{
 						$groupDef.groupDefMetaModel.parent = $modifierMetaModel;
-						$groupDef.groupDefMetaModel.packageName = packageSymbol.getPackageName();
+						$groupDef.groupDefMetaModel.packageName = packageSymbol.getName();
 						$modifierMetaModel = $groupDef.groupDefMetaModel;
 					}
 	| DOT durationDef=between_def {
 						$durationDef.durationMetaModel.parent = $modifierMetaModel;
-						$durationDef.durationMetaModel.packageName = packageSymbol.getPackageName();
+						$durationDef.durationMetaModel.packageName = packageSymbol.getName();
 						$modifierMetaModel = $durationDef.durationMetaModel;
 					}
 	| DOT repeatDef=repeat_def {
 						$repeatDef.repeatMetaModel.parent = $modifierMetaModel;
-						$repeatDef.repeatMetaModel.packageName = packageSymbol.getPackageName();
+						$repeatDef.repeatMetaModel.packageName = packageSymbol.getName();
 						$modifierMetaModel = $repeatDef.repeatMetaModel;
 					}
 	| DOT showDef=show_def {
 						$showDef.showMetaModel.parent = $modifierMetaModel;
-						$showDef.showMetaModel.packageName = packageSymbol.getPackageName();
+						$showDef.showMetaModel.packageName = packageSymbol.getName();
 						$modifierMetaModel = $showDef.showMetaModel;
 					}
 	| DOT priorityDef=priority_def {
 						$priorityDef.priorityMetaModel.parent = $modifierMetaModel;
-						$priorityDef.priorityMetaModel.packageName = packageSymbol.getPackageName();
+						$priorityDef.priorityMetaModel.packageName = packageSymbol.getName();
 						$modifierMetaModel = $priorityDef.priorityMetaModel;
 					}
 	| DOT gatekeeperDef=gatekeeper_def {
 						$gatekeeperDef.gatekeeperMetaModel.parent = $modifierMetaModel;
-						$gatekeeperDef.gatekeeperMetaModel.packageName = packageSymbol.getPackageName();
+						$gatekeeperDef.gatekeeperMetaModel.packageName = packageSymbol.getName();
 						$modifierMetaModel = $gatekeeperDef.gatekeeperMetaModel;
 					}
 	;
