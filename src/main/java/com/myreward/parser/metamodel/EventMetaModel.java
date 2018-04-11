@@ -404,7 +404,7 @@ public class EventMetaModel extends BaseMetaModel {
 		} else {	
 			Symbol metaSymbol = new Symbol(eventName);
 			String namespace = "";
-			namespace = this.getSymbolsNamespace(this, namespace);
+			namespace = this.getNamespace(this, namespace);
 			metaSymbol.setNamespace(namespace);
 			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 			Symbol symbolReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
@@ -412,6 +412,17 @@ public class EventMetaModel extends BaseMetaModel {
 				BaseMetaModel myRewardModel = getOrigin();
 				try {
 					BaseMetaModel refMetaModel = myRewardModel.find(symbolReference);
+					
+					this.rewardMetaModel = ((EventMetaModel)refMetaModel).getRewardMetaModel();
+					this.showMetaModel = ((EventMetaModel)refMetaModel).getShowMetaModel();
+					this.repeatMetaModel = ((EventMetaModel)refMetaModel).getRepeatMetaModel();
+					this.groupMetaModel = ((EventMetaModel)refMetaModel).getGroupMetaModel();
+					this.eventType = ((EventMetaModel)refMetaModel).getEventType();
+					this.durationMetaModel = ((EventMetaModel)refMetaModel).getDuraitonMetaModel();
+					this.priorityMetaModel = ((EventMetaModel)refMetaModel).getPriorityMetaModel();
+					this.gatekeeperMetaModel = ((EventMetaModel)refMetaModel).getGatekeeperMetaModel();
+					this.lib_lookup();
+							
 					System.out.println(refMetaModel);
 				} catch (MetaModelException e) {
 					// TODO Auto-generated catch block
@@ -420,7 +431,7 @@ public class EventMetaModel extends BaseMetaModel {
 			}
 		}
 	}
-	private String getSymbolsNamespace(BaseMetaModel baseMetaModel, String namespace) {
+	private String getNamespace(BaseMetaModel baseMetaModel, String namespace) {
 		BaseMetaModel parentMetaModel = baseMetaModel.parent;
 		while(parentMetaModel!=null) {
 			if(parentMetaModel instanceof PackageMetaModel
@@ -441,7 +452,7 @@ public class EventMetaModel extends BaseMetaModel {
 			else
 				namespace = ((EventMetaModel)parentMetaModel).eventName;
 		}
-		namespace = this.getSymbolsNamespace(parentMetaModel, namespace);
+		namespace = this.getNamespace(parentMetaModel, namespace);
 		return namespace;
 	}
 	@Override
@@ -449,10 +460,17 @@ public class EventMetaModel extends BaseMetaModel {
 		if(groupMetaModel!=null 
 				&& groupMetaModel.eventMetaModelList!=null 
 				&& groupMetaModel.eventMetaModelList.size()>0) {
-			groupMetaModel.find(symbol);
-		} else {
+			String thisNamespace = this.getNamespace(this, "");
 			if(symbol.getName().equalsIgnoreCase(this.eventName)
-					&& symbol.getNamespace().equalsIgnoreCase(this.namespace))
+					&& symbol.getNamespace().equalsIgnoreCase(thisNamespace))
+				return this;
+			BaseMetaModel baseMetaModel = groupMetaModel.find(symbol);
+			if(baseMetaModel!=null)
+				return baseMetaModel;
+		} else {
+			String thisNamespace = this.getNamespace(this, "");
+			if(symbol.getName().equalsIgnoreCase(this.eventName)
+					&& symbol.getNamespace().equalsIgnoreCase(thisNamespace))
 				return this;
 		}
 		return null;
