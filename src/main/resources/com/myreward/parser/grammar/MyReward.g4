@@ -197,37 +197,37 @@ event_def returns [EventMetaModel eventMetaModel]
 event_modifier_def returns [BaseMetaModel modifierMetaModel]
 	: DOT rewardDef=reward_def {
 						$rewardDef.rewardMetaModel.parent = $modifierMetaModel;
-						$rewardDef.packageName = packageSymbol.getPackageName();
+						$rewardDef.rewardMetaModel.packageName = packageSymbol.getPackageName();
 						$modifierMetaModel = $rewardDef.rewardMetaModel;
 					}
 	| DOT groupDef=group_def	{
 						$groupDef.groupDefMetaModel.parent = $modifierMetaModel;
-						$groupDef.packageName = packageSymbol.getPackageName();
+						$groupDef.groupDefMetaModel.packageName = packageSymbol.getPackageName();
 						$modifierMetaModel = $groupDef.groupDefMetaModel;
 					}
 	| DOT durationDef=between_def {
 						$durationDef.durationMetaModel.parent = $modifierMetaModel;
-						$durationDef.packageName = packageSymbol.getPackageName();
+						$durationDef.durationMetaModel.packageName = packageSymbol.getPackageName();
 						$modifierMetaModel = $durationDef.durationMetaModel;
 					}
 	| DOT repeatDef=repeat_def {
 						$repeatDef.repeatMetaModel.parent = $modifierMetaModel;
-						$repeatDef.packageName = packageSymbol.getPackageName();
+						$repeatDef.repeatMetaModel.packageName = packageSymbol.getPackageName();
 						$modifierMetaModel = $repeatDef.repeatMetaModel;
 					}
 	| DOT showDef=show_def {
 						$showDef.showMetaModel.parent = $modifierMetaModel;
-						$showDef.packageName = packageSymbol.getPackageName();
+						$showDef.showMetaModel.packageName = packageSymbol.getPackageName();
 						$modifierMetaModel = $showDef.showMetaModel;
 					}
 	| DOT priorityDef=priority_def {
 						$priorityDef.priorityMetaModel.parent = $modifierMetaModel;
-						$priorityDef.packageName = packageSymbol.getPackageName();
+						$priorityDef.priorityMetaModel.packageName = packageSymbol.getPackageName();
 						$modifierMetaModel = $priorityDef.priorityMetaModel;
 					}
 	| DOT gatekeeperDef=gatekeeper_def {
 						$gatekeeperDef.gatekeeperMetaModel.parent = $modifierMetaModel;
-						$gatekeeperDef.packageName = packageSymbol.getPackageName();
+						$gatekeeperDef.gatekeeperMetaModel.packageName = packageSymbol.getPackageName();
 						$modifierMetaModel = $gatekeeperDef.gatekeeperMetaModel;
 					}
 	;
