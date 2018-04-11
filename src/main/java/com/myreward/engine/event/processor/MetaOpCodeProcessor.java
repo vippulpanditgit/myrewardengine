@@ -84,10 +84,10 @@ public class MetaOpCodeProcessor {
 	}
 	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException, BuildException, ReferencedModelException {
 		Myreward_defsContext fileContext = setup(rule).myreward_defs();
-		MyRewardParser.symbolTable.getAllSymbol().forEach(symbol-> {
+/*		MyRewardParser.symbolTable.getAllSymbol().forEach(symbol-> {
 			System.out.println(symbol);
 		});
-//		System.out.println("MetaOpCodeProcessor.parse "+MyRewardParser.symbolTable);
+*///		System.out.println("MetaOpCodeProcessor.parse "+MyRewardParser.symbolTable);
 
 		if(fileContext!=null && fileContext.children!=null && fileContext.children.size()>0) {
 	        this.setMyRewardPCodeGenerator(new MyRewardPCodeGenerator());
@@ -97,6 +97,10 @@ public class MetaOpCodeProcessor {
 	        for(int index=0; index < fileContext.children.size();index++) {
 				MyRewardMetaModel myRewardMetaModel = ((Myreward_defContext)(fileContext.children.get(index))).myRewardMetaModel;
 				myRewardMetaModel.lib_lookup();
+				MyRewardParser.symbolTable.getAllSymbol().forEach(symbol-> {
+					System.out.println(symbol);
+				});
+			
 				this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.model())); // side effect of receiving an event
 		        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.build())); // default execution of receiving the event
 		        myRewardMetaModel.call_stack(callStackFunctionModel);  

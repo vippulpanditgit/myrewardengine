@@ -17,6 +17,7 @@ public abstract class BaseMetaModel {
 	public String namespace;
 	public Symbol metaSymbol;
 	public String packageName;
+	
 	public abstract String[] build() throws BuildException;
 	public abstract String[] model();
 	public abstract void call_stack(CallStackFunctionModel callStackFunctionModel);

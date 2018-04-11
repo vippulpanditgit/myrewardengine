@@ -116,8 +116,6 @@ public class EventMetaModel extends BaseMetaModel {
 		this.gatekeeperMetaModel = gatekeeperMetaModel;
 	}
 	private String getSymbolNamespace(BaseMetaModel baseMetaModel) {
-		if(this.namespace!=null)
-			return this.namespace;
 		if(baseMetaModel.parent.metaSymbol!=null) {
 			if(baseMetaModel.parent instanceof PackageMetaModel)
 				return baseMetaModel.parent.metaSymbol.getName();
@@ -421,6 +419,7 @@ public class EventMetaModel extends BaseMetaModel {
 					this.durationMetaModel = ((EventMetaModel)refMetaModel).getDuraitonMetaModel();
 					this.priorityMetaModel = ((EventMetaModel)refMetaModel).getPriorityMetaModel();
 					this.gatekeeperMetaModel = ((EventMetaModel)refMetaModel).getGatekeeperMetaModel();
+					metaSymbol = null;
 					this.lib_lookup();
 							
 					System.out.println(refMetaModel);
