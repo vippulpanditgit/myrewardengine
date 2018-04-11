@@ -245,7 +245,6 @@ event_name returns [String eventName]
 				} else {
 					storedCurrent.addChild(current);
 				}
-//				System.out.println("**** "+current);
 				$eventName = $eventNameElement.getText();
 		}
 	;
@@ -255,21 +254,25 @@ group_def returns [GroupMetaModel groupDefMetaModel]
 																$groupEventDef.groupEventsDefMetaModel.parent = $groupDefMetaModel;
 																$groupDefMetaModel = $groupEventDef.groupEventsDefMetaModel;	
 																$groupDefMetaModel.ordinalMetaModel = $groupAnyLogic.anyMetaModel;
+																$groupDefMetaModel.packageName = packageSymbol.getName();
 															}
 	| groupAllLogic=all_def LBRACE{level++;} groupEventDef = group_events_def RBRACE {
 																level--;
 																$groupAllLogic.groupModel.parent = $groupDefMetaModel;
 																$groupDefMetaModel = $groupAllLogic.groupModel;
 																$groupDefMetaModel.eventMetaModelList = $groupEventDef.groupEventsDefMetaModel.eventMetaModelList;
+																$groupDefMetaModel.packageName = packageSymbol.getName();
 															}
 	| groupAnyLogic=any_def {	
 																
 																$groupDefMetaModel = new GroupMetaModel();
 																$groupDefMetaModel.ordinalMetaModel = $groupAnyLogic.anyMetaModel;
+																$groupDefMetaModel.packageName = packageSymbol.getName();
 																current.setType(Symbol.SymbolType.EVENT);
 															}
 	| groupAllLogic=all_def	{									$groupAllLogic.groupModel.parent = $groupDefMetaModel;
 																$groupDefMetaModel = $groupAllLogic.groupModel;
+																$groupDefMetaModel.packageName = packageSymbol.getName();
 																current.setType(Symbol.SymbolType.EVENT);
 															}													
 	;
