@@ -14,6 +14,7 @@ import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.EventInteractionFunctionModel;
 import com.myreward.parser.model.Marker;
 import com.myreward.parser.model.CallStackFunctionModel.EventAttributeType;
 import com.myreward.parser.symbol.Symbol;
@@ -163,6 +164,68 @@ public class GroupMetaModel extends BaseMetaModel {
 		while(groupMetaModelListIterator.hasNext()) {
 			groupMetaModelListIterator.next().model(eventFunctionModel);
 		}		
+	}
+	@Override
+	public void build(EventInteractionFunctionModel eventInteractionFunctionModel) throws BuildException {
+		List<String> groupOpCodes = new ArrayList<String>();
+		if(eventMetaModelList!=null && eventMetaModelList.size()>0) {
+			Symbol parentEventSymbol = null;
+			RewardMetaModel rewardMetaModel = null;
+			if(parent instanceof EventMetaModel) {
+				EventMetaModel parentEventMetaModel = (EventMetaModel)parent;
+				String namespace = parentEventMetaModel.namespace!=null?parentEventMetaModel.namespace:this.getSymbolNamespace(parentEventMetaModel);
+
+				String eventName = parentEventMetaModel.getEventName();
+				parentEventSymbol = new Symbol(eventName);
+				parentEventSymbol.setNamespace(namespace);
+				SymbolTable symbolTable = MyRewardParser.symbolTable;
+				parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+				rewardMetaModel = parentEventMetaModel.getRewardMetaModel();
+				// Create a lbl for function for the group
+				groupOpCodes.add(String.format(prefixGroupOpCodesListTemplate[0],parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.version)));
+			}
+			Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
+			while(eventMetaModelListIterator.hasNext()) {
+				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
+				Symbol lookupEvent = new Symbol(eventMetaModel.getEventName());
+				String namespace = this.getSymbolNamespace(eventMetaModel);
+				lookupEvent.setNamespace(namespace);
+				Symbol eventSymbol = MyRewardParser.symbolTable.lookup(lookupEvent);
+				if(ordinalMetaModel instanceof AnyMetaModel) {
+					int anyGroupIndex = groupOpCodes.size();
+					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?8:6));
+					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));
+//					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], parentEventSymbol.getFullyQualifiedId()));
+					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
+					if(rewardMetaModel!=null) {
+						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,4));
+						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));						
+						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[2], parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.version)));
+						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[3]));
+					} else {
+						groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,3));
+						groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));						
+						groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[2]));
+					}
+					groupOpCodes.remove(anyGroupIndex);
+					groupOpCodes.add(anyGroupIndex, String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),groupOpCodes.size()+1-anyGroupIndex));
+				} else if(ordinalMetaModel instanceof AllMetaModel) {
+					
+				}
+			}
+			groupOpCodes.add(String.format(suffixGroupOpCodesListTemplate[0]));
+			eventInteractionFunctionModel.add(String.format(prefixGroupOpCodesListTemplate[0],parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.version)), 
+									parentEventSymbol.getNamespace(), 
+									EventAttributeType.GROUP, 
+									groupOpCodes.toArray(new String[0]));
+
+			eventMetaModelListIterator = eventMetaModelList.listIterator();
+			while(eventMetaModelListIterator.hasNext()) {
+				EventMetaModel eventMetaModel = eventMetaModelListIterator.next();
+				eventMetaModel.build(eventInteractionFunctionModel);
+			}
+		}
+		
 	}
 
 }

@@ -13,6 +13,7 @@ import com.myreward.parser.generator.MyRewardFunctionXRef;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.EventInteractionFunctionModel;
 import com.myreward.parser.model.CallStackFunctionModel.EventAttributeType;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
@@ -616,5 +617,88 @@ public class EventMetaModel extends BaseMetaModel {
 					eventOpCodeList.toArray(new String[0]));
 		}
 		
+	}
+	@Override
+	public void build(EventInteractionFunctionModel eventInteractionFunctionModel) throws BuildException {
+		List<String> groupOpcodeList = new ArrayList<String>();
+		String namespace = this.namespace==null?this.getSymbolNamespace(this):this.namespace;
+		metaSymbol = new Symbol(eventName);
+		metaSymbol.setNamespace(namespace);
+		metaSymbol.setPackageName(packageName);
+//		metaSymbolmetaSymbol.setPackageName(this.getPackageName(this));
+		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
+		if(metaSymbol==null)
+			throw new BuildException(ErrorCode.SYMBOL_NOT_FOUND);
+		if(groupMetaModel!=null) { // If this event is a group event
+			if(groupMetaModel.eventMetaModelList!=null 
+				&& groupMetaModel.eventMetaModelList.size()>0) { // This is a derived event. It is triggered by an action.
+				if(this.durationMetaModel!=null) {
+					groupOpcodeList.add(String.format(this.callDurationOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
+					groupOpcodeList.add(String.format(this.callDurationOpCodeListTemplate[1], metaSymbol.getFullyQualifiedId()));
+					groupOpcodeList.add(String.format(this.postCallDurationOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
+					groupOpcodeList.add(String.format(this.postCallDurationOpCodeListTemplate[1], metaSymbol.getFullyQualifiedId()));
+				}
+				groupMetaModel.build(eventInteractionFunctionModel);
+				if(this.parent instanceof EventMetaModel) {
+					EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
+					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
+					parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+					parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
+				}  else if(this.parent instanceof GroupMetaModel) {
+					GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
+					EventMetaModel parentEventMetaModel = null;
+					if(parentGroupEventMetaModel.parent instanceof EventMetaModel) {
+						parentEventMetaModel = (EventMetaModel)parentGroupEventMetaModel.parent;
+					}
+					if(this.repeatMetaModel!=null) {
+						for(int index=0;index<this.preRepeatEventOpCodeListTemplate.length;index++)
+							groupOpcodeList.add(String.format(preRepeatEventOpCodeListTemplate[index],metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, metaSymbol.version)));					
+					}
+					if(parentEventMetaModel!=null) {
+						Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
+						parentEventSymbol.setNamespace(parentEventMetaModel.namespace);
+						parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+						parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
+					}
+				}
+
+			}
+		} else { // This is a standalone event.
+			Symbol symbolReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
+			if(symbolReference!=null) {
+				symbolReference.setReferenced(true);
+				metaSymbol.setReferredSymbol(symbolReference);
+				System.out.println(symbolReference);
+			} else if(this.parent instanceof EventMetaModel) {
+				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
+				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
+				Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
+				parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+				parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
+			}  else if(this.parent instanceof GroupMetaModel) {
+				GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
+				EventMetaModel parentEventMetaModel = null;
+				if(parentGroupEventMetaModel.parent instanceof EventMetaModel) {
+					parentEventMetaModel = (EventMetaModel)parentGroupEventMetaModel.parent;
+				}
+				if(parentEventMetaModel!=null) {
+					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
+					String parentEventNamespace = parentEventMetaModel!=null?parentEventMetaModel.namespace:this.getSymbolNamespace(parentEventMetaModel);
+					parentEventSymbol.setNamespace(parentEventNamespace);
+					parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+					parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
+				}
+			} 
+		}
+		if(this.gatekeeperMetaModel!=null) {
+			this.gatekeeperMetaModel.build(eventInteractionFunctionModel);
+		}
+		eventInteractionFunctionModel.add(String.format(prefixEventOpCodeListTemplate[0], 
+				String.valueOf(metaSymbol.getFullyQualifiedId()),
+				String.format(overrideTemplate, metaSymbol.version)),
+			this.namespace, 
+			EventAttributeType.GROUP, 
+			groupOpcodeList.toArray(new String[0]));
+
 	}
 }

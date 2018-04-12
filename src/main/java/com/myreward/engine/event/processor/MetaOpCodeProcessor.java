@@ -108,7 +108,7 @@ public class MetaOpCodeProcessor {
 //				this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.model())); // side effect of receiving an event
 //				this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.build())); // default execution of receiving the event
 				myRewardMetaModel.model(eventFunctionModel);
-//				myRewardMetaModel.build(eventInteractionFunctionModel);
+				myRewardMetaModel.build(eventInteractionFunctionModel);
 		        myRewardMetaModel.call_stack(callStackFunctionModel);  
 			}
 	        callStackFunctionModel.add("return", null, new String[]{"return"});

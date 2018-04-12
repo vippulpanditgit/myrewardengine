@@ -175,6 +175,7 @@ event_def returns [EventMetaModel eventMetaModel]
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
 				 } RPAREN (modifier=event_modifier_def {
 				 	$modifier.modifierMetaModel.parent = $eventMetaModel;
+				 	$modifier.modifierMetaModel.namespace = $eventMetaModel.namespace;
 					if($modifier.modifierMetaModel instanceof GroupMetaModel){
 						$eventMetaModel.setGroupMetaModel((GroupMetaModel)$modifier.modifierMetaModel);
 					} else if($modifier.modifierMetaModel instanceof ShowMetaModel){
