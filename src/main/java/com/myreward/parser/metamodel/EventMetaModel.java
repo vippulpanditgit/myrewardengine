@@ -625,7 +625,6 @@ public class EventMetaModel extends BaseMetaModel {
 		metaSymbol = new Symbol(eventName);
 		metaSymbol.setNamespace(namespace);
 		metaSymbol.setPackageName(packageName);
-//		metaSymbolmetaSymbol.setPackageName(this.getPackageName(this));
 		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 		if(metaSymbol==null)
 			throw new BuildException(ErrorCode.SYMBOL_NOT_FOUND);
