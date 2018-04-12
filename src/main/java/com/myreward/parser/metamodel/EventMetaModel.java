@@ -338,7 +338,7 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol metaSymbol = new Symbol(eventName);
 			String namespace = this.getSymbolNamespace(this);
 			metaSymbol.setNamespace(namespace);
-			metaSymbol.setPackageName(this.getPackageName(this));
+			metaSymbol.setPackageName(this.packageName);
 			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 			if(metaSymbol.getReferredSymbol()!=null) {// If this symbol is a reference then don't generate a call stack
 				
@@ -364,7 +364,7 @@ public class EventMetaModel extends BaseMetaModel {
 			level++;
 			EventMetaModel groupEventMetaModel = (EventMetaModel)eventMetaModel.parent.parent;
 			Symbol metaSymbol = new Symbol(groupEventMetaModel.eventName);
-			String namespace = this.getSymbolNamespace(groupEventMetaModel);
+			String namespace = groupEventMetaModel.namespace!=null?groupEventMetaModel.namespace:this.getSymbolNamespace(groupEventMetaModel);
 			metaSymbol.setNamespace(namespace);
 			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, metaSymbol.version)));
