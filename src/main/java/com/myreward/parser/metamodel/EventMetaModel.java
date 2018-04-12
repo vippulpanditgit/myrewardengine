@@ -507,8 +507,7 @@ public class EventMetaModel extends BaseMetaModel {
 		 
 		BaseMetaModel parentMetaModel = this.parent;
 		String namespace = this.getModelNamespace(this, "");
-		metaSymbol.setNamespace(namespace);
-/*		while(parentMetaModel!=null) {
+		while(parentMetaModel!=null) {
 			if(parentMetaModel instanceof PackageMetaModel
 					|| parentMetaModel instanceof EventMetaModel
 					|| parentMetaModel instanceof GatekeeperMetaModel) {
@@ -522,7 +521,7 @@ public class EventMetaModel extends BaseMetaModel {
 			metaSymbol.setNamespace(((GatekeeperMetaModel) parentMetaModel).namespace);
 		else if(parentMetaModel instanceof EventMetaModel)
 			metaSymbol.setNamespace(parentMetaModel.namespace+"."+((EventMetaModel) parentMetaModel).eventName);
-*/		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
+		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
 		this.namespace = metaSymbol.getNamespace();
 		if(this.durationMetaModel!=null) {
 			durationMetaModel.model(eventFunctionModel);
