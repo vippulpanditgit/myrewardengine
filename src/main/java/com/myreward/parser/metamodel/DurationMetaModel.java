@@ -8,6 +8,8 @@ import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.CallStackFunctionModel.EventAttributeType;
+import com.myreward.parser.model.EventFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 import com.myreward.parser.util.DateTimeConvertorUtil;
@@ -65,6 +67,28 @@ public class DurationMetaModel extends BaseMetaModel {
 	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void model(EventFunctionModel eventFunctionModel) {
+		List<String> durationOpCodeList = new ArrayList<String>();
+		if(this.parent instanceof EventMetaModel) {
+			EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
+			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
+			eventSymbol.setNamespace(parentEventMetaModel.namespace);
+			SymbolTable symbolTable = MyRewardParser.symbolTable;
+			eventSymbol = symbolTable.lookup(eventSymbol);
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[1], eventSymbol.getName(), eventSymbol.getFullyQualifiedId(), new Date(this.getRelativeEffectiveDateInMilliSeconds()), new Date(this.getRelativeExpirationDateInMilliSeconds())));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[2], this.getRelativeEffectiveDateInMilliSeconds()));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[3]));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[4], this.getRelativeExpirationDateInMilliSeconds()));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[5]));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[6], eventSymbol.getFullyQualifiedId()));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[7]));
+
+			eventFunctionModel.add(String.format(durationOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)), eventSymbol.getNamespace(), EventAttributeType.DURATION, durationOpCodeList.toArray(new String[0]));
+
+		}
 	}
 
 }

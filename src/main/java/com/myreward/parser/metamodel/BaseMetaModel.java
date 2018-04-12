@@ -6,6 +6,7 @@ import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.EventFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -23,4 +24,5 @@ public abstract class BaseMetaModel {
 	public abstract void call_stack(CallStackFunctionModel callStackFunctionModel);
 	public abstract void lib_lookup() throws ReferencedModelException;
 	public abstract BaseMetaModel find(Symbol symbol) throws MetaModelException;
+	public abstract void model(EventFunctionModel eventFunctionModel);
 }

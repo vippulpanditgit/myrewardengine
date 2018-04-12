@@ -8,6 +8,8 @@ import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.CallStackFunctionModel.EventAttributeType;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -81,6 +83,32 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void model(EventFunctionModel eventFunctionModel) {
+		List<String> gatekeeperOpcodes = new ArrayList<String>();
+		String gatekeeperSourceEventName = eventMetaModel.getEventName();
+		Symbol gatekeeperSourceSymbol = new Symbol(gatekeeperSourceEventName);
+		this.namespace = parent.namespace;
+		gatekeeperSourceSymbol.setNamespace(this.namespace);
+		SymbolTable symbolTable = MyRewardParser.symbolTable;
+		gatekeeperSourceSymbol = symbolTable.lookup(gatekeeperSourceSymbol);
+		if(this.parent instanceof EventMetaModel) {
+			EventMetaModel gatekeeperTargetEvent = (EventMetaModel)this.parent;
+			Symbol gatekeeperTargetSymbol = new Symbol(gatekeeperTargetEvent.getEventName());
+			gatekeeperTargetSymbol.setNamespace(gatekeeperTargetEvent.namespace);
+			gatekeeperTargetSymbol = symbolTable.lookup(gatekeeperTargetSymbol);
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), String.format(EventMetaModel.overrideTemplate, /*++*/gatekeeperSourceSymbol.version)));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[1], gatekeeperSourceSymbol.getName(), gatekeeperSourceSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[2], gatekeeperSourceSymbol.getFullyQualifiedId(),2));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[3], gatekeeperTargetSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[4], gatekeeperSourceSymbol.getFullyQualifiedId()));
+			gatekeeperOpcodes.addAll(Arrays.asList(eventMetaModel.model()));
+			eventFunctionModel.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), String.format(EventMetaModel.overrideTemplate, /*++*/gatekeeperSourceSymbol.version)),
+											this.namespace, 
+											EventAttributeType.GATEKEEPER, 
+											gatekeeperOpcodes.toArray(new String[0]));
+		}
 	}
 
 

@@ -27,6 +27,8 @@ import com.myreward.parser.grammar.MyRewardParser.Myreward_defContext;
 import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
 import com.myreward.parser.metamodel.MyRewardMetaModel;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.EventInteractionFunctionModel;
 import com.myreward.parser.util.MyRewardParserUtil;
 import com.myreward.parser.util.RuntimeLib;
 
@@ -93,6 +95,8 @@ public class MetaOpCodeProcessor {
 	        this.setMyRewardPCodeGenerator(new MyRewardPCodeGenerator());
 	        CallStackFunctionModel callStackFunctionModel = new CallStackFunctionModel();
 			callStackFunctionModel.add("lbl_main", null, new String[]{"lbl_main"});
+			EventFunctionModel eventFunctionModel = new EventFunctionModel();
+			EventInteractionFunctionModel eventInteractionFunctionModel = new EventInteractionFunctionModel();
 
 	        for(int index=0; index < fileContext.children.size();index++) {
 				MyRewardMetaModel myRewardMetaModel = ((Myreward_defContext)(fileContext.children.get(index))).myRewardMetaModel;
@@ -101,8 +105,10 @@ public class MetaOpCodeProcessor {
 					System.out.println(symbol);
 				});
 			
-				this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.model())); // side effect of receiving an event
-		        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.build())); // default execution of receiving the event
+//				this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.model())); // side effect of receiving an event
+//				this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(myRewardMetaModel.build())); // default execution of receiving the event
+				myRewardMetaModel.model(eventFunctionModel);
+//				myRewardMetaModel.build(eventInteractionFunctionModel);
 		        myRewardMetaModel.call_stack(callStackFunctionModel);  
 			}
 	        callStackFunctionModel.add("return", null, new String[]{"return"});

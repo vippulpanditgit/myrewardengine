@@ -10,6 +10,7 @@ import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.EventFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -37,6 +38,15 @@ public class PackageMetaModel extends BaseMetaModel {
 		}
 		return packageOpcodeList.toArray(new String[0]);
 	}
+	@Override
+	public void model(EventFunctionModel eventFunctionModel) {
+		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
+//		List<String> call_stack = new ArrayList<String>();
+		while(packageMetaModelListIterator.hasNext()) {
+			packageMetaModelListIterator.next().model(eventFunctionModel);
+		}
+	}
+
 	@Override
 	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
 		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();

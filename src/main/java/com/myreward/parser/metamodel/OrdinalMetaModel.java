@@ -6,6 +6,7 @@ import java.util.List;
 import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.EventFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 
 public class OrdinalMetaModel extends BaseMetaModel {
@@ -33,6 +34,11 @@ public class OrdinalMetaModel extends BaseMetaModel {
 	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void model(EventFunctionModel eventFunctionModel) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

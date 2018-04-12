@@ -13,6 +13,7 @@ import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.EventFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 
 public class MyRewardMetaModel extends BaseMetaModel {
@@ -42,6 +43,13 @@ public class MyRewardMetaModel extends BaseMetaModel {
 			myRewardOpcodeList.addAll(Arrays.asList(packageMetaModelListIterator.next().model()));
 		}
 		return myRewardOpcodeList.toArray(new String[0]);
+	}
+	public void model(EventFunctionModel eventFunctionModel) {
+		List<String> myRewardOpcodeList = new ArrayList<String>();
+		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
+		while(packageMetaModelListIterator.hasNext()) {
+			packageMetaModelListIterator.next().model(eventFunctionModel);
+		}
 	}
 
 	@Override

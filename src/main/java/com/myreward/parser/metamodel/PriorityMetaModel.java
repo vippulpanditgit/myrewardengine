@@ -7,6 +7,8 @@ import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.CallStackFunctionModel.EventAttributeType;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -53,6 +55,27 @@ public class PriorityMetaModel extends BaseMetaModel {
 	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void model(EventFunctionModel eventFunctionModel) {
+		List<String> priorityOpCodeList = new ArrayList<String>();
+		if(this.parent instanceof EventMetaModel) {
+			EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
+			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
+			eventSymbol.setNamespace(parentEventMetaModel.namespace);
+			SymbolTable symbolTable = MyRewardParser.symbolTable;
+			eventSymbol = symbolTable.lookup(eventSymbol);
+			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
+			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[1], eventSymbol.getName(), eventSymbol.getFullyQualifiedId(), priority));
+			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));
+			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId(), priority));
+			priorityOpCodeList.add(String.format(priorityOpCodeListTemplate[4], eventSymbol.getFullyQualifiedId()));
+			eventFunctionModel.add(String.format(String.format(priorityOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version))),
+					this.namespace, 
+					EventAttributeType.PRIORITY, 
+					priorityOpCodeList.toArray(new String[0]));
+		}
 	}
 
 }

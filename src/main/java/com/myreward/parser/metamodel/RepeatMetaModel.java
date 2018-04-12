@@ -7,6 +7,8 @@ import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.CallStackFunctionModel.EventAttributeType;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -64,6 +66,27 @@ public class RepeatMetaModel extends BaseMetaModel {
 	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void model(EventFunctionModel eventFunctionModel) {
+		List<String> repeatOpCodeList = new ArrayList<String>();
+		if(this.parent instanceof EventMetaModel) {
+			EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
+			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
+			eventSymbol.setNamespace(parentEventMetaModel.namespace);
+			SymbolTable symbolTable = MyRewardParser.symbolTable;
+			eventSymbol = symbolTable.lookup(eventSymbol);
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[1], eventSymbol.getName(), eventSymbol.getFullyQualifiedId(), repeatCriteria.name(), repeatAfter));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId(), repeatCriteria.repeatType));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[4], eventSymbol.getFullyQualifiedId(), repeatAfter));
+			repeatOpCodeList.add(String.format(repeatOpCodeListTemplate[5], eventSymbol.getFullyQualifiedId()));
+			eventFunctionModel.add(String.format(repeatOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)),
+					this.namespace, 
+					EventAttributeType.REPEAT, 
+					repeatOpCodeList.toArray(new String[0]));
+		}
 	}
 
 }

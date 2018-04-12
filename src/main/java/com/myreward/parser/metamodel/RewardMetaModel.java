@@ -7,6 +7,8 @@ import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.CallStackFunctionModel.EventAttributeType;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -62,6 +64,37 @@ public class RewardMetaModel extends BaseMetaModel {
 	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void model(EventFunctionModel eventFunctionModel) {
+		List<String> rewardOpCodeList = new ArrayList<String>();
+		if(this.parent instanceof EventMetaModel) {
+			EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
+			Symbol eventSymbol = new Symbol(parentEventMetaModel.getEventName());
+			eventSymbol.setNamespace(parentEventMetaModel.namespace);
+			SymbolTable symbolTable = MyRewardParser.symbolTable;
+			eventSymbol = symbolTable.lookup(eventSymbol);
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[1], eventSymbol.getName(), String.valueOf(eventSymbol.getFullyQualifiedId()),rewardAmount, maxRewardAmount));
+			if(parentEventMetaModel.getDuraitonMetaModel()!=null) {
+				rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[2], eventSymbol.getFullyQualifiedId()));
+				rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[3], eventSymbol.getFullyQualifiedId()));
+			}
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[4], eventSymbol.getFullyQualifiedId()));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[5], eventSymbol.getFullyQualifiedId()));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[6], eventSymbol.getFullyQualifiedId()));
+			if(maxRewardAmount > 0)
+				rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[7], eventSymbol.getFullyQualifiedId(), maxRewardAmount));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[8], eventSymbol.getFullyQualifiedId(), rewardAmount));
+			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[9], eventSymbol.getFullyQualifiedId()));
+			if(maxRewardAmount > 0)
+				rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[10], eventSymbol.getFullyQualifiedId()));
+			eventFunctionModel.add(String.format(rewardOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)),
+					this.namespace, 
+					EventAttributeType.REWARD, 
+					rewardOpCodeList.toArray(new String[0]));
+		}
+		
 	}
 
 }

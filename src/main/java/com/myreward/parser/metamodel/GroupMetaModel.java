@@ -13,7 +13,9 @@ import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.EventFunctionModel;
 import com.myreward.parser.model.Marker;
+import com.myreward.parser.model.CallStackFunctionModel.EventAttributeType;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -153,6 +155,14 @@ public class GroupMetaModel extends BaseMetaModel {
 				return baseMetaModel;
 		}
 		return null;
+	}
+	@Override
+	public void model(EventFunctionModel eventFunctionModel) {
+		List<String> groupOpcodeList = new ArrayList<String>();
+		ListIterator<EventMetaModel> groupMetaModelListIterator = eventMetaModelList.listIterator();
+		while(groupMetaModelListIterator.hasNext()) {
+			groupMetaModelListIterator.next().model(eventFunctionModel);
+		}		
 	}
 
 }
