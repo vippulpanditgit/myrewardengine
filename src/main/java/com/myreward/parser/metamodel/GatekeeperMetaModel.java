@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.EventInteractionFunctionModel;
 import com.myreward.parser.model.CallStackFunctionModel.EventAttributeType;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
@@ -109,6 +111,25 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 											EventAttributeType.GATEKEEPER, 
 											gatekeeperOpcodes.toArray(new String[0]));
 		}
+	}
+	@Override
+	public void build(EventInteractionFunctionModel eventInteractionFunctionModel) throws BuildException {
+		List<String> gatekeeperOpCodes = new ArrayList<String>();
+		Symbol eventSymbol = new Symbol(eventMetaModel.getEventName());
+		eventSymbol.setNamespace(namespace);
+		
+		SymbolTable symbolTable = MyRewardParser.symbolTable;
+		eventSymbol = symbolTable.lookup(eventSymbol);
+
+		gatekeeperOpCodes.add(String.format(prefixGatekeeperOpCodesListTemplate[0],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)));
+		gatekeeperOpCodes.add(String.format(gatekeeperOpCodesListTemplate[0],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)));
+		gatekeeperOpCodes.add(String.format(gatekeeperOpCodesListTemplate[1],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)));
+		gatekeeperOpCodes.add(String.format(suffixGatekeeperOpCodesListTemplate[0]));
+		eventInteractionFunctionModel.add(String.format(prefixGatekeeperOpCodesListTemplate[0],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)),
+				this.namespace, 
+				EventAttributeType.GATEKEEPER, 
+				gatekeeperOpCodes.toArray(new String[0]));
+		
 	}
 
 

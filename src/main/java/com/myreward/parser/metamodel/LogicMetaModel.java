@@ -1,9 +1,11 @@
 package com.myreward.parser.metamodel;
 
+import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.EventInteractionFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 
 public class LogicMetaModel extends BaseMetaModel {
@@ -34,6 +36,11 @@ public class LogicMetaModel extends BaseMetaModel {
 	}
 	@Override
 	public void model(EventFunctionModel eventFunctionModel) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void build(EventInteractionFunctionModel eventInteractionFunctionModel) throws BuildException {
 		// TODO Auto-generated method stub
 		
 	}

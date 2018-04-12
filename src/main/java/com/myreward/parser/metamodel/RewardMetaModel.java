@@ -3,11 +3,13 @@ package com.myreward.parser.metamodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.EventInteractionFunctionModel;
 import com.myreward.parser.model.CallStackFunctionModel.EventAttributeType;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
@@ -94,6 +96,11 @@ public class RewardMetaModel extends BaseMetaModel {
 					EventAttributeType.REWARD, 
 					rewardOpCodeList.toArray(new String[0]));
 		}
+		
+	}
+	@Override
+	public void build(EventInteractionFunctionModel eventInteractionFunctionModel) throws BuildException {
+		// TODO Auto-generated method stub
 		
 	}
 

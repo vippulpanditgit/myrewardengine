@@ -14,6 +14,7 @@ import com.myreward.engine.event.error.MetaModelException;
 import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.EventInteractionFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 
 public class MyRewardMetaModel extends BaseMetaModel {
@@ -111,5 +112,13 @@ public class MyRewardMetaModel extends BaseMetaModel {
 				return baseMetaModel;
 		}
 		return null;
+	}
+	@Override
+	public void build(EventInteractionFunctionModel eventInteractionFunctionModel) throws BuildException {
+		List<String> myRewardOpcodeList = new ArrayList<String>();
+		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
+		while(packageMetaModelListIterator.hasNext()) {
+			packageMetaModelListIterator.next().build(eventInteractionFunctionModel);
+		}
 	}
 }

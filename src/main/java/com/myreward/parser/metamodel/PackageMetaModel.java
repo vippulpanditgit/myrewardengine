@@ -11,6 +11,7 @@ import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.parser.grammar.MyRewardParser;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.EventFunctionModel;
+import com.myreward.parser.model.EventInteractionFunctionModel;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -41,7 +42,6 @@ public class PackageMetaModel extends BaseMetaModel {
 	@Override
 	public void model(EventFunctionModel eventFunctionModel) {
 		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
-//		List<String> call_stack = new ArrayList<String>();
 		while(packageMetaModelListIterator.hasNext()) {
 			packageMetaModelListIterator.next().model(eventFunctionModel);
 		}
@@ -50,7 +50,6 @@ public class PackageMetaModel extends BaseMetaModel {
 	@Override
 	public void call_stack(CallStackFunctionModel callStackFunctionModel) {
 		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
-//		List<String> call_stack = new ArrayList<String>();
 		while(packageMetaModelListIterator.hasNext()) {
 			packageMetaModelListIterator.next().call_stack(callStackFunctionModel);
 		}
@@ -71,6 +70,13 @@ public class PackageMetaModel extends BaseMetaModel {
 				return baseMetaModel;
 		}
 		return null;
+	}
+	@Override
+	public void build(EventInteractionFunctionModel eventInteractionFunctionModel) throws BuildException {
+		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();
+		while(packageMetaModelListIterator.hasNext()) {
+			packageMetaModelListIterator.next().build(eventInteractionFunctionModel);
+		}
 	}
 
 }
