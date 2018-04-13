@@ -112,6 +112,9 @@ public class MetaOpCodeProcessor {
 		        myRewardMetaModel.call_stack(callStackFunctionModel);  
 			}
 	        callStackFunctionModel.add("return", null, new String[]{"return"});
+
+	        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(eventFunctionModel.merge_p_code());
+	        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(eventInteractionFunctionModel.merge_p_code());
 	        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(optimize_events(callStackFunctionModel)));
 	        if(isReturnGeneratedPCode) {
 	        		return this.getPCode();
