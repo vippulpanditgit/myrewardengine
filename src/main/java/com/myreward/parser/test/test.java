@@ -111,7 +111,7 @@ public class test {
             appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
             															appInstanceContext.dataSegment);
 	    		EventDO eventDO = new EventDO();
-	    		eventDO.setActivityName("E");
+	    		eventDO.setActivityName("H");
 	    		eventDO.setActivityDate(new Date());
 	    		processEvent(appInstanceContext, eventDO);
 	   // 		processEvent(appInstanceContext, eventDO);
