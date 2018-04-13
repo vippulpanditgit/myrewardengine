@@ -137,9 +137,17 @@ public class MetaOpCodeProcessor {
 					//if not
 					Integer nextCodeSegmentIndex = 0;//functionXRef.get(callStackFunctionModel.v_table_function_list.get(index+1).eventName);
 
-					if(!StringUtils.equalsIgnoreCase(callStackFunctionModel.v_table_function_list.get(index+1).eventName,"return"))
-						nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index+1).eventName);
-					else
+//					if(!StringUtils.equalsIgnoreCase(callStackFunctionModel.v_table_function_list.get(index+1).eventName,"return"))
+					if(functionIndex.intValue()<functionXRef.values().toArray(new Integer[0])[functionXRef.size()-1]) {
+//						nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index+1).eventName);
+						Integer[] eventCodeIndexArray = functionXRef.values().toArray(new Integer[0]);
+						for(int eventCodeIndex=0;eventCodeIndex<eventCodeIndexArray.length;eventCodeIndex++) {
+							if(eventCodeIndexArray[eventCodeIndex]>functionIndex) {
+								nextCodeSegmentIndex = eventCodeIndexArray[eventCodeIndex];
+								break;
+							}
+						}
+					} else
 						nextCodeSegmentIndex = code.size();
 					code.remove(nextCodeSegmentIndex-1);//remove "return"
 //					if(callStackFunctionModel.v_table_function_list.size() > (functionIndex.intValue()+1))

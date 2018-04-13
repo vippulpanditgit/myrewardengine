@@ -74,17 +74,13 @@ public class MyRewardMetaModel extends BaseMetaModel {
 				Integer functionIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName);
 				String[] otherSameEventPCode = callStackFunctionModel.v_table_function_list.get(index).p_code_lst;
 				int otherSameEventPCodeSize = callStackFunctionModel.v_table_function_list.get(index).p_code_lst.length;
-//				if(callStackFunctionModel.v_table_function_list.size() >= (functionIndex.intValue())) {//Check if last
-					//if not
 					Integer nextCodeSegmentIndex = 0;
 					if(callStackFunctionModel.v_table_function_list.size() > (functionIndex.intValue()+1))
 						nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(functionIndex.intValue()+1).eventName);
 					else
 						nextCodeSegmentIndex = code.size();
 					code.remove(nextCodeSegmentIndex-1);//remove "return"
-//					if(callStackFunctionModel.v_table_function_list.size() > (functionIndex.intValue()+1))
 					if(functionIndex.intValue()==functionXRef.get(functionXRef.keySet().toArray(new String[0])[functionXRef.size()-1])) //Check if last entry
-//						code.addAll(netCodeDisplacement+nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
 						code.addAll(Arrays.asList(otherSameEventPCode));
 					else 
 						code.addAll(nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));

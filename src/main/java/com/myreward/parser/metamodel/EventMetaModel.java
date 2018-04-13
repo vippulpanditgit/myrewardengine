@@ -613,7 +613,7 @@ public class EventMetaModel extends BaseMetaModel {
 						String.valueOf(metaSymbol.getFullyQualifiedId()),
 						String.format(overrideTemplate, metaSymbol.version)),
 					this.namespace, 
-					EventAttributeType.GATEKEEPER, 
+					EventAttributeType.EVENT, 
 					eventOpCodeList.toArray(new String[0]));
 		}
 		

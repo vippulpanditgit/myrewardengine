@@ -2,6 +2,9 @@ package com.myreward.parser.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class CallStackFunctionModel {
 	public enum EventAttributeType {
@@ -32,13 +35,39 @@ public class CallStackFunctionModel {
 			this.p_code_lst = p_code_lst;
 			this.eventAttributeType = eventAttributeType;
 		}
+		public boolean equals(String eventName, String namespace, EventAttributeType eventAttributeType) {
+			if(StringUtils.equalsAnyIgnoreCase(this.eventName, eventName)
+					&& StringUtils.equalsAnyIgnoreCase(this.namespace, namespace)
+					&& this.eventAttributeType == eventAttributeType)
+				return true;
+			return false;
+		}
 	};
 	public List<_v_table_function> v_table_function_list = new ArrayList<_v_table_function>();
 	public void add(String eventName, String namespace, String[] p_code_lst) {
-		v_table_function_list.add(new _v_table_function(eventName, namespace, p_code_lst));
+		if(v_table_function_list
+				.stream()
+				.filter(function_def -> {
+					if(StringUtils.equalsAnyIgnoreCase(function_def.eventName, eventName)
+							&& StringUtils.equalsAnyIgnoreCase(function_def.namespace, namespace)
+							&& function_def.eventAttributeType == EventAttributeType.EVENT)
+							return true;
+						return false;})
+				.count()==0)
+			v_table_function_list.add(new _v_table_function(eventName, namespace, EventAttributeType.EVENT, p_code_lst));
 	}
 	public void add(String eventName, String namespace, EventAttributeType eventAttributeType, String[] p_code_lst) {
-		v_table_function_list.add(new _v_table_function(eventName, namespace, eventAttributeType, p_code_lst));
+		if(v_table_function_list
+				.stream()
+				.filter(function_def -> {
+					if(StringUtils.equalsAnyIgnoreCase(function_def.eventName, eventName)
+						&& StringUtils.equalsAnyIgnoreCase(function_def.namespace, namespace)
+						&& function_def.eventAttributeType == eventAttributeType)
+						return true;
+					return false;
+				})
+				.count()==0)
+			v_table_function_list.add(new _v_table_function(eventName, namespace, eventAttributeType, p_code_lst));
 	}
 	public void addAll(CallStackFunctionModel callStackFunctionModel) {
 		v_table_function_list.addAll(callStackFunctionModel.v_table_function_list);
