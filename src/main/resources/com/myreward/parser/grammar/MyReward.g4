@@ -136,6 +136,7 @@ import_def returns [ImportMetaModel importMetaModel]
 					$importMetaModel.importMetaModelList.add($importLib.importSymbolLibrary);
 				}
 	;
+	catch[RecognitionException e] { throw e; }
 import_name returns [String importSymbolLibrary]
 	: importName = ID {
 						try {

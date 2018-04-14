@@ -1,7 +1,14 @@
 package com.myreward.parser.test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.antlr.v4.runtime.RecognitionException;
 
@@ -14,6 +21,7 @@ import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.util.FileProcessingUtil;
 
 public class test {
 
@@ -103,7 +111,7 @@ public class test {
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
 			String hashValue = "test_event_hash";
             AppContext.getInstance().add(hashValue, 
-            		new test().createMetaOpCodeProcessor(appInstanceContext, event_2_groups_triggered_by_2_same_event));
+            		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile("/Users/vippul/Downloads/myrewardengine/src/main/resources/test/GA")));//event_2_groups_triggered_by_2_same_event));
             appInstanceContext.isDebug = true;
             appInstanceContext.actor = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();
@@ -116,8 +124,8 @@ public class test {
 		    		eventDO.setActivityName("A");
 		    		eventDO.setActivityDate(new Date());
 		    		processEvent(appInstanceContext, eventDO);
-		    		processEvent(appInstanceContext, eventDO);
-		    		processEvent(appInstanceContext, eventDO);
+//		    		processEvent(appInstanceContext, eventDO);
+//		    		processEvent(appInstanceContext, eventDO);
             } else {
             	System.out.println("Hash value not found! "+hashValue);
             }
