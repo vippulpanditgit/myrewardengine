@@ -11,6 +11,7 @@ import com.myreward.engine.event.opcode.processing.CallPriorityModel;
 import com.myreward.engine.event.opcode.processing.CallRepeatModel;
 import com.myreward.engine.event.opcode.processing.CallRewardModel;
 import com.myreward.engine.event.opcode.processing.CallShowModel;
+import com.myreward.engine.event.opcode.processing.CommentModel;
 import com.myreward.engine.event.opcode.processing.DebugModel;
 import com.myreward.engine.event.opcode.processing.DescriptionModel;
 import com.myreward.engine.event.opcode.processing.IfDurationModel;
@@ -82,7 +83,8 @@ public class RuntimeSupportedOpCodeModel {
 												new AddRewardModel(),
 												new IncrementEventModel(),
 												new DescriptionModel(),
-												new DebugModel());
+												new DebugModel(),
+												new CommentModel());
 	
 	protected RuntimeSupportedOpCodeModel() {
 		

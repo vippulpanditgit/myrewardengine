@@ -109,7 +109,8 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 			eventFunctionModel.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), String.format(EventMetaModel.overrideTemplate, /*++*/gatekeeperSourceSymbol.version)),
 											this.namespace, 
 											EventAttributeType.GATEKEEPER, 
-											gatekeeperOpcodes.toArray(new String[0]));
+											gatekeeperOpcodes.toArray(new String[0]),
+											"// "+gatekeeperTargetSymbol.getFullyQualifiedName());
 		}
 	}
 	@Override

@@ -24,6 +24,7 @@ public class CallStackFunctionModel {
 		public EventAttributeType eventAttributeType;
 		public String namespace;
 		public String[] p_code_lst;
+		public String description;
 		public _v_table_function(String eventName, String namespace, String[] p_code_lst) {
 			this.eventName = eventName;
 			this.namespace = namespace;
@@ -35,6 +36,13 @@ public class CallStackFunctionModel {
 			this.namespace = namespace;
 			this.p_code_lst = p_code_lst;
 			this.eventAttributeType = eventAttributeType;
+		}
+		public _v_table_function(String eventName, String namespace, EventAttributeType eventAttributeType, String[] p_code_lst, String description) {
+			this.eventName = eventName;
+			this.namespace = namespace;
+			this.p_code_lst = p_code_lst;
+			this.eventAttributeType = eventAttributeType;
+			this.description = description;
 		}
 		public boolean equals(String eventName, String namespace, EventAttributeType eventAttributeType) {
 			if(StringUtils.equalsAnyIgnoreCase(this.eventName, eventName)
@@ -74,12 +82,29 @@ public class CallStackFunctionModel {
 				v_table_function_list.add(new _v_table_function(eventName, namespace, eventAttributeType, p_code_lst));
 		}
 	}
+
+	public void add(String eventName, String namespace, EventAttributeType eventAttributeType, String[] p_code_lst, String description) {
+		if(p_code_lst!=null && p_code_lst.length>0) {
+			if(v_table_function_list
+					.stream()
+					.filter(function_def -> {
+						if(StringUtils.equalsAnyIgnoreCase(function_def.eventName, eventName)
+							&& StringUtils.equalsAnyIgnoreCase(function_def.namespace, namespace)
+							&& function_def.eventAttributeType == eventAttributeType)
+							return true;
+						return false;
+					})
+					.count()==0)
+				v_table_function_list.add(new _v_table_function(eventName, namespace, eventAttributeType, p_code_lst, description));
+		}
+	}
 	public void addAll(CallStackFunctionModel callStackFunctionModel) {
 		v_table_function_list.addAll(callStackFunctionModel.v_table_function_list);
 	}
 	public List<String> merge_p_code() {
 		List<String> opcodesList = new ArrayList<String>();
 		for(int index=0;index<v_table_function_list.size();index++) {
+			opcodesList.add(v_table_function_list.get(index).description);
 			opcodesList.addAll(Arrays.asList(v_table_function_list.get(index).p_code_lst));
 		}
 		return opcodesList;

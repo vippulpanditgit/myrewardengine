@@ -87,7 +87,8 @@ public class RepeatMetaModel extends BaseMetaModel {
 			eventFunctionModel.add(String.format(repeatOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)),
 					this.namespace, 
 					EventAttributeType.REPEAT, 
-					repeatOpCodeList.toArray(new String[0]));
+					repeatOpCodeList.toArray(new String[0]),
+					"// "+eventSymbol.getFullyQualifiedName());
 		}
 	}
 	@Override

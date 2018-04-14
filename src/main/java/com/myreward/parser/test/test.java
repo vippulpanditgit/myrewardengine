@@ -101,22 +101,26 @@ public class test {
 					+ " event(GH).any(1){event(GF), event(H)}";
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
-            AppContext.getInstance().add("test_event_hash", 
-            		new test().createMetaOpCodeProcessor(appInstanceContext, pseudo1));
+			String hashValue = "test_event_hash";
+            AppContext.getInstance().add(hashValue, 
+            		new test().createMetaOpCodeProcessor(appInstanceContext, event_2_groups_triggered_by_2_same_event));
             appInstanceContext.isDebug = true;
             appInstanceContext.actor = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();
-            appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get("test_event_hash");
-            appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
-            appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
-            															appInstanceContext.dataSegment);
-	    		EventDO eventDO = new EventDO();
-	    		eventDO.setActivityName("H");
-	    		eventDO.setActivityDate(new Date());
-	    		processEvent(appInstanceContext, eventDO);
-	   // 		processEvent(appInstanceContext, eventDO);
-	   // 		processEvent(appInstanceContext, eventDO);
-
+            appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get(hashValue);
+            if(appInstanceContext.metaOpCodeProcessor!=null) {
+	            appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
+	            appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
+	            															appInstanceContext.dataSegment);
+		    		EventDO eventDO = new EventDO();
+		    		eventDO.setActivityName("A");
+		    		eventDO.setActivityDate(new Date());
+		    		processEvent(appInstanceContext, eventDO);
+		    		processEvent(appInstanceContext, eventDO);
+		    		processEvent(appInstanceContext, eventDO);
+            } else {
+            	System.out.println("Hash value not found! "+hashValue);
+            }
 		} catch(Exception exp) {
 			exp.printStackTrace();
 		}

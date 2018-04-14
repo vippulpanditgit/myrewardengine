@@ -76,7 +76,8 @@ public class PriorityMetaModel extends BaseMetaModel {
 			eventFunctionModel.add(String.format(String.format(priorityOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version))),
 					this.namespace, 
 					EventAttributeType.PRIORITY, 
-					priorityOpCodeList.toArray(new String[0]));
+					priorityOpCodeList.toArray(new String[0]),
+					"// "+eventSymbol.getFullyQualifiedName());
 		}
 	}
 

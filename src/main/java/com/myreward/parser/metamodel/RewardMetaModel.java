@@ -91,10 +91,13 @@ public class RewardMetaModel extends BaseMetaModel {
 			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[9], eventSymbol.getFullyQualifiedId()));
 			if(maxRewardAmount > 0)
 				rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[10], eventSymbol.getFullyQualifiedId()));
-			eventFunctionModel.add(String.format(rewardOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)),
+			eventFunctionModel.add(String.format(rewardOpCodeListTemplate[0], 
+						String.valueOf(eventSymbol.getFullyQualifiedId()),
+						String.format(EventMetaModel.overrideTemplate, eventSymbol.version)),
 					this.namespace, 
 					EventAttributeType.REWARD, 
-					rewardOpCodeList.toArray(new String[0]));
+					rewardOpCodeList.toArray(new String[0]),
+					"// "+eventSymbol.getFullyQualifiedName());
 		}
 		
 	}

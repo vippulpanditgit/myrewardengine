@@ -88,7 +88,13 @@ public class DurationMetaModel extends BaseMetaModel {
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[6], eventSymbol.getFullyQualifiedId()));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[7]));
 
-			eventFunctionModel.add(String.format(durationOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)), eventSymbol.getNamespace(), EventAttributeType.DURATION, durationOpCodeList.toArray(new String[0]));
+			eventFunctionModel.add(String.format(durationOpCodeListTemplate[0], 
+						String.valueOf(eventSymbol.getFullyQualifiedId()),
+						String.format(EventMetaModel.overrideTemplate, eventSymbol.version)), 
+					eventSymbol.getNamespace(), 
+					EventAttributeType.DURATION, 
+					durationOpCodeList.toArray(new String[0]),
+					"// "+eventSymbol.getFullyQualifiedName());
 
 		}
 	}

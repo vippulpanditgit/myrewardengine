@@ -73,7 +73,8 @@ public class ShowMetaModel extends BaseMetaModel {
 			eventFunctionModel.add(String.format(showOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)),
 					this.namespace, 
 					EventAttributeType.SHOW, 
-					showOpCodeList.toArray(new String[0]));
+					showOpCodeList.toArray(new String[0]),
+					"// "+eventSymbol.getFullyQualifiedName());
 		}
 	}
 

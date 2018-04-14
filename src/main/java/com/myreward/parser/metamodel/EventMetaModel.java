@@ -526,8 +526,6 @@ public class EventMetaModel extends BaseMetaModel {
 		this.namespace = metaSymbol.getNamespace();
 		if(this.durationMetaModel!=null) {
 			durationMetaModel.model(eventFunctionModel);
-
-//			eventOpCodeList.addAll(Arrays.asList(durationMetaModel.model()));
 		}
 		if(this.gatekeeperMetaModel!=null) {
 			gatekeeperMetaModel.model(eventFunctionModel);
@@ -614,7 +612,8 @@ public class EventMetaModel extends BaseMetaModel {
 						String.format(overrideTemplate, metaSymbol.version)),
 					this.namespace, 
 					EventAttributeType.EVENT, 
-					eventOpCodeList.toArray(new String[0]));
+					eventOpCodeList.toArray(new String[0]),
+					"// "+metaSymbol.getFullyQualifiedName());
 		}
 		
 	}
@@ -697,7 +696,8 @@ public class EventMetaModel extends BaseMetaModel {
 				String.format(overrideTemplate, metaSymbol.version)),
 			this.namespace, 
 			EventAttributeType.GROUP, 
-			groupOpcodeList.toArray(new String[0]));
+			groupOpcodeList.toArray(new String[0]),
+			"// "+metaSymbol.getName());
 
 	}
 }

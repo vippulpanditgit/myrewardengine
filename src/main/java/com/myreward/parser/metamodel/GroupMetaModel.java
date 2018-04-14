@@ -217,7 +217,8 @@ public class GroupMetaModel extends BaseMetaModel {
 			eventInteractionFunctionModel.add(String.format(prefixGroupOpCodesListTemplate[0],parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.version)), 
 									parentEventSymbol.getNamespace(), 
 									EventAttributeType.GROUP, 
-									groupOpCodes.toArray(new String[0]));
+									groupOpCodes.toArray(new String[0]),
+									"// "+parentEventSymbol.getFullyQualifiedName());
 
 			eventMetaModelListIterator = eventMetaModelList.listIterator();
 			while(eventMetaModelListIterator.hasNext()) {

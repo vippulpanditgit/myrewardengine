@@ -12,6 +12,7 @@ import com.myreward.engine.app.AppContext;
 import com.myreward.engine.app.AppInstanceContext;
 import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.MetaDataParsingException;
+import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.engine.model.event.EventDO;
@@ -20,7 +21,7 @@ import com.myreward.parser.generator.MyRewardDataSegment;
 public abstract class BaseTestCase {
 	protected AppInstanceContext appInstanceContext;
 	
-	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException, BuildException {
+	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException, BuildException, ReferencedModelException {
 		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor(appInstanceContext);
 		metaOpCodeProcessor.initialize();
 		System.out.println("***** 4");
