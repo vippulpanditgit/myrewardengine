@@ -11,6 +11,12 @@ import com.myreward.parser.model.*;
 import com.myreward.parser.symbol.*;
 import com.myreward.parser.metamodel.*;
 import com.myreward.parser.util.*;
+import com.myreward.engine.app.AppInstanceContext;
+import com.myreward.engine.event.processor.MetaOpCodeProcessor;
+import com.myreward.engine.event.error.BuildException;
+import com.myreward.engine.event.error.MetaDataParsingException;
+import com.myreward.engine.event.error.ReferencedModelException;
+
 }
 @members {
 //  private static org.slf4j.Logger _logger =
@@ -19,11 +25,13 @@ import com.myreward.parser.util.*;
 	private Symbol current;
 	public static SymbolTable symbolTable = new MyRewardSymbolTable();
 	private int level = 0;
+	public MetaOpCodeProcessor metaOpCodeProcessor;
 	
 	
 	public SymbolTable getSymbolTable() {
 		return symbolTable;
 	}
+	
 }
 
 // Keywords
@@ -134,26 +142,21 @@ import_def returns [ImportMetaModel importMetaModel]
 	: IMPORT importLib=import_name {
 					$importMetaModel = new ImportMetaModel();
 					$importMetaModel.importMetaModelList.add($importLib.importSymbolLibrary);
-				}
+				} SEMI
 	;
 	catch[RecognitionException e] { throw e; }
 import_name returns [String importSymbolLibrary]
 	: importName = ID {
-						try {
-							MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(TestData.getTestData($importName.getText()));
-							Myreward_defsContext fileContext = myRewardParser.myreward_defs(); 
-							
-							this.getSymbolTable().merge(myRewardParser.getSymbolTable().getAllSymbol());
-							$importSymbolLibrary = $importName.getText();
-						} catch(IOException exp){exp.printStackTrace();}
-							
+						if(metaOpCodeProcessor.captureToProcessList(FileProcessingUtil.getDefaultFilePath()+((Import_nameContext)_localctx).importName.getText())) {
+							((Import_nameContext)_localctx).importSymbolLibrary =  ((Import_nameContext)_localctx).importName.getText();
+						}
 					}
 	;
 package_def returns [PackageMetaModel packageMetaModel]
 	: PACKAGE packageName=package_name {
 						$packageMetaModel = new PackageMetaModel();
 						$packageMetaModel.packageName = $packageName.packageNameElement;
-					}
+					} SEMI
 	;
 package_name returns [String packageNameElement]
 	: packageName = ID {

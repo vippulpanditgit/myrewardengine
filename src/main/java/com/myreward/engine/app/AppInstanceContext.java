@@ -1,5 +1,6 @@
 package com.myreward.engine.app;
 
+import java.util.Map;
 import java.util.Stack;
 import java.util.function.Consumer;
 
@@ -17,6 +18,7 @@ public class AppInstanceContext {
 	public EventProcessor eventProcessor;
 	public Stack<Object> stackSegment;
 	public Heap<Object> heapSegment;
+	public Map<String, String> nextMetaDataToProcess;
 	
 	public boolean isInstanceReady() {
 		if(dataSegment!=null

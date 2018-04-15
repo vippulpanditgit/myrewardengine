@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import com.myreward.parser.metamodel.MyRewardMetaModel;
 import com.myreward.parser.model.CallStackFunctionModel;
 import com.myreward.parser.model.EventFunctionModel;
 import com.myreward.parser.model.EventInteractionFunctionModel;
+import com.myreward.parser.util.FileProcessingUtil;
 import com.myreward.parser.util.MyRewardParserUtil;
 import com.myreward.parser.util.RuntimeLib;
 
@@ -68,38 +70,77 @@ public class MetaOpCodeProcessor {
 		metaDataList = null;
 		
 	}
+	public boolean isAlreadyAdded(String rule) {
+		boolean isAlreadyAdded = false;
+		for(int index=0;index<metaDataList.size();index++) {
+			if(metaDataList.get(index).hashCode()==rule.hashCode()) {
+				isAlreadyAdded = true;
+				break;
+			}
+		}
+		return isAlreadyAdded;
+	}
 	public MyRewardParser setup(String rule) throws MetaDataParsingException {
-		if(rule!=null) {
-			metaDataList.add(rule);
-		}
-		StringBuffer ruleList = new StringBuffer();
-		Iterator<String> ruleIterator = metaDataList.iterator();
-		while(ruleIterator.hasNext()) {
-			ruleList.append(ruleIterator.next());
-		}
+//		if(rule!=null) {
+//			if(!isAlreadyAdded(rule))
+//				metaDataList.add(rule);
+//		}
+//		StringBuffer ruleList = new StringBuffer();
+//		Iterator<String> ruleIterator = metaDataList.iterator();
+//		while(ruleIterator.hasNext()) {
+//			ruleList.append(ruleIterator.next());
+//		}
 		try {
-			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(ruleList.toString());
+			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(this, rule.toString());
 			return myRewardParser;
 		} catch (IOException e) {
 			throw new MetaDataParsingException(ErrorCode.GENERAL_PARSING_EXCEPTION);
 		}
 	}
-	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException, BuildException, ReferencedModelException {
+	private void processRule(List<MyRewardMetaModel> myRewardMetaModelList, String rule) throws RecognitionException, MetaDataParsingException {
 		Myreward_defsContext fileContext = setup(rule).myreward_defs();
-/*		MyRewardParser.symbolTable.getAllSymbol().forEach(symbol-> {
-			System.out.println(symbol);
-		});
-*///		System.out.println("MetaOpCodeProcessor.parse "+MyRewardParser.symbolTable);
 
 		if(fileContext!=null && fileContext.children!=null && fileContext.children.size()>0) {
-	        this.setMyRewardPCodeGenerator(new MyRewardPCodeGenerator());
+			for(int index=0; index < fileContext.children.size();index++) {
+				myRewardMetaModelList.add(((Myreward_defContext)(fileContext.children.get(index))).myRewardMetaModel);
+			}
+		}
+		
+	}
+	public String[] parse(String rule, boolean isReturnGeneratedPCode) throws RecognitionException, MetaDataParsingException, BuildException, ReferencedModelException {
+		List<MyRewardMetaModel> myRewardMetaModelList = new ArrayList<>();
+		this.setMyRewardPCodeGenerator(new MyRewardPCodeGenerator());
+        CallStackFunctionModel callStackFunctionModel = new CallStackFunctionModel();
+		callStackFunctionModel.add("lbl_main", null, new String[]{"lbl_main"});
+		EventFunctionModel eventFunctionModel = new EventFunctionModel();
+		EventInteractionFunctionModel eventInteractionFunctionModel = new EventInteractionFunctionModel();
+		
+		this.processRule(myRewardMetaModelList, rule);
+		if(this.parentContext.nextMetaDataToProcess.size()>0) {
+			this.parentContext.nextMetaDataToProcess.forEach((k, v) -> {
+				try {
+					this.processRule(myRewardMetaModelList, v);
+				} catch (RecognitionException | MetaDataParsingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+		}
+/*		Myreward_defsContext fileContext = setup(rule).myreward_defs();
+
+		if(fileContext!=null && fileContext.children!=null && fileContext.children.size()>0) {
+			for(int index=0; index < fileContext.children.size();index++) {
+				myRewardMetaModelList.add(((Myreward_defContext)(fileContext.children.get(index))).myRewardMetaModel);
+			}
+		}
+*//*	        this.setMyRewardPCodeGenerator(new MyRewardPCodeGenerator());
 	        CallStackFunctionModel callStackFunctionModel = new CallStackFunctionModel();
 			callStackFunctionModel.add("lbl_main", null, new String[]{"lbl_main"});
 			EventFunctionModel eventFunctionModel = new EventFunctionModel();
 			EventInteractionFunctionModel eventInteractionFunctionModel = new EventInteractionFunctionModel();
-
-	        for(int index=0; index < fileContext.children.size();index++) {
-				MyRewardMetaModel myRewardMetaModel = ((Myreward_defContext)(fileContext.children.get(index))).myRewardMetaModel;
+*/
+	        for(int index=0; index < myRewardMetaModelList.size();index++) {
+				MyRewardMetaModel myRewardMetaModel = myRewardMetaModelList.get(index);
 				myRewardMetaModel.lib_lookup();
 				MyRewardParser.symbolTable.getAllSymbol().forEach(symbol-> {
 					System.out.println(symbol);
@@ -117,7 +158,6 @@ public class MetaOpCodeProcessor {
 	        if(isReturnGeneratedPCode) {
 	        		return this.getPCode();
 	        }
-		}
         return null;
 	}
 	public String[] optimize_events(CallStackFunctionModel callStackFunctionModel) {
@@ -126,8 +166,10 @@ public class MetaOpCodeProcessor {
 		int netCodeDisplacement = 0;
 		for(int index=0;index< callStackFunctionModel.v_table_function_list.size();index++) {
 			if(functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName)==null) {
-				if(StringUtils.equalsIgnoreCase(callStackFunctionModel.v_table_function_list.get(index).eventName, "return"))
+				if(StringUtils.equalsIgnoreCase(callStackFunctionModel.v_table_function_list.get(index).eventName, "return")) {
+					code.add("return");
 					continue;
+				}
 				functionXRef.put(callStackFunctionModel.v_table_function_list.get(index).eventName, new Integer(code.size()));
 				code.addAll(Arrays.asList(callStackFunctionModel.v_table_function_list.get(index).p_code_lst));
 			} else {
@@ -237,5 +279,19 @@ public class MetaOpCodeProcessor {
 		}
 //		AuditManager.getInstance().audit(new AuditEvent(null, AuditEventType.AUDIT_EVENT_CREATE_META_DATA_TREE_END, null));
 		return runtimeOpCodes;
+	}
+	public boolean captureToProcessList(String importFile) {
+		if(parentContext.nextMetaDataToProcess==null)
+			parentContext.nextMetaDataToProcess = new HashMap<String, String>();
+		if(importFile!=null && parentContext.nextMetaDataToProcess.get(importFile.hashCode())==null) {
+			try {
+				parentContext.nextMetaDataToProcess.put(String.valueOf(importFile.hashCode()), FileProcessingUtil.readFile(importFile));
+				return true;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 }

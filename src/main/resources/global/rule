@@ -1,4 +1,4 @@
-package global
+package rule;
 
 event(GA).any(2){
 	event(B),

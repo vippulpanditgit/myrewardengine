@@ -10,8 +10,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileProcessingUtil {
+	private static String DEFAULT_FILE_PATH = "/Users/vippul/Downloads/myrewardengine/src/main/resources/";
+	public static String getDefaultFilePath() {
+		return DEFAULT_FILE_PATH;
+	}
 	public static String readFile(String fileName) throws IOException {
 		List<String> list = new ArrayList<>();
+		fileName = fileName.replace('.', '/');
 
 		try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
 			list = stream

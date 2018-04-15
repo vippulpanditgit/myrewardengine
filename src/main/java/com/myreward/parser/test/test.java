@@ -21,6 +21,7 @@ import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.util.EventProcessingUtil;
 import com.myreward.parser.util.FileProcessingUtil;
 
 public class test {
@@ -109,9 +110,10 @@ public class test {
 					+ " event(GH).any(1){event(GF), event(H)}";
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
-			String hashValue = "test_event_hash";
+			String ruleFileName = "/Users/vippul/Downloads/myrewardengine/src/main/resources/test/GA";
+			String hashValue = String.valueOf(ruleFileName.hashCode());
             AppContext.getInstance().add(hashValue, 
-            		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile("/Users/vippul/Downloads/myrewardengine/src/main/resources/test/GA")));//event_2_groups_triggered_by_2_same_event));
+            		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(ruleFileName)));
             appInstanceContext.isDebug = true;
             appInstanceContext.actor = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();
@@ -123,7 +125,7 @@ public class test {
 		    		EventDO eventDO = new EventDO();
 		    		eventDO.setActivityName("A");
 		    		eventDO.setActivityDate(new Date());
-		    		processEvent(appInstanceContext, eventDO);
+		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 //		    		processEvent(appInstanceContext, eventDO);
 //		    		processEvent(appInstanceContext, eventDO);
             } else {
@@ -134,29 +136,5 @@ public class test {
 		}
 
     }
-	private static void processEvent(AppInstanceContext appInstanceContext, EventDO eventDO) throws Exception {
-		appInstanceContext.print_data_segment();
-		try {
-			if(appInstanceContext.isInstanceReady())
-				appInstanceContext.eventProcessor.process_event(eventDO);
-		} catch(DebugException debugException) {
-			appInstanceContext.eventProcessor.setMyRewardDataSegment(debugException.myRewardDataSegment);
-			while(true) {
-				try {
-					int index = appInstanceContext.eventProcessor.step(debugException.opCodeIndex, debugException.eventDO);
-					debugException.opCodeIndex = index;
-					if(appInstanceContext.eventProcessor.getInstructionOpCodes().size()-1<=index)
-						break;
-				} catch(DebugException deepDebugException) {
-					debugException.eventDO = deepDebugException.eventDO;
-					debugException.myRewardDataSegment = deepDebugException.myRewardDataSegment;
-					debugException.opCodeIndex = deepDebugException.opCodeIndex;
-				}
-			}
-		}
-//    			byte[] json = ObjectJsonSerializer.toJson(appInstanceContext.eventProcessor.getMyRewardDataSegment().getDataObject(66), null);
-//    			System.out.println(new String(json));
-			appInstanceContext.print_data_segment();
-	}
 
 }

@@ -1,6 +1,6 @@
-package test 
+package test;
 
-import global/rule;
+import global.rule;
 
 event(GA).any(10) {
 	event(B),
