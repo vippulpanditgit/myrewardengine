@@ -21,7 +21,7 @@ public class PackageMetaModel extends BaseMetaModel {
 	@Override
 	public String[] build() throws BuildException {
 		metaSymbol = new Symbol(packageName);
-		metaSymbol =  MyRewardParser.symbolTable.lookup(metaSymbol);
+		metaSymbol =  symbolTable.lookup(metaSymbol);
 
 		List<String> packageOpcodeList = new ArrayList<String>();
 		ListIterator<BaseMetaModel> packageMetaModelListIterator = packageMetaModelList.listIterator();

@@ -72,7 +72,7 @@ public class GroupMetaModel extends BaseMetaModel {
 				String eventName = parentEventMetaModel.getEventName();
 				parentEventSymbol = new Symbol(eventName);
 				parentEventSymbol.setNamespace(namespace);
-				SymbolTable symbolTable = MyRewardParser.symbolTable;
+	
 				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 				rewardMetaModel = parentEventMetaModel.getRewardMetaModel();
 				// Create a lbl for function for the group
@@ -84,7 +84,7 @@ public class GroupMetaModel extends BaseMetaModel {
 				Symbol lookupEvent = new Symbol(eventMetaModel.getEventName());
 				String namespace = this.getSymbolNamespace(eventMetaModel);
 				lookupEvent.setNamespace(namespace);
-				Symbol eventSymbol = MyRewardParser.symbolTable.lookup(lookupEvent);
+				Symbol eventSymbol = symbolTable.lookup(lookupEvent);
 				if(ordinalMetaModel instanceof AnyMetaModel) {
 					int anyGroupIndex = groupOpCodes.size();
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?8:6));
@@ -178,8 +178,8 @@ public class GroupMetaModel extends BaseMetaModel {
 				String eventName = parentEventMetaModel.getEventName();
 				parentEventSymbol = new Symbol(eventName);
 				parentEventSymbol.setNamespace(namespace);
-				SymbolTable symbolTable = MyRewardParser.symbolTable;
-				parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+	
+				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 				rewardMetaModel = parentEventMetaModel.getRewardMetaModel();
 				// Create a lbl for function for the group
 				groupOpCodes.add(String.format(prefixGroupOpCodesListTemplate[0],parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.version)));
@@ -190,7 +190,7 @@ public class GroupMetaModel extends BaseMetaModel {
 				Symbol lookupEvent = new Symbol(eventMetaModel.getEventName());
 				String namespace = this.getSymbolNamespace(eventMetaModel);
 				lookupEvent.setNamespace(namespace);
-				Symbol eventSymbol = MyRewardParser.symbolTable.lookup(lookupEvent);
+				Symbol eventSymbol = symbolTable.lookup(lookupEvent);
 				if(ordinalMetaModel instanceof AnyMetaModel) {
 					int anyGroupIndex = groupOpCodes.size();
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?8:6));

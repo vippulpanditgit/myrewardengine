@@ -21,6 +21,7 @@ import com.myreward.engine.event.error.ReferencedModelException;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.parser.grammar.MyRewardParser;
+import com.myreward.parser.symbol.MyRewardSymbolTable;
 import com.myreward.parser.util.EventProcessingUtil;
 import com.myreward.parser.util.FileProcessingUtil;
 
@@ -110,10 +111,10 @@ public class test {
 					+ " event(GH).any(1){event(GF), event(H)}";
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
-			String ruleFileName = "/Users/vippul/Downloads/myrewardengine/src/main/resources/test/GA";
+			String ruleFileName = "test/GA";
 			String hashValue = String.valueOf(ruleFileName.hashCode());
             AppContext.getInstance().add(hashValue, 
-            		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(ruleFileName)));
+            		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(FileProcessingUtil.getDefaultFilePath()+ruleFileName)));
             appInstanceContext.isDebug = true;
             appInstanceContext.actor = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();

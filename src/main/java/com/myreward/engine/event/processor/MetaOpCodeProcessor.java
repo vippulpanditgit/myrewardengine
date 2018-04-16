@@ -56,7 +56,8 @@ public class MetaOpCodeProcessor {
 			metaDataList = null;
 			metaDataList = new ArrayList<String>();
 		}
-		MyRewardParser.symbolTable.getAllSymbol().clear();
+		if(parentContext.symbolTable!=null)
+			parentContext.symbolTable.getAllSymbol().clear();
 	}
 	public void initialize(String rule) {
 		if(metaDataList!=null) {
@@ -82,15 +83,6 @@ public class MetaOpCodeProcessor {
 		return isAlreadyAdded;
 	}
 	public MyRewardParser setup(String rule) throws MetaDataParsingException {
-//		if(rule!=null) {
-//			if(!isAlreadyAdded(rule))
-//				metaDataList.add(rule);
-//		}
-//		StringBuffer ruleList = new StringBuffer();
-//		Iterator<String> ruleIterator = metaDataList.iterator();
-//		while(ruleIterator.hasNext()) {
-//			ruleList.append(ruleIterator.next());
-//		}
 		try {
 			MyRewardParser myRewardParser = MyRewardParserUtil.getParsed(this, rule.toString());
 			return myRewardParser;
@@ -130,8 +122,9 @@ public class MetaOpCodeProcessor {
 	        for(int index=0; index < myRewardMetaModelList.size();index++) {
 				MyRewardMetaModel myRewardMetaModel = myRewardMetaModelList.get(index);
 				myRewardMetaModel.lib_lookup();
-				MyRewardParser.symbolTable.getAllSymbol().forEach(symbol-> {
+				myRewardMetaModel.symbolTable.getAllSymbol().forEach(symbol-> {
 					System.out.println(symbol);
+					parentContext.symbolTable.getAllSymbol().addAll(myRewardMetaModel.symbolTable.getAllSymbol());
 				});
 			
 				myRewardMetaModel.model(eventFunctionModel);
@@ -215,7 +208,7 @@ public class MetaOpCodeProcessor {
     public MyRewardDataSegment createDataSegment() {
         MyRewardDataSegment myRewardDataSegment = new MyRewardDataSegment();
         // Create the data segment
-        myRewardDataSegment.processDataSegment(MyRewardParser.symbolTable);
+        myRewardDataSegment.processDataSegment(parentContext.symbolTable);
         // Copy the data segment
         MyRewardDataSegment myRewardDataSegmentClone = (MyRewardDataSegment) RuntimeLib.deepClone(myRewardDataSegment);
         return myRewardDataSegmentClone;

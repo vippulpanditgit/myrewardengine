@@ -23,7 +23,7 @@ import com.myreward.engine.event.error.ReferencedModelException;
 //    org.slf4j.LoggerFactory.getLogger(com.myreward.parser.grammar.MyRewardParser.class);
 	private Symbol packageSymbol;
 	private Symbol current;
-	public static SymbolTable symbolTable = new MyRewardSymbolTable();
+	public SymbolTable symbolTable = new MyRewardSymbolTable();
 	private int level = 0;
 	public MetaOpCodeProcessor metaOpCodeProcessor;
 	
@@ -134,6 +134,7 @@ myreward_def returns [MyRewardMetaModel myRewardMetaModel]
 					$eventDef.eventMetaModel.parent = $packageDef.packageMetaModel;
 					$packageDef.packageMetaModel.packageMetaModelList.add($eventDef.eventMetaModel);
 					$myRewardMetaModel = new MyRewardMetaModel();
+					$myRewardMetaModel.symbolTable = symbolTable;
 					$packageDef.packageMetaModel.parent = $myRewardMetaModel;
 					$myRewardMetaModel.myRewardMetaModelList.add($packageDef.packageMetaModel);
 				}) +
@@ -141,6 +142,7 @@ myreward_def returns [MyRewardMetaModel myRewardMetaModel]
 import_def returns [ImportMetaModel importMetaModel]
 	: IMPORT importLib=import_name {
 					$importMetaModel = new ImportMetaModel();
+					$importMetaModel.symbolTable = symbolTable;
 					$importMetaModel.importMetaModelList.add($importLib.importSymbolLibrary);
 				} SEMI
 	;
@@ -155,6 +157,7 @@ import_name returns [String importSymbolLibrary]
 package_def returns [PackageMetaModel packageMetaModel]
 	: PACKAGE packageName=package_name {
 						$packageMetaModel = new PackageMetaModel();
+						$packageMetaModel.symbolTable = symbolTable;
 						$packageMetaModel.packageName = $packageName.packageNameElement;
 					} SEMI
 	;
@@ -174,6 +177,7 @@ event_def returns [EventMetaModel eventMetaModel]
 	: EVENT LPAREN eventName=event_name {
 						if($eventMetaModel==null)
 							$eventMetaModel = new EventMetaModel();
+						$eventMetaModel.symbolTable = symbolTable;
 						$eventMetaModel.setEventName($eventName.eventName);
 						$eventMetaModel.packageName = packageSymbol.getName();
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
@@ -271,6 +275,7 @@ group_def returns [GroupMetaModel groupDefMetaModel]
 	| groupAnyLogic=any_def {	
 																
 																$groupDefMetaModel = new GroupMetaModel();
+																$groupDefMetaModel.symbolTable = symbolTable;
 																$groupDefMetaModel.ordinalMetaModel = $groupAnyLogic.anyMetaModel;
 																$groupDefMetaModel.packageName = packageSymbol.getName();
 																current.setType(Symbol.SymbolType.EVENT);
@@ -282,7 +287,8 @@ group_def returns [GroupMetaModel groupDefMetaModel]
 															}													
 	;
 group_events_def returns [GroupMetaModel groupEventsDefMetaModel]
-	@init {$groupEventsDefMetaModel = new GroupMetaModel();}
+	@init {$groupEventsDefMetaModel = new GroupMetaModel();
+			$groupEventsDefMetaModel.symbolTable = symbolTable;}
 	: eventDef=event_def {			$eventDef.eventMetaModel.parent = $groupEventsDefMetaModel;
 									$groupEventsDefMetaModel.eventMetaModelList.add($eventDef.eventMetaModel);
 						} (COMMA eventDefNext=event_def {
@@ -292,6 +298,7 @@ group_events_def returns [GroupMetaModel groupEventsDefMetaModel]
 	;
 all_def returns [GroupMetaModel groupModel]
 	: ALL	{ if($groupModel==null) $groupModel = new GroupMetaModel();
+									$groupModel.symbolTable = symbolTable;
 									$groupModel.logic = GroupMetaModel.GROUP_LOGIC.ALL;
 									current.setType(Symbol.SymbolType.DERIVED_EVENT);
 									}
@@ -312,10 +319,12 @@ sequence_def returns [int value]
 show_def returns [ShowMetaModel showMetaModel]
 	: SHOW LPAREN 'true' RPAREN  {current.setShow(true);
 								$showMetaModel = new ShowMetaModel();
+								$showMetaModel.symbolTable = symbolTable;
 								$showMetaModel.isShow = true;
 							}
 	| SHOW LPAREN 'false' RPAREN {current.setShow(false);
 								$showMetaModel = new ShowMetaModel();
+								$showMetaModel.symbolTable = symbolTable;
 								$showMetaModel.isShow = false;
 							}
 	;
@@ -397,6 +406,7 @@ reward_quantity_def returns [RewardMetaModel rewardMetaModel]
 							}catch(Exception exp){exp.printStackTrace();}
 							current.setReward(reward);
 							$rewardMetaModel = new RewardMetaModel();
+							$rewardMetaModel.symbolTable = symbolTable;
 							$rewardMetaModel.rewardAmount = rewardAmount;
 						}
 	| rewardQuantity='true'
@@ -409,6 +419,7 @@ reward_quantity_def returns [RewardMetaModel rewardMetaModel]
 							}catch(Exception exp){exp.printStackTrace();}
 							current.setReward(reward);
 							$rewardMetaModel = new RewardMetaModel();
+							$rewardMetaModel.symbolTable = symbolTable;
 							$rewardMetaModel.rewardAmount = rewardAmount;
 						}
 	;

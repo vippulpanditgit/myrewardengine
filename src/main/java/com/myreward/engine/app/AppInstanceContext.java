@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.parser.symbol.MyRewardSymbolTable;
+import com.myreward.parser.symbol.SymbolTable;
 import com.myreward.parser.util.Heap;
 
 public class AppInstanceContext {
@@ -19,7 +21,11 @@ public class AppInstanceContext {
 	public Stack<Object> stackSegment;
 	public Heap<Object> heapSegment;
 	public Map<String, String> nextMetaDataToProcess;
+	public SymbolTable symbolTable;
 	
+	public AppInstanceContext() {
+		symbolTable = new MyRewardSymbolTable();
+	}
 	public boolean isInstanceReady() {
 		if(dataSegment!=null
 				&& eventProcessor!=null)

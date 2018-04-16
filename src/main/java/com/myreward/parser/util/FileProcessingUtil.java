@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileProcessingUtil {
-	private static String DEFAULT_FILE_PATH = "/Users/vippul/Downloads/myrewardengine/src/main/resources/";
+	private static String DEFAULT_FILE_PATH = "C:\\Users\\vpandi1\\current\\myrewardengine\\src\\main\\resources\\";//"/Users/vippul/Downloads/myrewardengine/src/main/resources/";
 	public static String getDefaultFilePath() {
 		return DEFAULT_FILE_PATH;
 	}

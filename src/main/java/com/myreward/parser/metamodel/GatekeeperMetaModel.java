@@ -38,7 +38,6 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 		Symbol eventSymbol = new Symbol(eventMetaModel.getEventName());
 		eventSymbol.setNamespace(namespace);
 		
-		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		eventSymbol = symbolTable.lookup(eventSymbol);
 
 		gatekeeperOpCodes.add(String.format(prefixGatekeeperOpCodesListTemplate[0],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)));
@@ -56,7 +55,6 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 		Symbol gatekeeperSourceSymbol = new Symbol(gatekeeperSourceEventName);
 		this.namespace = parent.namespace;
 		gatekeeperSourceSymbol.setNamespace(this.namespace);
-		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		gatekeeperSourceSymbol = symbolTable.lookup(gatekeeperSourceSymbol);
 		if(this.parent instanceof EventMetaModel) {
 			EventMetaModel gatekeeperTargetEvent = (EventMetaModel)this.parent;
@@ -93,7 +91,6 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 		Symbol gatekeeperSourceSymbol = new Symbol(gatekeeperSourceEventName);
 		this.namespace = parent.namespace;
 		gatekeeperSourceSymbol.setNamespace(this.namespace);
-		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		gatekeeperSourceSymbol = symbolTable.lookup(gatekeeperSourceSymbol);
 		if(this.parent instanceof EventMetaModel) {
 			EventMetaModel gatekeeperTargetEvent = (EventMetaModel)this.parent;
@@ -119,9 +116,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 		Symbol eventSymbol = new Symbol(eventMetaModel.getEventName());
 		eventSymbol.setNamespace(namespace);
 		
-		SymbolTable symbolTable = MyRewardParser.symbolTable;
 		eventSymbol = symbolTable.lookup(eventSymbol);
-
 		gatekeeperOpCodes.add(String.format(prefixGatekeeperOpCodesListTemplate[0],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)));
 		gatekeeperOpCodes.add(String.format(gatekeeperOpCodesListTemplate[0],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)));
 		gatekeeperOpCodes.add(String.format(gatekeeperOpCodesListTemplate[1],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)));

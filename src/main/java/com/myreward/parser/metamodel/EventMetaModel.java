@@ -150,7 +150,7 @@ public class EventMetaModel extends BaseMetaModel {
 		metaSymbol = new Symbol(eventName);
 		metaSymbol.setNamespace(namespace);
 		metaSymbol.setPackageName(this.getPackageName(this));
-		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
+		metaSymbol = symbolTable.lookup(metaSymbol);
 		if(metaSymbol==null)
 			throw new BuildException(ErrorCode.SYMBOL_NOT_FOUND);
 		if(groupMetaModel!=null) { // If this event is a group event
@@ -166,7 +166,7 @@ public class EventMetaModel extends BaseMetaModel {
 				if(this.parent instanceof EventMetaModel) {
 					EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
-					parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+					parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 					parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 				}  else if(this.parent instanceof GroupMetaModel) {
 					GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
@@ -181,14 +181,14 @@ public class EventMetaModel extends BaseMetaModel {
 					if(parentEventMetaModel!=null) {
 						Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
 						parentEventSymbol.setNamespace(parentEventMetaModel.namespace);
-						parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+						parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 						parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 					}
 				}
 
 			}
 		} else { // This is a standalone event.
-			Symbol symbolReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
+			Symbol symbolReference = symbolTable.getReference(symbolTable.getAllSymbol(), metaSymbol);
 			if(symbolReference!=null) {
 				symbolReference.setReferenced(true);
 				metaSymbol.setReferredSymbol(symbolReference);
@@ -197,7 +197,7 @@ public class EventMetaModel extends BaseMetaModel {
 				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 				Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
-				parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 				parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 			}  else if(this.parent instanceof GroupMetaModel) {
 				GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
@@ -209,7 +209,7 @@ public class EventMetaModel extends BaseMetaModel {
 					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
 					String parentEventNamespace = this.getSymbolNamespace(parentEventMetaModel);
 					parentEventSymbol.setNamespace(parentEventNamespace);
-					parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+					parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 					parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 				}
 			} 
@@ -238,7 +238,7 @@ public class EventMetaModel extends BaseMetaModel {
 			metaSymbol.setNamespace(((GatekeeperMetaModel) parentMetaModel).namespace);
 		else if(parentMetaModel instanceof EventMetaModel)
 			metaSymbol.setNamespace(parentMetaModel.namespace+"."+((EventMetaModel) parentMetaModel).eventName);
-		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
+		metaSymbol = symbolTable.lookup(metaSymbol);
 		this.namespace = metaSymbol.getNamespace();
 		if(this.durationMetaModel!=null) {
 			eventOpCodeList.addAll(Arrays.asList(durationMetaModel.model()));
@@ -339,7 +339,7 @@ public class EventMetaModel extends BaseMetaModel {
 			String namespace = this.getSymbolNamespace(this);
 			metaSymbol.setNamespace(namespace);
 			metaSymbol.setPackageName(this.packageName);
-			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
+			metaSymbol = symbolTable.lookup(metaSymbol);
 			if(metaSymbol.getReferredSymbol()!=null) {// If this symbol is a reference then don't generate a call stack
 				
 			} else {
@@ -366,7 +366,7 @@ public class EventMetaModel extends BaseMetaModel {
 			Symbol metaSymbol = new Symbol(groupEventMetaModel.eventName);
 			String namespace = groupEventMetaModel.namespace!=null?groupEventMetaModel.namespace:this.getSymbolNamespace(groupEventMetaModel);
 			metaSymbol.setNamespace(namespace);
-			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
+			metaSymbol = symbolTable.lookup(metaSymbol);
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, metaSymbol.version)));
 			eventMetaModel = eventMetaModel.parent.parent;
 			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);
@@ -377,7 +377,7 @@ public class EventMetaModel extends BaseMetaModel {
 			EventMetaModel groupEventMetaModel = (EventMetaModel)eventMetaModel.parent.parent;
 			Symbol metaSymbol = new Symbol(groupEventMetaModel.eventName);
 			metaSymbol.setNamespace(this.getSymbolNamespace(eventMetaModel));
-			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
+			metaSymbol = symbolTable.lookup(metaSymbol);
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, /*++*/metaSymbol.version)));
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[1], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, metaSymbol.version)));
 			eventMetaModel = eventMetaModel.parent.parent;
@@ -407,8 +407,8 @@ public class EventMetaModel extends BaseMetaModel {
 			String namespace = "";
 			namespace = this.getNamespace(this, namespace);
 			metaSymbol.setNamespace(namespace);
-			metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
-			Symbol symbolReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
+			metaSymbol = symbolTable.lookup(metaSymbol);
+			Symbol symbolReference = symbolTable.getReference(symbolTable.getAllSymbol(), metaSymbol);
 			if(symbolReference!=null) {
 				BaseMetaModel myRewardModel = getOrigin();
 				try {
@@ -522,7 +522,7 @@ public class EventMetaModel extends BaseMetaModel {
 			metaSymbol.setNamespace(((GatekeeperMetaModel) parentMetaModel).namespace);
 		else if(parentMetaModel instanceof EventMetaModel)
 			metaSymbol.setNamespace(parentMetaModel.namespace+"."+((EventMetaModel) parentMetaModel).eventName);
-		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
+		metaSymbol = symbolTable.lookup(metaSymbol);
 		this.namespace = metaSymbol.getNamespace();
 		if(this.durationMetaModel!=null) {
 			durationMetaModel.model(eventFunctionModel);
@@ -624,7 +624,7 @@ public class EventMetaModel extends BaseMetaModel {
 		metaSymbol = new Symbol(eventName);
 		metaSymbol.setNamespace(namespace);
 		metaSymbol.setPackageName(packageName);
-		metaSymbol = MyRewardParser.symbolTable.lookup(metaSymbol);
+		metaSymbol = symbolTable.lookup(metaSymbol);
 		if(metaSymbol==null)
 			throw new BuildException(ErrorCode.SYMBOL_NOT_FOUND);
 		if(groupMetaModel!=null) { // If this event is a group event
@@ -640,7 +640,7 @@ public class EventMetaModel extends BaseMetaModel {
 				if(this.parent instanceof EventMetaModel) {
 					EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
-					parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+					parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 					parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 				}  else if(this.parent instanceof GroupMetaModel) {
 					GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
@@ -655,14 +655,14 @@ public class EventMetaModel extends BaseMetaModel {
 					if(parentEventMetaModel!=null) {
 						Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
 						parentEventSymbol.setNamespace(parentEventMetaModel.namespace);
-						parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+						parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 						parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 					}
 				}
 
 			}
 		} else { // This is a standalone event.
-			Symbol symbolReference = MyRewardParser.symbolTable.getReference(MyRewardParser.symbolTable.getAllSymbol(), metaSymbol);
+			Symbol symbolReference = symbolTable.getReference(symbolTable.getAllSymbol(), metaSymbol);
 			if(symbolReference!=null) {
 				symbolReference.setReferenced(true);
 				metaSymbol.setReferredSymbol(symbolReference);
@@ -671,7 +671,7 @@ public class EventMetaModel extends BaseMetaModel {
 				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 				Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
-				parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 				parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 			}  else if(this.parent instanceof GroupMetaModel) {
 				GroupMetaModel parentGroupEventMetaModel = (GroupMetaModel)this.parent;
@@ -683,7 +683,7 @@ public class EventMetaModel extends BaseMetaModel {
 					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
 					String parentEventNamespace = parentEventMetaModel!=null?parentEventMetaModel.namespace:this.getSymbolNamespace(parentEventMetaModel);
 					parentEventSymbol.setNamespace(parentEventNamespace);
-					parentEventSymbol = MyRewardParser.symbolTable.lookup(parentEventSymbol);
+					parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 					parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 				}
 			} 
