@@ -58,7 +58,6 @@ System.out.println("**** Next Event*****");
 
 	@Override
 	public String getRule() {
-		// TODO Auto-generated method stub
 		return MetaStandAloneWithShowPriorityDurationGatekeeper.metaData;
 	}
 
