@@ -17,13 +17,11 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 	@BeforeEach
 	public void setUp() throws Exception {
 		super.setUp();
-		System.out.println("*** setUp()");
 	}
 
 	@AfterEach
 	public void tearDown() throws Exception {
 		super.tearDown();
-		System.out.println("*** tearDown()");
 	}
 
 	@Test
@@ -32,31 +30,31 @@ public class MetaSimpleGroupEventTestCase extends BaseTestCase {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("B", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").name.equalsIgnoreCase("test.GA.B"));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").eventCount==0);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").getReward()==0.0);
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isDurationFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isGatekeeperStatusSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isRepeatFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isShowFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").isEventCompletionFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").getReward()==1.0);
-				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").name.equalsIgnoreCase("MetaSimpleGroupEvent.GA.B"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.C").eventCount==0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").getReward()==0.0);
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").isDurationFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").isGatekeeperStatusSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").isPriorityFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").isRepeatFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").isShowFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA").getReward()==1.0);
+				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.C").isEventCompletionFlagSet());
 				System.out.println("***** Next Event");
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("C", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").name.equalsIgnoreCase("test.GA.C"));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").getReward()==0.0);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").getReward()==0.0);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").isEventCompletionFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").eventCount==2);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA").getReward()==2.0);
-				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("test.GA.C").isEventCompletionFlagSet());
-				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("test.GA.B").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.C").name.equalsIgnoreCase("MetaSimpleGroupEvent.GA.C"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.C").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").getReward()==0.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.C").getReward()==0.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA").isEventCompletionFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA").eventCount==2);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA").getReward()==2.0);
+				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.C").isEventCompletionFlagSet());
+				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("MetaSimpleGroupEvent.GA.B").isEventCompletionFlagSet());
 				this.getAppInstanceContext().print_data_segment();
 			}
 		} catch (Exception e) {

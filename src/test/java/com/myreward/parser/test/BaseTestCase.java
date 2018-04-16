@@ -24,24 +24,18 @@ public abstract class BaseTestCase {
 	public MetaOpCodeProcessor createMetaOpCodeProcessor(AppInstanceContext appInstanceContext, String rule) throws RecognitionException, MetaDataParsingException, BuildException, ReferencedModelException {
 		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor(appInstanceContext);
 		metaOpCodeProcessor.initialize();
-		System.out.println("***** 4");
-		metaOpCodeProcessor.parse(rule, false);
-		System.out.println("***** 5");
+		metaOpCodeProcessor.parse(rule, true);
 		metaOpCodeProcessor.print_code_segment();
 		return metaOpCodeProcessor;
 	}
 	public abstract String getRule();
 	public void setUp() throws Exception {
-System.out.println("***** 1");
         appInstanceContext = new AppInstanceContext();
-System.out.println("***** 2");
-        AppContext.getInstance().add("test_rule1", this.createMetaOpCodeProcessor(appInstanceContext, getRule()));
-System.out.println("***** 3");
-
+        AppContext.getInstance().add(String.valueOf(getRule().hashCode()), this.createMetaOpCodeProcessor(appInstanceContext, getRule()));
         appInstanceContext.isDebug = false;
         appInstanceContext.actor = "vippul";
         appInstanceContext.uuid = UUID.randomUUID().toString();
-        appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get("test_rule1");
+        appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get(String.valueOf(getRule().hashCode()));
         appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
         appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
         															appInstanceContext.dataSegment);

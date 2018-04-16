@@ -24,20 +24,20 @@ public class MetaStandAloneTestCase extends BaseTestCase {
 		super.tearDown();
 	}
 
-//	@Test
+	@Test
 	public void run_events() {
 		try {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("A", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").name.equalsIgnoreCase("myclient.A"));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").getReward()==1.0);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isDurationFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isGatekeeperStatusSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isRepeatFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("myclient.A").isShowFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEvent1.A").name.equalsIgnoreCase("MetaStandAloneEvent1.A"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEvent1.A").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEvent1.A").getReward()==1.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEvent1.A").isDurationFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEvent1.A").isGatekeeperStatusSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEvent1.A").isPriorityFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEvent1.A").isRepeatFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEvent1.A").isShowFlagSet());
 
 			}
 		} catch (Exception e) {

@@ -56,6 +56,7 @@ public class MetaOpCodeProcessor {
 			metaDataList = null;
 			metaDataList = new ArrayList<String>();
 		}
+		MyRewardParser.symbolTable.getAllSymbol().clear();
 	}
 	public void initialize(String rule) {
 		if(metaDataList!=null) {
@@ -114,9 +115,9 @@ public class MetaOpCodeProcessor {
 		callStackFunctionModel.add("lbl_main", null, new String[]{"lbl_main"});
 		EventFunctionModel eventFunctionModel = new EventFunctionModel();
 		EventInteractionFunctionModel eventInteractionFunctionModel = new EventInteractionFunctionModel();
-		
 		this.processRule(myRewardMetaModelList, rule);
-		if(this.parentContext.nextMetaDataToProcess.size()>0) {
+		if(this.parentContext.nextMetaDataToProcess!=null 
+				&& this.parentContext.nextMetaDataToProcess.size()>0) {
 			this.parentContext.nextMetaDataToProcess.forEach((k, v) -> {
 				try {
 					this.processRule(myRewardMetaModelList, v);
@@ -126,19 +127,6 @@ public class MetaOpCodeProcessor {
 				}
 			});
 		}
-/*		Myreward_defsContext fileContext = setup(rule).myreward_defs();
-
-		if(fileContext!=null && fileContext.children!=null && fileContext.children.size()>0) {
-			for(int index=0; index < fileContext.children.size();index++) {
-				myRewardMetaModelList.add(((Myreward_defContext)(fileContext.children.get(index))).myRewardMetaModel);
-			}
-		}
-*//*	        this.setMyRewardPCodeGenerator(new MyRewardPCodeGenerator());
-	        CallStackFunctionModel callStackFunctionModel = new CallStackFunctionModel();
-			callStackFunctionModel.add("lbl_main", null, new String[]{"lbl_main"});
-			EventFunctionModel eventFunctionModel = new EventFunctionModel();
-			EventInteractionFunctionModel eventInteractionFunctionModel = new EventInteractionFunctionModel();
-*/
 	        for(int index=0; index < myRewardMetaModelList.size();index++) {
 				MyRewardMetaModel myRewardMetaModel = myRewardMetaModelList.get(index);
 				myRewardMetaModel.lib_lookup();

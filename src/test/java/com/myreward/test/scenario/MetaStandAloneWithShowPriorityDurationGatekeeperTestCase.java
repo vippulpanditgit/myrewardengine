@@ -24,30 +24,30 @@ public class MetaStandAloneWithShowPriorityDurationGatekeeperTestCase extends Ba
 		super.tearDown();
 	}
 
-//	@Test
+	@Test
 	public void run_events() {
 		try {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("A", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").name.equalsIgnoreCase("global.A"));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").getReward()==0.0);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").isDurationFlagSet());
-				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("global.A").isGatekeeperStatusSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("global.A").isRepeatFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").isShowFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").name.equalsIgnoreCase("MetaStandAloneWithShowPriorityDurationGatekeeper.A"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").getReward()==0.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isDurationFlagSet());
+				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isGatekeeperStatusSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isPriorityFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isRepeatFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isShowFlagSet());
 System.out.println("**** Next Event*****");				
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("KB", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").name.equalsIgnoreCase("global.A"));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").getReward()==10.0);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").isDurationFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").isGatekeeperStatusSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("global.A").isRepeatFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("global.A").isShowFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").name.equalsIgnoreCase("MetaStandAloneWithShowPriorityDurationGatekeeper.A"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").getReward()==10.0);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isDurationFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isGatekeeperStatusSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isPriorityFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isRepeatFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isShowFlagSet());
 
 			}
 		} catch (Exception e) {

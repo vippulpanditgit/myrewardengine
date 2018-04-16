@@ -24,29 +24,29 @@ public class MetaSubGroupEventNoRewardTestCase extends BaseTestCase {
 		super.tearDown();
 	}
 
-//	@Test
+	@Test
 	public void run_events() {
 		try {
 			this.getAppInstanceContext().print_data_segment();
 			if(this.getAppInstanceContext().isInstanceReady()) {
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("I", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF.I").name.equalsIgnoreCase("test.GA.GF.I"));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF.I").eventCount==1);
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF.I").getReward()==0.0);
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF.I").isDurationFlagSet());
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF.I").isGatekeeperStatusSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF.I").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF.I").isRepeatFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF.I").isShowFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GF.I").name.equalsIgnoreCase("MetaSubGroupEventNoReward.GA.GF.I"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GF.I").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GF.I").getReward()==0.0);
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GF.I").isDurationFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GF.I").isGatekeeperStatusSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GF.I").isPriorityFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GF.I").isRepeatFlagSet());
+				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GF.I").isShowFlagSet());
 				
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GF").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GF").eventCount==1);
 				System.out.println("***** Next Event");
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("E", new Date()));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GC.E").name.equalsIgnoreCase("test.GA.GC.E"));
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GC.E").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GC.E").name.equalsIgnoreCase("MetaSubGroupEventNoReward.GA.GC.E"));
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GC.E").eventCount==1);
 				this.getAppInstanceContext().print_data_segment();
 
-				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("test.GA.GC").eventCount==1);
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaSubGroupEventNoReward.GA.GC").eventCount==1);
 				this.getAppInstanceContext().print_data_segment();
 			}
 		} catch (Exception e) {
