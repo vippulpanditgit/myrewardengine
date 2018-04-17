@@ -3,7 +3,7 @@ package com.myreward.parser.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyRewardPCodeGenerator {
+public class MyRewardPCodeGenerator implements java.io.Serializable  {
 	private String version="0.00";
 	private byte debugFlag;
 	private List<String> codeSegment = new ArrayList<String>();

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myreward.parser.grammar.RewardSymbolAttribute;
 import com.myreward.parser.model.RepeatOn;
 import com.myreward.parser.model.Reward;
@@ -56,6 +58,7 @@ public class Symbol implements Serializable{
 	public List<String> callDeclarationList = new ArrayList<String>();
 	
 	private RewardSymbolAttribute rewardAttribute;
+	
 	public Symbol() {
 		rewardAttribute = new RewardSymbolAttribute();
 	}
@@ -200,7 +203,7 @@ public class Symbol implements Serializable{
 	public String toString() {
 		return this.getName()+"<<"+this.packageName+"<<"+this.getId()+"<<"+getFullyQualifiedId()+"<<"
 					+this.getNamespace()+"<<"+this.getType()+"<<"
-					+this.getLevel()+"<<"+rewardAttribute+"<<"+callDeclarationList+"\n"+childrenList;
+					+this.getLevel()+"<<"+rewardAttribute+"\n"+childrenList;
 	}
 	public int getVersion() {
 		return version;

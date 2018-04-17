@@ -141,7 +141,6 @@ public class MyRewardVisitor extends MyRewardBaseVisitor<BaseMetaModel> {
 				}
 			}
 		}
-//		System.out.println(eventNameSymbol.toString());
 		return visitChildren(ctx);
 	}
 

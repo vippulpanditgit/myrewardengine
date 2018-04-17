@@ -358,7 +358,6 @@ between_def returns [DurationMetaModel durationMetaModel]
 										startDate = format.parse($startDate.getText());
 										$durationMetaModel.effectiveDate = format.parse($startDate.getText());
 									} catch (ParseException e) {e.printStackTrace();}
-									//System.out.println(startDate+","+endDate);
 								}
 	;
 repeat_def returns [RepeatMetaModel repeatMetaModel]

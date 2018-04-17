@@ -34,7 +34,7 @@ import com.myreward.parser.util.FileProcessingUtil;
 import com.myreward.parser.util.MyRewardParserUtil;
 import com.myreward.parser.util.RuntimeLib;
 
-public class MetaOpCodeProcessor {
+public class MetaOpCodeProcessor  implements java.io.Serializable  {
 	private AppInstanceContext parentContext;
 	private List<String> metaDataList;
 	private MyRewardPCodeGenerator myRewardPCodeGenerator;
@@ -237,7 +237,6 @@ public class MetaOpCodeProcessor {
 					OpCodeBaseModel opCodeBaseModel = opCodeBaseModelIterator.next();
 					String[] opCodeHandler = opCodeBaseModel.getOpcodes();
 					for(int opCodeIndex=0;opCodeIndex<opCodeHandler.length;opCodeIndex++) {
-//						System.out.println(opCodeHandler[opCodeIndex]);
 						if(opcode.length()>=opCodeHandler[opCodeIndex].length() && 
 								opCodeHandler[opCodeIndex].equalsIgnoreCase(opcode.substring(0, opCodeHandler[opCodeIndex].length()))) {
 							try {
@@ -245,7 +244,6 @@ public class MetaOpCodeProcessor {
 								OpCodeBaseModel realInstance = (OpCodeBaseModel) constructor.newInstance(new Object[] { opcode });
 								runtimeOpCodes.add(realInstance);
 								isOpcodeFound = true;
-//								System.out.println("Test");
 								break;
 							} catch(Exception exp){
 								throw new MetaDataCreationException("Exception creating Metadata tree "+opcode, exp);

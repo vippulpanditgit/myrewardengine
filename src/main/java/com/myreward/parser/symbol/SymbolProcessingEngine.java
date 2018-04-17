@@ -20,8 +20,6 @@ public class SymbolProcessingEngine {
 			dataSegmentMap.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
 			dataSegment.add(Long.valueOf(0));
 		}
-System.out.println(dataSegmentMap);
-System.out.println(dataSegment);
 	}
 
 }

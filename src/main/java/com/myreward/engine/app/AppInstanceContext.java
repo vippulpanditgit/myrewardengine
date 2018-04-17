@@ -11,7 +11,7 @@ import com.myreward.parser.symbol.MyRewardSymbolTable;
 import com.myreward.parser.symbol.SymbolTable;
 import com.myreward.parser.util.Heap;
 
-public class AppInstanceContext {
+public class AppInstanceContext implements java.io.Serializable  {
 	public String actor;
 	public String uuid;
 	public boolean isDebug = false;

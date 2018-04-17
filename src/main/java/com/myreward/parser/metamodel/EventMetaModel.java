@@ -192,7 +192,6 @@ public class EventMetaModel extends BaseMetaModel {
 			if(symbolReference!=null) {
 				symbolReference.setReferenced(true);
 				metaSymbol.setReferredSymbol(symbolReference);
-				System.out.println(symbolReference);
 			} else if(this.parent instanceof EventMetaModel) {
 				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
@@ -425,7 +424,6 @@ public class EventMetaModel extends BaseMetaModel {
 					metaSymbol = null;
 					this.lib_lookup();
 							
-					System.out.println(refMetaModel);
 				} catch (MetaModelException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -666,7 +664,6 @@ public class EventMetaModel extends BaseMetaModel {
 			if(symbolReference!=null) {
 				symbolReference.setReferenced(true);
 				metaSymbol.setReferredSymbol(symbolReference);
-				System.out.println(symbolReference);
 			} else if(this.parent instanceof EventMetaModel) {
 				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;

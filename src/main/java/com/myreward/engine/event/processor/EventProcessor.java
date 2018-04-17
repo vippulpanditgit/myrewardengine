@@ -18,7 +18,7 @@ import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
 
-public class EventProcessor {
+public class EventProcessor  implements java.io.Serializable  {
 	private AppInstanceContext parentContext;
 	private MetaOpCodeProcessor metaOpCodeProcessor;
 	private MyRewardDataSegment myRewardDataSegment;
@@ -74,7 +74,6 @@ public class EventProcessor {
 			if(currentOpCodeIndex < instructionOpCodes.size()-1)
 				currentOpCodeIndex++;
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(currentOpCodeIndex);
-System.out.println(opCodeBaseModel);
 			if(opCodeBaseModel instanceof ReturnModel)
 				break;
 			OperationResultDO operationResultDO = null;

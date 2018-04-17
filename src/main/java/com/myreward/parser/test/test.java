@@ -1,6 +1,8 @@
 package com.myreward.parser.test;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -123,7 +125,18 @@ public class test {
 	            appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
 	            appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
 	            															appInstanceContext.dataSegment);
-		    		EventDO eventDO = new EventDO();
+	            try {
+	                FileOutputStream fileOut = new FileOutputStream("employee.ser");
+	                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	                out.writeObject(appInstanceContext);
+	                out.close();
+	                fileOut.close();
+	                System.out.printf("Serialized data is saved in /tmp/employee.ser");
+	             } catch (IOException i) {
+	                i.printStackTrace();
+	             }
+
+	            EventDO eventDO = new EventDO();
 		    		eventDO.setActivityName("H");
 		    		eventDO.setActivityDate(new Date());
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);

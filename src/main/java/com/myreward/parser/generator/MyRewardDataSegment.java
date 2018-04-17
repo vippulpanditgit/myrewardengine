@@ -225,7 +225,6 @@ public class MyRewardDataSegment<T> implements Serializable {
 		if(symbol.childrenList!=null) {
 			for(int childIndex=0;childIndex<symbol.childrenList.size();childIndex++) {
 				EventDataObject eventDataObject = new EventDataObject(symbol.childrenList.get(childIndex));
-//				xmapdataSegment.put(symbol.childrenList.get(childIndex).getFullyQualifiedId(), Integer.valueOf(index));
 				if(this.getDataObject(symbol.childrenList.get(childIndex).getFullyQualifiedId())==null) {
 					xmapdataSegment.put(symbol.childrenList.get(childIndex).getFullyQualifiedId(), Integer.valueOf(index));
 					dataSegment.add(index, eventDataObject);
@@ -235,7 +234,6 @@ public class MyRewardDataSegment<T> implements Serializable {
 			}
 		} else {
 			EventDataObject eventDataObject = new EventDataObject(symbol);
-//			xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index));
 			if(this.getDataObject(symbol.getFullyQualifiedId())==null) {
 				xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index));
 				dataSegment.add(index, eventDataObject);
@@ -252,34 +250,15 @@ public class MyRewardDataSegment<T> implements Serializable {
 		while(symbolIterator.hasNext()) {
 			Symbol symbol = symbolIterator.next();
 			index = this.recursivelyCreateDataSegment(index, symbol);
-/*			if(symbol.childrenList!=null) {
-				for(int childIndex=0;childIndex<symbol.childrenList.size();childIndex++) {
-					EventDataObject eventDataObject = new EventDataObject(symbol.childrenList.get(childIndex));
-					xmapdataSegment.put(symbol.childrenList.get(childIndex).getFullyQualifiedId(), Integer.valueOf(index++));
-					dataSegment.add(index, eventDataObject);
-				}
-			} else {
-				EventDataObject eventDataObject = new EventDataObject(symbol);
-				xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index++));
-				dataSegment.add(index, eventDataObject);
-				
-			}
-*/		}
+		}
 	}
 	public EventDataObject getDataObject(int id) {
 		if(xmapdataSegment!=null) {
 			Integer dataSegmentIndex = xmapdataSegment.get(id);
-//			List<EventDataObject> dataObjectList = new ArrayList<EventDataObject>();
 			if(dataSegmentIndex!=null) {
 				if(dataSegment!=null&& dataSegment.size()>dataSegmentIndex.intValue())
 					return dataSegment.get(dataSegmentIndex.intValue());
-/*				Iterator<Integer> dataSegmentIndexIterator = dataSegmentIndex.iterator();
-				while(dataSegmentIndexIterator.hasNext()) {
-					Integer dataSegmentIndexValue = dataSegmentIndexIterator.next();
-					dataObjectList.add(dataSegment.get(dataSegmentIndexValue.intValue()));
-				}
-*/			}
-//			return dataObjectList;
+			}
 		} 
 		return null;
 	}
@@ -292,11 +271,7 @@ public class MyRewardDataSegment<T> implements Serializable {
 			Integer dataSegmentIndex = xmapdataSegment.get(id);
 			if(dataSegmentIndex!=null)
 				dataSegment.add(id, eventDataObject);
-/*			if(dataSegmentIndex!=null && dataSegmentIndex.size()==1) {
-				dataSegment.remove(dataSegmentIndex.toArray(new Integer[0])[0].intValue());
-				dataSegment.add(dataSegmentIndex.toArray(new Integer[0])[0].intValue(), eventDataObject);
-			}
-*/		}
+		}
 	}
 	public void printString() {
 		dataSegment.forEach(eventObject -> System.out.println(eventObject));
@@ -304,12 +279,7 @@ public class MyRewardDataSegment<T> implements Serializable {
 	public EventDataObject search(String id) {
 		Integer eventDataObjectIndex = xmapdataSegment.get(Integer.valueOf(id));
 		return dataSegment.get(eventDataObjectIndex.intValue());
-/*		Collection<Integer> eventDataObjectIndex = xmapdataSegment.get(Integer.valueOf(id));
-		if(eventDataObjectIndex!=null && eventDataObjectIndex.size()==1) {
-			return dataSegment.get(eventDataObjectIndex.toArray(new Integer[0])[0].intValue());
-		}
-		return null;
-*/	}
+	}
 	public IRuntimeDelegate getDelegate() {
 		return delegate;
 	}
