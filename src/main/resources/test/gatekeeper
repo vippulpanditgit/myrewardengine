@@ -1,0 +1,4 @@
+package test;
+
+event(A).any(1).show(true).priority(1)
+event(B).gatekeeper(event(A)).reward(100)
