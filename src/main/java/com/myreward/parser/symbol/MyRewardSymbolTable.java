@@ -180,4 +180,9 @@ public class MyRewardSymbolTable extends SymbolTable {
 		return symbolList;
 	}
 
+	@Override
+	public void print_symbol_table() {
+		System.out.println(symbolList);
+	}
+
 }

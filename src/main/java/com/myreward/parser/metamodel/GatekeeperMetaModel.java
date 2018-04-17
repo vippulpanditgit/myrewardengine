@@ -61,7 +61,9 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 			Symbol gatekeeperTargetSymbol = new Symbol(gatekeeperTargetEvent.getEventName());
 			gatekeeperTargetSymbol.setNamespace(gatekeeperTargetEvent.namespace);
 			gatekeeperTargetSymbol = symbolTable.lookup(gatekeeperTargetSymbol);
-			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), String.format(EventMetaModel.overrideTemplate, /*++*/gatekeeperSourceSymbol.version)));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], 
+					String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), 
+					String.format(EventMetaModel.overrideTemplate, /*++*/gatekeeperSourceSymbol.version))+"// "+gatekeeperTargetSymbol.getFullyQualifiedName());
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[1], gatekeeperSourceSymbol.getName(), gatekeeperSourceSymbol.getFullyQualifiedId()));
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[2], gatekeeperSourceSymbol.getFullyQualifiedId(),2));
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[3], gatekeeperTargetSymbol.getFullyQualifiedId()));

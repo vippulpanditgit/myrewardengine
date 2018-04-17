@@ -26,6 +26,7 @@ import com.myreward.engine.event.error.ReferencedModelException;
 	public SymbolTable symbolTable = new MyRewardSymbolTable();
 	private int level = 0;
 	public MetaOpCodeProcessor metaOpCodeProcessor;
+	private Stack<Symbol> symbolStack = new Stack<>();
 	
 	
 	public SymbolTable getSymbolTable() {
@@ -169,6 +170,8 @@ package_name returns [String packageNameElement]
 						symbolTable.insertSymbol(packageSymbol);
 						packageSymbol.setNamespace(null);
 						current = packageSymbol;
+						symbolStack.push(current);
+						
 						level++;
 						$packageNameElement = $packageName.getText();
 					}
@@ -184,6 +187,7 @@ event_def returns [EventMetaModel eventMetaModel]
 				 } RPAREN (modifier=event_modifier_def {
 				 	$modifier.modifierMetaModel.parent = $eventMetaModel;
 				 	$modifier.modifierMetaModel.namespace = $eventMetaModel.namespace;
+				 	$modifier.modifierMetaModel.symbolTable = symbolTable;
 					if($modifier.modifierMetaModel instanceof GroupMetaModel){
 						$eventMetaModel.setGroupMetaModel((GroupMetaModel)$modifier.modifierMetaModel);
 					} else if($modifier.modifierMetaModel instanceof ShowMetaModel){
@@ -249,6 +253,7 @@ event_name returns [String eventName]
 				current.setType(Symbol.SymbolType.EVENT);
 				current.setPackageName(packageSymbol.getName());
 				current.setContainer(packageSymbol);
+				symbolStack.push(current);
 				if(storedCurrent==null || level==0) {
 					symbolTable.insertSymbol(current);
 				} else {
@@ -381,6 +386,7 @@ gatekeeper_def returns [GatekeeperMetaModel gatekeeperMetaModel]
 	: GATEKEEPER LPAREN eventDef=event_def RPAREN {
 									$gatekeeperMetaModel.eventMetaModel = $eventDef.eventMetaModel;
 									$eventDef.eventMetaModel.parent = $gatekeeperMetaModel;
+									symbolStack.pop();
 								}
 	;
 reward_def returns [RewardMetaModel rewardMetaModel]

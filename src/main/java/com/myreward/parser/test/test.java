@@ -33,6 +33,7 @@ public class test {
 		MetaOpCodeProcessor metaOpCodeProcessor = new MetaOpCodeProcessor(appInstanceContext);
 		metaOpCodeProcessor.initialize();
 		metaOpCodeProcessor.parse(rule, false);
+		appInstanceContext.symbolTable.print_symbol_table();
 		metaOpCodeProcessor.print_code_segment();
 		return metaOpCodeProcessor;
 	}
@@ -113,7 +114,7 @@ public class test {
 					+ " event(GH).any(1){event(GF), event(H)}";
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
-			String ruleFileName = "test/GA";
+			String ruleFileName = "test/gatekeeper";
 			String hashValue = String.valueOf(ruleFileName.hashCode());
             AppContext.getInstance().add(hashValue, 
             		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(FileProcessingUtil.getDefaultFilePath()+ruleFileName)));

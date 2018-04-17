@@ -58,7 +58,6 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] callDurationOpCodeListTemplate = {"reset_dur_flg(%d)", "call_dur(%s:%s)"};
 	private String[] postCallDurationOpCodeListTemplate = {"if_dur_flg_not_set(%s,+%d)", "return"};
 
-	private String[] derivedEventOpCodeListTemplate = {"call(%s)"};
 	private String[] eventOpCodeListTemplate = {"if_cmp_flg_set(%d)"};
 	
 	public EventMetaModel() {
@@ -193,7 +192,7 @@ public class EventMetaModel extends BaseMetaModel {
 				symbolReference.setReferenced(true);
 				metaSymbol.setReferredSymbol(symbolReference);
 			} else if(this.parent instanceof EventMetaModel) {
-				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
+				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId())+"// "+metaSymbol.getFullyQualifiedName()+" is complete?");
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 				Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
 				parentEventSymbol = symbolTable.lookup(parentEventSymbol);
@@ -335,7 +334,7 @@ public class EventMetaModel extends BaseMetaModel {
 			groupMetaModel.call_stack(callStackFunctionModel);
 		} else {	
 			Symbol metaSymbol = new Symbol(eventName);
-			String namespace = this.getSymbolNamespace(this);
+			String namespace = this.namespace!=null?this.namespace:this.getSymbolNamespace(this);
 			metaSymbol.setNamespace(namespace);
 			metaSymbol.setPackageName(this.packageName);
 			metaSymbol = symbolTable.lookup(metaSymbol);
@@ -442,7 +441,10 @@ public class EventMetaModel extends BaseMetaModel {
 				parentMetaModel = parentMetaModel.parent;
 		}
 		if(parentMetaModel instanceof PackageMetaModel) {
-			namespace = ((PackageMetaModel) parentMetaModel).packageName+"."+namespace;
+			if(namespace!=null && namespace.length()>0)
+				namespace = ((PackageMetaModel) parentMetaModel).packageName+"."+namespace;
+			else
+				namespace = ((PackageMetaModel) parentMetaModel).packageName;
 			return namespace;
 		}else if(parentMetaModel instanceof GatekeeperMetaModel)
 			namespace = ((GatekeeperMetaModel) parentMetaModel).namespace+"."+namespace;
@@ -665,7 +667,7 @@ public class EventMetaModel extends BaseMetaModel {
 				symbolReference.setReferenced(true);
 				metaSymbol.setReferredSymbol(symbolReference);
 			} else if(this.parent instanceof EventMetaModel) {
-				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId()));
+				groupOpcodeList.add(String.format(eventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId())+"// "+metaSymbol.getFullyQualifiedName()+" is complete?");
 				EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 				Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
 				parentEventSymbol = symbolTable.lookup(parentEventSymbol);

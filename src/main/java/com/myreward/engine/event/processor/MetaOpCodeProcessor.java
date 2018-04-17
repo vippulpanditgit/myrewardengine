@@ -123,7 +123,6 @@ public class MetaOpCodeProcessor  implements java.io.Serializable  {
 				MyRewardMetaModel myRewardMetaModel = myRewardMetaModelList.get(index);
 				myRewardMetaModel.lib_lookup();
 				myRewardMetaModel.symbolTable.getAllSymbol().forEach(symbol-> {
-					System.out.println(symbol);
 					parentContext.symbolTable.getAllSymbol().addAll(myRewardMetaModel.symbolTable.getAllSymbol());
 				});
 			
@@ -232,6 +231,7 @@ public class MetaOpCodeProcessor  implements java.io.Serializable  {
 			while(codeSegmentIterator.hasNext()) {
 				boolean isOpcodeFound = false;
 				String opcode = codeSegmentIterator.next();
+System.out.println(opcode);						
 				Iterator<OpCodeBaseModel> opCodeBaseModelIterator = RuntimeSupportedOpCodeModel.getInstance().getSupportedOpCodeHandlers().iterator();
 				while(opCodeBaseModelIterator.hasNext()) {
 					OpCodeBaseModel opCodeBaseModel = opCodeBaseModelIterator.next();

@@ -6,6 +6,7 @@ import java.util.List;
 public abstract class SymbolTable  implements Serializable {
 	// the table's identifier
 	private String id;
+	private String version;
 	// table's name. This is the name of the class if the table is for a class, the name of the
 	// function if the table is for a function, or 'top' if the table is global
 	private String name;
@@ -29,6 +30,7 @@ public abstract class SymbolTable  implements Serializable {
 	public abstract List<Symbol> getAllSymbol();
 	public abstract boolean isReference(List<Symbol> symbolDictionary, Symbol refSym);
 	public abstract Symbol getReference(List<Symbol> symbolDictionary, Symbol refSym);
+	public abstract void print_symbol_table();
 
 	
 	// Allocate a new empty symbol table

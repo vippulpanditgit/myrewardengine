@@ -87,9 +87,8 @@ public class GroupMetaModel extends BaseMetaModel {
 				Symbol eventSymbol = symbolTable.lookup(lookupEvent);
 				if(ordinalMetaModel instanceof AnyMetaModel) {
 					int anyGroupIndex = groupOpCodes.size();
-					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?8:6));
+					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?8:6)+"// "+eventSymbol.getFullyQualifiedName()+" is complete?");
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));
-//					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], parentEventSymbol.getFullyQualifiedId()));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
 					if(rewardMetaModel!=null) {
 						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,4));
@@ -102,7 +101,7 @@ public class GroupMetaModel extends BaseMetaModel {
 						groupOpCodes.add(String.format(plainAnyLogicGroupOpCodesListTemplate[2]));
 					}
 					groupOpCodes.remove(anyGroupIndex);
-					groupOpCodes.add(anyGroupIndex, String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),groupOpCodes.size()+1-anyGroupIndex));
+					groupOpCodes.add(anyGroupIndex, String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),groupOpCodes.size()+1-anyGroupIndex)+"// "+eventSymbol.getFullyQualifiedName()+" is complete?");
 				} else if(ordinalMetaModel instanceof AllMetaModel) {
 					
 				}
