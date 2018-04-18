@@ -138,7 +138,7 @@ public class test {
 	             }
 
 	            EventDO eventDO = new EventDO();
-		    		eventDO.setActivityName("H");
+		    		eventDO.setActivityName("B");
 		    		eventDO.setActivityDate(new Date());
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 //		    		processEvent(appInstanceContext, eventDO);

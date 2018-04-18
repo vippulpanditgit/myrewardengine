@@ -117,7 +117,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 		List<String> gatekeeperOpCodes = new ArrayList<String>();
 		Symbol eventSymbol = new Symbol(eventMetaModel.getEventName());
 		eventSymbol.setNamespace(namespace);
-		
+/*		
 		eventSymbol = symbolTable.lookup(eventSymbol);
 		gatekeeperOpCodes.add(String.format(prefixGatekeeperOpCodesListTemplate[0],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)));
 		gatekeeperOpCodes.add(String.format(gatekeeperOpCodesListTemplate[0],eventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, eventSymbol.version)));
@@ -127,7 +127,7 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 				this.namespace, 
 				EventAttributeType.GATEKEEPER, 
 				gatekeeperOpCodes.toArray(new String[0]));
-		
+*/		
 	}
 
 
