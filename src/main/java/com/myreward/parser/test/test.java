@@ -114,7 +114,7 @@ public class test {
 					+ " event(GH).any(1){event(GF), event(H)}";
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
-			String ruleFileName = "src/main/resources/test/GA";
+			String ruleFileName = "src/main/resources/test/gatekeeper";
 			String hashValue = String.valueOf(ruleFileName.hashCode());
             AppContext.getInstance().add(hashValue, 
             		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(ruleFileName)));
