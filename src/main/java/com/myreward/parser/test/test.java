@@ -114,10 +114,10 @@ public class test {
 					+ " event(GH).any(1){event(GF), event(H)}";
 
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
-			String ruleFileName = "test/gatekeeper";
+			String ruleFileName = "src/main/resources/test/GA";
 			String hashValue = String.valueOf(ruleFileName.hashCode());
             AppContext.getInstance().add(hashValue, 
-            		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(FileProcessingUtil.getDefaultFilePath()+ruleFileName)));
+            		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(ruleFileName)));
             appInstanceContext.isDebug = true;
             appInstanceContext.actor = "vippul";
             appInstanceContext.uuid = UUID.randomUUID().toString();

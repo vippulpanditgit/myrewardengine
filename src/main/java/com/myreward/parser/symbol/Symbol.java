@@ -230,6 +230,11 @@ public class Symbol implements Serializable{
 		childrenList.forEach(p -> p.namespace = this.namespace==null?this.name: this.namespace+"."+this.name);
 		this.childrenList.addAll(childrenList);
 	}
+	public boolean isChildOfSymbol(Symbol symbol, Symbol possibleSymbol) {
+		int symbolId = possibleSymbol.getFullyQualifiedId();
+		return symbol.getChildrenList().stream().anyMatch(sym -> sym.getFullyQualifiedId()==symbolId);
+	}
+
 	public void addChild(Symbol child) {
 		Symbol parent = this;
 		while(parent.level >= child.level)
@@ -239,7 +244,8 @@ public class Symbol implements Serializable{
 		if(parent.childrenList==null)
 			parent.childrenList = new ArrayList<Symbol>();
 		parent.setType(SymbolType.DERIVED_EVENT);
-		parent.childrenList.add(child);
+		if(!isChildOfSymbol(parent, child))
+			parent.childrenList.add(child);
 	}
 	public String getNamespace() {
 		return namespace;

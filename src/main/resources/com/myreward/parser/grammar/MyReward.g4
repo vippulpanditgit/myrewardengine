@@ -19,8 +19,6 @@ import com.myreward.engine.event.error.ReferencedModelException;
 
 }
 @members {
-//  private static org.slf4j.Logger _logger =
-//    org.slf4j.LoggerFactory.getLogger(com.myreward.parser.grammar.MyRewardParser.class);
 	private Symbol packageSymbol;
 	private Symbol current;
 	public SymbolTable symbolTable = new MyRewardSymbolTable();
@@ -31,6 +29,10 @@ import com.myreward.engine.event.error.ReferencedModelException;
 	
 	public SymbolTable getSymbolTable() {
 		return symbolTable;
+	}
+	public boolean isChildOfSymbol(Symbol symbol, Symbol possibleSymbol) {
+		int symbolId = possibleSymbol.getFullyQualifiedId();
+		return symbol.getChildrenList().stream().anyMatch(sym -> sym.getFullyQualifiedId()==symbolId);
 	}
 	
 }
@@ -257,7 +259,8 @@ event_name returns [String eventName]
 				if(storedCurrent==null || level==0) {
 					symbolTable.insertSymbol(current);
 				} else {
-					storedCurrent.addChild(current);
+					if(storedCurrent!=null && !isChildOfSymbol(storedCurrent, current))
+						storedCurrent.addChild(current);
 				}
 				$eventName = $eventNameElement.getText();
 		}
@@ -387,6 +390,7 @@ gatekeeper_def returns [GatekeeperMetaModel gatekeeperMetaModel]
 									$gatekeeperMetaModel.eventMetaModel = $eventDef.eventMetaModel;
 									$eventDef.eventMetaModel.parent = $gatekeeperMetaModel;
 									symbolStack.pop();
+									current = symbolStack.peek();
 								}
 	;
 reward_def returns [RewardMetaModel rewardMetaModel]

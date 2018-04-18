@@ -48,8 +48,7 @@ public class MetaStandAloneTestCase extends BaseTestCase {
 
 	@Override
 	public String getRule() {
-		// TODO Auto-generated method stub
-		return MetaStandAloneEvent.metaDataDuration;
+		return MetaStandAloneEvent.metaData;
 	}
 
 }
