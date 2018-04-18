@@ -141,7 +141,9 @@ public class test {
 		    		eventDO.setActivityName("B");
 		    		eventDO.setActivityDate(new Date());
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
-//		    		processEvent(appInstanceContext, eventDO);
+		    		eventDO.setActivityName("A");
+		    		eventDO.setActivityDate(new Date());
+		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 //		    		processEvent(appInstanceContext, eventDO);
             } else {
             	System.out.println("Hash value not found! "+hashValue);
