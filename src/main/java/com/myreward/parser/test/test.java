@@ -126,7 +126,7 @@ public class test {
 	            appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
 	            appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
 	            															appInstanceContext.dataSegment);
-	            try {
+/*	            try {
 	                FileOutputStream fileOut = new FileOutputStream("employee.ser");
 	                ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	                out.writeObject(appInstanceContext);
@@ -136,13 +136,16 @@ public class test {
 	             } catch (IOException i) {
 	                i.printStackTrace();
 	             }
-
+*/
 	            EventDO eventDO = new EventDO();
 		    		eventDO.setActivityName("B");
 		    		eventDO.setActivityDate(new Date());
+		    System.out.println("**** B");
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 		    		eventDO.setActivityName("A");
 		    		eventDO.setActivityDate(new Date());
+		    System.out.println("**** A");
+		    		
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 //		    		processEvent(appInstanceContext, eventDO);
             } else {
