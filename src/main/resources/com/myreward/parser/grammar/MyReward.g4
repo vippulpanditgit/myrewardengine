@@ -172,6 +172,7 @@ package_name returns [String packageNameElement]
 						symbolTable.insertSymbol(packageSymbol);
 						packageSymbol.setNamespace(null);
 						current = packageSymbol;
+						current.getSymbolType().addPackageType();
 						symbolStack.push(current);
 						
 						level++;
@@ -255,6 +256,7 @@ event_name returns [String eventName]
 				current.setType(Symbol.SymbolType.EVENT);
 				current.setPackageName(packageSymbol.getName());
 				current.setContainer(packageSymbol);
+				current.getSymbolType().addEventType();
 				symbolStack.push(current);
 				if(storedCurrent==null || level==0) {
 					symbolTable.insertSymbol(current);
@@ -286,11 +288,13 @@ group_def returns [GroupMetaModel groupDefMetaModel]
 																$groupDefMetaModel.symbolTable = symbolTable;
 																$groupDefMetaModel.ordinalMetaModel = $groupAnyLogic.anyMetaModel;
 																$groupDefMetaModel.packageName = packageSymbol.getName();
+																current.getSymbolType().addEventType();
 																current.setType(Symbol.SymbolType.EVENT);
 															}
 	| groupAllLogic=all_def	{									$groupAllLogic.groupModel.parent = $groupDefMetaModel;
 																$groupDefMetaModel = $groupAllLogic.groupModel;
 																$groupDefMetaModel.packageName = packageSymbol.getName();
+																current.getSymbolType().addEventType();
 																current.setType(Symbol.SymbolType.EVENT);
 															}													
 	;
@@ -309,15 +313,18 @@ all_def returns [GroupMetaModel groupModel]
 									$groupModel.symbolTable = symbolTable;
 									$groupModel.logic = GroupMetaModel.GROUP_LOGIC.ALL;
 									current.setType(Symbol.SymbolType.DERIVED_EVENT);
+									current.getSymbolType().addGroupType();
 									}
 	;
 any_def returns [AnyMetaModel anyMetaModel]
 	@init {$anyMetaModel = new AnyMetaModel();}
 	: ANY ordinal = sequence_def { $anyMetaModel.ordinal = $ordinal.value;
 									current.setType(Symbol.SymbolType.DERIVED_EVENT);
+									current.getSymbolType().addGroupType();
 									}
 	| ANY 						{ $anyMetaModel.ordinal = 1;
 									current.setType(Symbol.SymbolType.DERIVED_EVENT);
+									current.getSymbolType().addGroupType();
 									}
 	;
 sequence_def returns [int value]
@@ -389,6 +396,7 @@ gatekeeper_def returns [GatekeeperMetaModel gatekeeperMetaModel]
 	: GATEKEEPER LPAREN eventDef=event_def RPAREN {
 									$gatekeeperMetaModel.eventMetaModel = $eventDef.eventMetaModel;
 									$eventDef.eventMetaModel.parent = $gatekeeperMetaModel;
+									symbolStack.peek().getSymbolType().addGatekeeperType();
 									symbolStack.pop();
 									current = symbolStack.peek();
 								}

@@ -12,6 +12,7 @@ import com.myreward.parser.model.RepeatOn;
 import com.myreward.parser.model.Reward;
 
 public class Symbol implements Serializable{
+	@Deprecated
 	public enum SymbolType {
 		IMPORT,
 		EVENT,
@@ -23,7 +24,9 @@ public class Symbol implements Serializable{
 	// The symbol's name
 	private String name;
 	private String packageName;
+	@Deprecated
 	private SymbolType type;
+	private SymbolTypeV2 symbolType = new SymbolTypeV2();
 	private int level=0;
 	private int id;
 	private int fullyQualifiedId;
@@ -202,7 +205,7 @@ public class Symbol implements Serializable{
 	}
 	public String toString() {
 		return this.getName()+"<<"+this.packageName+"<<"+this.getId()+"<<"+getFullyQualifiedId()+"<<"
-					+this.getNamespace()+"<<"+this.getType()+"<<"
+					+this.getNamespace()+"<<"+symbolType.toString()+"<<"
 					+this.getLevel()+"<<"+rewardAttribute+"\n"+childrenList;
 	}
 	public int getVersion() {
@@ -244,6 +247,7 @@ public class Symbol implements Serializable{
 		if(parent.childrenList==null)
 			parent.childrenList = new ArrayList<Symbol>();
 		parent.setType(SymbolType.DERIVED_EVENT);
+		parent.getSymbolType().addGroupType();
 		if(!isChildOfSymbol(parent, child))
 			parent.childrenList.add(child);
 	}
@@ -270,5 +274,11 @@ public class Symbol implements Serializable{
 	}
 	public void setReferredSymbol(Symbol referredSymbol) {
 		this.referredSymbol = referredSymbol;
+	}
+	public SymbolTypeV2 getSymbolType() {
+		return symbolType;
+	}
+	public void setSymbolType(SymbolTypeV2 symbolType) {
+		this.symbolType = symbolType;
 	}
 }
