@@ -25,6 +25,7 @@ import com.myreward.engine.event.error.ReferencedModelException;
 	private int level = 0;
 	public MetaOpCodeProcessor metaOpCodeProcessor;
 	private Stack<Symbol> symbolStack = new Stack<>();
+	private BaseMetaModel currentModel = null;
 	
 	
 	public SymbolTable getSymbolTable() {
@@ -202,7 +203,7 @@ event_def returns [EventMetaModel eventMetaModel]
 				 	$modifier.modifierMetaModel.parent = $eventMetaModel;
 				 	$modifier.modifierMetaModel.namespace = $eventMetaModel.namespace;
 				 	$modifier.modifierMetaModel.symbolTable = symbolTable;
-				 	Symbol eventSymbol = createEventSymbol($eventMetaModel.namespace, packageSymbol, $eventMetaModel.getName(),level);
+//				 	Symbol eventSymbol = createEventSymbol($eventMetaModel.namespace, packageSymbol, $eventMetaModel.getName(),level);
 					if($modifier.modifierMetaModel instanceof GroupMetaModel){
 						$eventMetaModel.setGroupMetaModel((GroupMetaModel)$modifier.modifierMetaModel);
 					} else if($modifier.modifierMetaModel instanceof ShowMetaModel){
