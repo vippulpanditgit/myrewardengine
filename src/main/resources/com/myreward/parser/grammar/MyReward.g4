@@ -34,6 +34,17 @@ import com.myreward.engine.event.error.ReferencedModelException;
 		int symbolId = possibleSymbol.getFullyQualifiedId();
 		return symbol.getChildrenList().stream().anyMatch(sym -> sym.getFullyQualifiedId()==symbolId);
 	}
+		public Symbol createEventSymbol(String namespace, Symbol packageSymbol, String eventName, int level) {
+			Symbol current = new Symbol();
+			current.setName(eventName);
+			current.setLevel(level);
+			current.setType(Symbol.SymbolType.EVENT);
+			current.setPackageName(packageSymbol.getName());
+			current.setContainer(packageSymbol);
+			current.setNamespace(namespace);
+			current.getSymbolType().addEventType();
+			return current;
+		}
 	
 }
 
