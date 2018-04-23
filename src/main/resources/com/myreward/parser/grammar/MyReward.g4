@@ -198,6 +198,7 @@ event_def returns [EventMetaModel eventMetaModel]
 						$eventMetaModel.symbolTable = symbolTable;
 						$eventMetaModel.setEventName($eventName.eventName);
 						$eventMetaModel.packageName = packageSymbol.getName();
+						$eventMetaModel.namespace = packageSymbol.getName();
 						$eventMetaModel.setEventType(EventMetaModel.EventType.EVENT);
 				 } RPAREN (modifier=event_modifier_def {
 				 	$modifier.modifierMetaModel.parent = $eventMetaModel;
