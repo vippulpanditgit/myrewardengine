@@ -58,6 +58,11 @@ public class EventMetaModel extends BaseMetaModel {
 	private String[] callDurationOpCodeListTemplate = {"reset_dur_flg(%d)", "call_dur(%s:%s)"};
 	private String[] postCallDurationOpCodeListTemplate = {"if_dur_flg_not_set(%s,+%d)", "return"};
 
+	// Post event
+	private String[] postEventCallForGatekeeperOpCodeListTemplate = {"lbl_fn_post:%s:%s",
+													"if_gtk_flg_set(%s)",
+													"call_rwd(%s:%s)",
+													"return"};
 	private String[] eventOpCodeListTemplate = {"if_cmp_flg_set(%d)"};
 	
 	public EventMetaModel() {
@@ -596,6 +601,17 @@ public class EventMetaModel extends BaseMetaModel {
 				eventOpCodeList.add(String.format(this.gatekeeperConstraintEventOpCodeListTemplate[1], metaSymbol.getFullyQualifiedId()));
 				if(this.rewardMetaModel!=null) {
 					eventOpCodeList.add(String.format(this.rewardOutcomeEventOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(overrideTemplate, metaSymbol.version)));
+					Symbol gatekeeperSourceSymbol = new Symbol(this.gatekeeperMetaModel.eventMetaModel.eventName);
+					gatekeeperSourceSymbol.setNamespace(this.gatekeeperMetaModel.eventMetaModel.namespace);
+					
+					gatekeeperSourceSymbol = symbolTable.lookup(gatekeeperSourceSymbol);
+
+					List<String> postEventOpCodeList = new ArrayList<>();
+					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[0], gatekeeperSourceSymbol.getFullyQualifiedId(), gatekeeperSourceSymbol.version));
+					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[1], metaSymbol.getFullyQualifiedId(), metaSymbol.version));
+					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[2], metaSymbol.getFullyQualifiedId(), metaSymbol.version));
+					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[3]));
+
 				}
 			} else {
 				
