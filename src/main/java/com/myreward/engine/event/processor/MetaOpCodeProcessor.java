@@ -140,6 +140,61 @@ public class MetaOpCodeProcessor  implements java.io.Serializable  {
 	        }
         return null;
 	}
+	public String[] optimize_events(EventFunctionModel eventFunctionModel) {
+		Map<String, Integer> functionXRef = new LinkedHashMap<String, Integer>();
+		List<String> code = new ArrayList<String>();
+		int netCodeDisplacement = 0;
+		for(int index=0;index< eventFunctionModel.v_table_function_list.size();index++) {
+			if(functionXRef.get(eventFunctionModel.v_table_function_list.get(index).eventName)==null) {
+				if(StringUtils.equalsIgnoreCase(eventFunctionModel.v_table_function_list.get(index).eventName, "return")) {
+					code.add("return");
+					continue;
+				}
+				functionXRef.put(eventFunctionModel.v_table_function_list.get(index).eventName, new Integer(code.size()));
+				code.addAll(Arrays.asList(eventFunctionModel.v_table_function_list.get(index).p_code_lst));
+			} else {
+				Integer functionIndex = functionXRef.get(eventFunctionModel.v_table_function_list.get(index).eventName);
+				String[] otherSameEventPCode = eventFunctionModel.v_table_function_list.get(index).p_code_lst;
+				int otherSameEventPCodeSize = eventFunctionModel.v_table_function_list.get(index).p_code_lst.length;
+//				if(callStackFunctionModel.v_table_function_list.size() >= (functionIndex.intValue())) {//Check if last
+					//if not
+					Integer nextCodeSegmentIndex = 0;//functionXRef.get(callStackFunctionModel.v_table_function_list.get(index+1).eventName);
+
+//					if(!StringUtils.equalsIgnoreCase(callStackFunctionModel.v_table_function_list.get(index+1).eventName,"return"))
+					if(functionIndex.intValue()<functionXRef.values().toArray(new Integer[0])[functionXRef.size()-1]) {
+//						nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index+1).eventName);
+						Integer[] eventCodeIndexArray = functionXRef.values().toArray(new Integer[0]);
+						for(int eventCodeIndex=0;eventCodeIndex<eventCodeIndexArray.length;eventCodeIndex++) {
+							if(eventCodeIndexArray[eventCodeIndex]>functionIndex) {
+								nextCodeSegmentIndex = eventCodeIndexArray[eventCodeIndex];
+								break;
+							}
+						}
+					} else
+						nextCodeSegmentIndex = code.size();
+					code.remove(nextCodeSegmentIndex-1);//remove "return"
+//					if(callStackFunctionModel.v_table_function_list.size() > (functionIndex.intValue()+1))
+					if(functionIndex.intValue()==functionXRef.get(functionXRef.keySet().toArray(new String[0])[functionXRef.size()-1])) //Check if last entry
+//						code.addAll(netCodeDisplacement+nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
+						code.addAll(Arrays.asList(otherSameEventPCode));
+					else 
+						code.addAll(nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
+					code.remove(nextCodeSegmentIndex-1);// remove "if..."
+					netCodeDisplacement = (otherSameEventPCodeSize - 2);
+					final int codeDisplacement = netCodeDisplacement; 
+					String ifStmt = code.get(functionIndex);
+					code.remove(functionIndex.intValue());
+					code.add(functionIndex.intValue(), StringUtils.substringBefore(ifStmt, ",")+","+(Integer.valueOf(StringUtils.substringBetween(ifStmt, ",", ")"))+(otherSameEventPCodeSize - 2))+")");
+					for(int indexFunction=0;indexFunction<functionXRef.size();indexFunction++) {
+						String keyValue = functionXRef.keySet().toArray(new String[0])[indexFunction];
+						if(functionXRef.get(keyValue)> functionIndex.intValue()+1) {
+							functionXRef.put(keyValue, functionXRef.get(keyValue)+netCodeDisplacement);
+						}
+					}
+			}
+		}
+		return code.toArray(new String[0]);
+	}
 	public String[] optimize_events(CallStackFunctionModel callStackFunctionModel) {
 		Map<String, Integer> functionXRef = new LinkedHashMap<String, Integer>();
 		List<String> code = new ArrayList<String>();

@@ -60,7 +60,8 @@ public class MyRewardMetaModel extends BaseMetaModel {
 			packageMetaModelListIterator.next().call_stack(callStackFunctionModel);
 		}
 	}
-	public String[] optimize_events(CallStackFunctionModel callStackFunctionModel) {
+
+/*	public String[] optimize_events(CallStackFunctionModel callStackFunctionModel) {
 		Map<String, Integer> functionXRef = new LinkedHashMap<String, Integer>();
 		List<String> code = new ArrayList<String>();
 		int netCodeDisplacement = 0;
@@ -98,7 +99,7 @@ public class MyRewardMetaModel extends BaseMetaModel {
 			}
 		}
 		return code.toArray(new String[0]);
-	}
+	}*/
 	@Override
 	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
 		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();

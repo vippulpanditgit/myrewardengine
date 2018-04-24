@@ -611,7 +611,12 @@ public class EventMetaModel extends BaseMetaModel {
 					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[1], metaSymbol.getFullyQualifiedId(), metaSymbol.version));
 					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[2], metaSymbol.getFullyQualifiedId(), metaSymbol.version));
 					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[3]));
-
+					eventFunctionModel.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[0], 
+							gatekeeperSourceSymbol.getFullyQualifiedId(), gatekeeperSourceSymbol.version),
+						this.namespace, 
+						EventAttributeType.EVENT, 
+						postEventOpCodeList.toArray(new String[0]),
+						"// "+gatekeeperSourceSymbol.getFullyQualifiedName());
 				}
 			} else {
 				
