@@ -102,12 +102,8 @@ public class GatekeeperMetaModel extends BaseMetaModel {
 			gatekeeperTargetSymbol = symbolTable.lookup(gatekeeperTargetSymbol);
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), String.format(EventMetaModel.overrideTemplate, /*++*/gatekeeperSourceSymbol.version)));
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[1], gatekeeperSourceSymbol.getName(), gatekeeperSourceSymbol.getFullyQualifiedId()));
-			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[2], gatekeeperSourceSymbol.getFullyQualifiedId(),4));
+			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[2], gatekeeperSourceSymbol.getFullyQualifiedId(),2));
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[3], gatekeeperTargetSymbol.getFullyQualifiedId()));
-			if(gatekeeperTargetEvent.getRewardMetaModel()!=null) { // If the parent event has reward and gatekeeper got executed.
-				gatekeeperOpcodes.add(String.format(rewardOpCodesListTemplate[0], gatekeeperTargetSymbol.getFullyQualifiedId(),2));
-				gatekeeperOpcodes.add(String.format(rewardOpCodesListTemplate[1], gatekeeperTargetSymbol.getFullyQualifiedId(),0));
-			}
 			gatekeeperOpcodes.add(String.format(gatekeeperSourceEventOpCodeListTemplate[4], gatekeeperSourceSymbol.getFullyQualifiedId()));
 //			gatekeeperOpcodes.addAll(Arrays.asList(eventMetaModel.model()));
 			eventFunctionModel.add(String.format(gatekeeperSourceEventOpCodeListTemplate[0], String.valueOf(gatekeeperTargetSymbol.getFullyQualifiedId()), String.format(EventMetaModel.overrideTemplate, /*++*/gatekeeperSourceSymbol.version)),

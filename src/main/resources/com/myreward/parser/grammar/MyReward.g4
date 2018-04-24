@@ -276,7 +276,7 @@ event_name returns [String eventName]
 					symbolTable.insertSymbol(current);
 				} else {
 					if(storedCurrent!=null && !isChildOfSymbol(storedCurrent, current))
-						storedCurrent.addChild(current);
+						current = storedCurrent.addChild(current);
 				}
 				$eventName = $eventNameElement.getText();
 		}

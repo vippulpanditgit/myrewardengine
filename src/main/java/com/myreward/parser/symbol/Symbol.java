@@ -238,7 +238,7 @@ public class Symbol implements Serializable{
 		return symbol.getChildrenList().stream().anyMatch(sym -> sym.getFullyQualifiedId()==symbolId);
 	}
 
-	public void addChild(Symbol child) {
+	public Symbol addChild(Symbol child) {
 		Symbol parent = this;
 		while(parent.level >= child.level)
 			parent = parent.parent;
@@ -248,8 +248,16 @@ public class Symbol implements Serializable{
 			parent.childrenList = new ArrayList<Symbol>();
 		parent.setType(SymbolType.DERIVED_EVENT);
 		parent.getSymbolType().addGroupType();
-		if(!isChildOfSymbol(parent, child))
+		if(!isChildOfSymbol(parent, child)) {
 			parent.childrenList.add(child);
+			return child;
+		} else {
+			for(int index=0;index< parent.getChildrenList().size();index++) {
+				if(parent.getChildrenList().get(index).getFullyQualifiedId()==child.getFullyQualifiedId())
+					return parent.getChildrenList().get(index);
+			}
+		}
+		return null;
 	}
 	public String getNamespace() {
 		return namespace;
