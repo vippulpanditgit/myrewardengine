@@ -60,6 +60,7 @@ public class EventMetaModel extends BaseMetaModel {
 
 	// Post event
 	private String[] postEventCallForGatekeeperOpCodeListTemplate = {"lbl_fn_post:%s:%s",
+													"call_gtk(%s:%s)",
 													"if_gtk_flg_set(%s)",
 													"call_rwd(%s:%s)",
 													"return"};
@@ -610,7 +611,8 @@ public class EventMetaModel extends BaseMetaModel {
 					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[0], gatekeeperSourceSymbol.getFullyQualifiedId(), gatekeeperSourceSymbol.version));
 					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[1], metaSymbol.getFullyQualifiedId(), metaSymbol.version));
 					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[2], metaSymbol.getFullyQualifiedId(), metaSymbol.version));
-					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[3]));
+					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[3], metaSymbol.getFullyQualifiedId(), metaSymbol.version));
+					postEventOpCodeList.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[4]));
 					eventFunctionModel.add(String.format(postEventCallForGatekeeperOpCodeListTemplate[0], 
 							gatekeeperSourceSymbol.getFullyQualifiedId(), gatekeeperSourceSymbol.version),
 						this.namespace, 

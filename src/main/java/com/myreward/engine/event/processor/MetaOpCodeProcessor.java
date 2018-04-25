@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.antlr.v4.runtime.RecognitionException;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +30,7 @@ import com.myreward.parser.grammar.MyRewardParser.Myreward_defContext;
 import com.myreward.parser.grammar.MyRewardParser.Myreward_defsContext;
 import com.myreward.parser.metamodel.MyRewardMetaModel;
 import com.myreward.parser.model.CallStackFunctionModel;
+import com.myreward.parser.model.CallStackFunctionModel._v_table_function;
 import com.myreward.parser.model.EventFunctionModel;
 import com.myreward.parser.model.EventInteractionFunctionModel;
 import com.myreward.parser.util.FileProcessingUtil;
@@ -132,7 +135,7 @@ public class MetaOpCodeProcessor  implements java.io.Serializable  {
 			}
 	        callStackFunctionModel.add("return", null, new String[]{"return"});
 
-	        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(eventFunctionModel.merge_p_code());
+	        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(optimize_events(eventFunctionModel)));
 	        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(eventInteractionFunctionModel.merge_p_code());
 	        this.getMyRewardPCodeGenerator().getCodeSegment().addAll(Arrays.asList(optimize_events(callStackFunctionModel)));
 	        if(isReturnGeneratedPCode) {
@@ -145,6 +148,32 @@ public class MetaOpCodeProcessor  implements java.io.Serializable  {
 		List<String> code = new ArrayList<String>();
 		int netCodeDisplacement = 0;
 		for(int index=0;index< eventFunctionModel.v_table_function_list.size();index++) {
+			if(eventFunctionModel.v_table_function_list.get(index).eventName.contains("lbl_fn:")) {
+				String methodParam = eventFunctionModel.v_table_function_list.get(index).eventName.substring(eventFunctionModel.v_table_function_list.get(index).eventName.indexOf(":")+1);
+				String postMethodName = "lbl_fn_post:"+methodParam;
+				for(int indexNext=0;indexNext< eventFunctionModel.v_table_function_list.size();indexNext++) {
+					if(eventFunctionModel.v_table_function_list.get(indexNext).eventName.equalsIgnoreCase(postMethodName)) {
+						List<String> postPCodeList = Arrays.asList(eventFunctionModel.v_table_function_list.get(indexNext).p_code_lst);
+						postPCodeList = postPCodeList.subList(1, postPCodeList.size());//Remove the lbl_fn_post...
+						List<String> pCodeList = Arrays.asList(eventFunctionModel.v_table_function_list.get(index).p_code_lst);
+						pCodeList = pCodeList.subList(0, pCodeList.size()-1);// Remove the return
+						Stream<String> concatPCode = Stream.concat(pCodeList.stream(), postPCodeList.stream());
+						eventFunctionModel.v_table_function_list.get(index).p_code_lst = concatPCode.toArray(String[]::new);
+						eventFunctionModel.v_table_function_list.remove(indexNext);//Remove the node for the "post"
+						break;
+					}
+					
+				}
+				
+			}
+		}
+		for(int index=0;index< eventFunctionModel.v_table_function_list.size();index++) {
+			if(eventFunctionModel.v_table_function_list.get(index).eventName.contains("_post")) {
+				String eventName = eventFunctionModel.v_table_function_list.get(index).eventName.replace("_post", "");
+				List<_v_table_function> functionList =eventFunctionModel.v_table_function_list.stream().filter(func -> func.eventName.equalsIgnoreCase(eventName)).collect(Collectors.toList());
+				List<String> modifiedFunctionPCode = Arrays.asList(functionList.get(0).p_code_lst);
+				modifiedFunctionPCode.remove(modifiedFunctionPCode.size()-1);
+			}
 			if(functionXRef.get(eventFunctionModel.v_table_function_list.get(index).eventName)==null) {
 				if(StringUtils.equalsIgnoreCase(eventFunctionModel.v_table_function_list.get(index).eventName, "return")) {
 					code.add("return");
