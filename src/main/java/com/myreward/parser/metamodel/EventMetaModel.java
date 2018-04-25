@@ -593,6 +593,8 @@ public class EventMetaModel extends BaseMetaModel {
 				}
 			}
 			if(this.gatekeeperMetaModel!=null) {
+				if(this.gatekeeperMetaModel.eventMetaModel!=null)
+					this.gatekeeperMetaModel.eventMetaModel.model(eventFunctionModel);
 				if(this.durationMetaModel==null && this.rewardMetaModel==null) { // The completion increment already done on duration or reward block.
 					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[1], metaSymbol.getFullyQualifiedId(), metaSymbol.version));
 					eventOpCodeList.add(String.format(this.eventOpCodesListTemplate[2], metaSymbol.getFullyQualifiedId()));

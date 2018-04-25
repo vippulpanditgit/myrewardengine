@@ -315,7 +315,7 @@ public class MetaOpCodeProcessor  implements java.io.Serializable  {
 			while(codeSegmentIterator.hasNext()) {
 				boolean isOpcodeFound = false;
 				String opcode = codeSegmentIterator.next();
-System.out.println(opcode);						
+//System.out.println(opcode);						
 				Iterator<OpCodeBaseModel> opCodeBaseModelIterator = RuntimeSupportedOpCodeModel.getInstance().getSupportedOpCodeHandlers().iterator();
 				while(opCodeBaseModelIterator.hasNext()) {
 					OpCodeBaseModel opCodeBaseModel = opCodeBaseModelIterator.next();
