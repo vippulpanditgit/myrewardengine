@@ -90,25 +90,9 @@ public class test {
 			String pseudo_group = "package test event(GA).any(1) {event(B), event(C)}.reward(1)";
 			String pseudo_group_repeat = "package test event(GA).any(1) {event(B), event(C)}.reward(1).repeat(WEEKLY,2)";
 			String event_time_based = "package test event(A).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(1) event(A).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(10)";
-			String event_between_different = "package test event(A).any(1).between('1997-07-16T19:20:30.45+01:00','2000-07-16T19:20:30.45+01:00').reward(1) event(A).any(1).between('2000-07-17T19:20:30.45+01:00','2017-07-16T19:20:30.45+01:00').reward(2)";
-			String reward_metadata = "package global "
-					+ "event(GA).any(2){"
-						+ "event(B),"
-						+ "event(GC).any(1){"
-							+ "event(GD).any(1){"
-								+ "event(E)"
-							+ "},"
-							+ "event(GF).any(1){"
-								+ "event(H).reward(10,100)"
-							+ "}"
-						+ "}"
-					+ "}.reward(100,1000)";
-
 			
-			String oneEvent1 = "package global event(H).between('2000-07-17T19:20:30.45+01:00','2018-07-16T19:20:30.45+01:00').reward(10,100).repeat(WEEKLY,2).show(true).priority(1).gatekeeper(event(B))";
-
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
-			String ruleFileName = "src/main/resources/test/duration";
+			String ruleFileName = "src/main/resources/test/event_different_time";
 			String hashValue = String.valueOf(ruleFileName.hashCode());
             AppContext.getInstance().add(hashValue, 
             		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(ruleFileName)));
@@ -120,25 +104,15 @@ public class test {
 	            appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
 	            appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
 	            															appInstanceContext.dataSegment);
-/*	            try {
-	                FileOutputStream fileOut = new FileOutputStream("employee.ser");
-	                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-	                out.writeObject(appInstanceContext);
-	                out.close();
-	                fileOut.close();
-	                System.out.printf("Serialized data is saved in /tmp/employee.ser");
-	             } catch (IOException i) {
-	                i.printStackTrace();
-	             }
-*/
+
 	            EventDO eventDO = new EventDO();
+		    		eventDO.setActivityName("A");
+		    		eventDO.setActivityDate(new Date());
+		    System.out.println("**** B");
+		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 		    		eventDO.setActivityName("H");
 		    		eventDO.setActivityDate(new Date());
 		    System.out.println("**** H");
-		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
-		    		eventDO.setActivityName("B");
-		    		eventDO.setActivityDate(new Date());
-		    System.out.println("**** B");
 		    		
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 //		    		processEvent(appInstanceContext, eventDO);

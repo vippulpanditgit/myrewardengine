@@ -375,19 +375,19 @@ public class EventMetaModel extends BaseMetaModel {
 			eventMetaModel = eventMetaModel.parent.parent;
 			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);
 		}
-		if(eventMetaModel!=null && eventMetaModel.parent!=null
+/*		if(eventMetaModel!=null && eventMetaModel.parent!=null
 				&&  eventMetaModel.parent instanceof GatekeeperMetaModel) {
 			level++;
 			EventMetaModel groupEventMetaModel = (EventMetaModel)eventMetaModel.parent.parent;
 			Symbol metaSymbol = new Symbol(groupEventMetaModel.eventName);
 			metaSymbol.setNamespace(this.getSymbolNamespace(eventMetaModel));
 			metaSymbol = symbolTable.lookup(metaSymbol);
-			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, /*++*/metaSymbol.version))+" // "+metaSymbol.getFullyQualifiedName());
+			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[0], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, ++metaSymbol.version))+" // "+metaSymbol.getFullyQualifiedName());
 			callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListGateKeeperTemplate[1], metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, metaSymbol.version)));
 			eventMetaModel = eventMetaModel.parent.parent;
 			return this.climbUpTheEventStackTree(eventMetaModel, callStackOpCodeList, level);
 			
-		}
+		}*/
 		return level;
 	}
 	public String toString() {

@@ -1,0 +1,12 @@
+package test;
+event(GA).any(2){
+	event(B),
+	event(GC).any(1){
+		event(GD).any(1){
+			event(E)
+		},
+		event(GF).any(1){
+			event(H).reward(10,100)
+		}
+	}
+}.reward(100,1000)
