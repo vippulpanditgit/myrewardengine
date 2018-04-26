@@ -132,13 +132,13 @@ public class test {
 	             }
 */
 	            EventDO eventDO = new EventDO();
+		    		eventDO.setActivityName("H");
+		    		eventDO.setActivityDate(new Date());
+		    System.out.println("**** H");
+		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 		    		eventDO.setActivityName("B");
 		    		eventDO.setActivityDate(new Date());
 		    System.out.println("**** B");
-		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
-		    		eventDO.setActivityName("A");
-		    		eventDO.setActivityDate(new Date());
-		    System.out.println("**** A");
 		    		
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 //		    		processEvent(appInstanceContext, eventDO);
