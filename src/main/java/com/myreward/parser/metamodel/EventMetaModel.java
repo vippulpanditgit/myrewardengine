@@ -348,9 +348,10 @@ public class EventMetaModel extends BaseMetaModel {
 				
 			} else {
 				List<String> callStackOpCodeList = new ArrayList<String>();
-				callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(), String.valueOf(metaSymbol.version/*--*/))+" // "+metaSymbol.getFullyQualifiedName());			
-				int level=0;
-				level = this.climbUpTheEventStackTree(this, callStackOpCodeList, level);
+				for(int index=metaSymbol.version;index>=0;index--) {
+					callStackOpCodeList.add(String.format(this.bodyCallStackOpCodeListTemplate[0], metaSymbol.getFullyQualifiedId(), String.valueOf(index/*--*/))+" // "+metaSymbol.getFullyQualifiedName());			
+				}
+				int level = this.climbUpTheEventStackTree(this, callStackOpCodeList, 0);
 				callStackOpCodeList.add(0, String.format(prefixCallStackOpCodeListTemplate[0], eventName, level+3));
 				callStackOpCodeList.add(String.format(suffixCallStackOpCodeListTemplate[0], eventName));
 				callStackFunctionModel.add(eventName, namespace, callStackOpCodeList.toArray(new String[0]));

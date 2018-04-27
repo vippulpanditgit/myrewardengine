@@ -89,10 +89,9 @@ public class test {
 			String pseudo_standalone_gatekeeper = "package test event(A).any(1).show(true).priority(1) event(B).gatekeeper(event(A)).reward(100)";
 			String pseudo_group = "package test event(GA).any(1) {event(B), event(C)}.reward(1)";
 			String pseudo_group_repeat = "package test event(GA).any(1) {event(B), event(C)}.reward(1).repeat(WEEKLY,2)";
-			String event_time_based = "package test event(A).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(1) event(A).between('1997-07-16T19:20:30.45+01:00','1997-07-16T19:20:30.45+01:00').reward(10)";
 			
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
-			String ruleFileName = "src/main/resources/test/event_different_time";
+			String ruleFileName = "src/main/resources/test/repeat1";
 			String hashValue = String.valueOf(ruleFileName.hashCode());
             AppContext.getInstance().add(hashValue, 
             		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(ruleFileName)));
@@ -106,13 +105,13 @@ public class test {
 	            															appInstanceContext.dataSegment);
 
 	            EventDO eventDO = new EventDO();
-		    		eventDO.setActivityName("A");
+		    		eventDO.setActivityName("B");
 		    		eventDO.setActivityDate(new Date());
 		    System.out.println("**** B");
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
-		    		eventDO.setActivityName("H");
+		    		eventDO.setActivityName("C");
 		    		eventDO.setActivityDate(new Date());
-		    System.out.println("**** H");
+		    System.out.println("**** C");
 		    		
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 //		    		processEvent(appInstanceContext, eventDO);

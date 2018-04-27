@@ -39,7 +39,7 @@ public class MyRewardDataSegment<T> implements Serializable {
 		public Double amount = Double.valueOf(0.0);
 		public Integer maxRepeat = Integer.valueOf(0);
 		public Integer priority = Integer.valueOf(0);
-		public Date nextRpeat;
+		public Date nextRepeat;
 		public String description;
 		public String name;
 		public long id;
@@ -60,7 +60,7 @@ public class MyRewardDataSegment<T> implements Serializable {
 			this.eventDelegate.creation(this);
 		}
 		public String toString() {
-			return name+"<<"+id+"<<"+version+"<<"+description+"<<"+eventStatus+"<<"+eventCount+"<<"+amount+"<<"+maxRepeat+"<<"+priority+"<<"+nextRpeat;
+			return name+"<<"+id+"<<"+version+"<<"+description+"<<"+eventStatus+"<<"+eventCount+"<<"+amount+"<<"+maxRepeat+"<<"+priority+"<<"+nextRepeat;
 		}
 		public void setEventCompletionFlag() {
 			eventStatus |= 0x01;
