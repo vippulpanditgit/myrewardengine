@@ -554,6 +554,13 @@ public class EventMetaModel extends BaseMetaModel {
 			groupMetaModel.model(eventFunctionModel);
 			return;
 		} else {
+			if(eventFunctionModel.isExisting(String.format(prefixEventOpCodeListTemplate[0], 
+					String.valueOf(metaSymbol.getFullyQualifiedId()),
+					String.format(overrideTemplate, metaSymbol.version)),
+				this.namespace, 
+				EventAttributeType.EVENT)) {
+				metaSymbol.version += 1;
+			}
 			eventOpCodeList.add(String.format(prefixEventOpCodeListTemplate[0], 
 							String.valueOf(metaSymbol.getFullyQualifiedId()),
 							String.format(overrideTemplate, metaSymbol.version)));

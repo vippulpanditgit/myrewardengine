@@ -83,6 +83,20 @@ public class CallStackFunctionModel {
 		}
 	}
 
+	public boolean isExisting(String eventName, String namespace, EventAttributeType eventAttributeType) {
+			if(v_table_function_list
+					.stream()
+					.filter(function_def -> {
+						if(StringUtils.equalsAnyIgnoreCase(function_def.eventName, eventName)
+							&& StringUtils.equalsAnyIgnoreCase(function_def.namespace, namespace)
+							&& function_def.eventAttributeType == eventAttributeType)
+							return true;
+						return false;
+					})
+					.count()==0)
+				return false;
+			return true;
+	}
 	public void add(String eventName, String namespace, EventAttributeType eventAttributeType, String[] p_code_lst, String description) {
 		if(p_code_lst!=null && p_code_lst.length>0) {
 			if(v_table_function_list

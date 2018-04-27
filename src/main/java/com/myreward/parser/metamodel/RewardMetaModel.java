@@ -76,6 +76,13 @@ public class RewardMetaModel extends BaseMetaModel {
 			eventSymbol.setNamespace(parentEventMetaModel.namespace);
 
 			eventSymbol = symbolTable.lookup(eventSymbol);
+			if(eventFunctionModel.isExisting(String.format(rewardOpCodeListTemplate[0], 
+					String.valueOf(eventSymbol.getFullyQualifiedId()),
+					String.format(EventMetaModel.overrideTemplate, eventSymbol.version)),
+				this.namespace, 
+				EventAttributeType.REWARD)) {
+					eventSymbol.version += 1;
+				}
 			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
 			rewardOpCodeList.add(String.format(rewardOpCodeListTemplate[1], eventSymbol.getName(), String.valueOf(eventSymbol.getFullyQualifiedId()),rewardAmount, maxRewardAmount));
 			if(parentEventMetaModel.getDuraitonMetaModel()!=null) {
