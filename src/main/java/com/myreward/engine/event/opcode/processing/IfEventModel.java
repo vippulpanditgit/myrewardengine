@@ -106,9 +106,19 @@ public class IfEventModel extends IfBaseModel {
 					amountType = IfCompletionAmtType.GE;
 				}
 			} else if(type==IfCompletionType.DATE) {
-				String[] dateOperand = this.parse(OPCODE_LABEL_DATE, OPERAND_FORMAT_PATTERN, statement);
-				String longDate = dateOperand[0].trim();
-				date = new Date(Long.parseLong(longDate));
+				String[] dataOperand = this.parse(OPCODE_LABEL_DATE, OPERAND_FORMAT_PATTERN, statement);
+				if(dataOperand.length==1) {
+					name = dataOperand[0];
+					date = null;
+				} else if(dataOperand.length==2) {
+					name = dataOperand[0];
+					String longDate = dataOperand[1].trim();
+					date = new Date(Long.parseLong(longDate));
+				} else if(dataOperand.length==3) {
+					name = dataOperand[0];
+					String longDate = dataOperand[2].trim();
+					date = new Date(Long.parseLong(longDate));
+				}
 				if(StringUtils.startsWithIgnoreCase(statement, OPCODE_LABEL_DATE+IfCompletionDtType.LE.value)) {
 					dtType = IfCompletionDtType.LE;
 				} else if(StringUtils.startsWithIgnoreCase(statement, OPCODE_LABEL_DATE+IfCompletionDtType.LT.value)) {
@@ -190,7 +200,7 @@ public class IfEventModel extends IfBaseModel {
 			return OPCODE_LABEL_EVENT+OPCODE_OPERAND_START+eventName+OPERAND_FORMAT_PATTERN+gotoLine+OPCODE_OPERAND_END;
 		}
 		if(type==IfCompletionType.DATE) {
-			return OPCODE_LABEL_DATE+dtType.value+OPCODE_OPERAND_START+date.getTime()+OPCODE_OPERAND_END;
+			return OPCODE_LABEL_DATE+dtType.value+OPCODE_OPERAND_START+(date!=null?date.getTime():"")+OPCODE_OPERAND_END;
 		}
 		return null;
 	}
@@ -255,6 +265,13 @@ public class IfEventModel extends IfBaseModel {
 		}
 		if(type==IfCompletionType.DATE) {
 			operationResultDO = new IfOperationResult();
+			EventDataObject eventDataObject = myRewardDataSegment.search(name);
+			if(eventDataObject.isRepeatFlagSet())
+				date = eventDataObject.nextRepeat;
+			if(date==null)
+				date = new Date(0);
+			if(gotoLine==0)
+				gotoLine = 2;
 			if(dtType == IfCompletionDtType.LE) {
 				if(event.getActivityDate().compareTo(date)<=0) {
 					((IfOperationResult)operationResultDO).setResult(true);

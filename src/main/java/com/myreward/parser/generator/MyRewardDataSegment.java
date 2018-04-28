@@ -16,6 +16,7 @@ import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import com.myreward.engine.app.AppInstanceContext;
 import com.myreward.engine.delegate.EventDataObjectDelegate;
 import com.myreward.engine.delegate.IRuntimeDelegate;
+import com.myreward.parser.metamodel.RepeatMetaModel.RepeatCriteria;
 import com.myreward.parser.symbol.Symbol;
 import com.myreward.parser.symbol.SymbolTable;
 
@@ -46,7 +47,8 @@ public class MyRewardDataSegment<T> implements Serializable {
 		public String namespace;
 		public long version;
 		private IRuntimeDelegate eventDelegate;
-		
+		public RepeatCriteria repeatCriteria;
+		public int repeatAfter;
 		public EventDataObject() {
 			
 		}
@@ -219,6 +221,18 @@ public class MyRewardDataSegment<T> implements Serializable {
 			eventStatus &= 0xf7;
 			if(this.eventDelegate!=null)
 				this.eventDelegate.changed(this, EventDataObjectDelegate.trace(Thread.currentThread().getStackTrace()));
+		}
+		public RepeatCriteria getRepeatCriteria() {
+			return repeatCriteria;
+		}
+		public void setRepeatCriteria(RepeatCriteria repeatCriteria) {
+			this.repeatCriteria = repeatCriteria;
+		}
+		public int getRepeatAfter() {
+			return repeatAfter;
+		}
+		public void setRepeatAfter(int repeatAfter) {
+			this.repeatAfter = repeatAfter;
 		}
 	}
 	private int recursivelyCreateDataSegment(int index, Symbol symbol) {

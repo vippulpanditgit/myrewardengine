@@ -1,13 +1,18 @@
 package com.myreward.engine.event.opcode.processing;
 
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.engine.model.event.OperationResultDO;
+import com.myreward.engine.model.event.StatementOperationResult;
 import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
+import com.myreward.parser.metamodel.RepeatMetaModel.RepeatCriteria;
 
 
 public class SetRepeatModel extends SetBaseModel {
@@ -29,6 +34,7 @@ public class SetRepeatModel extends SetBaseModel {
 	private String name;
 	private String amount;
 	private String after;
+	private String date;
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT, OPCODE_LABEL_TYPE, OPCODE_LABEL_DATE};
 
 	public SetRepeatModel() {
@@ -52,7 +58,6 @@ public class SetRepeatModel extends SetBaseModel {
 			} else if(type==StoreRepeatType.DATE) {
 				String[] amountOperand = this.parse(OPCODE_LABEL_DATE, null, statement);
 				name = amountOperand[0];
-//				after = amountOperand[1];
 			}
 		}
 	}
@@ -84,15 +89,77 @@ public class SetRepeatModel extends SetBaseModel {
 		return OPCODE_HANDLER;
 	}
 	public String toString() {
-		return type==StoreRepeatType.FLAG?(OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END)
-						:(OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
+		String value = "";
+		
+		switch(type) {
+			case FLAG:
+				value= (OPCODE_LABEL_FLAG+OPCODE_OPERAND_START+name+OPCODE_OPERAND_END);
+				break;
+			case TYPE:
+				value = (OPCODE_LABEL_TYPE+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+after+OPCODE_OPERAND_END);
+				break;
+			case AMOUNT:
+				value = (OPCODE_LABEL_AMOUNT+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+amount+OPCODE_OPERAND_END);
+				break;
+			case DATE:
+				value = (OPCODE_LABEL_DATE+OPCODE_OPERAND_START+name+OPERAND_FORMAT_PATTERN+date+OPCODE_OPERAND_END);
+				break;
+		}
+		return value;
 	}
 
 	@Override
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
-			EventDO event) {
-		// TODO Auto-generated method stub
-		return null;
+			EventDO eventDO) {
+		OperationResultDO operationResultDO = new StatementOperationResult();;
+		EventDataObject eventDataObject = myRewardDataSegment.search(name);
+		if(type==StoreRepeatType.FLAG) {
+			if(eventDataObject!=null) {
+				eventDataObject.setRepeatFlag();
+				operationResultDO.setResult(true);
+				return operationResultDO;
+			}
+			operationResultDO.setResult(false);
+		} else if(type==StoreRepeatType.TYPE){
+			if(eventDataObject!=null) {
+				RepeatCriteria repeatCriteria = RepeatCriteria.ACTIVITY_DATE;
+				if(after.equalsIgnoreCase("0"))
+					repeatCriteria = RepeatCriteria.WEEKLY;
+				if(after.equalsIgnoreCase("3"))
+					repeatCriteria = RepeatCriteria.ACTIVITY_DATE;
+				if(after.equalsIgnoreCase("1"))
+					repeatCriteria = RepeatCriteria.MONTHLY;
+				if(after.equalsIgnoreCase("2"))
+					repeatCriteria = RepeatCriteria.YEARLY;
+				
+				eventDataObject.setRepeatCriteria(repeatCriteria);
+				operationResultDO.setResult(true);
+				return operationResultDO;
+			}
+
+		} else if(type==StoreRepeatType.AMOUNT){
+			if(eventDataObject!=null) {
+				eventDataObject.setRepeatAfter(Integer.valueOf(amount));
+				operationResultDO.setResult(true);
+				return operationResultDO;
+			}
+		} else if(type==StoreRepeatType.DATE){
+			Date activityDate = eventDO.getActivityDate();
+			if(activityDate==null)
+				activityDate = new Date();
+			if(amount==null)
+				amount = String.valueOf(eventDataObject.repeatAfter);
+			if(eventDataObject.getRepeatCriteria()==RepeatCriteria.WEEKLY) {
+				eventDataObject.nextRepeat = DateUtils.addWeeks(activityDate, Integer.valueOf(amount));
+			} else if(eventDataObject.getRepeatCriteria()==RepeatCriteria.ACTIVITY_DATE) {
+				eventDataObject.nextRepeat = DateUtils.addDays(activityDate, Integer.valueOf(amount));
+			} else if(eventDataObject.getRepeatCriteria()==RepeatCriteria.MONTHLY) {
+				eventDataObject.nextRepeat = DateUtils.addMonths(activityDate, Integer.valueOf(amount));
+			} else if(eventDataObject.getRepeatCriteria()==RepeatCriteria.YEARLY) {
+				eventDataObject.nextRepeat = DateUtils.addYears(activityDate, Integer.valueOf(amount));				
+			}  
+		}
+		return operationResultDO;
 	}
 
 }

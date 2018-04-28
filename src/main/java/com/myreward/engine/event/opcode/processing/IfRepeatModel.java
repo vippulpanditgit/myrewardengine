@@ -5,9 +5,13 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.opcode.processing.IfEventModel.IfCompletionFlgType;
+import com.myreward.engine.event.opcode.processing.IfGatekeeperModel.IfGatekeeperType;
 import com.myreward.engine.model.event.EventDO;
+import com.myreward.engine.model.event.IfOperationResult;
 import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
+import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 
 public class IfRepeatModel extends IfBaseModel {
 	public enum IfRepeatType {
@@ -52,6 +56,8 @@ public class IfRepeatModel extends IfBaseModel {
 	private IfRepeatFlgType flagType;
 	private String name;
 	private String amount;
+	private int gotoLine;
+
 	public static String[] OPCODE_HANDLER = {OPCODE_LABEL_FLAG, OPCODE_LABEL_AMOUNT};
 
 	public IfRepeatModel() {
@@ -124,7 +130,35 @@ public class IfRepeatModel extends IfBaseModel {
 	@Override
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment,
 			EventDO event) {
-		System.out.println("Not Implmented - IfRepeatModel.process");
+		OperationResultDO operationResultDO = null;
+		if(type==IfRepeatType.FLAG) {
+			operationResultDO = new IfOperationResult();;
+			EventDataObject eventDataObject = myRewardDataSegment.search(name);
+			if(eventDataObject!=null) {
+				if(gotoLine==0)
+					gotoLine = 2;
+				if(flagType==IfRepeatFlgType.SET) {
+					if(eventDataObject.isRepeatFlagSet()) {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					} else {
+						((IfOperationResult)operationResultDO).setResult(false);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+					}
+				} else if(flagType==IfRepeatFlgType.NOT_SET) {
+					if(eventDataObject.isEventCompletionFlagSet()) {
+						((IfOperationResult)operationResultDO).setResult(false);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(gotoLine);
+					} else {
+						((IfOperationResult)operationResultDO).setResult(true);
+						((IfOperationResult)operationResultDO).setNextOperationNumber(1);
+					}
+				} 
+				return operationResultDO;
+			}
+			operationResultDO.setResult(false);
+			return operationResultDO;
+		}
 		return null;
 	}
 }

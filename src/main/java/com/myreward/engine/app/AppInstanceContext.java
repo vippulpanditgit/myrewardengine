@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.function.Consumer;
 
+import com.myreward.engine.event.error.HeapException;
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.parser.generator.MyRewardDataSegment;
@@ -25,6 +26,13 @@ public class AppInstanceContext implements java.io.Serializable  {
 	
 	public AppInstanceContext() {
 		symbolTable = new MyRewardSymbolTable();
+		stackSegment = new Stack<>();
+		try {
+			heapSegment = new Heap<Object>(1000);
+		} catch (HeapException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public boolean isInstanceReady() {
 		if(dataSegment!=null

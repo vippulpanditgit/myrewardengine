@@ -63,6 +63,7 @@ public class EventProcessor  implements java.io.Serializable  {
 			throw new EventProcessingException(ErrorCode.LABEL_MAIN_NOT_FOUND);
 		//Testing - VP
 		try {
+			
 			step(lbl_main_index, eventDO);
 		} catch (Exception e) {
 			throw e;
