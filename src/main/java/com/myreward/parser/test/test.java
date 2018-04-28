@@ -91,7 +91,7 @@ public class test {
 			String pseudo_group_repeat = "package test event(GA).any(1) {event(B), event(C)}.reward(1).repeat(WEEKLY,2)";
 			
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
-			String ruleFileName = "src/main/resources/test/repeat2";
+			String ruleFileName = "src/main/resources/test/repeat1";
 			String hashValue = String.valueOf(ruleFileName.hashCode());
             AppContext.getInstance().add(hashValue, 
             		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(ruleFileName)));

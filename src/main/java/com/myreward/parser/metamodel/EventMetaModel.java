@@ -679,7 +679,7 @@ public class EventMetaModel extends BaseMetaModel {
 					groupOpcodeList.add(String.format(this.postCallDurationOpCodeListTemplate[1], metaSymbol.getFullyQualifiedId()));
 				}
 				groupMetaModel.build(eventInteractionFunctionModel);
-				if(this.parent instanceof EventMetaModel) {
+				if(this.parent instanceof EventMetaModel ) {
 					EventMetaModel parentEventMetaModel = (EventMetaModel)this.parent;
 					Symbol parentEventSymbol = new Symbol(parentEventMetaModel.getEventName());
 					parentEventSymbol = symbolTable.lookup(parentEventSymbol);
@@ -705,6 +705,12 @@ public class EventMetaModel extends BaseMetaModel {
 						parentEventSymbol = symbolTable.lookup(parentEventSymbol);
 						parentEventSymbol.callDeclarationList.add(String.valueOf(metaSymbol.getFullyQualifiedId()));
 					}
+				} else if(this.parent instanceof PackageMetaModel) {
+					if(this.repeatMetaModel!=null) {
+						for(int index=0;index<this.preRepeatEventOpCodeListTemplate.length;index++)
+							groupOpcodeList.add(String.format(preRepeatEventOpCodeListTemplate[index],metaSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, metaSymbol.version)));					
+					}
+					
 				}
 
 			}
