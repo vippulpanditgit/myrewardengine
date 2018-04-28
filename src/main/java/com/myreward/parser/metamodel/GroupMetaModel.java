@@ -39,7 +39,7 @@ public class GroupMetaModel extends BaseMetaModel {
 	private String[] plainAnyLogicGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","set_cmp_flg(%s)","return"};
 	private String[] rewardGroupOpCodesListTemplate = {"if_cmp_cnt(%s,mod(%d),+%d)","set_cmp_flg(%s)","call_rwd(%s:%s)","return"};
 	private String[] allLogicGroupOpCodesListTemplate = {"OP_AND", "push_ref(%s)"};
-	private String[] preRepeatEventOpCodeListTemplate = {"if_rpt_flg_not_set(%s)", "call_rpt(%s:%s)", "if_rpt_flg_set(%s)", "if_evt_dt_lt(%s)", "set_rpt_dt(%s)"};
+	private String[] preRepeatEventOpCodeListTemplate = {"if_rpt_flg_not_set(%s)", "call_rpt(%s:%s)", "if_rpt_flg_set(%s)", "if_evt_dt_gt(%s)", "set_rpt_dt(%s)"};
 	
 	private String[] prefixGroupOpCodesListTemplate = {"lbl_fn:%s:%s"};
 	private String[] suffixGroupOpCodesListTemplate = {"return"};
@@ -182,6 +182,10 @@ public class GroupMetaModel extends BaseMetaModel {
 				rewardMetaModel = parentEventMetaModel.getRewardMetaModel();
 				// Create a lbl for function for the group
 				groupOpCodes.add(String.format(prefixGroupOpCodesListTemplate[0],parentEventSymbol.getFullyQualifiedId(),String.format(overrideTemplate, parentEventSymbol.version)));
+				if(parentEventMetaModel.getRepeatMetaModel()!=null) {
+					for(int index=0;index<this.preRepeatEventOpCodeListTemplate.length;index++)
+						groupOpCodes.add(String.format(preRepeatEventOpCodeListTemplate[index],parentEventSymbol.getFullyQualifiedId(),String.format(EventMetaModel.overrideTemplate, parentEventSymbol.version)));					
+				}
 			}
 			Iterator<EventMetaModel> eventMetaModelListIterator = eventMetaModelList.listIterator();
 			while(eventMetaModelListIterator.hasNext()) {
@@ -194,7 +198,6 @@ public class GroupMetaModel extends BaseMetaModel {
 					int anyGroupIndex = groupOpCodes.size();
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[0], eventSymbol.getFullyQualifiedId(),rewardMetaModel!=null?8:6));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[1], parentEventSymbol.getFullyQualifiedId()));
-//					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], parentEventSymbol.getFullyQualifiedId()));
 					groupOpCodes.add(String.format(anyLogicGroupOpCodesListTemplate[2], eventSymbol.getFullyQualifiedId()));
 					if(rewardMetaModel!=null) {
 						groupOpCodes.add(String.format(rewardGroupOpCodesListTemplate[0], parentEventSymbol.getFullyQualifiedId(),ordinalMetaModel.ordinal,4));

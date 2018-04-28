@@ -3,4 +3,4 @@ package repeat1;
 event(GA).any(1) {
 	event(B), 
 	event(C)
-}.reward(1).repeat(WEEKLY,2)
+}.reward(1).repeat(WEEKLY,1)
