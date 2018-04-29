@@ -36,7 +36,7 @@ public class MetaStandAloneWithShowPriorityDurationGatekeeperTestCase extends Ba
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isDurationFlagSet());
 				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isGatekeeperStatusSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isRepeatFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isRepeatFlagSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isShowFlagSet());
 System.out.println("**** Next Event*****");				
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("KB", new Date()));
@@ -46,7 +46,7 @@ System.out.println("**** Next Event*****");
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isDurationFlagSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isGatekeeperStatusSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isRepeatFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isRepeatFlagSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneWithShowPriorityDurationGatekeeper.A").isShowFlagSet());
 
 			}
