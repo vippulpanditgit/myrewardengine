@@ -22,7 +22,7 @@ import com.myreward.parser.symbol.SymbolTable;
 
 public class MyRewardDataSegment<T> implements Serializable {
 	private AppInstanceContext parentContext;
-	private Map<Integer, Integer> xmapdataSegment = new HashMap<Integer, Integer>();
+	private Map<Long, Integer> xmapdataSegment = new HashMap<>();
 	private List<EventDataObject> dataSegment = new ArrayList<EventDataObject>();
 	private IRuntimeDelegate delegate;
 	private T delegateT; // New delegate
@@ -240,7 +240,7 @@ public class MyRewardDataSegment<T> implements Serializable {
 			for(int childIndex=0;childIndex<symbol.childrenList.size();childIndex++) {
 				EventDataObject eventDataObject = new EventDataObject(symbol.childrenList.get(childIndex));
 				if(this.getDataObject(symbol.childrenList.get(childIndex).getFullyQualifiedId())==null) {
-					xmapdataSegment.put(symbol.childrenList.get(childIndex).getFullyQualifiedId(), Integer.valueOf(index));
+					xmapdataSegment.put(Long.valueOf(symbol.childrenList.get(childIndex).getFullyQualifiedId()), Integer.valueOf(index));
 					dataSegment.add(index, eventDataObject);
 					index++;
 				}
@@ -249,7 +249,7 @@ public class MyRewardDataSegment<T> implements Serializable {
 		} else {
 			EventDataObject eventDataObject = new EventDataObject(symbol);
 			if(this.getDataObject(symbol.getFullyQualifiedId())==null) {
-				xmapdataSegment.put(symbol.getFullyQualifiedId(), Integer.valueOf(index));
+				xmapdataSegment.put(Long.valueOf(symbol.getFullyQualifiedId()), Integer.valueOf(index));
 				dataSegment.add(index, eventDataObject);
 				index++;
 			}
@@ -266,7 +266,7 @@ public class MyRewardDataSegment<T> implements Serializable {
 			index = this.recursivelyCreateDataSegment(index, symbol);
 		}
 	}
-	public EventDataObject getDataObject(int id) {
+	public EventDataObject getDataObject(long id) {
 		if(xmapdataSegment!=null) {
 			Integer dataSegmentIndex = xmapdataSegment.get(id);
 			if(dataSegmentIndex!=null) {
@@ -280,18 +280,18 @@ public class MyRewardDataSegment<T> implements Serializable {
 		int ruleAttrHashcode = ruleAttrName.hashCode();
 		return getDataObject(ruleAttrHashcode);
 	}
-	public void setDataObject(int id, EventDataObject eventDataObject) {
+	public void setDataObject(long id, EventDataObject eventDataObject) {
 		if(xmapdataSegment!=null) {
 			Integer dataSegmentIndex = xmapdataSegment.get(id);
 			if(dataSegmentIndex!=null)
-				dataSegment.add(id, eventDataObject);
+				dataSegment.add((int)id, eventDataObject);
 		}
 	}
 	public void printString() {
 		dataSegment.forEach(eventObject -> System.out.println(eventObject));
 	}
 	public EventDataObject search(String id) {
-		Integer eventDataObjectIndex = xmapdataSegment.get(Integer.valueOf(id));
+		Integer eventDataObjectIndex = xmapdataSegment.get(Long.valueOf(id));
 		return dataSegment.get(eventDataObjectIndex.intValue());
 	}
 	public IRuntimeDelegate getDelegate() {

@@ -20,7 +20,7 @@ public class DurationMetaModel extends BaseMetaModel {
 	public Date effectiveDate; //yyyy-MM-dd1997-07-16T19:20:30.45+01:00
 	public Date expirationDate;
 
-	private String[] durationOpCodeListTemplate = {"lbl_dur:%s:%s", "desc(\".between(%s(%s),%s,%s)\")", "if_evt_dt_le(%d)", "return", "if_evt_dt_ge(%d)", "return", "set_dur_flg(%d)", "return"};
+	private String[] durationOpCodeListTemplate = {"lbl_dur:%s:%s", "desc(\".between(%s(%s),%s,%s)\")", "if_evt_dt_le(%s,%d)", "return", "if_evt_dt_ge(%s,%d)", "return", "set_dur_flg(%d)", "return"};
 
 	public long getRelativeEffectiveDateInMilliSeconds() {
 		if(effectiveDate!=null)
@@ -47,9 +47,9 @@ public class DurationMetaModel extends BaseMetaModel {
 			eventSymbol = symbolTable.lookup(eventSymbol);
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[1], eventSymbol.getName(), eventSymbol.getFullyQualifiedId(), new Date(this.getRelativeEffectiveDateInMilliSeconds()), new Date(this.getRelativeExpirationDateInMilliSeconds())));
-			durationOpCodeList.add(String.format(durationOpCodeListTemplate[2], this.getRelativeEffectiveDateInMilliSeconds()));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[2], String.valueOf(eventSymbol.getFullyQualifiedId()),this.getRelativeEffectiveDateInMilliSeconds()));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[3]));
-			durationOpCodeList.add(String.format(durationOpCodeListTemplate[4], this.getRelativeExpirationDateInMilliSeconds()));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[4], String.valueOf(eventSymbol.getFullyQualifiedId()),this.getRelativeExpirationDateInMilliSeconds()));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[5]));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[6], eventSymbol.getFullyQualifiedId()));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[7]));
@@ -86,9 +86,9 @@ public class DurationMetaModel extends BaseMetaModel {
 				}
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[0], String.valueOf(eventSymbol.getFullyQualifiedId()),String.format(EventMetaModel.overrideTemplate, eventSymbol.version)));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[1], eventSymbol.getName(), eventSymbol.getFullyQualifiedId(), new Date(this.getRelativeEffectiveDateInMilliSeconds()), new Date(this.getRelativeExpirationDateInMilliSeconds())));
-			durationOpCodeList.add(String.format(durationOpCodeListTemplate[2], this.getRelativeEffectiveDateInMilliSeconds()));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[2], String.valueOf(eventSymbol.getFullyQualifiedId()), this.getRelativeEffectiveDateInMilliSeconds()));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[3]));
-			durationOpCodeList.add(String.format(durationOpCodeListTemplate[4], this.getRelativeExpirationDateInMilliSeconds()));
+			durationOpCodeList.add(String.format(durationOpCodeListTemplate[4], String.valueOf(eventSymbol.getFullyQualifiedId()), this.getRelativeExpirationDateInMilliSeconds()));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[5]));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[6], eventSymbol.getFullyQualifiedId()));
 			durationOpCodeList.add(String.format(durationOpCodeListTemplate[7]));
