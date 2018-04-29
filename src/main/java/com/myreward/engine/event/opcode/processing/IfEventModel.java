@@ -266,7 +266,7 @@ public class IfEventModel extends IfBaseModel {
 		if(type==IfCompletionType.DATE) {
 			operationResultDO = new IfOperationResult();
 			EventDataObject eventDataObject = myRewardDataSegment.search(name);
-			if(eventDataObject.isRepeatFlagSet())
+			if(date==null && eventDataObject.isRepeatFlagSet())
 				date = eventDataObject.nextRepeat;
 			if(date==null)
 				date = new Date(0);

@@ -91,7 +91,7 @@ public class test {
 			String pseudo_group_repeat = "package test event(GA).any(1) {event(B), event(C)}.reward(1).repeat(WEEKLY,2)";
 			
 			AppInstanceContext appInstanceContext = new AppInstanceContext();
-			String ruleFileName = "src/main/resources/test/MetaStandAloneEventWithGatekeeper";
+			String ruleFileName = "src/main/resources/test/MetaStandAloneWithShowPriorityDurationGatekeeper";
 			String hashValue = String.valueOf(ruleFileName.hashCode());
             AppContext.getInstance().add(hashValue, 
             		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(ruleFileName)));
@@ -110,7 +110,7 @@ public class test {
 		    System.out.println("**** "+eventDO.getActivityName());
 		    	appInstanceContext.stackSegment.add(eventDO);
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
-		    		eventDO.setActivityName("A");
+		    		eventDO.setActivityName("KB");
 		    		eventDO.setActivityDate(new Date());
 		    System.out.println("**** "+eventDO.getActivityName());
 	    	appInstanceContext.stackSegment.add(eventDO);

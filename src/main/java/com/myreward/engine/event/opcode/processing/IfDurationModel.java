@@ -168,6 +168,7 @@ public class IfDurationModel extends IfBaseModel {
 			return operationResultDO;
 		}
 		if(type==IfDurationType.AMOUNT) {
+			System.out.println("*********** ");
 		}
 		return operationResultDO;
 	}
