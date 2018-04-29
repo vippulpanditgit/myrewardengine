@@ -115,8 +115,7 @@ public class test {
 		    System.out.println("**** "+eventDO.getActivityName());
 	    	appInstanceContext.stackSegment.add(eventDO);
 		    		
-		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
-//		    		processEvent(appInstanceContext, eventDO);
+//		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
             } else {
             	System.out.println("Hash value not found! "+hashValue);
             }

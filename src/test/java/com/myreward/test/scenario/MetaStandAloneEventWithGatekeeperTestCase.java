@@ -36,7 +36,7 @@ public class MetaStandAloneEventWithGatekeeperTestCase extends BaseTestCase {
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isDurationFlagSet());
 				assertTrue(!this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isGatekeeperStatusSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isRepeatFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isRepeatFlagSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isShowFlagSet());
 System.out.println("**** Next Event*****");				
 				this.getAppInstanceContext().eventProcessor.process_event(this.createEvent("KB", new Date()));
@@ -46,7 +46,7 @@ System.out.println("**** Next Event*****");
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isDurationFlagSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isGatekeeperStatusSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isPriorityFlagSet());
-				assertFalse(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isRepeatFlagSet());
+				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isRepeatFlagSet());
 				assertTrue(this.getAppInstanceContext().dataSegment.getDataObject("MetaStandAloneEventWithGatekeeper.A").isShowFlagSet());
 
 			}
