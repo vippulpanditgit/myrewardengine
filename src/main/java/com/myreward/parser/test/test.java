@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.antlr.v4.runtime.RecognitionException;
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.myreward.engine.app.AppContext;
 import com.myreward.engine.app.AppInstanceContext;
@@ -106,7 +107,12 @@ public class test {
 
 	            EventDO eventDO = new EventDO();
 		    		eventDO.setActivityName("A");
-		    		eventDO.setActivityDate(new Date());
+		    		eventDO.setActivityDate(DateUtils.addDays(new Date(), -2));
+		    System.out.println("**** "+eventDO.getActivityName());
+		    	appInstanceContext.stackSegment.add(eventDO);
+		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
+		    		eventDO.setActivityName("A");
+		    		eventDO.setActivityDate(DateUtils.addDays(new Date(), -1));
 		    System.out.println("**** "+eventDO.getActivityName());
 		    	appInstanceContext.stackSegment.add(eventDO);
 		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
@@ -115,7 +121,7 @@ public class test {
 		    System.out.println("**** "+eventDO.getActivityName());
 	    	appInstanceContext.stackSegment.add(eventDO);
 		    		
-//		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
+		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
             } else {
             	System.out.println("Hash value not found! "+hashValue);
             }

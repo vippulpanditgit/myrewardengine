@@ -57,7 +57,8 @@ public class AddRewardModel extends OpCodeBaseModel {
 		OperationResultDO operationResultDO = new StatementOperationResult();;
 		EventDataObject eventDataObject = myRewardDataSegment.search(name);
 		if(eventDataObject!=null) {
-			eventDataObject.amount += Double.valueOf(amount);
+			eventDataObject.amount += (eventDataObject.eventCount * Double.valueOf(amount));
+			eventDataObject.eventCount = 0;
 			operationResultDO.setResult(true);
 			return operationResultDO;
 		}
