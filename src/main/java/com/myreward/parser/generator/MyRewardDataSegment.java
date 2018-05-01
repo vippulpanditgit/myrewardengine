@@ -35,7 +35,7 @@ public class MyRewardDataSegment<T> implements Serializable {
 		// 0x0000 0000 0010 0000 - repeat enabled
 		// 0x0000 0000 0100 0000 - duration - 1 within duration, 0 for outside duration
 		// 0x0000 0000 1000 0000 - gatekeeper call - 1 when event complete and event count are not changed(0x80)
-		public short eventStatus = 0x02;
+		public short eventStatus = 0x0020;
 		public Integer eventCount = Integer.valueOf(0);
 		public Double amount = Double.valueOf(0.0);
 		public Integer maxRepeat = Integer.valueOf(0);
