@@ -61,45 +61,7 @@ public class MyRewardMetaModel extends BaseMetaModel {
 		}
 	}
 
-/*	public String[] optimize_events(CallStackFunctionModel callStackFunctionModel) {
-		Map<String, Integer> functionXRef = new LinkedHashMap<String, Integer>();
-		List<String> code = new ArrayList<String>();
-		int netCodeDisplacement = 0;
-		for(int index=0;index< callStackFunctionModel.v_table_function_list.size();index++) {
-			if(functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName)==null) {
-				if(StringUtils.equalsIgnoreCase(callStackFunctionModel.v_table_function_list.get(index).eventName, "return"))
-					continue;
-				functionXRef.put(callStackFunctionModel.v_table_function_list.get(index).eventName, new Integer(code.size()));
-				code.addAll(Arrays.asList(callStackFunctionModel.v_table_function_list.get(index).p_code_lst));
-			} else {
-				Integer functionIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(index).eventName);
-				String[] otherSameEventPCode = callStackFunctionModel.v_table_function_list.get(index).p_code_lst;
-				int otherSameEventPCodeSize = callStackFunctionModel.v_table_function_list.get(index).p_code_lst.length;
-					Integer nextCodeSegmentIndex = 0;
-					if(callStackFunctionModel.v_table_function_list.size() > (functionIndex.intValue()+1))
-						nextCodeSegmentIndex = functionXRef.get(callStackFunctionModel.v_table_function_list.get(functionIndex.intValue()+1).eventName);
-					else
-						nextCodeSegmentIndex = code.size();
-					code.remove(nextCodeSegmentIndex-1);//remove "return"
-					if(functionIndex.intValue()==functionXRef.get(functionXRef.keySet().toArray(new String[0])[functionXRef.size()-1])) //Check if last entry
-						code.addAll(Arrays.asList(otherSameEventPCode));
-					else 
-						code.addAll(nextCodeSegmentIndex-1, Arrays.asList(otherSameEventPCode));
-					code.remove(nextCodeSegmentIndex-1);// remove "if..."
-					netCodeDisplacement = (otherSameEventPCodeSize - 2);
-					String ifStmt = code.get(functionIndex);
-					code.remove(functionIndex.intValue());
-					code.add(functionIndex.intValue(), StringUtils.substringBefore(ifStmt, ",")+","+(Integer.valueOf(StringUtils.substringBetween(ifStmt, ",", ")"))+(otherSameEventPCodeSize - 2))+")");
-					for(int lowerIndex=functionIndex.intValue()+1; lowerIndex < functionXRef.size();lowerIndex++) {
-						String eventName = functionXRef.keySet().toArray(new String[0])[lowerIndex];
-						Integer sizeValue = functionXRef.get(eventName);
-						sizeValue += netCodeDisplacement;
-						functionXRef.put(eventName, sizeValue);
-					}
-			}
-		}
-		return code.toArray(new String[0]);
-	}*/
+
 	@Override
 	public BaseMetaModel find(Symbol symbol) throws MetaModelException {
 		ListIterator<PackageMetaModel> packageMetaModelListIterator = myRewardMetaModelList.listIterator();
