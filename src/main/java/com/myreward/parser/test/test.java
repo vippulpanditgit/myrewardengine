@@ -17,6 +17,7 @@ import org.apache.commons.lang3.time.DateUtils;
 
 import com.myreward.engine.app.AppContext;
 import com.myreward.engine.app.AppInstanceContext;
+import com.myreward.engine.app.User;
 import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.MetaDataParsingException;
@@ -97,7 +98,7 @@ public class test {
             AppContext.getInstance().add(hashValue, 
             		new test().createMetaOpCodeProcessor(appInstanceContext, FileProcessingUtil.readFile(ruleFileName)));
             appInstanceContext.isDebug = true;
-            appInstanceContext.actor = "vippul";
+            appInstanceContext.actor = new User();
             appInstanceContext.uuid = UUID.randomUUID().toString();
             appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get(hashValue);
             if(appInstanceContext.metaOpCodeProcessor!=null) {

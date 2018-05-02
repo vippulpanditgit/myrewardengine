@@ -13,7 +13,7 @@ import com.myreward.parser.symbol.SymbolTable;
 import com.myreward.parser.util.Heap;
 
 public class AppInstanceContext implements java.io.Serializable  {
-	public String actor;
+	public User actor;
 	public String uuid;
 	public boolean isDebug = false;
 	public MyRewardDataSegment dataSegment;

@@ -1,11 +1,12 @@
 package com.myreward.engine.model.event;
 
 import java.util.Date;
+import java.util.Map;
 
 public class EventDO {
 	private String activityName;
 	private Date activityDate;
-	private Double activityValue1;
+	private Map<String, String> attributeMap;
 	public String getActivityName() {
 		return activityName;
 	}
