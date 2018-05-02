@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import com.myreward.engine.event.error.HeapException;
 import com.myreward.engine.event.processor.EventProcessor;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
+import com.myreward.engine.model.event.EventImpactHistory;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.symbol.MyRewardSymbolTable;
 import com.myreward.parser.symbol.SymbolTable;
@@ -23,6 +24,7 @@ public class AppInstanceContext implements java.io.Serializable  {
 	public Heap<Object> heapSegment;
 	public Map<String, String> nextMetaDataToProcess;
 	public SymbolTable symbolTable;
+	private EventImpactHistory eventImpactHistory;
 	
 	public AppInstanceContext() {
 		symbolTable = new MyRewardSymbolTable();
