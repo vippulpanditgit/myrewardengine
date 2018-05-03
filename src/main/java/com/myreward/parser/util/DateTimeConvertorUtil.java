@@ -27,7 +27,6 @@ public class DateTimeConvertorUtil {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 

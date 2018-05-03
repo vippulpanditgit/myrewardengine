@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import com.myreward.engine.app.AppContext;
 import com.myreward.engine.app.AppInstanceContext;
+import com.myreward.engine.app.User;
 import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.MetaDataParsingException;
 import com.myreward.engine.event.error.ReferencedModelException;
@@ -33,7 +34,7 @@ public abstract class BaseTestCase {
         appInstanceContext = new AppInstanceContext();
         AppContext.getInstance().add(String.valueOf(getRule().hashCode()), this.createMetaOpCodeProcessor(appInstanceContext, getRule()));
         appInstanceContext.isDebug = false;
-        appInstanceContext.actor = "vippul";
+        appInstanceContext.actor = new User();
         appInstanceContext.uuid = UUID.randomUUID().toString();
         appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get(String.valueOf(getRule().hashCode()));
         appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
