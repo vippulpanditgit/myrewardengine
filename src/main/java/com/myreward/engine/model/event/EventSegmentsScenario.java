@@ -51,6 +51,7 @@ public class EventSegmentsScenario {
 		eventSegments.getEventSegmentList().stream().forEach(eventSegment -> {
 			try {
 				process(eventSegment);
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -77,6 +78,7 @@ public class EventSegmentsScenario {
 				}
 			}
 		}
+		eventSegment.setDataSegment(appInstanceContext.dataSegment.clone_data_segment());
 		appInstanceContext.print_data_segment();
 		return true;
 	}

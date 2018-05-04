@@ -109,9 +109,13 @@ public class test {
 	            EventDO eventDO = new EventDO();
 		    	eventDO.setActivityName("A");
 		    	eventDO.setActivityDate(DateUtils.addDays(new Date(), -2));
-		    	appInstanceContext.eventSegmentsScenario.put(eventDO);
+		    	appInstanceContext.eventSegmentsScenario.put("test", eventDO);
+		    	eventDO = new EventDO();
+		    	eventDO.setActivityName("A");
+		    	eventDO.setActivityDate(DateUtils.addDays(new Date(), -1));
+		    	appInstanceContext.eventSegmentsScenario.put("test", eventDO);
 		    	System.out.println("**** "+eventDO.getActivityName());
-		    	appInstanceContext.eventSegmentsScenario.process("");
+		    	appInstanceContext.eventSegmentsScenario.process("test");
 //		    	appInstanceContext.stackSegment.add(eventDO);
 //		    	EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 /*		    	eventDO.setActivityName("A");

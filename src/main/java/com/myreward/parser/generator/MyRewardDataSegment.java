@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
@@ -23,9 +24,12 @@ import com.myreward.parser.symbol.SymbolTable;
 public class MyRewardDataSegment<T> implements Serializable {
 	private AppInstanceContext parentContext;
 	private Map<Long, Integer> xmapdataSegment = new HashMap<>();
-	private List<EventDataObject> dataSegment = new ArrayList<EventDataObject>();
+	private List<EventDataObject> dataSegment = new ArrayList<>();
 	private IRuntimeDelegate delegate;
 	private T delegateT; // New delegate
+	public List<EventDataObject> clone_data_segment() {
+		return dataSegment.stream().map(item -> new EventDataObject(item)).collect(Collectors.toList());
+	}
 	public class EventDataObject implements Serializable {
 		// 0x0000 0000 0000 0001 - Event Complete
 		// 0x0000 0000 0000 0010 - Gatekeeper - 1 for complete, 0 for incomplete
@@ -51,6 +55,22 @@ public class MyRewardDataSegment<T> implements Serializable {
 		public int repeatAfter;
 		public EventDataObject() {
 			
+		}
+		public EventDataObject(EventDataObject eventDataObject) {
+			this.eventStatus = eventDataObject.eventStatus;
+			this.eventCount = eventDataObject.eventCount.intValue();
+			this.amount = eventDataObject.amount.doubleValue();
+			this.maxRepeat = eventDataObject.maxRepeat.intValue();
+			this.priority = eventDataObject.priority.intValue();
+			this.nextRepeat = eventDataObject.nextRepeat;
+			this.description = eventDataObject.description;
+			this.name = eventDataObject.name;
+			this.id = eventDataObject.id;
+			this.namespace = eventDataObject.namespace;
+			this.version = eventDataObject.version;
+			this.eventDelegate = eventDataObject.eventDelegate;
+			this.repeatCriteria = eventDataObject.repeatCriteria;
+			this.repeatAfter = eventDataObject.repeatAfter;
 		}
 		public EventDataObject(Symbol symbol) {
 			this.name = symbol.getFullyQualifiedName();
@@ -301,6 +321,12 @@ public class MyRewardDataSegment<T> implements Serializable {
 		this.delegate = delegate;
 		if(dataSegment!=null && dataSegment.size()>0)
 			dataSegment.forEach(p->p.delegate(delegate));
+	}
+	public List<EventDataObject> getDataSegment() {
+		return dataSegment;
+	}
+	public void setDataSegment(List<EventDataObject> dataSegment) {
+		this.dataSegment = dataSegment;
 	}
 
 }
