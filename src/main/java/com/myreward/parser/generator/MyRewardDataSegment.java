@@ -27,9 +27,6 @@ public class MyRewardDataSegment<T> implements Serializable {
 	private List<EventDataObject> dataSegment = new ArrayList<>();
 	private IRuntimeDelegate delegate;
 	private T delegateT; // New delegate
-	public List<EventDataObject> clone_data_segment() {
-		return dataSegment.stream().map(item -> new EventDataObject(item)).collect(Collectors.toList());
-	}
 	public class EventDataObject implements Serializable {
 		// 0x0000 0000 0000 0001 - Event Complete
 		// 0x0000 0000 0000 0010 - Gatekeeper - 1 for complete, 0 for incomplete
@@ -254,6 +251,9 @@ public class MyRewardDataSegment<T> implements Serializable {
 		public void setRepeatAfter(int repeatAfter) {
 			this.repeatAfter = repeatAfter;
 		}
+	}
+	public List<EventDataObject> clone_data_segment() {
+		return dataSegment.stream().map(item -> new EventDataObject(item)).collect(Collectors.toList());
 	}
 	private int recursivelyCreateDataSegment(int index, Symbol symbol) {
 		if(symbol.childrenList!=null) {
