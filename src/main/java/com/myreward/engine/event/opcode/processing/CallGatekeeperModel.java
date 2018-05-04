@@ -81,7 +81,7 @@ public class CallGatekeeperModel extends CallBaseModel {
 			}
 
 			operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, event);
-System.out.println(opCodeBaseModel);
+//System.out.println(opCodeBaseModel);
 			if(operationResultDO instanceof IfOperationResult) {
 				int index = ((IfOperationResult)operationResultDO).getNextOperationNumber();
 				if(index>0)

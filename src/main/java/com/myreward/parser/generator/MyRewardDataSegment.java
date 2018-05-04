@@ -69,6 +69,7 @@ public class MyRewardDataSegment<T> implements Serializable {
 			this.repeatCriteria = eventDataObject.repeatCriteria;
 			this.repeatAfter = eventDataObject.repeatAfter;
 		}
+
 		public EventDataObject(Symbol symbol) {
 			this.name = symbol.getFullyQualifiedName();
 			this.id = symbol.getFullyQualifiedId();
@@ -253,7 +254,9 @@ public class MyRewardDataSegment<T> implements Serializable {
 		}
 	}
 	public List<EventDataObject> clone_data_segment() {
-		return dataSegment.stream().map(item -> new EventDataObject(item)).collect(Collectors.toList());
+		return dataSegment.stream()
+						.map(item -> new EventDataObject(item))
+						.collect(Collectors.toList());
 	}
 	private int recursivelyCreateDataSegment(int index, Symbol symbol) {
 		if(symbol.childrenList!=null) {

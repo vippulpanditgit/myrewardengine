@@ -45,7 +45,6 @@ public class DescriptionModel extends OpCodeBaseModel {
 
 	public OperationResultDO process(List<OpCodeBaseModel> instructionOpCodes, MyRewardDataSegment myRewardDataSegment, EventDO event) {
 		OperationResultDO operationResultDO = null;
-System.out.println(description);
 		return operationResultDO;
 	}
 }
