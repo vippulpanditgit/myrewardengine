@@ -49,4 +49,10 @@ public class EventSegments {
 	public void setScenarioName(String scenarioName) {
 		this.scenarioName = scenarioName;
 	}
+	public List<EventSegment> getEventSegmentList() {
+		return eventSegmentList;
+	}
+	public void setEventSegmentList(List<EventSegment> eventSegmentList) {
+		this.eventSegmentList = eventSegmentList;
+	}
 }

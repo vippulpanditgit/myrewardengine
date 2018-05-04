@@ -107,23 +107,27 @@ public class test {
 	            															appInstanceContext.dataSegment);
 
 	            EventDO eventDO = new EventDO();
-		    		eventDO.setActivityName("A");
-		    		eventDO.setActivityDate(DateUtils.addDays(new Date(), -2));
-		    System.out.println("**** "+eventDO.getActivityName());
+		    	eventDO.setActivityName("A");
+		    	eventDO.setActivityDate(DateUtils.addDays(new Date(), -2));
+		    	appInstanceContext.eventSegmentsScenario.put(eventDO);
+		    	System.out.println("**** "+eventDO.getActivityName());
+		    	appInstanceContext.eventSegmentsScenario.process("");
+//		    	appInstanceContext.stackSegment.add(eventDO);
+//		    	EventProcessingUtil.processEvent(appInstanceContext, eventDO);
+/*		    	eventDO.setActivityName("A");
+		    	eventDO.setActivityDate(DateUtils.addDays(new Date(), -1));
+		    	appInstanceContext.eventSegmentsScenario.put(eventDO);
+		    	System.out.println("**** "+eventDO.getActivityName());
 		    	appInstanceContext.stackSegment.add(eventDO);
-		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
-		    		eventDO.setActivityName("A");
-		    		eventDO.setActivityDate(DateUtils.addDays(new Date(), -1));
-		    System.out.println("**** "+eventDO.getActivityName());
+		    	EventProcessingUtil.processEvent(appInstanceContext, eventDO);
+		    	eventDO.setActivityName("KB");
+		    	eventDO.setActivityDate(new Date());
+		    	appInstanceContext.eventSegmentsScenario.put(eventDO);
+		    	System.out.println("**** "+eventDO.getActivityName());
 		    	appInstanceContext.stackSegment.add(eventDO);
-		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
-		    		eventDO.setActivityName("KB");
-		    		eventDO.setActivityDate(new Date());
-		    System.out.println("**** "+eventDO.getActivityName());
-	    	appInstanceContext.stackSegment.add(eventDO);
 		    		
-		    		EventProcessingUtil.processEvent(appInstanceContext, eventDO);
-            } else {
+		    	EventProcessingUtil.processEvent(appInstanceContext, eventDO);
+*/            } else {
             	System.out.println("Hash value not found! "+hashValue);
             }
 		} catch(Exception exp) {
