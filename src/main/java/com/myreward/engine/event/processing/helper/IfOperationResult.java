@@ -1,4 +1,4 @@
-package com.myreward.engine.model.event;
+package com.myreward.engine.event.processing.helper;
 
 public class IfOperationResult extends OperationResultDO {
 	private int nextOperationNumber;

@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myreward.engine.event.processing.helper.OperationResultDO;
+import com.myreward.engine.event.processing.helper.StatementOperationResult;
 import com.myreward.engine.model.event.EventDO;
-import com.myreward.engine.model.event.OperationResultDO;
-import com.myreward.engine.model.event.StatementOperationResult;
 import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class ReturnModel extends OpCodeBaseModel {

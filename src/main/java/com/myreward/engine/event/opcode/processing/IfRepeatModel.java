@@ -7,9 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.event.opcode.processing.IfEventModel.IfCompletionFlgType;
 import com.myreward.engine.event.opcode.processing.IfGatekeeperModel.IfGatekeeperType;
+import com.myreward.engine.event.processing.helper.IfOperationResult;
+import com.myreward.engine.event.processing.helper.OperationResultDO;
 import com.myreward.engine.model.event.EventDO;
-import com.myreward.engine.model.event.IfOperationResult;
-import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 

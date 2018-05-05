@@ -7,9 +7,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
+import com.myreward.engine.event.processing.helper.OperationResultDO;
+import com.myreward.engine.event.processing.helper.StatementOperationResult;
 import com.myreward.engine.model.event.EventDO;
-import com.myreward.engine.model.event.OperationResultDO;
-import com.myreward.engine.model.event.StatementOperationResult;
 import com.myreward.parser.generator.MyRewardDataSegment;
 import com.myreward.parser.generator.MyRewardDataSegment.EventDataObject;
 import com.myreward.parser.metamodel.RepeatMetaModel.RepeatCriteria;

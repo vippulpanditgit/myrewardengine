@@ -13,9 +13,9 @@ import com.myreward.engine.event.error.EventProcessingException;
 import com.myreward.engine.event.opcode.processing.LabelMainModel;
 import com.myreward.engine.event.opcode.processing.OpCodeBaseModel;
 import com.myreward.engine.event.opcode.processing.ReturnModel;
+import com.myreward.engine.event.processing.helper.IfOperationResult;
+import com.myreward.engine.event.processing.helper.OperationResultDO;
 import com.myreward.engine.model.event.EventDO;
-import com.myreward.engine.model.event.IfOperationResult;
-import com.myreward.engine.model.event.OperationResultDO;
 import com.myreward.parser.generator.MyRewardDataSegment;
 
 public class EventProcessor  implements java.io.Serializable  {
