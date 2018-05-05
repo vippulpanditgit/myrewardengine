@@ -72,11 +72,12 @@ public class CallDurationModel extends CallBaseModel {
 			return new ErrorOperationResultDO(ErrorCode.FUNCTION_NOT_FOUND);
 		while(true) {
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(++callbackFunctionModelIndex);
+			this.notifyProcessingListeners(opCodeBaseModel.toString());
+
 			if(opCodeBaseModel instanceof ReturnModel)
 				break;
 
 			operationResultDO = opCodeBaseModel.process(instructionOpCodes, myRewardDataSegment, event);
-//System.out.println(opCodeBaseModel);
 			if(operationResultDO instanceof IfOperationResult) {
 				int index = ((IfOperationResult)operationResultDO).getNextOperationNumber();
 				if(index>0)

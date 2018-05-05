@@ -3,6 +3,7 @@ package com.myreward.engine.event.processor;
 import java.util.Arrays;
 import java.util.List;
 
+import com.myreward.engine.event.listener.IEventProcessorListener;
 import com.myreward.engine.event.opcode.processing.AddRewardModel;
 import com.myreward.engine.event.opcode.processing.CallDurationModel;
 import com.myreward.engine.event.opcode.processing.CallFunctionModel;
@@ -98,5 +99,11 @@ public class RuntimeSupportedOpCodeModel {
 
 	public List<OpCodeBaseModel> getSupportedOpCodeHandlers() {
 		return this.opCodeList;
+	}
+	public void registerProcessingListener(IEventProcessorListener eventProcessingListener) {
+		this.opCodeList.stream().forEach(opcodeprocessor -> opcodeprocessor.registerProcessingListener(eventProcessingListener));
+	}
+	public void unregisterProcessingListener(IEventProcessorListener eventProcessingListener) {
+		this.opCodeList.stream().forEach(opcodeprocessor -> opcodeprocessor.unregisterProcessingListener(eventProcessingListener));
 	}
 }

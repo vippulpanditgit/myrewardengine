@@ -68,6 +68,8 @@ public class CallFunctionModel extends CallBaseModel {
 //			return new ErrorOperationResultDO(ErrorCode.FUNCTION_NOT_FOUND);
 		while(true) {
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(++callbackFunctionModelIndex);
+			this.notifyProcessingListeners(opCodeBaseModel.toString());
+
 //System.out.println(opCodeBaseModel);
 			if(opCodeBaseModel instanceof ReturnModel) {
 				operationResultDO = new ReturnModel().process(instructionOpCodes, myRewardDataSegment, null);

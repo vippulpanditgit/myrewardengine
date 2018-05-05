@@ -53,6 +53,7 @@ public class CallRewardModel extends CallBaseModel {
 		boolean isFound = false;
 		while(instructionOpCodeIterator.hasNext()) {
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodeIterator.next();
+			this.notifyProcessingListeners(opCodeBaseModel.toString());
 			if(opCodeBaseModel instanceof LabelRewardModel)
 				if(((LabelRewardModel)opCodeBaseModel).equals(labelRewardModel)){
 					isFound = true;

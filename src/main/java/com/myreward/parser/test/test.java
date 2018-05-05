@@ -22,6 +22,8 @@ import com.myreward.engine.event.error.BuildException;
 import com.myreward.engine.event.error.DebugException;
 import com.myreward.engine.event.error.MetaDataParsingException;
 import com.myreward.engine.event.error.ReferencedModelException;
+import com.myreward.engine.event.listener.PrintEventProcessorListener;
+import com.myreward.engine.event.opcode.processing.OpCodeBaseModel;
 import com.myreward.engine.event.processor.MetaOpCodeProcessor;
 import com.myreward.engine.model.event.EventDO;
 import com.myreward.parser.grammar.MyRewardParser;
@@ -103,7 +105,9 @@ public class test {
             appInstanceContext.metaOpCodeProcessor =  AppContext.getInstance().get(hashValue);
             if(appInstanceContext.metaOpCodeProcessor!=null) {
 	            appInstanceContext.dataSegment = appInstanceContext.metaOpCodeProcessor.createDataSegment();
-	            appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree(),
+	            List<OpCodeBaseModel> runtime_opcode_tree = appInstanceContext.metaOpCodeProcessor.create_runtime_opcode_tree();
+	            runtime_opcode_tree.stream().forEach(model -> model.registerProcessingListener(new PrintEventProcessorListener()));
+	            appInstanceContext.eventProcessor = appInstanceContext.metaOpCodeProcessor.createEventProcessor(runtime_opcode_tree,
 	            															appInstanceContext.dataSegment);
 
 	            EventDO eventDO = new EventDO();

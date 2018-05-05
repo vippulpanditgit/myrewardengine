@@ -73,6 +73,7 @@ public class CallGatekeeperModel extends CallBaseModel {
 			return new ErrorOperationResultDO(ErrorCode.FUNCTION_NOT_FOUND);
 		while(true) {
 			OpCodeBaseModel opCodeBaseModel = instructionOpCodes.get(++callbackFunctionModelIndex);
+			this.notifyProcessingListeners(opCodeBaseModel.toString());
 			if(opCodeBaseModel instanceof ReturnModel) {
 				operationResultDO = new StatementOperationResult();
 //				((IfOperationResult)operationResultDO).setResult(true);
