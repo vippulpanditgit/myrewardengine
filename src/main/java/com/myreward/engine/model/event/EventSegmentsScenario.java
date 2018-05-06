@@ -9,6 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.myreward.engine.app.AppInstanceContext;
 import com.myreward.engine.event.error.DebugException;
+import com.myreward.engine.event.error.ErrorCode;
+import com.myreward.engine.event.error.ScenarioException;
 
 public class EventSegmentsScenario {
 	private AppInstanceContext appInstanceContext;
@@ -45,6 +47,12 @@ public class EventSegmentsScenario {
 	public void put(EventDO eventDO) {
 			put("", eventDO);
 	}
+	public void put(String scenarioName, List<EventSegment> initialize) {
+		EventSegments eventSegments = new EventSegments();
+		eventSegments.setScenarioName(scenarioName);
+		eventSegments.setEventSegmentList(initialize);
+		scenarioList.add(eventSegments);
+	}
 	public void process(String scenario) throws Exception {
 		Optional<EventSegments> eventSegmentsScenario = get(scenario);
 		EventSegments eventSegments = eventSegmentsScenario.get();
@@ -57,6 +65,17 @@ public class EventSegmentsScenario {
 				e.printStackTrace();
 			}
 		});
+	}
+	public void copyScenario(String from, String to, EventDO until, boolean overrideTo) throws ScenarioException {
+		Optional<EventSegments> toEventSegment = this.get(to);
+		if(!overrideTo && toEventSegment.isPresent())
+			throw new ScenarioException(ErrorCode.OVERRIDE_FALSE_TO_SEGMENT_PRESENT, "Override is not allowed and 'to' Segment is present");
+		Optional<EventSegments> fromEventSegmentsOptional = this.get(from);
+		if(!fromEventSegmentsOptional.isPresent())
+			throw new ScenarioException(ErrorCode.FROM_SEGMENT_NOT_PRESENT, "Nothing to override from.");
+		List<EventSegment> fromEventSegmentList = fromEventSegmentsOptional.get().getTillFirstOccurence(until);
+		this.put(to, fromEventSegmentList);
+		
 	}
 	public boolean process(EventSegment eventSegment) throws Exception {
 		appInstanceContext.print_data_segment();

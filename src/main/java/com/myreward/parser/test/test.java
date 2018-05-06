@@ -118,8 +118,17 @@ public class test {
 		    	eventDO.setActivityName("A");
 		    	eventDO.setActivityDate(DateUtils.addDays(new Date(), -1));
 		    	appInstanceContext.eventSegmentsScenario.put("test", eventDO);
+		    	eventDO = new EventDO();
+		    	eventDO.setActivityName("B");
+		    	eventDO.setActivityDate(DateUtils.addDays(new Date(), -1));
+		    	appInstanceContext.eventSegmentsScenario.put("test", eventDO);
 		    	System.out.println("**** "+eventDO.getActivityName());
+		    	EventDO eventDO1 = new EventDO();
+		    	eventDO1.setActivityName("D");
+		    	eventDO1.setActivityDate(DateUtils.addDays(new Date(), -2));
+		    	appInstanceContext.eventSegmentsScenario.put("test", eventDO1);
 		    	appInstanceContext.eventSegmentsScenario.process("test");
+		    	appInstanceContext.eventSegmentsScenario.copyScenario("test", "test1", eventDO, true);
 //		    	appInstanceContext.stackSegment.add(eventDO);
 //		    	EventProcessingUtil.processEvent(appInstanceContext, eventDO);
 /*		    	eventDO.setActivityName("A");
