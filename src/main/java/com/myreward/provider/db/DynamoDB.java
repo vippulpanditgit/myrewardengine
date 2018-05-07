@@ -38,7 +38,8 @@ import com.amazonaws.services.dynamodbv2.model.TableStatus;
 public class DynamoDB {
     private static final Logger logger = LoggerFactory.getLogger(DynamoDB.class);
 	
-	public static String TABLENAME = "my-favorite-movies-table";
+	public static String TABLENAME = "Tb_Rules";
+	// package, version, rule, pcode
 	
     /*
      * Important: Be sure to fill in your AWS access credentials in the
