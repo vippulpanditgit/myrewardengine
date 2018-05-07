@@ -55,4 +55,8 @@ public class EventSegments {
 	public void setEventSegmentList(List<EventSegment> eventSegmentList) {
 		this.eventSegmentList = eventSegmentList;
 	}
+	public boolean drop() {
+		eventSegmentList.clear();
+		return true;
+	}
 }
