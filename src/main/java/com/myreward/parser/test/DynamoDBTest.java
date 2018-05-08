@@ -14,11 +14,16 @@ import com.amazonaws.services.dynamodbv2.model.KeyType;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 import com.amazonaws.util.StringUtils;
+import com.myreward.provider.db.DynamoDBUtil;
 
 public class DynamoDBTest {
 
 	public static void main(String[] args) {
-		AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
+		DynamoDBUtil dynamoDbUtil = new DynamoDBUtil();
+		dynamoDbUtil.createLocal();
+		dynamoDbUtil.putItem("com.test_1.0", null);
+		dynamoDbUtil.getItem("com.test_1.0");
+/*		AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
 				new AwsClientBuilder.EndpointConfiguration("http://localhost:8000", "us-west-2"))
 				.build(); 
             DynamoDB dynamoDB = new DynamoDB(client);
@@ -42,7 +47,7 @@ public class DynamoDBTest {
                 System.err.println("Unable to create table: ");
                 System.err.println(e.getMessage());
             }
-
+*/
 	}
 
 }
